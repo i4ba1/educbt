@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cbt.backend</groupId>
-	<artifactId>cbt-backend</artifactId>
+	<artifactId>smartbee-educbt</artifactId>
 	<packaging>war</packaging>
 	<version>1.2.28</version>
 	<name>cbt-backend Maven Webapp</name>
@@ -269,7 +269,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>cbt-backend</finalName>
+		<finalName>smartbee-educbt</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -284,7 +284,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
-					<warName>cbt-backend</warName>
+					<warName>smartbee-educbt</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>

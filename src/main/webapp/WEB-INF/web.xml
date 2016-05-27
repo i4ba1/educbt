@@ -8,7 +8,7 @@
 		xmlns="http://xmlns.jcp.org/xml/ns/javaee"> -->
 
 
-	<display-name>CBT Backend</display-name>
+	<display-name>smartbee-educbt</display-name>
 
 	<servlet>
 		<servlet-name>spring-web</servlet-name>
