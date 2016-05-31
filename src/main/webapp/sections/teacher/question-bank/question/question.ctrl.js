@@ -148,8 +148,8 @@ angular
           if (pathFile.indexOf("\\") != (-1)) {
             pathFile = pathFile.split("\\").join("/");
           }
-          var basePath = baseUrl.getUrl().split('/cbt-backend')[0];
-          pathFile = basePath + pathFile;
+          //var basePath = baseUrl.getUrl().split('/cbt-backend')[0];
+          pathFile = ".." + pathFile;
           $scope.imageGalery.push(pathFile);
         });
       }, function(errorResponse) {

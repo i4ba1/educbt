@@ -11,9 +11,7 @@ angular.module('app.core')
       token = storageService.getToken();
     }
 
-    var url = baseUrl.getUrl();
-    url = (url.split("/cbt-backend"))[0];
-
+  
     $scope.profile = {
       id: "",
       schoolName: "",
