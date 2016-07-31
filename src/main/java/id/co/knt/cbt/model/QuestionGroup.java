@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -46,8 +45,7 @@ public class QuestionGroup implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private QG_TYPE qgType;
 
-	@Lob
-	@Column(name = "global_value", columnDefinition="LONGTEXT")
+	@Column(name = "global_value", columnDefinition="TEXT")
 	private String globalValue;
 
 	@ManyToOne(fetch=FetchType.LAZY)

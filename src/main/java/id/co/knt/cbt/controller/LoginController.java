@@ -67,11 +67,6 @@ public class LoginController {
 		JSONObject obj = array.getJSONObject(0);
 
 		/**
-		 * Get number of licenses in database
-		 */
-		List<License> licenses = licenseService.licenses();
-		
-		/**
 		 * Get number of online users
 		 */
 		List<Login> logins = loginService.listOnlineUser();
@@ -79,7 +74,16 @@ public class LoginController {
 				Base64.getEncoder().encodeToString(obj.getString("ps").getBytes()));
 		Boolean isLogin = user == null ? false : true;
 		Login login = loginService.findByUser(user);
-
+		
+		/**
+		 * Get number of licenses in database
+		 */
+		List<License> licenses = licenseService.licenses();
+		
+		if(licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE){
+			return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+		}
+		
 		Date dt = new Date();
 		DateTime dateTime = new DateTime(dt);
 		dateTime = dateTime.plusHours(6);

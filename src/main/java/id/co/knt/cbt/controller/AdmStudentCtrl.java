@@ -240,8 +240,12 @@ public class AdmStudentCtrl {
 				newStudent.setUserType(UserType.STUDENT);
 
 				Kelas kelas = kelasService.findKelasByName(obj.getString("kelas"));
+				if(kelas == null){
+					kelas = new Kelas(obj.getString("kelas"), new Date());
+					kelas = kelasService.save(kelas);
+				}
+				
 				newStudent.setKelas(kelas);
-
 				studentService.importStudent(newStudent);
 
 				try {

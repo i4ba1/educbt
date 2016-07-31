@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -36,22 +35,22 @@ public class Question implements Serializable{
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name="question", columnDefinition="LONGTEXT")
+	@Column(name="question", columnDefinition="TEXT")
 	private String question;
 	
-	@Column(name="option_a", columnDefinition="LONGTEXT", nullable=true)
+	@Column(name="option_a", columnDefinition="TEXT", nullable=true)
 	private String optionA;
 	
-	@Column(name="option_b", columnDefinition="LONGTEXT", nullable=true)
+	@Column(name="option_b", columnDefinition="TEXT", nullable=true)
 	private String optionB;
 	
-	@Column(name="option_c", columnDefinition="LONGTEXT", nullable=true)
+	@Column(name="option_c", columnDefinition="TEXT", nullable=true)
 	private String optionC;
 	
-	@Column(name="option_d", columnDefinition="LONGTEXT", nullable=true)
+	@Column(name="option_d", columnDefinition="TEXT", nullable=true)
 	private String optionD;
 	
-	@Column(name="option_e", columnDefinition="LONGTEXT", nullable=true)
+	@Column(name="option_e", columnDefinition="TEXT", nullable=true)
 	private String optionE;
 	
 	@Column(name="key")
@@ -60,7 +59,7 @@ public class Question implements Serializable{
 	@Column(name="difficulty")
 	private Difficulty difficulty;
 	
-	@Column(name="explanation", columnDefinition="LONGTEXT")
+	@Column(name="explanation", columnDefinition="TEXT")
 	private String explanation;
 	
 	@Column(name="disabled")
