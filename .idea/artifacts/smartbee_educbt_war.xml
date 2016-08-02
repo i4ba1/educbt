@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="smartbee-educbt:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="smartbee-educbt.war">
+      <element id="artifact" artifact-name="smartbee-educbt:war exploded" />
+    </root>
+  </artifact>
+</component>

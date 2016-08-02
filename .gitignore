@@ -14,3 +14,5 @@
 /target/**
 /target/cbt-backend.war
 .externalToolBuilders/**
+.idea/**
+.idea/libraries/**

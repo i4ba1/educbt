@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import id.web.pos.integra.gawl.Gawl;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -79,10 +80,12 @@ public class LoginController {
 		 * Get number of licenses in database
 		 */
 		List<License> licenses = licenseService.licenses();
+
 		
-		if(licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE){
-			return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
-		}
+		/**
+		 * if(licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE){
+			return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+		}*/
 		
 		Date dt = new Date();
 		DateTime dateTime = new DateTime(dt);
@@ -93,6 +96,8 @@ public class LoginController {
 		 * First check if the username and password are valid
 		 */
 		if (isLogin) {
+
+
 			/**
 			 * Check if the userType is STUDENT or 1
 			 */
@@ -188,6 +193,6 @@ public class LoginController {
 
 		loginService.deleteToken(login);
 
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 }
