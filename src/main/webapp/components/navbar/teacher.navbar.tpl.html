@@ -7,8 +7,8 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand outlineless" style="margin:0px 30px 0px 35px; padding-top:5px"><img src="assets/images/logo.png" alt=""/></a>
-    <img src="assets/images/divider.png" style="margin-top:7px;" alt="" class="img-hiden"/>
+    <a class="navbar-brand outlineless" style="margin:0px 30px 0px 35px; padding-top:5px"><img src="assets/images/logo.png" alt="" /></a>
+    <img src="assets/images/divider.png" style="margin-top:7px;" alt="" class="img-hiden" />
   </div>
 
   <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -16,41 +16,42 @@
     <ul class="nav navbar-nav side-nav">
       <li>
         <a ui-sref="teacher">
-          <i class="fa fa-home fa-lg"></i>
-          Beranda</a>
+          <i class="fa fa-home fa-lg"></i> Beranda
+        </a>
       </li>
       <li>
         <a ui-sref="teacher.questionBank">
-          <i class="fa fa-newspaper-o fa-lg"></i>
-          Bank Soal
+          <i class="fa fa-newspaper-o fa-lg"></i> Bank Soal
         </a>
       </li>
       <li>
         <a ui-sref="teacher.eventManagement">
-          <i class="fa fa-newspaper-o fa-lg"></i>
-          Kelola Ujian
+          <i class="fa fa-newspaper-o fa-lg"></i> Kelola Ujian
         </a>
       </li>
       <li>
         <a ui-sref="teacher.chapter">
-          <i class="fa fa-newspaper-o fa-lg"></i>
-          Kelola Sub Materi
+          <i class="fa fa-newspaper-o fa-lg"></i> Kelola Sub Materi
         </a>
       </li>
       <li ng-hide="true">
         <a data-target="#settings" data-toggle="collapse" href="javascript:;">
-          <i class="fa fa-cogs fa-lg"></i>
-          Pengaturan
+          <i class="fa fa-cogs fa-lg"></i> Pengaturan
           <i class="fa fa-fw fa-caret-down fa-lg"></i>
         </a>
         <ul class="collapse" id="settings">
           <li>
             <a ui-sref="teacher.accountSetting">
-              <i class="fa fa-caret-right fa-lg"></i>
-              Pengaturan Akun</a>
+              <i class="fa fa-caret-right fa-lg"></i> Pengaturan Akun</a>
           </li>
         </ul>
       </li>
+      <li ng-show="(type ==='demo')">
+        <div class="demo-label" >
+          Demo Version
+        </div>
+      </li>
+
     </ul>
     <!-- Top Menu Items -->
     <ul class="nav navbar-nav navbar-right top-nav">

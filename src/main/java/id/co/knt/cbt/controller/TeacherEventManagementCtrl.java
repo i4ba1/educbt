@@ -1,9 +1,10 @@
 package id.co.knt.cbt.controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import id.co.knt.cbt.model.*;
+import id.co.knt.cbt.model.Event.EventStatusType;
+import id.co.knt.cbt.model.Event.EventType;
+import id.co.knt.cbt.model.Event.QuestionTypeStructure;
+import id.co.knt.cbt.service.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -12,30 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import id.co.knt.cbt.model.Employee;
-import id.co.knt.cbt.model.Event;
-import id.co.knt.cbt.model.Event.EventStatusType;
-import id.co.knt.cbt.model.Event.EventType;
-import id.co.knt.cbt.model.Event.QuestionTypeStructure;
-import id.co.knt.cbt.model.EventKelas;
-import id.co.knt.cbt.model.EventQuestion;
-import id.co.knt.cbt.model.EventResult;
-import id.co.knt.cbt.model.Kelas;
-import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.service.EmployeeService;
-import id.co.knt.cbt.service.EventKelasService;
-import id.co.knt.cbt.service.EventQuestionService;
-import id.co.knt.cbt.service.EventResultService;
-import id.co.knt.cbt.service.EventService;
-import id.co.knt.cbt.service.KelasService;
-import id.co.knt.cbt.service.QuestionService;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -105,6 +87,15 @@ public class TeacherEventManagementCtrl {
 		if (events.size() > 0) {
 			LOG.info("Event================> " + obj.getString("eventName"));
 
+			Employee emp = empService.findById(obj.getLong("empId"));
+			/**
+			 * For @Demo version Teacher can only create maximum 5 events
+			 */
+			List<Event> teacherEvents = eventService.findAllByTeacher(emp.getNip());
+			if(teacherEvents.size() > 5){
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
+
 			e.setEventName(obj.getString("eventName"));
 			e.setEventType(EventType.valueOf(obj.getString("eventType")));
 			e.setCreatedDate(new Date());
@@ -120,8 +111,6 @@ public class TeacherEventManagementCtrl {
 			e.setStatus(EventStatusType.valueOf(obj.getString("status")));
 			e.setQuestionStructure(QuestionTypeStructure.valueOf(obj.getString("questionStructure")));
 			e.setEventImgName(obj.getString("eventImgName"));
-
-			Employee emp = empService.findById(obj.getLong("empId"));
 			e.setEmp(emp);
 			newEvent = eventService.addNewEvent(e);
 
@@ -243,9 +232,7 @@ public class TeacherEventManagementCtrl {
 
 	/**
 	 * View detail completed event
-	 * 
-	 * @param id
-	 *            is equal event id
+	 * @param id is equal event id
 	 * @return
 	 */
 	@RequestMapping(value = { "/detail/{token}/{id}" }, method = RequestMethod.GET)
@@ -262,7 +249,6 @@ public class TeacherEventManagementCtrl {
 
 	/**
 	 * Get kelas when teacher view detail the created event
-	 * 
 	 * @param id
 	 * @return
 	 */

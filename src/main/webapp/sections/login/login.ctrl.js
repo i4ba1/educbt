@@ -1,17 +1,17 @@
 'use strict';
 angular
   .module('app.core')
-  .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, deferredService, localStorageService) {
+  .controller('LoginController', function ($scope, $stateParams, $state, $timeout, loginService, deferredService, localStorageService, $rootScope) {
     $scope.showDialog = false;
     if (localStorageService.isSupported) {
       console.log("Length : " + localStorageService.length());
       if (localStorageService.length() == 0) {
         //$scope.showDialog = true;
         var promise = deferredService.getPromise(loginService.createAdmin());
-        promise.then(function(response) {
+        promise.then(function (response) {
           //$scope.showDialog = false;
           localStorageService.set('isAdminCreated', true);
-        }, function(data) {
+        }, function (data) {
           //$scope.showDialog = false;
           localStorageService.set('isAdminCreated', false);
         });
@@ -19,30 +19,35 @@ angular
     }
 
     $scope.user = {};
-    $scope.loginSubmit = function() {
+    $scope.loginSubmit = function () {
       if ($scope.user != null) {
         var promise = deferredService.getPromise(loginService.loggingIn($scope.user));
         promise.then(
-            function(response) {
-              localStorageService.set('TOKEN', response.data[0].token);
-              localStorageService.set('USER', response.data[0].user);
-            },
-            function(errorResponse) {
-              var message = "";
-              if (errorResponse.status == 404) {
-                message = "Nama Pengguna atau Kata Sandi Tidak Valid";
-              } else if (errorResponse.status == 403) {
-                message = "Maaf Kuota Sudah Penuh";
-              } else {
-                message = "lost connection with server"
-              }
+          function (response) {
+            localStorageService.set('TOKEN', response.data[0].token);
+            localStorageService.set('USER', response.data[0].user);
+            if (response.data[0].type !== null || response.data[0].type !== "" || response.data[0].type !== undefined) {
+              $rootScope.type = 'demo';
+            }else{
+              $rootScope.type = 'full-version';
+            }
+          },
+          function (errorResponse) {
+            var message = "";
+            if (errorResponse.status == 404) {
+              message = "Nama Pengguna atau Kata Sandi Tidak Valid";
+            } else if (errorResponse.status == 403) {
+              message = "Maaf Kuota Sudah Penuh";
+            } else {
+              message = "lost connection with server"
+            }
 
-              $timeout(function() {
-                window.alert(message);
-              }, 1500);
+            $timeout(function () {
+              window.alert(message);
+            }, 1500);
 
-            })
-          .then(function() {
+          })
+          .then(function () {
             $scope.user = localStorageService.get('USER');
             if ($scope.user != null) {
               var type = $scope.user.userType;

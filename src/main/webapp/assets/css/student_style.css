@@ -160,3 +160,16 @@ body {
     color: #fff;
     background-color: #3572B0;
 }
+
+.demo-label{
+    font-weight:bold;
+    font-style:italic;
+    font-size:14pt;
+    color:white;
+    margin-left: 10px;
+}
+
+.demo-label-std{
+    color:red !important;
+    margin-top: -3%;
+}

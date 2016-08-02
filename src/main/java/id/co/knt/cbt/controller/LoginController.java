@@ -1,15 +1,12 @@
 package id.co.knt.cbt.controller;
 
-import java.io.File;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import id.co.knt.cbt.model.License;
+import id.co.knt.cbt.model.Login;
+import id.co.knt.cbt.model.User;
+import id.co.knt.cbt.model.User.UserType;
+import id.co.knt.cbt.service.LicenseService;
+import id.co.knt.cbt.service.LoginService;
+import id.co.knt.cbt.service.UserService;
 import id.web.pos.integra.gawl.Gawl;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -20,19 +17,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import id.co.knt.cbt.model.License;
-import id.co.knt.cbt.model.Login;
-import id.co.knt.cbt.model.User;
-import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.LicenseService;
-import id.co.knt.cbt.service.LoginService;
-import id.co.knt.cbt.service.UserService;
+import java.io.File;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.*;
 
 /**
  * @author Muhamad Nizar Iqbal
@@ -67,29 +57,30 @@ public class LoginController {
          * Get number of online users
          */
         List<Login> logins = loginService.listOnlineUser();
-        User user = userService.validateUser(obj.getString("un"),
-                Base64.getEncoder().encodeToString(obj.getString("ps").getBytes()));
-        Boolean isLogin = user == null ? false : true;
-        Login login = loginService.findByUser(user);
-
-        /**
-         * Get number of licenses in database
-         */
-        List<License> licenses = licenseService.licenses();
-
-        if (licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
-        }
-
-        Date dt = new Date();
-        DateTime dateTime = new DateTime(dt);
-        dateTime = dateTime.plusHours(6);
-        SecureRandom rand = new SecureRandom();
-
         /**
          * First check if the username and password are valid
          */
+        User user = userService.validateUser(obj.getString("un"),
+                Base64.getEncoder().encodeToString(obj.getString("ps").getBytes()));
+        Boolean isLogin = user == null ? false : true;
+
         if (isLogin) {
+            Login login = loginService.findByUser(user);
+
+            /**
+             * Get number of licenses in database
+             */
+            List<License> licenses = licenseService.licenses();
+
+           /* if (licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE) {
+                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+            }*/
+
+            Date dt = new Date();
+            DateTime dateTime = new DateTime(dt);
+            dateTime = dateTime.plusHours(6);
+            SecureRandom rand = new SecureRandom();
+
             int numberOfUser = 0;
 
             /**
@@ -110,7 +101,6 @@ public class LoginController {
              * Check if the userType is STUDENT or 1
              */
             if (user.getUserType() == UserType.STUDENT) {
-
                 /**
                  * One license is represent the number of user
                  * Check if the student has slot to get logging in. It check the
@@ -119,16 +109,16 @@ public class LoginController {
                  */
                 if (numberOfUser <= 1 && logins.size() <= 1) {
                     if (login == null) {
-                        return firstLogin(dt, rand, dateTime, user);
+                        return firstLogin(dt, rand, dateTime, user, numberOfUser);
                     } else {
-                        return reLogin(login, dt, rand, dateTime);
+                        return reLogin(login, dt, rand, dateTime, numberOfUser);
                     }
-                }else{
+                } else {
                     if (logins.size() <= numberOfUser) {
                         if (login == null) {
-                            return firstLogin(dt, rand, dateTime, user);
+                            return firstLogin(dt, rand, dateTime, user, numberOfUser);
                         } else {
-                            return reLogin(login, dt, rand, dateTime);
+                            return reLogin(login, dt, rand, dateTime, numberOfUser);
                         }
                     } else {
                         return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
@@ -136,9 +126,9 @@ public class LoginController {
                 }
             } else {
                 if (login == null) {
-                    return firstLogin(dt, rand, dateTime, user);
+                    return firstLogin(dt, rand, dateTime, user, numberOfUser);
                 } else {
-                    return reLogin(login, dt, rand, dateTime);
+                    return reLogin(login, dt, rand, dateTime, numberOfUser);
                 }
             }
         }
@@ -147,7 +137,7 @@ public class LoginController {
     }
 
     private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
-                                                                 User user) {
+                                                                 User user, int numberOfUser) {
         Login newLogin = new Login();
         newLogin.setLoginDate(dt);
         newLogin.setToken(new BigInteger(130, rand).toString(50));
@@ -157,6 +147,9 @@ public class LoginController {
         Map<String, Object> mapObj = new HashMap<String, Object>();
         mapObj.put("token", newLogin.getToken());
         mapObj.put("user", user);
+        if(numberOfUser <= 1) {
+            mapObj.put("type","demo");
+        }
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         data.add(mapObj);
 
@@ -176,7 +169,7 @@ public class LoginController {
     }
 
     private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
-                                                              DateTime dateTime) {
+                                                              DateTime dateTime, int numberOfUser) {
         login.setLoginDate(dt);
         login.setToken(new BigInteger(130, rand).toString(50));
         login.setTokenExpired(dateTime.getMillis());
@@ -184,6 +177,9 @@ public class LoginController {
         Map<String, Object> mapObj = new HashMap<String, Object>();
         mapObj.put("token", login.getToken());
         mapObj.put("user", login.getUser());
+        if(numberOfUser <= 1) {
+            mapObj.put("type","demo");
+        }
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         data.add(mapObj);
 
