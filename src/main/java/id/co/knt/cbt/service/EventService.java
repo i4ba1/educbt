@@ -1,9 +1,9 @@
 package id.co.knt.cbt.service;
 
-import java.util.List;
-
 import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventType;
+
+import java.util.List;
 
 /**
  * 

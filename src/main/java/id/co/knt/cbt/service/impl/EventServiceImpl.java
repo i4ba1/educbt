@@ -1,15 +1,14 @@
 package id.co.knt.cbt.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.repositories.EventRepo;
 import id.co.knt.cbt.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service("eventService")
 @Transactional

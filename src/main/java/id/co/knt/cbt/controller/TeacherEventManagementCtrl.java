@@ -89,10 +89,10 @@ public class TeacherEventManagementCtrl {
 
 			Employee emp = empService.findById(obj.getLong("empId"));
 			/**
-			 * For @Demo version Teacher can only create maximum 5 events
+			 * For @Demo version Teacher can only create maximum 1 events
 			 */
 			List<Event> teacherEvents = eventService.findAllByTeacher(emp.getNip());
-			if(teacherEvents.size() > 5){
+			if(teacherEvents.size() >= 1){
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
 

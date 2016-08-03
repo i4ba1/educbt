@@ -37,4 +37,7 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 	
 	@Query("select e from Event as e where e.emp.nip= :nip and e.deleted=false")
 	List<Event> findEventByTeacher(@Param("nip") String nip);
+
+	@Query("select e from Event as e where e.emp.nip= :nip and e.deleted=false")
+	List<Event> findByDeleted();
 }

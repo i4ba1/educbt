@@ -1,7 +1,7 @@
 'use strict';
 angular
   .module('app.core')
-  .controller('LoginController', function ($scope, $stateParams, $state, $timeout, loginService, deferredService, localStorageService, $rootScope) {
+  .controller('LoginController', function ($scope, $stateParams, $state, $timeout, loginService, deferredService, localStorageService, $rootScope, DialogFactory) {
     $scope.showDialog = false;
     if (localStorageService.isSupported) {
       console.log("Length : " + localStorageService.length());
@@ -34,17 +34,23 @@ angular
           },
           function (errorResponse) {
             var message = "";
+            var title = "";
             if (errorResponse.status == 404) {
+              title = "Gagal Login";
               message = "Nama Pengguna atau Kata Sandi Tidak Valid";
             } else if (errorResponse.status == 403) {
-              message = "Maaf Kuota Sudah Penuh";
+              title = "Kuota Penuh";
+              message = "Maaf jumlah siswa yang dibolehkan login sudah penuh";
             } else {
-              message = "lost connection with server"
+              title = "Applikasi Bermasalah";
+              message = "Maaf applikasi bermasalah silahkan hubungi PT KNT untuk perbaikan."
             }
 
-            $timeout(function () {
-              window.alert(message);
-            }, 1500);
+            // $timeout(function () {
+            //   window.alert(message);
+            // }, 1500);
+            
+            DialogFactory.showDialogMsg(title, message,'md');
 
           })
           .then(function () {

@@ -19,7 +19,8 @@ angular.module('app', [
   'ngMessages',
   'ui.tinymce',
   'app.config',
-  'angularSpinner'
+  'angularSpinner',
+  'app.messages'
 ]).config(['usSpinnerConfigProvider', function(usSpinnerConfigProvider) {
   usSpinnerConfigProvider.setTheme('default', {
     color: 'black',

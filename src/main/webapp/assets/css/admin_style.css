@@ -241,3 +241,12 @@ ul.alert-dropdown {
   box-shadow: 1px 1px 1px #F8F8FF;
   border-radius: 5px
 }
+
+.dialog-msg{
+  min-height: 100px;
+  line-height: 100px;
+  text-align: center;
+  vertical-align: middle;
+  font-style: italic;
+  font-size: 12pt;
+}
