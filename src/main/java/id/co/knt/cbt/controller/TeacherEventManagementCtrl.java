@@ -72,7 +72,7 @@ public class TeacherEventManagementCtrl {
 	/**
 	 * Create new event
 	 * 
-	 * @param event
+	 * @param events
 	 * @return
 	 */
 	@RequestMapping(value = { "/create/" }, method = RequestMethod.POST)
@@ -213,11 +213,12 @@ public class TeacherEventManagementCtrl {
 		return null;
 	}
 
-	/**
-	 *
-	 * @param event
-	 * @return
-	 */
+    /**
+     *
+     * @param token
+     * @param id
+     * @return
+     */
 	@RequestMapping(value = { "/delete/{token}/{id}" }, method = RequestMethod.PUT)
 	public ResponseEntity<Event> deleteEvent(@PathVariable("token") String token, @PathVariable("id") Long id) {
 		LOG.info("createEvent================> ");

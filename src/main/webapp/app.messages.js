@@ -1,4 +1,2 @@
 'use strict';
-angular
-  .module('app.messages', []);
-  
+angular.module('app.messages', []);

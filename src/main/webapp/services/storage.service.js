@@ -1,12 +1,13 @@
 angular.module('app.core')
-  .factory('storageService', ['$http', '$q', 'baseUrl', '$state', 'localStorageService', function($http, $q, baseUrl, $state, localStorageService) {
+  .factory('storageService', ['$http', '$q', 'baseUrl', '$state', 'localStorageService', '$rootScope', function ($http, $q, baseUrl, $state, localStorageService, $rootScope) {
     var url = baseUrl.getUrl();
     var dataFactory = {};
 
-    dataFactory.isAuthorization = function(role) {
+    dataFactory.isAuthorization = function (role) {
       var result = false;
       var token = localStorageService.get("TOKEN");
       var loggedIn = localStorageService.get("USER");
+      $rootScope.type = localStorageService.get("APP-TYPE");
       if (loggedIn != undefined && (loggedIn.userType.toLowerCase() == role.toLowerCase())) {
         if (token != undefined) {
           result = true;
@@ -17,12 +18,12 @@ angular.module('app.core')
       return result;
     };
 
-    dataFactory.getLoggedInUser = function() {
+    dataFactory.getLoggedInUser = function () {
       loggedIn = localStorageService.get("USER");
       return loggedIn;
     };
 
-    dataFactory.loggedOut = function() {
+    dataFactory.loggedOut = function () {
       var url = baseUrl.getUrl();
       var tokens = [{
         'token': localStorageService.get("TOKEN")
@@ -34,7 +35,7 @@ angular.module('app.core')
       $state.go("login")
     };
 
-    dataFactory.getToken = function(service) {
+    dataFactory.getToken = function (service) {
       return localStorageService.get("TOKEN");
     };
 

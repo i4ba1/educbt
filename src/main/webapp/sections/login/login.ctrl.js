@@ -28,15 +28,17 @@ angular
             localStorageService.set('USER', response.data[0].user);
             if (response.data[0].type !== null || response.data[0].type !== "" || response.data[0].type !== undefined) {
               $rootScope.type = 'demo';
+              localStorageService.set('APP-TYPE', 'demo');
             }else{
               $rootScope.type = 'full-version';
+              localStorageService.set('APP-TYPE', 'full-version');
             }
           },
           function (errorResponse) {
             var message = "";
             var title = "";
             if (errorResponse.status == 404) {
-              title = "Gagal Login";
+              title = "Gagal Masuk";
               message = "Nama Pengguna atau Kata Sandi Tidak Valid";
             } else if (errorResponse.status == 403) {
               title = "Kuota Penuh";

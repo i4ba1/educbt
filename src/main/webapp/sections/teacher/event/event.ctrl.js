@@ -1,7 +1,7 @@
 'use strict';
 angular
   .module('app.core')
-  .controller('EventManagementController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, deferredService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal) {
+  .controller('EventManagementController', function ($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, deferredService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory) {
 
     $scope.currentTeacher;
     var token = " ";
@@ -19,33 +19,33 @@ angular
       eventImgName: 'agama',
       label: 'Gambar 1 - Agama'
     }, {
-      eventImgName: 'bio',
-      label: 'Gambar 2 - Biologi'
-    }, {
-      eventImgName: 'eco',
-      label: 'Gambar 3 -  Ekonomi'
-    }, {
-      eventImgName: 'eng',
-      label: 'Gambar 4 - Bahasa Inggris'
-    }, {
-      eventImgName: 'fisika',
-      label: 'Gambar 5 - Fisika'
-    }, {
-      eventImgName: 'geo',
-      label: 'Gambar 6 - Geografi'
-    }, {
-      eventImgName: 'ind',
-      label: 'Gambar 7 - Bahasa Indonesia'
-    }, {
-      eventImgName: 'kimia',
-      label: 'Gambar 8 - Kimia'
-    }, {
-      eventImgName: 'mat',
-      label: 'Gambar 9 - Matematika'
-    }, {
-      eventImgName: 'sos',
-      label: 'Gambar 10 - Sosiologi'
-    }];
+        eventImgName: 'bio',
+        label: 'Gambar 2 - Biologi'
+      }, {
+        eventImgName: 'eco',
+        label: 'Gambar 3 -  Ekonomi'
+      }, {
+        eventImgName: 'eng',
+        label: 'Gambar 4 - Bahasa Inggris'
+      }, {
+        eventImgName: 'fisika',
+        label: 'Gambar 5 - Fisika'
+      }, {
+        eventImgName: 'geo',
+        label: 'Gambar 6 - Geografi'
+      }, {
+        eventImgName: 'ind',
+        label: 'Gambar 7 - Bahasa Indonesia'
+      }, {
+        eventImgName: 'kimia',
+        label: 'Gambar 8 - Kimia'
+      }, {
+        eventImgName: 'mat',
+        label: 'Gambar 9 - Matematika'
+      }, {
+        eventImgName: 'sos',
+        label: 'Gambar 10 - Sosiologi'
+      }];
 
 
 
@@ -74,7 +74,7 @@ angular
       end: false,
     };
 
-    $scope.handleDateShow = function(type, value) {
+    $scope.handleDateShow = function (type, value) {
       if ($scope.isPrepared) {
         if (type === "start") {
           $scope.dateShow.start = value
@@ -121,7 +121,7 @@ angular
 
     $scope.showImage = false;
     $scope.maxTime = 0;
-    $scope.getTimeMinutes = function() {
+    $scope.getTimeMinutes = function () {
       var mmStart = $scope.selectedEvent.startDate.getTime();
       var mmEnd = $scope.selectedEvent.endDate.getTime();
       if (mmEnd >= mmStart) {
@@ -134,7 +134,7 @@ angular
 
     $scope.trustAsHtml = tinyMce.trustAsHtml;
 
-    $scope.image = function() {
+    $scope.image = function () {
       var result = "";
       if ($scope.selectedEvent.eventImgName != "") {
         result = 'assets/images/thumbnail-tpl/' + $scope.selectedEvent.eventImgName + '_2.png';
@@ -149,31 +149,31 @@ angular
     function getAllEvent() {
       var promise = deferredService.getPromise(eventService.fetchAllEvent(token, $scope.currentTeacher.nip));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.events = response.data;
         },
-        function(error) {
+        function (error) {
           errorHandle.setError(error);
         }
       ).then(
-        function() {
+        function () {
           updateDataTable($scope.events);
         }
-      );
+        );
     }
 
     /*
      * fetch all event
      */
-    $scope.fetchEventResult = function() {
+    $scope.fetchEventResult = function () {
       $scope.eventResult = [];
       var cId = parseInt($scope.classData.selectedOption);
       var promise = deferredService.getPromise(eventService.fetchEventResult($stateParams.eventId, cId, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.eventResult = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         });
     };
@@ -184,7 +184,7 @@ angular
     function getEventById(eventId) {
       var promise = deferredService.getPromise(eventService.findEvent(eventId, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.selectedEvent = response.data;
           $scope.selectedEvent.startDate = new Date(response.data.startDate);
           $scope.selectedEvent.endDate = new Date(response.data.endDate);
@@ -208,7 +208,7 @@ angular
             $scope.eventStatusVal = 3;
           }
         },
-        function(error) {
+        function (error) {
           errorHandle.setError(error);
         });
     }
@@ -219,12 +219,12 @@ angular
     function getClassByEventId(eventId) {
       var promise = deferredService.getPromise(classService.fetchClassByEventId(eventId, token));
       promise.then(
-        function(response) {
+        function (response) {
           if ($state.is('teacher.eventManagement.result')) {
             $scope.classData.availableOptions = response.data;
           } else {
             $scope.selectedEvent.classes = [];
-            angular.forEach(response.data, function(d) {
+            angular.forEach(response.data, function (d) {
               $scope.selectedEvent.classes.push(d.id);
             });
             if ($scope.classData.availableOptions.length == $scope.selectedEvent.classes.length) {
@@ -232,7 +232,7 @@ angular
             }
           }
         },
-        function(error) {
+        function (error) {
           errorHandle.setError(error);
         });
     }
@@ -243,17 +243,17 @@ angular
     function getQuestionByEventId(eventId) {
       var promise = deferredService.getPromise(queastionBankService.fetchQuestionByEventId(eventId, token));
       promise.then(
-          function(response) {
-            $scope.subjectData.selectedOption = JSON.stringify(response.data.QP[0].questionPool.subject);
-            $scope.selectedEvent.questions = response.data.questions;
-          },
-          function(error) {
-            errorHandle.setError(error);
-          })
+        function (response) {
+          $scope.subjectData.selectedOption = JSON.stringify(response.data.QP[0].questionPool.subject);
+          $scope.selectedEvent.questions = response.data.questions;
+        },
+        function (error) {
+          errorHandle.setError(error);
+        })
         .then(
-          function() {
-            updateDataTable($scope.selectedEvent.questions);
-          }
+        function () {
+          updateDataTable($scope.selectedEvent.questions);
+        }
         );
     }
 
@@ -263,17 +263,17 @@ angular
     function getAllQuestionBySubject(subjectId) {
       var promise = deferredService.getPromise(queastionBankService.fetchAllQuestionBySubject(subjectId, token, $scope.currentTeacher.nip));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.questionBySubjectList = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       ).then(
-        function() {
+        function () {
           updateQuestionEventTable($scope.questionBySubjectList);
         }
-      );
+        );
     }
 
     /*
@@ -282,10 +282,10 @@ angular
     function getAllSubject() {
       var promise = deferredService.getPromise(subjectService.fetchAllSubject(token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.subjectData.availableOptions = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       );
@@ -297,10 +297,10 @@ angular
     function getAllClass() {
       var promise = deferredService.getPromise(classService.fetchAllClass(token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.classData.availableOptions = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       );
@@ -309,16 +309,16 @@ angular
     /*
      * this event active when check box "select all class isChecked or unChecked"
      */
-    $scope.classChange = function() {
+    $scope.classChange = function () {
       $scope.selectedEvent.classes = [];
       if ($scope.classData.isSelectAll) {
-        angular.forEach($scope.classData.availableOptions, function(data) {
+        angular.forEach($scope.classData.availableOptions, function (data) {
           $scope.selectedEvent.classes.push(data.id);
         });
       }
     };
 
-    $scope.checkingClass = function() {
+    $scope.checkingClass = function () {
       if ($scope.selectedEvent.classes.length == $scope.classData.availableOptions.length && $scope.classData.availableOptions.length > 0) {
         $scope.classData.isSelectAll = true;
       } else {
@@ -330,7 +330,7 @@ angular
      * this event active when button "choose question" in create event was clicked
      * then will update selected question table
      */
-    $scope.uploadQuestion = function() {
+    $scope.uploadQuestion = function () {
       $scope.showModal = false;
       updateDataTable($scope.selectedEvent.questions);
     }
@@ -344,18 +344,18 @@ angular
         page: 1,
         count: 10
       }, {
-        getData: function($defer, params) {
-          $scope.data = params.sorting() ? $filter('orderBy')(data_table,
-            params.orderBy()) : data_table;
-          $scope.data = params.filter() ? $filter('filter')($scope.data,
-            params.filter()) : $scope.data;
-          $scope.data = $scope.data.slice((params.page() - 1) *
-            params.count(),
-            params.page() * params.count());
-          $defer.resolve($scope.data);
-        },
-        total: data_table.length
-      });
+          getData: function ($defer, params) {
+            $scope.data = params.sorting() ? $filter('orderBy')(data_table,
+              params.orderBy()) : data_table;
+            $scope.data = params.filter() ? $filter('filter')($scope.data,
+              params.filter()) : $scope.data;
+            $scope.data = $scope.data.slice((params.page() - 1) *
+              params.count(),
+              params.page() * params.count());
+            $defer.resolve($scope.data);
+          },
+          total: data_table.length
+        });
     };
 
     /*
@@ -368,18 +368,18 @@ angular
         page: 1,
         count: 10
       }, {
-        getData: function($defer, params) {
-          $scope.questionData = params.sorting() ? $filter('orderBy')(data_table,
-            params.orderBy()) : data_table;
-          $scope.questionData = params.filter() ? $filter('filter')($scope.questionData,
-            params.filter()) : $scope.questionData;
-          $scope.questionData = $scope.questionData.slice((params.page() - 1) *
-            params.count(),
-            params.page() * params.count());
-          $defer.resolve($scope.questionData);
-        },
-        total: data_table.length
-      });
+          getData: function ($defer, params) {
+            $scope.questionData = params.sorting() ? $filter('orderBy')(data_table,
+              params.orderBy()) : data_table;
+            $scope.questionData = params.filter() ? $filter('filter')($scope.questionData,
+              params.filter()) : $scope.questionData;
+            $scope.questionData = $scope.questionData.slice((params.page() - 1) *
+              params.count(),
+              params.page() * params.count());
+            $defer.resolve($scope.questionData);
+          },
+          total: data_table.length
+        });
 
     };
 
@@ -388,12 +388,12 @@ angular
      *SAVING when $scope.isUpdate equal false
      *and UPDATING when $scope.isUpdate equal true
      */
-    $scope.saveOrUpdate = function() {
+    $scope.saveOrUpdate = function () {
       var promise = null;
       var questionsID = [];
       var events = $scope.selectedEvent;
       events.empId = $scope.currentTeacher.id;
-      angular.forEach($scope.selectedEvent.questions, function(data) {
+      angular.forEach($scope.selectedEvent.questions, function (data) {
         questionsID.push(data.id);
       });
       events.questions = questionsID;
@@ -431,10 +431,10 @@ angular
         if ($scope.isUpdate) {
           promise = deferredService.getPromise(eventService.updateEvent(events, token));
           promise.then(
-            function(response) {
+            function (response) {
               $state.go('teacher.eventManagement');
             },
-            function(errorResponse) {
+            function (errorResponse) {
               errorHandle.setError(errorResponse);
             }
           );
@@ -442,11 +442,15 @@ angular
         } else {
           promise = deferredService.getPromise(eventService.saveEvent(events, token));
           promise.then(
-            function(response) {
+            function (response) {
               $state.go('teacher.eventManagement');
             },
-            function(errorResponse) {
+            function (errorResponse) {
               errorHandle.setError(errorResponse);
+              if (errorResponse.status === 403) {
+                DialogFactory.showDialogMsg('Tambah Ujian Gagal',
+                  'Tambah Ujian hanya dapat dibuat satu kali', 'md');
+              }
             }
           );
         }
@@ -459,7 +463,7 @@ angular
     /*
      * toogle modal in teacher event mgmt to show delete confirmation dialog
      */
-    $scope.toggleModal = function(event_data) {
+    $scope.toggleModal = function (event_data) {
       $scope.showModal = !$scope.showModal;
       $scope.selectedEvent = event_data;
     };
@@ -472,7 +476,7 @@ angular
     /*
      * toogle modal in teacher create event to show reserved question
      */
-    $scope.toggleModalQuestion = function() {
+    $scope.toggleModalQuestion = function () {
       if ($scope.subjectData.selectedOption != null && $scope.subjectData.selectedOption != undefined) {
         $scope.showModal = !$scope.showModal;
         var subject = JSON.parse($scope.subjectData.selectedOption);
@@ -482,7 +486,7 @@ angular
       }
     }
 
-    $scope.open = function(size, type, title, messages, content) {
+    $scope.open = function (size, type, title, messages, content) {
       var template = "";
       if (type == "E") {
         template = 'components/modal-template/error.html';
@@ -495,7 +499,7 @@ angular
         controller: 'ModalInstanceCtrl',
         size: size,
         resolve: {
-          modalData: function() {
+          modalData: function () {
             return {
               title: title,
               messages: messages,

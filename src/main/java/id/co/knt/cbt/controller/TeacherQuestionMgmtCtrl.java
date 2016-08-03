@@ -1,9 +1,10 @@
 package id.co.knt.cbt.controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import id.co.knt.cbt.model.*;
+import id.co.knt.cbt.service.EmployeeService;
+import id.co.knt.cbt.service.QuestionPoolService;
+import id.co.knt.cbt.service.QuestionService;
+import id.co.knt.cbt.service.SubjectService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -12,22 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import id.co.knt.cbt.model.Employee;
-import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.model.QuestionGroup;
-import id.co.knt.cbt.model.QuestionPool;
-import id.co.knt.cbt.model.Subject;
-import id.co.knt.cbt.service.EmployeeService;
-import id.co.knt.cbt.service.QuestionPoolService;
-import id.co.knt.cbt.service.QuestionService;
-import id.co.knt.cbt.service.SubjectService;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -67,6 +57,11 @@ public class TeacherQuestionMgmtCtrl {
 		Subject currentSbj = subjectService.findSubjectById(array.getJSONObject(0).getInt("subjectId"));
 		Employee currentEmp = employeeService.findById(array.getJSONObject(0).getLong("teacherId"));
 
+		List<QuestionPool> pools = poolService.findAllQuestionByTeacher(currentEmp.getNip());
+		if(pools.size() >= 5){
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
 		QuestionPool qp = new QuestionPool();
 		qp.setCreatedDate(new Date());
 		qp.setQuestionPoolName(strQuestionPool);
@@ -75,8 +70,8 @@ public class TeacherQuestionMgmtCtrl {
 		qp.setEmployee(currentEmp);
 		QuestionPool newQP = poolService.addNewBankQuestion(qp);
 
-		return newQP == null ? new ResponseEntity<QuestionPool>(newQP, HttpStatus.EXPECTATION_FAILED)
-				: new ResponseEntity<QuestionPool>(newQP, HttpStatus.CREATED);
+		return newQP == null ? new ResponseEntity<>(newQP, HttpStatus.EXPECTATION_FAILED)
+				: new ResponseEntity<>(newQP, HttpStatus.CREATED);
 	}
 
 	/**
@@ -156,7 +151,7 @@ public class TeacherQuestionMgmtCtrl {
 	 * Update selected question pool Only question pool name and subject can be
 	 * edit
 	 * 
-	 * @param qp
+	 * @param questionPool
 	 * @return ResponseEntity<QuestionPool>
 	 */
 	@RequestMapping(value = "/update/", method = RequestMethod.PUT)
@@ -267,7 +262,7 @@ public class TeacherQuestionMgmtCtrl {
 	/**
 	 * Update current question
 	 * 
-	 * @param q
+	 * @param objects
 	 * @return
 	 */
 	@RequestMapping(value = "/updateQ/", method = RequestMethod.PUT)

@@ -41,4 +41,5 @@ function runs($rootScope, PageValues) {
   $rootScope.$on('$routeChangeSuccess', function() {
     PageValues.loading = false;
   });
+  $rootScope.type = "";
 }

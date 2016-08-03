@@ -243,10 +243,38 @@ ul.alert-dropdown {
 }
 
 .dialog-msg{
-  min-height: 100px;
-  line-height: 100px;
+  min-height: 50px;
+  line-height: 50px;
   text-align: center;
   vertical-align: middle;
   font-style: italic;
   font-size: 12pt;
+}
+
+.dialog-title{
+  font-size: 14pt;
+  color: #205081;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.dialog-close{
+ width: 25px;
+ height: 25px;
+ background: #205081;
+ border-radius: 5px;
+ line-height: 25px;
+ vertical-align: middle;
+ text-align: center; 
+ color: white;    
+}
+
+.dialog-close:hover{
+  cursor: pointer;
+  cursor: hand;
+  transform: scale(1.2,1.2);
+}
+
+.dialog-close:active{
+  transform: scale(1,1);
 }

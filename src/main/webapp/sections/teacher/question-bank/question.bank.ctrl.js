@@ -1,7 +1,7 @@
 'use strict';
 angular
   .module('app.core')
-  .controller('QuestionsBankController', function($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, deferredService, subjectService, teacherService, storageService, errorHandle, $http, $timeout, tinyMce) {
+  .controller('QuestionsBankController', function ($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, deferredService, subjectService, teacherService, storageService, errorHandle, $http, $timeout, tinyMce, DialogFactory) {
 
     $scope.currentTeacher;
     var token = " ";
@@ -52,7 +52,7 @@ angular
     $scope.selectedQuestionGroup;
 
 
-    $scope.getQGType = function(qgType) {
+    $scope.getQGType = function (qgType) {
       if (qgType === "MC") {
         return "Soal Tunggal - Pilihan Ganda";
       } else if (qgType === "TF") {
@@ -69,14 +69,14 @@ angular
     function findAllQuestionBank() {
       var promise = deferredService.getPromise(queastionBankService.fetchAllQuestionBank(token, $scope.currentTeacher.nip));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.questionBanks = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       ).then(
-        function() {
+        function () {
           updateDataTable($scope.questionBanks);
         });
     };
@@ -87,10 +87,10 @@ angular
     function fetchAllQuestion(id) {
       var promise = deferredService.getPromise(queastionBankService.fetchAllQuestion(id, token));
       promise.then(
-        function(response) {
+        function (response) {
           updateDataTable(response.data);
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         });
     }
@@ -103,13 +103,13 @@ angular
     function detailQuestionPool(id) {
       var promise = deferredService.getPromise(queastionBankService.detailQuestionPool(id, token, $scope.currentTeacher.nip));
       promise.then(
-          function(response) {
-            $scope.questionBanks = response.data;
-          },
-          function(errorResponse) {
-            errorHandle.setError(errorResponse);
-          })
-        .then(function() {
+        function (response) {
+          $scope.questionBanks = response.data;
+        },
+        function (errorResponse) {
+          errorHandle.setError(errorResponse);
+        })
+        .then(function () {
           updateDataTable($scope.questionBanks);
         });
     }
@@ -120,11 +120,11 @@ angular
     function findQuestionBank(id) {
       var promise = deferredService.getPromise(queastionBankService.findQuestionBank(id, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.selectedQuestionBank = response.data;
           $scope.selectedQuestionBank.subject.id = $scope.selectedQuestionBank.subject.id.toString();
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       );
@@ -136,10 +136,10 @@ angular
      */
     function findAllSubject() {
       subjectService.fetchAllSubject(token).then(
-        function(response) {
+        function (response) {
           $scope.subjectData.availableOptions = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       );
@@ -151,10 +151,10 @@ angular
     function findQuestion(id) {
       var promise = deferredService.getPromise(queastionBankService.findQuestion(id, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.selectedQuestion = response.data;
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
 
@@ -164,13 +164,13 @@ angular
     /*
      * Import All Question Bank
      */
-    $scope.importQuestionBank = function() {
+    $scope.importQuestionBank = function () {
       var promise = deferredService.getPromise(queastionBankService.importQuestionBank($scope.selectedQuestionBank, token));
       promise.then(
-        function(response) {
+        function (response) {
           $state.go('teacher.questionBank');
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errResponse);
         }
       );
@@ -184,23 +184,23 @@ angular
         page: 1,
         count: 10
       }, {
-        getData: function($defer, params) {
-          $scope.data = params.sorting() ? $filter('orderBy')(data_table,
-            params.orderBy()) : data_table;
-          $scope.data = params.filter() ? $filter('filter')($scope.data,
-            params.filter()) : $scope.data;
-          $scope.data = $scope.data.slice((params.page() - 1) * params.count(),
-            params.page() * params.count());
-          $defer.resolve($scope.data);
-        },
-        total: data_table.length
-      });
+          getData: function ($defer, params) {
+            $scope.data = params.sorting() ? $filter('orderBy')(data_table,
+              params.orderBy()) : data_table;
+            $scope.data = params.filter() ? $filter('filter')($scope.data,
+              params.filter()) : $scope.data;
+            $scope.data = $scope.data.slice((params.page() - 1) * params.count(),
+              params.page() * params.count());
+            $defer.resolve($scope.data);
+          },
+          total: data_table.length
+        });
     };
 
     /*
      * used for showing delete confirmation selectedQuestionBank
      */
-    $scope.toggleModal = function(questionBank) {
+    $scope.toggleModal = function (questionBank) {
       $scope.showModal = !$scope.showModal;
       $scope.selectedQuestionBank = questionBank;
     };
@@ -208,23 +208,23 @@ angular
     /*
      * used for showing delete confirmation selectedQuestion
      */
-    $scope.toggleModalQuestion = function(question) {
+    $scope.toggleModalQuestion = function (question) {
       $scope.showModal = !$scope.showModal;
       $scope.selectedQuestion = question;
     };
 
-    $scope.toggleModalQuestionGroup = function(qGroup) {
+    $scope.toggleModalQuestionGroup = function (qGroup) {
       $scope.showModal = !$scope.showModal;
       $scope.selectedQuestionGroup = qGroup;
     };
 
-    $scope.deleteQuestionGroup = function() {
+    $scope.deleteQuestionGroup = function () {
       var id = $scope.selectedQuestionGroup.id;
-      deferredService.getPromise(queastionBankService.deleteQuestionGroup(id, token)).then(function(response) {
+      deferredService.getPromise(queastionBankService.deleteQuestionGroup(id, token)).then(function (response) {
         $scope.data.splice($scope.data.findIndex(group => group.id === id), 1);
         $scope.questionBanks.splice($scope.questionBanks.findIndex(group => group.id === id), 1);
         $scope.showModal = false;
-      }, function(errorResponse) {
+      }, function (errorResponse) {
         errorHandle.setError(errResponse);
       });
     }
@@ -234,18 +234,18 @@ angular
      */
     $scope.showModalQuestionType = false;
 
-    $scope.submitQuestionType = function(questionType) {
-      $timeout(function() {
+    $scope.submitQuestionType = function (questionType) {
+      $timeout(function () {
         $scope.showModalQuestionType = false;
       }, 250);
-      $timeout(function() {
+      $timeout(function () {
         $state.go('teacher.questionBank.qpdetail.qCreateOrUpdate', {
           "qType": questionType
         });
       }, 250);
     };
 
-    $scope.editQstGroup = function(qGroup) {
+    $scope.editQstGroup = function (qGroup) {
       $state.go('teacher.questionBank.qpdetail.qCreateOrUpdate', {
         "qType": qGroup.qgType,
         "qId": qGroup.id
@@ -257,16 +257,16 @@ angular
      *SAVING when $scope.isUpdate equal false
      *and UPDATING when $scope.isUpdate equal true
      */
-    $scope.saveOrUpdate = function() {
+    $scope.saveOrUpdate = function () {
       var promise = null;
       if ($scope.isUpdateQuestion) {
         $scope.selectedQuestion.questionPool = {};
         promise = deferredService.getPromise(queastionBankService.updateQuestion($scope.selectedQuestion, token));
         promise.then(
-          function(response) {
+          function (response) {
             $state.go('teacher.questionBank.qpdetail');
           },
-          function(errorResponse) {
+          function (errorResponse) {
             errorHandle.setError(errorResponse);
           }
         );
@@ -276,14 +276,14 @@ angular
     /*
      * used for delete selected Question by questionID
      */
-    $scope.deleteQuestion = function() {
+    $scope.deleteQuestion = function () {
       var promise = deferredService.getPromise(queastionBankService.deleteQuestion($scope.selectedQuestion.id, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.showModal = false;
           fetchAllQuestion($scope.selectedQuestionBank.id);
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       );
@@ -292,14 +292,14 @@ angular
     /*
      * used for delete selected Question Pool
      */
-    $scope.deleteQuestionBank = function() {
+    $scope.deleteQuestionBank = function () {
       var promise = deferredService.getPromise(queastionBankService.deleteQuestionBank($scope.selectedQuestionBank.id, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.showModal = false;
           findAllQuestionBank();
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
         }
       );
@@ -308,7 +308,7 @@ angular
     /*
      * used for create Question Pool
      */
-    $scope.createQuestionPool = function() {
+    $scope.createQuestionPool = function () {
       var promise;
       if ($scope.updateQP) {
         promise = deferredService.getPromise(queastionBankService.updateQuestionBank($scope.selectedQuestionBank, token));
@@ -316,11 +316,15 @@ angular
         promise = deferredService.getPromise(queastionBankService.createQuestionPool(token, $scope.selectedQuestionBank));
       }
       promise.then(
-        function(response) {
+        function (response) {
           $state.go("^");
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle.setError(errorResponse);
+          if (errorResponse.status === 403) {
+            DialogFactory.showDialogMsg('Tambah Bank Soal Gagal',
+              'Bank Soal hanya dapat dibuat sebanyak lima kali', 'md');
+          }
         }
       );
     };
@@ -332,11 +336,11 @@ angular
 
     } else if ($state.is('teacher.questionBank.import')) {
       findAllSubject();
-      $scope.download = function(resource) {
+      $scope.download = function (resource) {
         window.open(resource);
       }
 
-      $scope.updateData = function() {
+      $scope.updateData = function () {
         $scope.data = $scope.csv.result;
         $scope.selectedQuestionBank.subjectId = $scope.subjectData.selectedOption.id;
         $scope.selectedQuestionBank.questions = $scope.csv.result;

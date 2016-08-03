@@ -1,5 +1,5 @@
 angular.module('app.messages')
-    .factory('DialogFactory', ['$scope', '$uibModal', '$log', function ($scope, $uibModal, $log) {
+    .factory('DialogFactory', ['$uibModal', function ($uibModal) {
         return {
             showDialogMsg: function (title, content, size) {
                 var modalInstance = $uibModal.open({
