@@ -88,14 +88,6 @@ public class TeacherEventManagementCtrl {
 			LOG.info("Event================> " + obj.getString("eventName"));
 
 			Employee emp = empService.findById(obj.getLong("empId"));
-			/**
-			 * For @Demo version Teacher can only create maximum 1 events
-			 */
-			List<Event> teacherEvents = eventService.findAllByTeacher(emp.getNip());
-			if(teacherEvents.size() >= 1){
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-			}
-
 			e.setEventName(obj.getString("eventName"));
 			e.setEventType(EventType.valueOf(obj.getString("eventType")));
 			e.setCreatedDate(new Date());

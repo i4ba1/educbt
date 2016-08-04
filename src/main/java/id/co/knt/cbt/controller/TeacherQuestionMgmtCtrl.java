@@ -57,11 +57,6 @@ public class TeacherQuestionMgmtCtrl {
 		Subject currentSbj = subjectService.findSubjectById(array.getJSONObject(0).getInt("subjectId"));
 		Employee currentEmp = employeeService.findById(array.getJSONObject(0).getLong("teacherId"));
 
-		List<QuestionPool> pools = poolService.findAllQuestionByTeacher(currentEmp.getNip());
-		if(pools.size() >= 5){
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-
 		QuestionPool qp = new QuestionPool();
 		qp.setCreatedDate(new Date());
 		qp.setQuestionPoolName(strQuestionPool);
