@@ -31,8 +31,6 @@ public class AdmLicenseCtrl {
 
 	private static final byte TYPE = 3;
 
-	private static final byte MODULE = 50;
-
 	/**
 	 * Find all token
 	 * 
@@ -68,10 +66,9 @@ public class AdmLicenseCtrl {
 					Map<String, Byte> extractResult = gawl.extract(licenseKey);
 					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
 						byte Type = extractResult.get(Gawl.TYPE);
-						byte Module = extractResult.get(Gawl.MODULE);
 						byte seed1 = extractResult.get(Gawl.SEED1);
 						
-						if (Type == TYPE && Module == MODULE) {
+						if (Type == TYPE) {
 							//get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								license = new License(licenseKey, new Date().getTime());

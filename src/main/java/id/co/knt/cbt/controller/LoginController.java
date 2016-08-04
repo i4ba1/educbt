@@ -109,16 +109,16 @@ public class LoginController {
                  */
                 if (numberOfUser <= 1 && logins.size() <= 1) {
                     if (login == null) {
-                        return firstLogin(dt, rand, dateTime, user, numberOfUser);
+                        return firstLogin(dt, rand, dateTime, user);
                     } else {
-                        return reLogin(login, dt, rand, dateTime, numberOfUser);
+                        return reLogin(login, dt, rand, dateTime);
                     }
                 } else {
-                    if (logins.size() <= numberOfUser) {
+                    if (logins.size() < numberOfUser) {
                         if (login == null) {
-                            return firstLogin(dt, rand, dateTime, user, numberOfUser);
+                            return firstLogin(dt, rand, dateTime, user);
                         } else {
-                            return reLogin(login, dt, rand, dateTime, numberOfUser);
+                            return reLogin(login, dt, rand, dateTime);
                         }
                     } else {
                         return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
@@ -126,9 +126,9 @@ public class LoginController {
                 }
             } else {
                 if (login == null) {
-                    return firstLogin(dt, rand, dateTime, user, numberOfUser);
+                    return firstLogin(dt, rand, dateTime, user);
                 } else {
-                    return reLogin(login, dt, rand, dateTime, numberOfUser);
+                    return reLogin(login, dt, rand, dateTime);
                 }
             }
         }
@@ -137,7 +137,7 @@ public class LoginController {
     }
 
     private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
-                                                                 User user, int numberOfUser) {
+                                                                 User user) {
         Login newLogin = new Login();
         newLogin.setLoginDate(dt);
         newLogin.setToken(new BigInteger(130, rand).toString(50));
@@ -147,9 +147,7 @@ public class LoginController {
         Map<String, Object> mapObj = new HashMap<String, Object>();
         mapObj.put("token", newLogin.getToken());
         mapObj.put("user", user);
-        if(numberOfUser <= 1) {
-            mapObj.put("type","demo");
-        }
+        mapObj.put("type", "full-version");
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         data.add(mapObj);
 
@@ -169,7 +167,7 @@ public class LoginController {
     }
 
     private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
-                                                              DateTime dateTime, int numberOfUser) {
+                                                              DateTime dateTime) {
         login.setLoginDate(dt);
         login.setToken(new BigInteger(130, rand).toString(50));
         login.setTokenExpired(dateTime.getMillis());
@@ -177,9 +175,7 @@ public class LoginController {
         Map<String, Object> mapObj = new HashMap<String, Object>();
         mapObj.put("token", login.getToken());
         mapObj.put("user", login.getUser());
-        if(numberOfUser <= 1) {
-            mapObj.put("type","demo");
-        }
+        mapObj.put("type", "full-version");
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         data.add(mapObj);
 
