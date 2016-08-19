@@ -107,7 +107,7 @@ public class LoginController {
                  * login student size <= number of user
                  * @If Number of user is below equal 1 and the login size is below equal 1 then only one student can login
                  */
-                if (numberOfUser <= 1 && logins.size() <= 1) {
+                if (numberOfUser <= 1 && logins.size() < 1) {
                     if (login == null) {
                         return firstLogin(dt, rand, dateTime, user);
                     } else {
