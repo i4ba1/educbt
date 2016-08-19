@@ -69,6 +69,8 @@ angular
         },
         function(errorResponse) {
           errorHandle.setError(errorResponse);
+          $scope.licenses = new Array();
+          updateTableData($scope.licenses);
         }
       );
     };

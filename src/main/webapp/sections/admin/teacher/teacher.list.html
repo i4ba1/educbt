@@ -23,7 +23,7 @@
           {{user.firstName+" "+user.lastName}}
         </td>
         <td data-title="'Tanggal Lahir'">
-          {{user.birthPlace+", "+user.birthDate}}
+          {{user.birthPlace+", "}}{{user.birthDate| date : 'dd-MM-yyyy'}}
         </td>
         <td data-title="'Alamat'" class="col-xs-4">
           {{user.address}}
