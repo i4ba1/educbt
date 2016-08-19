@@ -1,21 +1,9 @@
 package id.co.knt.cbt.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("E")
@@ -33,10 +21,8 @@ public class Employee extends User {
 	@Column(name = "employee_nip", unique = true)
 	private String nip;
 
-	@Basic
-	@Temporal(TemporalType.DATE)
 	@Column(name = "joining_date")
-	private Date joiningDate = new Date();
+	private Long joiningDate;
 
 	@Column(name = "job_title")
 	private String jobTitle;
@@ -64,11 +50,11 @@ public class Employee extends User {
 		this.nip = nip;
 	}
 
-	public Date getJoiningDate() {
+	public Long getJoiningDate() {
 		return joiningDate;
 	}
 
-	public void setJoiningDate(Date joiningDate) {
+	public void setJoiningDate(Long joiningDate) {
 		this.joiningDate = joiningDate;
 	}
 

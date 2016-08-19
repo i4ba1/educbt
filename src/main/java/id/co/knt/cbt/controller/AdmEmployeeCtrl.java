@@ -78,9 +78,8 @@ public class AdmEmployeeCtrl {
 	}
 
 	/**
-	 * -------------------Create a Teacher---------------
-	 *
-	 * @param teacher
+	 * Create new teacher
+	 * @param objects
 	 * @return
 	 */
 	@RequestMapping(value = "/create/", method = RequestMethod.POST)
@@ -115,18 +114,14 @@ public class AdmEmployeeCtrl {
 		Calendar calendar = Calendar.getInstance();
 		gmtFormat.setTimeZone(timeZone);
 
-		Date birthDate = null;
-		Date joiningDate = null;
-
 		try {
 			calendar.setTimeInMillis(longBirthDate);
 			String strDate = gmtFormat.format(calendar.getTime());
 			String[] arr = strDate.split("-");
+			/**
+			 * Generated password with format YYYYMMDD
+			 */
 			pass = arr[0] + arr[1] + arr[2];
-			birthDate = gmtFormat.parse(strDate);
-
-			calendar.setTimeInMillis(longJoiningDate);
-			joiningDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -137,8 +132,8 @@ public class AdmEmployeeCtrl {
 		teacher.setPassword(PasswordUtility.generatePass(pass));
 		teacher.setHashedPassword(PasswordUtility.generateHashPass(pass));
 		teacher.setSalt(encoder.encode(saltPattr.concat(pass)));
-		teacher.setBirthDate(birthDate);
-		teacher.setJoiningDate(joiningDate);
+		teacher.setBirthDate(longBirthDate);
+		teacher.setJoiningDate(longJoiningDate);
 		teacher.setJobTitle(obj.getString("jobTitle"));
 		teacher.setPhone(obj.getString("phone"));
 		teacher.setMobilePhone(obj.getString("mobilePhone"));
@@ -204,16 +199,17 @@ public class AdmEmployeeCtrl {
 
 				Date birthDate = null;
 				Date joiningDate = null;
+				long bodTimeMillis = 0;
+				long jodTimeMillis = 0;
 
 				try {
-					//calendar.setTimeInMillis(longBirthDate);
-					//String strDate = gmtFormat.format(calendar.getTime());
 					String[] arr = strBirthDate.split("/");
 					pass = arr[2] + arr[1] + arr[0];
 					birthDate = gmtFormat.parse(strBirthDate);
+					bodTimeMillis = birthDate.getTime();
 
-					//calendar.setTimeInMillis(longJoiningDate);
 					joiningDate = gmtFormat.parse(strJoiningDate);
+					jodTimeMillis = joiningDate.getTime();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -224,8 +220,8 @@ public class AdmEmployeeCtrl {
 				newEmp.setPassword(PasswordUtility.generatePass(pass));
 				newEmp.setHashedPassword(PasswordUtility.generateHashPass(pass));
 				newEmp.setSalt(encoder.encode(saltPattr.concat(pass)));
-				newEmp.setBirthDate(birthDate);
-				newEmp.setJoiningDate(joiningDate);
+				newEmp.setBirthDate(bodTimeMillis);
+				newEmp.setJoiningDate(jodTimeMillis);
 				newEmp.setPhone(obj.getString("phone"));
 				newEmp.setMobilePhone(obj.getString("mobilePhone"));
 				newEmp.setGender(Sex.valueOf(obj.getString("gender")));
@@ -285,19 +281,24 @@ public class AdmEmployeeCtrl {
 		Date birthDate = null;
 		Date joiningDate = null;
 
+		long bodTimeMillis = 0;
+		long jodTimeMillis = 0;
+
 		try {
 			calendar.setTimeInMillis(longBirthDate);
 			birthDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
+			bodTimeMillis = birthDate.getTime();
 
 			calendar.setTimeInMillis(longJoiningDate);
 			joiningDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
+			jodTimeMillis = joiningDate.getTime();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		currentTeacher.setBirthDate(birthDate);
-		currentTeacher.setJoiningDate(joiningDate);
+		currentTeacher.setBirthDate(bodTimeMillis);
+		currentTeacher.setJoiningDate(jodTimeMillis);
 		currentTeacher.setJobTitle(obj.getString("jobTitle"));
 		currentTeacher.setPhone(obj.getString("phone"));
 		currentTeacher.setMobilePhone(obj.getString("mobilePhone"));

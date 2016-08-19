@@ -1,13 +1,13 @@
 package id.co.knt.cbt.controller;
 
-import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
+import id.co.knt.cbt.model.Kelas;
+import id.co.knt.cbt.model.Student;
+import id.co.knt.cbt.model.User.Religion;
+import id.co.knt.cbt.model.User.Sex;
+import id.co.knt.cbt.model.User.UserType;
+import id.co.knt.cbt.service.KelasService;
+import id.co.knt.cbt.service.StudentService;
+import id.co.knt.cbt.util.PasswordUtility;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -18,21 +18,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import id.co.knt.cbt.model.Kelas;
-import id.co.knt.cbt.model.Student;
-import id.co.knt.cbt.model.User.Religion;
-import id.co.knt.cbt.model.User.Sex;
-import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.KelasService;
-import id.co.knt.cbt.service.StudentService;
-import id.co.knt.cbt.util.PasswordUtility;
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * 
@@ -90,9 +84,8 @@ public class AdmStudentCtrl {
 	}
 
 	/**
-	 * Create a student
-	 * 
-	 * @param student
+	 * Create student
+	 * @param objects
 	 * @return
 	 */
 	@RequestMapping(value = "/create/", method = RequestMethod.POST)
@@ -135,7 +128,6 @@ public class AdmStudentCtrl {
 			calendar.setTimeInMillis(longBirthDate);
 			String[] arr = gmtFormat.format(calendar.getTime()).split("-");
 			pass = arr[0] + arr[1] + arr[2];
-			birthDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -146,7 +138,7 @@ public class AdmStudentCtrl {
 		student.setPassword(PasswordUtility.generatePass(pass));
 		student.setHashedPassword(PasswordUtility.generateHashPass(pass));
 		student.setSalt(encoder.encode(saltPattr.concat(pass)));
-		student.setBirthDate(birthDate);
+		student.setBirthDate(longBirthDate);
 		student.setPhone(obj.getString("phone"));
 		student.setMobilePhone(obj.getString("mobilePhone"));
 		student.setGender(Sex.valueOf(obj.getString("gender")));
@@ -205,9 +197,10 @@ public class AdmStudentCtrl {
 				
 
 				Date birthDate = null;
+				long bodTimeMillis = 0;
 				try {
 					String[] arr = null;
-					if(strBirthDate.indexOf("/") == -1){
+					if(!strBirthDate.contains("/")){
 						arr = strBirthDate.split("-");
 						gmtFormat = new SimpleDateFormat("yyyy-MM-dd");
 						birthDate = gmtFormat.parse(strBirthDate);
@@ -221,6 +214,7 @@ public class AdmStudentCtrl {
 					}
 					
 					gmtFormat.setTimeZone(timeZone);
+					bodTimeMillis = birthDate.getTime();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -231,7 +225,7 @@ public class AdmStudentCtrl {
 				newStudent.setPassword(PasswordUtility.generatePass(pass));
 				newStudent.setHashedPassword(PasswordUtility.generateHashPass(pass));
 				newStudent.setSalt(encoder.encode(saltPattr.concat(pass)));
-				newStudent.setBirthDate(birthDate);
+				newStudent.setBirthDate(bodTimeMillis);
 				newStudent.setPhone(obj.getString("phone"));
 				newStudent.setMobilePhone(obj.getString("mobilePhone"));
 				newStudent.setGender(Sex.valueOf(obj.getString("gender")));
@@ -297,15 +291,17 @@ public class AdmStudentCtrl {
 		gmtFormat.setTimeZone(timeZone);
 
 		Date birthDate = null;
+		long bodTimeMillis = 0;
 		try {
 			calendar.setTimeInMillis(longBirthDate);
 			birthDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
+			bodTimeMillis = birthDate.getTime();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		currentStudent.setBirthDate(birthDate);
+		currentStudent.setBirthDate(bodTimeMillis);
 		currentStudent.setPhone(obj.getString("phone"));
 		currentStudent.setMobilePhone(obj.getString("mobilePhone"));
 		currentStudent.setGender(Sex.valueOf(obj.getString("gender")));

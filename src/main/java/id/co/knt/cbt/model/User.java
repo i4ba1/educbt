@@ -1,18 +1,8 @@
 package id.co.knt.cbt.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "cbt_user")
@@ -78,8 +68,7 @@ public class User implements Serializable {
 	private String birthPlace;
 
 	@Column(name = "birth_date")
-	@Temporal(TemporalType.DATE)
-	private Date birthDate;
+	private Long birthDate;
 
 	@Column(name = "mobile_phone")
 	private String mobilePhone;
@@ -200,11 +189,11 @@ public class User implements Serializable {
 		this.birthPlace = birthPlace;
 	}
 
-	public Date getBirthDate() {
+	public Long getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(Long birthDate) {
 		this.birthDate = birthDate;
 	}
 
