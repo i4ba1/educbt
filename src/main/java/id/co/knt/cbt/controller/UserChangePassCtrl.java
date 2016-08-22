@@ -1,8 +1,8 @@
 package id.co.knt.cbt.controller;
 
-import java.security.SecureRandom;
-import java.util.List;
-
+import id.co.knt.cbt.model.User;
+import id.co.knt.cbt.service.UserService;
+import id.co.knt.cbt.util.PasswordUtility;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +10,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import id.co.knt.cbt.model.User;
-import id.co.knt.cbt.service.UserService;
-import id.co.knt.cbt.util.PasswordUtility;
+import java.security.SecureRandom;
+import java.util.List;
 
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
@@ -45,7 +40,7 @@ public class UserChangePassCtrl {
 			return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
 		}else if(!confirmPass.equals(newPass)){
 			return new ResponseEntity<Void>(headers, HttpStatus.EXPECTATION_FAILED);
-		}else if(u.getPassword().equals(newPass)){
+		}else if(PasswordUtility.decodePass(u.getPassword()).equals(newPass)){
 			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
 		}
 		

@@ -1,12 +1,9 @@
 package id.co.knt.cbt.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gson.Gson;
+import id.co.knt.cbt.model.*;
+import id.co.knt.cbt.model.Event.EventType;
+import id.co.knt.cbt.service.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,29 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import id.co.knt.cbt.model.Event;
-import id.co.knt.cbt.model.Event.EventType;
-import id.co.knt.cbt.model.EventKelas;
-import id.co.knt.cbt.model.EventQuestion;
-import id.co.knt.cbt.model.EventResult;
-import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.model.School;
-import id.co.knt.cbt.model.Student;
-import id.co.knt.cbt.model.StudentAnswer;
-import id.co.knt.cbt.service.EventKelasService;
-import id.co.knt.cbt.service.EventQuestionService;
-import id.co.knt.cbt.service.EventResultService;
-import id.co.knt.cbt.service.EventService;
-import id.co.knt.cbt.service.SchoolService;
-import id.co.knt.cbt.service.StudentAnswerService;
-import id.co.knt.cbt.service.StudentService;
+import java.util.*;
 
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
@@ -66,6 +43,9 @@ public class StudentCtrl {
 
 	@Autowired
 	private SchoolService schoolService;
+
+	@Autowired
+	private StudentEventTimeService studentEventTimeService;
 
 	/**
 	 * Get all event based on event type and class id
@@ -135,9 +115,8 @@ public class StudentCtrl {
 	}
 
 	/**
-	 * 
-	 * @param eventId
-	 * @param studentId
+	 *
+	 * @param objects
 	 * @return
 	 */
 	@RequestMapping(value = { "/student_answer/create/" }, method = RequestMethod.POST)
@@ -175,9 +154,8 @@ public class StudentCtrl {
 	}
 
 	/**
-	 * 
-	 * @param saId
-	 * @param answer
+	 *
+	 * @param objects
 	 * @return
 	 */
 	@RequestMapping(value = { "/student_answer/update/" }, method = RequestMethod.PUT)
@@ -386,5 +364,34 @@ public class StudentCtrl {
 
 		return school != null ? new ResponseEntity<School>(school, HttpStatus.OK)
 				: new ResponseEntity<School>(school, HttpStatus.NOT_FOUND);
+	}
+
+	/**
+	 * Find the last time working time when student did examination
+	 * @return
+	 */
+	@RequestMapping(value = "/findLastWorkingTime/{token}/{id}", method = RequestMethod.GET)
+	public ResponseEntity<String> findLastWorkingTime(@PathVariable("token") String token, @PathVariable("id") Long id){
+		Long longTime = studentEventTimeService.findStudentEventTime(id);
+
+		return longTime <= 0? new ResponseEntity<String>(HttpStatus.NOT_FOUND): new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * @param studentEventTimeJson
+	 * @return
+	 */
+	@RequestMapping(value = { "/saveOrUpdateTime/" }, method = RequestMethod.POST)
+	public ResponseEntity<Void> saveOrUpdateTime(@RequestBody String studentEventTimeJson){
+		Gson gson = new Gson();
+		StudentEventTime updatedStudentEventTime = gson.fromJson(studentEventTimeJson, StudentEventTime.class);
+		if(updatedStudentEventTime.getId() == null){
+			updatedStudentEventTime = studentEventTimeService.saveTime(updatedStudentEventTime);
+		}else{
+			updatedStudentEventTime = studentEventTimeService.updateTime(updatedStudentEventTime);
+		}
+
+		return updatedStudentEventTime == null? new ResponseEntity<Void>(HttpStatus.EXPECTATION_FAILED):new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
