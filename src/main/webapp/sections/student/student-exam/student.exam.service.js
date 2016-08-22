@@ -10,6 +10,9 @@ angular.module('app.core')
       },
       fetchStudentExplanation: function(eventId, nis, token) {
         return $http.get(url + '/student/event_explanation/' + token + '/' + eventId + '/' + nis);
+      },
+      saveOrUpdateTime: function(params) {
+        return $http.post(url + '/saveOrUpdateTime/' , params);
       }
     };
 

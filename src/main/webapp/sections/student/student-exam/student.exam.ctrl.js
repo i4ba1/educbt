@@ -1,5 +1,5 @@
 angular.module('app.core')
-  .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, deferredService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory) {
+  .controller('StudentExamController', function ($scope, $stateParams, $timeout, queastionBankService, studentService, deferredService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
 
     var currentStudent;
     var token = " ";
@@ -26,7 +26,7 @@ angular.module('app.core')
       question: {}
     };
 
-    $scope.convertAnsweer = function(value) {
+    $scope.convertAnsweer = function (value) {
       if (value === "false") {
         return " F";
       } else if (value === "true") {
@@ -45,13 +45,13 @@ angular.module('app.core')
     function fetchStudentAnswer(eventId, nis) {
       var promise = deferredService.getPromise(studentExamService.fetchStudentAnswer(eventId, nis, token));
       promise.then(
-          function(response) {
-            $scope.studentAnswers = response.data;
-          },
-          function(errorResponse) {
-            errorHandle.setError(errorResponse);
-          })
-        .then(function() {
+        function (response) {
+          $scope.studentAnswers = response.data;
+        },
+        function (errorResponse) {
+          errorHandle.setError(errorResponse);
+        })
+        .then(function () {
           updateQuestion();
           $scope.max = $scope.studentAnswers.length - 1;
         });
@@ -59,7 +59,7 @@ angular.module('app.core')
 
     function countPoint(data) {
       var counter = 0;
-      angular.forEach(data, function(d) {
+      angular.forEach(data, function (d) {
         if (d.correct) {
           counter = counter + 1;
         }
@@ -73,23 +73,23 @@ angular.module('app.core')
     function fetchStudentExplanation(eventId, nis) {
       var promise = deferredService.getPromise(studentExamService.fetchStudentExplanation(eventId, nis, token));
       promise.then(
-          function(response) {
-            $scope.studentAnswers = response.data;
-          },
-          function(errorResponse) {
-            errorHandle.setError(errorResponse);
-          })
+        function (response) {
+          $scope.studentAnswers = response.data;
+        },
+        function (errorResponse) {
+          errorHandle.setError(errorResponse);
+        })
         .then(
-          function() {
-            updateQuestion();
-            $scope.max = $scope.studentAnswers.length - 1;
-            countPoint($scope.studentAnswers);
-          }
+        function () {
+          updateQuestion();
+          $scope.max = $scope.studentAnswers.length - 1;
+          countPoint($scope.studentAnswers);
+        }
         );
     };
 
 
-    $scope.updateAnswer = function() {
+    $scope.updateAnswer = function () {
       if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
         var params = [{
           'authorization': token,
@@ -99,7 +99,7 @@ angular.module('app.core')
           }
         }];
         var promise = deferredService.getPromise(studentExamService.updateStudentAnswer(params));
-        promise.then(function(response) {}, function(errorResponse) {});
+        promise.then(function (response) { }, function (errorResponse) { });
       }
     };
 
@@ -109,16 +109,16 @@ angular.module('app.core')
     function findEvent(eventId) {
       var promise = deferredService.getPromise(eventService.findEvent(eventId, token));
       promise.then(
-          function(response) {
-            $scope.selectedEvent = response.data;
-            if ($scope.isExam) {
-              startTimer($scope.selectedEvent.workingTime);
-            }
-          },
-          function(error) {
-            errorHandle.setError(error);
-          })
-        .then(function() {
+        function (response) {
+          $scope.selectedEvent = response.data;
+          if ($scope.isExam) {
+            startTimer($scope.selectedEvent.workingTime);
+          }
+        },
+        function (error) {
+          errorHandle.setError(error);
+        })
+        .then(function () {
           updateQuestion();
         });
     }
@@ -131,10 +131,10 @@ angular.module('app.core')
       if (eventId != undefined && eventId != null) {
         var promise = deferredService.getPromise(queastionBankService.fetchQuestionByEventId(eventId, token));
         promise.then(
-          function(response) {
+          function (response) {
             $scope.eventQuestions = response.data;
           },
-          function(errorResponse) {
+          function (errorResponse) {
             errorHandle.setError(errorResponse);
           });
       }
@@ -147,11 +147,11 @@ angular.module('app.core')
     function findStudent(nis) {
       var promise = deferredService.getPromise(studentService.findStudent(nis, token));
       promise.then(
-        function(response) {
+        function (response) {
           $scope.selectedStudent = response.data;
           $scope.selectedStudent.birthDate = new Date(response.data.birthDate);
         },
-        function(errorResponse) {
+        function (errorResponse) {
           errorHandle
         }
       );
@@ -166,7 +166,7 @@ angular.module('app.core')
       }
     }
 
-    $scope.nextSlide = function() {
+    $scope.nextSlide = function () {
       console.log("entering here");
       if ($scope.currentIndex <= $scope.studentAnswers.length - 1) {
         $scope.currentIndex = $scope.currentIndex + 1;
@@ -174,7 +174,7 @@ angular.module('app.core')
       }
     };
 
-    $scope.prevSlide = function() {
+    $scope.prevSlide = function () {
       console.log("Prev Slide=> " + $scope.currentIndex);
       if ($scope.currentIndex >= 0) {
         $scope.currentIndex = $scope.currentIndex - 1;
@@ -185,7 +185,7 @@ angular.module('app.core')
     /**
     Handling the direct clicked from list of answered questions
     */
-    $scope.currentSlide = function(idx) {
+    $scope.currentSlide = function (idx) {
       console.log("idx===> " + idx);
       $scope.currentIndex = idx - 1;
       updateQuestion();
@@ -193,7 +193,7 @@ angular.module('app.core')
 
     $scope.counter = 0;
     $scope.timeWorking = null;
-    $scope.onTimeout = function() {
+    $scope.onTimeout = function () {
 
       $scope.counter--;
       $scope.timeWorking = new Date(0, 0, 0).setSeconds($scope.counter);
@@ -229,6 +229,21 @@ angular.module('app.core')
     } else if ($state.is('student.task.explanation')) {
       $scope.isExam = false;
       fetchStudentExplanation($stateParams.eventId, currentStudent.nis);
+    }
+
+    $window.onbeforeunload = function () {
+      console.log("Entering Here ====== >>>>");
+      if ($state.is('student.task.exam')) {
+        var promise = studentExamService.saveOrUpdateTime({ 'eventId': $stateParams.eventId, 'studentNis': currentStudent.nis, 'lastUpdateTime': $scope.counter });
+        
+        promise.then(
+          function (response) {
+
+            $timeout.cancel($scope.onTimeout);
+          }, function (errorResponse) {
+
+          });
+      }
     }
 
   });
