@@ -16,3 +16,4 @@
 .externalToolBuilders/**
 .idea/**
 .idea/libraries/**
+/smartbee-educbt.iml
