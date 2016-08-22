@@ -1,7 +1,7 @@
 'use strict';
 angular
   .module('app.core')
-  .controller('ChangePasswordController', function($scope, $stateParams, $timeout, $state, storageService, deferredService, errorHandle, changePswdService) {
+  .controller('ChangePasswordController', function ($scope, $stateParams, $timeout, $state, storageService, deferredService, errorHandle, changePswdService, DialogFactory) {
 
     var token = "";
     var user = null;
@@ -23,6 +23,7 @@ angular
 
     function showMesage(status) {
       var message = "";
+      var title = "Ubah Kata Sandi Gagal";
       if (status == 404) {
         message = "Kata sandi lama salah";
       } else if (status == 417) {
@@ -31,21 +32,20 @@ angular
         message = "Kata sandi baru masih sama dengan kata sandi lama";
       } else if (status == 200) {
         message = "Kata sandi berhasil di ganti";
+        title = "Ubah Kata Sandi Berhasil";
       }
 
-      $timeout(function() {
-        window.alert(message);
-      }, 1000);
+      DialogFactory.showDialogMsg(title, message, "md");
     }
 
-    $scope.saveNewPass = function() {
+    $scope.saveNewPass = function () {
       var promise = deferredService.getPromise(changePswdService.updatePassword($scope.data, token, user.userName));
       promise.then(
-        function(response) {
+        function (response) {
           showMesage(200);
           $state.go("^");
         },
-        function(errorResponse) {
+        function (errorResponse) {
           if (errorResponse.status == 401) {
             errorHandle.setError(errorResponse);
           } else {

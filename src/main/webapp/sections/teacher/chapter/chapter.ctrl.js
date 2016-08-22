@@ -1,7 +1,7 @@
 'use strict';
 angular
   .module('app.core')
-  .controller('ChapterController', function($scope, $stateParams, $state, subjectService, storageService, deferredService, errorHandle, $timeout) {
+  .controller('ChapterController', function($scope, $stateParams, $state, subjectService, storageService, deferredService, errorHandle, $timeout, DialogFactory) {
 
     /*
      * checking authorization
@@ -118,9 +118,7 @@ angular
           },
           function(errorResponse) {
             if (errorResponse.status == 404) {
-              $timeout(function() {
-                window.alert("matapelajaran sudah pernah dibuat");
-              }, 1000);
+              DialogFactory.showDialogMsg("Simpan Data Gagal", "Matapelajaran sudah pernah dibuat", "md");
             } else {
               errorHandle.setError(errorResponse);
             }

@@ -1,6 +1,6 @@
 angular.module('app.core')
   .controller('ForgotPasswordController', function($state, $scope,
-    storageService, forgotPassService, deferredService, $timeout) {
+    storageService, forgotPassService, deferredService, DialogFactory) {
     $scope.identity = "";
     $scope.result = "";
     $scope.showResult = false;
@@ -22,9 +22,7 @@ angular.module('app.core')
         },
         function(errorResponse) {
           if (errorResponse.status == 404) {
-            $timeout(function() {
-              window.alert("maaf nis/nip tidak ditemukan");
-            }, 1000);
+            DialogFactory.showDialogMsg("data tidak valid","maaf nis/nip tidak ditemukan","sm")
           }
         });
     };

@@ -1,5 +1,5 @@
 angular.module('app.core')
-  .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, deferredService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce) {
+  .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, deferredService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory) {
 
     var currentStudent;
     var token = " ";
@@ -200,7 +200,7 @@ angular.module('app.core')
       if ($scope.counter > 0) {
         mytimeout = $timeout($scope.onTimeout, 1000);
       } else {
-        alert("Waktu Telah Habis");
+        DialogFactory.showDialogMsg("Ujian Selesai", "Waktu Telah Habis", "md");
         $timeout.cancel($scope.onTimeout);
         $state.go('student.task.exam.result');
       }

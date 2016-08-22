@@ -1,5 +1,5 @@
 angular.module('app.core')
-  .controller('StudentTaskController', function($scope, $state, taskService, deferredService, $stateParams, studentService, storageService, errorHandle, $window, $timeout) {
+  .controller('StudentTaskController', function($scope, $state, taskService, deferredService, $stateParams, studentService, storageService, errorHandle, $window, $timeout, DialogFactory) {
 
     var currentStudent;
     var token = " ";
@@ -80,9 +80,7 @@ angular.module('app.core')
           'eventId': data.id
         });
       } else {
-        $timeout(function() {
-          $window.alert("Pembahasan bisa di akses setelah ujian berakhir");
-        }, 1000);
+         DialogFactory.showDialogMsg("Pembahasan Belum Tersedia","Pembahasan bisa di akses setelah ujian berakhir","md");
 
       }
     }

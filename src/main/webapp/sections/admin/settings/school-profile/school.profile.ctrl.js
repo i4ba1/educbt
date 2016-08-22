@@ -1,5 +1,5 @@
 angular.module('app.core')
-  .controller('SchoolProfileController', function($scope, schoolProfileService, deferredService, $state, $http, storageService, baseUrl, $window, errorHandle) {
+  .controller('SchoolProfileController', function($scope, schoolProfileService, deferredService, $state, $http, storageService, baseUrl, errorHandle) {
 
     /*
      * checking authorization
