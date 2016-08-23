@@ -26,7 +26,7 @@ public class StudentEventTimeServiceImpl implements StudentEventTimeService{
     }
 
     @Override
-    public Long findStudentEventTime(Long id) {
+    public Long findStudentEventTime(Long eventId, Long studentId) {
         return studentEventTimeRepo.findOne(id) == null? 0:studentEventTimeRepo.findOne(id).getLastUpdatedTime();
     }
 }

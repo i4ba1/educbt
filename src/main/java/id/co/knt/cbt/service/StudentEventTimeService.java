@@ -10,5 +10,5 @@ public interface StudentEventTimeService {
 
     StudentEventTime updateTime(StudentEventTime studentEventTime);
 
-    Long findStudentEventTime(Long id);
+    Long findStudentEventTime(Long eventId, Long studentId);
 }

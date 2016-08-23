@@ -370,9 +370,9 @@ public class StudentCtrl {
 	 * Find the last time working time when student did examination
 	 * @return
 	 */
-	@RequestMapping(value = "/findLastWorkingTime/{token}/{id}", method = RequestMethod.GET)
-	public ResponseEntity<String> findLastWorkingTime(@PathVariable("token") String token, @PathVariable("id") Long id){
-		Long longTime = studentEventTimeService.findStudentEventTime(id);
+	@RequestMapping(value = "/findLastWorkingTime/{token}/{eventId}/{studentId}", method = RequestMethod.GET)
+	public ResponseEntity<String> findLastWorkingTime(@PathVariable("token") String token, @PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId){
+		Long longTime = studentEventTimeService.findStudentEventTime(eventId, studentId);
 
 		return longTime <= 0? new ResponseEntity<String>(HttpStatus.NOT_FOUND): new ResponseEntity<String>(HttpStatus.OK);
 	}
