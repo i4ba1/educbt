@@ -16,6 +16,7 @@ angular.module('app.core')
     $scope.isExam = true;
     $scope.point = 0;
     $scope.timeWorking = 0;
+    $scope.studentEventTime = { id: null };
 
     $scope.trustAsHtml = tinyMce.trustAsHtml;
     $scope.currentQuestion = {
@@ -112,7 +113,8 @@ angular.module('app.core')
         function (response) {
           $scope.selectedEvent = response.data;
           if ($scope.isExam) {
-            startTimer($scope.selectedEvent.workingTime);
+
+            findLastWorkingTime($scope.selectedEvent.workingTime);
           }
         },
         function (error) {
@@ -207,7 +209,7 @@ angular.module('app.core')
     }
 
     function startTimer(time) {
-      $scope.counter = time * 60;
+      $scope.counter = time;
       $timeout($scope.onTimeout, 1000);
     }
 
@@ -232,18 +234,60 @@ angular.module('app.core')
     }
 
     $window.onbeforeunload = function () {
-      console.log("Entering Here ====== >>>>");
       if ($state.is('student.task.exam')) {
-        var promise = studentExamService.saveOrUpdateTime({ 'eventId': $stateParams.eventId, 'studentNis': currentStudent.nis, 'lastUpdateTime': $scope.counter });
-        
-        promise.then(
-          function (response) {
-
-            $timeout.cancel($scope.onTimeout);
-          }, function (errorResponse) {
-
-          });
+        saveLastWorkingTime({ "message": "reloadEvent", "type": "update", "id": $scope.studentEventTime.id });
       }
+    }
+
+    $scope.$on('$stateChangeStart', function (scope, next, current) {
+      saveLastWorkingTime({ "message": "backButtonEvent", "type": "update", "id": $scope.studentEventTime.id });
+    });
+
+    function saveLastWorkingTime(param) {
+      console.log(param.message);
+      var params = [];
+      if (param.type === "save") {
+        params = [
+          {
+            'authorization': token,
+            'eventId': $stateParams.eventId,
+            'studentId': currentStudent.nis,
+            'lastUpdatedTime': ($scope.selectedEvent.workingTime * 60)
+          }];
+      } else {
+        params = [
+          {
+            'authorization': token,
+            'id': param.id,
+            'lastUpdatedTime': $scope.counter
+          }];
+      }
+
+      var promise = studentExamService.saveOrUpdateTime(params);
+      promise.then(
+        function (response) {
+          if (param.message === "backButtonEvent") {
+            $timeout.cancel($scope.onTimeout);
+          }
+        }, function (errorResponse) {
+
+        }
+      );
+    }
+
+    function findLastWorkingTime(timeParam) {
+      var promise = studentExamService.findLastWorkingTime($stateParams.eventId, currentStudent.nis, token);
+      promise.then(
+        function (response) {
+          $scope.studentEventTime = response.data;
+          startTimer($scope.studentEventTime.lastUpdatedTime);
+        }, function (errorResponse) {
+          if (errorResponse.status === 404) {
+            saveLastWorkingTime({ "message": "init student working time", "type": "save", "id": null });
+            startTimer(timeParam * 60);
+          }
+        }
+      );
     }
 
   });

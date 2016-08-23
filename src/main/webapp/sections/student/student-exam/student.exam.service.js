@@ -12,7 +12,10 @@ angular.module('app.core')
         return $http.get(url + '/student/event_explanation/' + token + '/' + eventId + '/' + nis);
       },
       saveOrUpdateTime: function(params) {
-        return $http.post(url + '/saveOrUpdateTime/' , params);
+        return $http.post(url + '/student/saveOrUpdateTime/' , params);
+      },
+      findLastWorkingTime: function(eventId, nis, token) {
+        return $http.get(url + '/student/findLastWorkingTime/' +token+'/'+eventId+'/'+nis);
       }
     };
 
