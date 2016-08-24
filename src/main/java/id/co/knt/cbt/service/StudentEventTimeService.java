@@ -10,7 +10,7 @@ public interface StudentEventTimeService {
 
     StudentEventTime updateTime(StudentEventTime studentEventTime);
 
-    Long findStudentEventTime(Long eventId, String studentId);
+    StudentEventTime findStudentEventTime(Long eventId, String studentId);
 
     StudentEventTime findOne(Long id);
 }

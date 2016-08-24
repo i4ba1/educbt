@@ -17,6 +17,7 @@ angular.module('app.core')
     $scope.point = 0;
     $scope.timeWorking = 0;
     $scope.studentEventTime = { id: null };
+    $scope.redirect = false;
 
     $scope.trustAsHtml = tinyMce.trustAsHtml;
     $scope.currentQuestion = {
@@ -204,6 +205,7 @@ angular.module('app.core')
       } else {
         DialogFactory.showDialogMsg("Ujian Selesai", "Waktu Telah Habis", "md");
         $timeout.cancel($scope.onTimeout);
+        $scope.redirect = true;
         $state.go('student.task.exam.result');
       }
     }
@@ -239,8 +241,34 @@ angular.module('app.core')
       }
     }
 
-    $scope.$on('$stateChangeStart', function (scope, next, current) {
-      saveLastWorkingTime({ "message": "backButtonEvent", "type": "update", "id": $scope.studentEventTime.id });
+    $scope.$on('$stateChangeStart', function (event, scope, next, current) {
+      // saveLastWorkingTime({ "message": "backButtonEvent", "type": "update", "id": $scope.studentEventTime.id });
+      if (!$scope.redirect) {
+        event.preventDefault();
+      }
+
+      if ($state.is("student.task.exam") && !$scope.redirect) {
+        var result = DialogFactory.confDialogMsg(
+          "Pemberitahuan",
+          "Apakah anda ingin menyelesaikan ujian ini ?",
+          "md");
+
+        result.then(
+          function (value) {
+            if (value) {
+              $scope.redirect = true;
+              $state.go('student.task.exam.result');
+            } else {
+              event.preventDefault();
+            }
+          },
+          function (error) {
+
+          }
+        );
+      }
+
+
     });
 
     function saveLastWorkingTime(param) {

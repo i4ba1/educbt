@@ -1,8 +1,8 @@
 package id.co.knt.cbt.service;
 
-import java.util.List;
-
 import id.co.knt.cbt.model.EventResult;
+
+import java.util.List;
 
 public interface EventResultService {
 	EventResult addNew(EventResult er);

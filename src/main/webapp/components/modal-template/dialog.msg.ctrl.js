@@ -9,4 +9,8 @@ angular
     $scope.cancel = function() {
       $uibModalInstance.dismiss('cancel');
     };
+
+    $scope.close = function(value){
+      $uibModalInstance.close(value);
+    }
   });

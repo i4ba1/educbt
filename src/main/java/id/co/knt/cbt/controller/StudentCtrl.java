@@ -187,6 +187,7 @@ public class StudentCtrl {
 
         Event e = eventService.findEventById(obj.getLong("eventId"));
         Student user = studentService.getStudentByNis(obj.getString("nis"));
+
         List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 
         Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -213,14 +214,19 @@ public class StudentCtrl {
         jsonMap.put("incorrect", incorrect);
         jsonMap.put("point", total);
 
-        EventResult er = new EventResult();
-        er.setEvent(e);
-        er.setStudent(user);
-        er.setCreatedDate(createdDate);
-        er.setCorrect(correct);
-        er.setIncorrect(incorrect);
-        er.setTotal(total);
-        eventResultService.addNew(er);
+        if (eventResultService.findERByEventStudent(e.getId(), user.getNis()) == null){
+            EventResult er = new EventResult();
+            er.setEvent(e);
+            er.setStudent(user);
+            er.setCreatedDate(createdDate);
+            er.setCorrect(correct);
+            er.setIncorrect(incorrect);
+            er.setTotal(total);
+            eventResultService.addNew(er);
+
+            return new ResponseEntity<Map<String, Object>>(jsonMap, HttpStatus.OK);
+        }
+
 
         return new ResponseEntity<Map<String, Object>>(jsonMap, HttpStatus.OK);
     }
@@ -367,10 +373,10 @@ public class StudentCtrl {
      * @return
      */
     @RequestMapping(value = "/findLastWorkingTime/{token}/{eventId}/{studentId}", method = RequestMethod.GET)
-    public ResponseEntity<String> findLastWorkingTime(@PathVariable("token") String token, @PathVariable("eventId") Long eventId, @PathVariable("studentId") String studentId) {
-        Long longTime = studentEventTimeService.findStudentEventTime(eventId, studentId);
+    public ResponseEntity<StudentEventTime> findLastWorkingTime(@PathVariable("token") String token, @PathVariable("eventId") Long eventId, @PathVariable("studentId") String studentId) {
+        StudentEventTime data = studentEventTimeService.findStudentEventTime(eventId, studentId);
 
-        return longTime <= 0 ? new ResponseEntity<String>(HttpStatus.NOT_FOUND) : new ResponseEntity<String>(HttpStatus.OK);
+        return data == null?  new ResponseEntity<StudentEventTime>(data, HttpStatus.NOT_FOUND):new ResponseEntity<StudentEventTime>(data, HttpStatus.OK);
     }
 
     /**

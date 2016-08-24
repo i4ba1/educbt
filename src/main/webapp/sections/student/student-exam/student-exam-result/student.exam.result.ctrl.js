@@ -34,4 +34,9 @@ angular.module('app.core')
     };
 
     fetchStudentResult($stateParams.eventId, currentStudent.nis);
+    $scope.$on('$stateChangeStart', function ( event, next, current) {
+      if(next.name === "student.task.exam"){
+        event.preventDefault();
+      }
+    });
   });
