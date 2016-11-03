@@ -11,7 +11,9 @@ public interface TagService {
 
 	void deleteTag(Long id);
 
-	List<Tag> findTagSubject(Integer id);
+	List<Tag> findThemeBySubject(Integer id);
+	
+	List<Tag> findTagBySubject(Long teacherId, Integer subjectId);
 
 	Tag findTagById(Long id);
 	

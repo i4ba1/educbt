@@ -66,8 +66,8 @@ public class TagServiceImpl implements TagService {
 	}
 
 	@Override
-	public List<Tag> findTagSubject(Integer id) {
-		List<Tag> tags = tagRepo.findThemeBySubject(id);
+	public List<Tag> findThemeBySubject(Integer id) {
+		List<Tag> tags = tagRepo.findThemesBySubject(id);
 		return tags;
 	}
 
@@ -87,6 +87,13 @@ public class TagServiceImpl implements TagService {
 	@Override
 	public List<Tag> findAll(Long id) {
 		List<Tag> tags = tagRepo.findTeacherTag(id);
+		
+		return tags;
+	}
+
+	@Override
+	public List<Tag> findTagBySubject(Long teacherId, Integer subjectId) {
+		List<Tag> tags = tagRepo.findTagBySubject(teacherId, subjectId);
 		
 		return tags;
 	}

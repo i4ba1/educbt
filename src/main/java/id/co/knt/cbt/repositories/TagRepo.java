@@ -13,7 +13,10 @@ import id.co.knt.cbt.model.Tag;
 public interface TagRepo extends JpaRepository<Tag, Long> {
 
 	@Query("select th from Tag th where th.subject.id= :id")
-	List<Tag> findThemeBySubject(@Param("id") Integer id);
+	List<Tag> findThemesBySubject(@Param("id") Integer id);
+	
+	@Query("select th from Tag th where th.teacher.id= :teacherId and th.subject.id= :subjectId and deleted=false")
+	List<Tag> findTagBySubject(@Param("teacherId") Long teacherId, @Param("subjectId") Integer subjectId);
 	
 	@Query("select th from Tag th where th.tagName= :tagName")
 	Tag findTagByName(@Param("tagName") String tagName);

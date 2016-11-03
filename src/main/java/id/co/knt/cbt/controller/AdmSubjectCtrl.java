@@ -82,7 +82,7 @@ public class AdmSubjectCtrl {
 	public ResponseEntity<List<Tag>> getThemeBySubject(@PathVariable("token") String token,
 			@PathVariable("id") Integer id) {
 		LOG.info("Fetching Subject with id " + id);
-		List<Tag> tags = tagService.findTagSubject(id);
+		List<Tag> tags = tagService.findThemeBySubject(id);
 
 		if (tags == null) {
 			LOG.info("Subject with name " + id + " not found");
