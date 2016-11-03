@@ -35,11 +35,16 @@ public class UserAutoLogoutCtrl {
 		LOG.info("/forcedLogOut/ autoLogout method");
 		JSONArray array = new JSONArray(objects);
 		boolean deleted = array.getJSONObject(0).getBoolean("deleted");
-		String token = array.getJSONObject(0).getString("authorization");
 		HttpHeaders headers = new HttpHeaders();
-
+		
+		if(!array.getJSONObject(0).has("authorization")){
+			return new ResponseEntity<Void>(headers, HttpStatus.GONE);
+		}
+		
+		String token = array.getJSONObject(0).getString("authorization");
 		Login l = loginService.findByToken(token);
 		UserLoginQueue loginQueue = UserLoginQueue.getInstance();
+		
 		if (deleted) {
 			if (l != null) {
 				BlockingQueue<Login> blockingQueue = loginQueue.getQueue();
