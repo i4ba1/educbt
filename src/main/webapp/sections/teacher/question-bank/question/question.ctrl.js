@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, deferredService, queastionBankService, errorHandle, baseUrl) {
+    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, deferredService, queastionBankService, errorHandle, baseUrl, $sce) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -150,6 +150,7 @@ angular
                     }
                     //var basePath = baseUrl.getUrl().split('/cbt-backend')[0];
                     pathFile = ".." + pathFile;
+                    //pathFile = $sce.trustAsResourceUrl(pathFile);
                     $scope.imageGalery.push(pathFile);
                 });
             }, function(errorResponse) {
