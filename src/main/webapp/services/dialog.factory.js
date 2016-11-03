@@ -1,42 +1,53 @@
 angular.module('app.messages')
-    .factory('DialogFactory', ['$uibModal', function ($uibModal) {
+    .factory('DialogFactory', ['$uibModal', function($uibModal) {
         return {
-            showDialogMsg: function (title, content, size) {
+            showDialogMsg: function(title, content, size) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/dialog.msg.html',
                     controller: 'DialogMessageCtrl',
                     size: size,
                     resolve: {
-                        titleText: function () {
+                        titleText: function() {
                             return title;
                         },
-                        contentText: function () {
+                        contentText: function() {
                             return content;
                         }
                     }
                 });
             },
 
-            confDialogMsg: function (title, content, size) {
-                
+            confDialogMsg: function(title, content, size) {
+
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/confirmation.msg.html',
                     controller: 'DialogMessageCtrl',
                     size: size,
                     resolve: {
-                        titleText: function () {
+                        titleText: function() {
                             return title;
                         },
-                        contentText: function () {
+                        contentText: function() {
                             return content;
                         }
                     }
                 });
 
-                
+
                 return modalInstance.result;
+            },
+
+            openCredit: function() {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'components/knt-credit.html',
+                    controller: function() {
+
+                    },
+                    size: 'md'
+                });
             }
 
         };
