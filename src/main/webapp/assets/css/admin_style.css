@@ -348,3 +348,25 @@ ul.alert-dropdown {
     curson: hand;
     color: #205081;
 }
+
+.knt-credit-v2 {
+    font-weight: bold;
+}
+
+.knt-credit-v2:hover {
+    cursor: pointer;
+    curson: hand;
+}
+
+.wrapper-min-height {
+    min-height: 95vh !important;
+}
+
+.cbt-main-footer {
+    background-color: #205081;
+    color: white;
+    max-height: 5vh;
+    height: 5vh;
+    padding: 5px 0px 0px 15px;
+    border-left: 1px solid grey;
+}

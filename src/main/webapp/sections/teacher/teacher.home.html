@@ -1,15 +1,18 @@
 <div id="wrapper">
-  <div teacher-nav></div>
-  <div id="page-wrapper">
-    <!-- Body Of Content-->
-    <div class="container-fluid">
+    <div teacher-nav></div>
+    <div id="page-wrapper" class="wrapper-min-height">
+        <!-- Body Of Content-->
+        <div class="container-fluid">
 
-      <div ui-view="content"></div>
+            <div ui-view="content"></div>
+
+        </div>
+        <!-- /.container-fluid -->
 
     </div>
-    <!-- /.container-fluid -->
-
-  </div>
-  <!-- /#page-wrapper -->
+    <!-- /#page-wrapper -->
+    <div class="cbt-main-footer">
+        <span>Copyright &copy; 2016, <span class="knt-credit-v2" ng-click="openCredit()">PT. Kharisma Nusantara Teknologi</span></span>
+    </div>
 
 </div>
