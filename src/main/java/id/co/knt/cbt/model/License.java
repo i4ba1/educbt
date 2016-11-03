@@ -30,7 +30,7 @@ public class License implements Serializable {
 	private Long createdDate;
 	
 	@Column(name="number_of_license")
-	private Integer numberOfLicense;
+	private Integer numberOfClient;
 	
 	public License() {
 		// TODO Auto-generated constructor stub
@@ -40,7 +40,7 @@ public class License implements Serializable {
 		super();
 		this.license = license;
 		this.createdDate = createdDate;
-		this.numberOfLicense = numberOfLicense;
+		this.numberOfClient = numberOfLicense;
 	}
 
 	public String getLicense() {
@@ -63,11 +63,11 @@ public class License implements Serializable {
 		return id;
 	}
 
-	public Integer getNumberOfLicense() {
-		return numberOfLicense;
+	public Integer getNumberOfClient() {
+		return numberOfClient;
 	}
 
-	public void setNumberOfLicense(Integer numberOfLicense) {
-		this.numberOfLicense = numberOfLicense;
+	public void setNumberOfClient(Integer numberOfClient) {
+		this.numberOfClient = numberOfClient;
 	}
 }

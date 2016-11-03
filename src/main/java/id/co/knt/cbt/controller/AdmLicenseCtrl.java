@@ -65,8 +65,8 @@ public class AdmLicenseCtrl {
 						if (Type == TYPE) {
 							//get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
-								int numberOfLicense = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, new Date().getTime(), numberOfLicense);
+								int numberOfClient = extractResult.get(Gawl.MODULE);
+								license = new License(licenseKey, new Date().getTime(), numberOfClient);
  								licenseService.createNewLicense(license);
 							}else{
 								return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
