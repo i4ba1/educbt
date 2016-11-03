@@ -29,14 +29,18 @@ public class License implements Serializable {
 	@Column(name="created_date")
 	private Long createdDate;
 	
+	@Column(name="number_of_license")
+	private Integer numberOfLicense;
+	
 	public License() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public License(String license, Long createdDate) {
+	public License(String license, Long createdDate, Integer numberOfLicense) {
 		super();
 		this.license = license;
 		this.createdDate = createdDate;
+		this.numberOfLicense = numberOfLicense;
 	}
 
 	public String getLicense() {
@@ -57,5 +61,13 @@ public class License implements Serializable {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public Integer getNumberOfLicense() {
+		return numberOfLicense;
+	}
+
+	public void setNumberOfLicense(Integer numberOfLicense) {
+		this.numberOfLicense = numberOfLicense;
 	}
 }
