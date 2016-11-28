@@ -245,7 +245,14 @@ angular
             promise.then(
                     function(response) {
                         $scope.subjectData.selectedOption = JSON.stringify(response.data.QP[0].questionPool.subject);
-                        $scope.selectedEvent.questions = response.data.questions;
+                        $scope.selectedEvent.questions = [];
+                        response.data.questions.forEach(function(q) {
+                            $scope.selectedEvent.questions.push({
+                                id: q.id,
+                                question: q.question,
+                                difficulty: q.difficulty
+                            });
+                        });
                     },
                     function(error) {
                         errorHandle.setError(error);
@@ -264,7 +271,14 @@ angular
             var promise = deferredService.getPromise(queastionBankService.fetchAllQuestionBySubject(subjectId, token, $scope.currentTeacher.nip));
             promise.then(
                 function(response) {
-                    $scope.questionBySubjectList = response.data;
+                    $scope.questionBySubjectList = [];
+                    response.data.forEach(function(q) {
+                        $scope.questionBySubjectList.push({
+                            id: q.id,
+                            question: q.question,
+                            difficulty: q.difficulty
+                        });
+                    });
                 },
                 function(errorResponse) {
                     errorHandle.setError(errorResponse);
@@ -512,7 +526,7 @@ angular
             });
         };
 
-        // Adding Clear List uestion when subject change
+        // Adding Clear List question when subject change
         $scope.subjectChange = function() {
             $scope.selectedEvent.questions = [];
             updateDataTable($scope.selectedEvent.questions);
