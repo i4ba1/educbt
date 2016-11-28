@@ -545,13 +545,17 @@ angular
             $scope.isUpdate = true;
             if ($stateParams.eventId != null && $stateParams.eventId != undefined && $stateParams.eventId != "") {
                 getEventById($stateParams.eventId);
-                getClassByEventId($stateParams.eventId);
                 getQuestionByEventId($stateParams.eventId);
+                $timeout(function() {
+                    getClassByEventId($stateParams.eventId);
+                }, 500)
             }
         } else if ($state.is('teacher.eventManagement.result')) {
             if ($stateParams.eventId != null && $stateParams.eventId != undefined && $stateParams.eventId != "") {
                 getEventById($stateParams.eventId);
-                getClassByEventId($stateParams.eventId);
+                $timeout(function() {
+                    getClassByEventId($stateParams.eventId);
+                }, 500)
             }
         }
     });
