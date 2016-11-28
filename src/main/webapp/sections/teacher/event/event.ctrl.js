@@ -394,7 +394,9 @@ angular
             var events = $scope.selectedEvent;
             events.empId = $scope.currentTeacher.id;
             angular.forEach($scope.selectedEvent.questions, function(data) {
-                questionsID.push(data.id);
+                if (data !== undefined) {
+                    questionsID.push(data.id);
+                }
             });
             events.questions = questionsID;
             var locale = 'id-ID';
