@@ -41,7 +41,6 @@ public class UserAuthorizationAspect {
 
     private int authorizing(Object[] obj) {
         int result = 0;
-        String str = "";
         JSONArray array = null;
         String token = "";
 
@@ -55,7 +54,6 @@ public class UserAuthorizationAspect {
                     result = 1;
                 }
             } else {
-                str = obj[0].toString();
                 array = new JSONArray(Arrays.asList(obj[0]));
                 token = array.getJSONArray(0).getJSONObject(0).get("authorization").toString();
                 if (token.equals("") || !loginService.validateToken(token, new Date().getTime())) {
