@@ -156,6 +156,13 @@ public class TeacherQuestionMgmtCtrl {
 				question.setExplanation(row.getCell(8).getStringCellValue());
 				question.setDisabled(false);
 				question.setTypeQuestion((row.getCell(10).getStringCellValue()));
+				/**
+				 * check if the question type group is PASSAGE, then set the passage
+				 */
+				if (QG_TYPE.PASSAGE.name().equals(questionGroupType)) {
+					//set the passage
+					group.setGlobalValue(passage);
+				}
 				question.setQuestionGroup(group);
 				questions.add(question);
 			}
