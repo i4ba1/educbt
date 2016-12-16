@@ -154,7 +154,7 @@ public class TeacherQuestionMgmtCtrl {
 				question.setKey(row.getCell(6).getStringCellValue());
 				question.setDifficulty(Difficulty.valueOf(row.getCell(7).getStringCellValue()));
 				question.setExplanation(row.getCell(8).getStringCellValue());
-				question.setDisabled(row.getCell(9).getBooleanCellValue());
+				question.setDisabled(false);
 				question.setTypeQuestion((row.getCell(10).getStringCellValue()));
 				question.setQuestionGroup(group);
 				questions.add(question);
