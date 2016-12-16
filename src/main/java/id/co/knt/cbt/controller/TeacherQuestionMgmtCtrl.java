@@ -1,10 +1,13 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.*;
-import id.co.knt.cbt.service.EmployeeService;
-import id.co.knt.cbt.service.QuestionPoolService;
-import id.co.knt.cbt.service.QuestionService;
-import id.co.knt.cbt.service.SubjectService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -13,18 +16,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import id.co.knt.cbt.model.Employee;
+import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.Question.Difficulty;
+import id.co.knt.cbt.model.QuestionGroup;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
+import id.co.knt.cbt.model.QuestionPool;
+import id.co.knt.cbt.model.Subject;
+import id.co.knt.cbt.repositories.QuestionGroupRepo;
+import id.co.knt.cbt.repositories.QuestionPoolRepository;
+import id.co.knt.cbt.service.EmployeeService;
+import id.co.knt.cbt.service.QuestionPoolService;
+import id.co.knt.cbt.service.QuestionService;
+import id.co.knt.cbt.service.SubjectService;
 
 /**
  * 
  * @author MNI
  *
  */
-@CrossOrigin(origins="http://localhost:8787")
+@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/questionMgmt")
 public class TeacherQuestionMgmtCtrl {
@@ -42,6 +62,12 @@ public class TeacherQuestionMgmtCtrl {
 
 	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private QuestionGroupRepo questionGroupRepo;
+
+	@Autowired
+	private QuestionPoolRepository poolRepo;
 
 	/**
 	 * Create new QuestionPool
@@ -75,7 +101,7 @@ public class TeacherQuestionMgmtCtrl {
 	 * @param questions
 	 * @return
 	 */
-	@RequestMapping(value = "/createQuestion/", method = RequestMethod.POST)
+
 	public ResponseEntity<Void> createQuestion(@RequestBody List<Object> questions) {
 		LOG.info("Create Question===========> " + questions.size());
 		HttpHeaders headers = new HttpHeaders();
@@ -86,6 +112,65 @@ public class TeacherQuestionMgmtCtrl {
 		}
 
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param questionFile
+	 * @return
+	 */
+	@RequestMapping(value = "/importQuestion/", method = RequestMethod.POST)
+	public ResponseEntity<List<Question>> importQuestion(@RequestParam("questionFile") MultipartFile questionFile,
+			@RequestParam("questionPoolId") Long questionPoolId,
+			@RequestParam("questionGroupType") String questionGroupType, @RequestParam("passage") String passage) {
+		LOG.info("Import Questionn===========> " + questionFile.getOriginalFilename() + "."
+				+ questionFile.getContentType());
+		try {
+			// Creates a workbook object from the uploaded questionFile
+			HSSFWorkbook workBook = new HSSFWorkbook(questionFile.getInputStream());
+
+			// Creates a worksheet object representing the first sheet
+			HSSFSheet workSheet = workBook.getSheetAt(0);
+
+			// QuestionGroup qG = questionGroupRepo.findOne(questionGroupId);
+			QuestionPool qp = poolRepo.findOne(questionPoolId);
+			QuestionGroup group = new QuestionGroup();
+			group.setCreatedDate(new Date().getTime());
+			group.setQgType(QG_TYPE.valueOf(questionGroupType));
+			group.setQuestionPool(qp);
+			questionGroupRepo.save(group);
+
+			List<Question> questions = new ArrayList<>();
+			for (int i = 0; i < workSheet.getLastRowNum(); i++) {
+				Question question = new Question();
+				HSSFRow row = workSheet.getRow(i);
+
+				question.setQuestion(row.getCell(0).getStringCellValue());
+				question.setOptionA(row.getCell(1).getStringCellValue());
+				question.setOptionB(row.getCell(2).getStringCellValue());
+				question.setOptionC(row.getCell(3).getStringCellValue());
+				question.setOptionD(row.getCell(4).getStringCellValue());
+				question.setOptionE(row.getCell(5).getStringCellValue());
+				question.setKey(row.getCell(6).getStringCellValue());
+				question.setDifficulty(Difficulty.valueOf(row.getCell(7).getStringCellValue()));
+				question.setExplanation(row.getCell(8).getStringCellValue());
+				question.setDisabled(row.getCell(9).getBooleanCellValue());
+				question.setTypeQuestion((row.getCell(10).getStringCellValue()));
+				question.setQuestionGroup(group);
+				questions.add(question);
+			}
+
+			workBook.close();
+			int success = questionService.importQuestion(questions);
+			if(success > 0){
+				return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+			}else{
+				return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+			}
+			
+		} catch (Exception e) {
+			return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+		}
 	}
 
 	/**

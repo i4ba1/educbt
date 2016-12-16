@@ -8,6 +8,8 @@ import id.co.knt.cbt.model.QuestionGroup;
 
 public interface QuestionService {
 	int addNewQuestion(List<Object> questions);
+	
+	int importQuestion(List<Question> questions);
 
 	Question updateCurrentQuestion(List<Object> objects);
 

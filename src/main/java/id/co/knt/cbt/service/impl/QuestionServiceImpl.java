@@ -388,4 +388,16 @@ public class QuestionServiceImpl implements QuestionService {
         groupRepo.saveAndFlush(qg);
     }
 
+	@Override
+	public int importQuestion(List<Question> questions) {
+		
+		int success = 0;
+		for (Question question : questions) {
+			questionRepo.save(question);
+			success++;
+		}
+		
+		return success;
+	}
+
 }
