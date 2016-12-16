@@ -18,3 +18,4 @@
 .idea/libraries/**
 /smartbee-educbt.iml
 /bin/
+/src/main/webapp/bower_components/**

@@ -87,8 +87,8 @@ function config($stateProvider, $urlRouterProvider) {
             url: '/import',
             views: {
                 'content@teacher': {
-                    templateUrl: 'sections/teacher/question-bank/question.bank.import.html',
-                    controller: 'QuestionsBankController as qstBankCtrl'
+                    templateUrl: 'sections/teacher/question-bank/question-import/question.bank.import.html',
+                    controller: 'QuestionBankImportController as importCtrl'
                 }
             }
         })

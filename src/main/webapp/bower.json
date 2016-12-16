@@ -1,0 +1,36 @@
+{
+  "name": "smartbee-educbt",
+  "authors": [
+    "Margono <margonopub@gmail.com>"
+  ],
+  "description": "smartbee-educbt bower project init",
+  "main": "webapp",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular-ui-select": "^0.19.6",
+    "angular": "^1.6.0",
+    "angular-cookies": "^1.6.0",
+    "angular-bootstrap": "^2.3.1",
+    "angular-ui-router": "^0.3.2",
+    "angular-sanitize": "^1.6.0",
+    "angular-animate": "^1.6.0",
+    "angular-timer": "^1.3.4",
+    "moment": "momentjs#^2.17.1",
+    "ng-table": "1.0.0",
+    "angular-csv-import": "^0.0.37",
+    "angular-thread": "^0.1.3",
+    "checklist-model": "^0.10.0",
+    "angular-messages": "^1.6.0",
+    "angular-ui-tinymce": "latest",
+    "angular-spinner": "^0.8.1"
+  }
+}

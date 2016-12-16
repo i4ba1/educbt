@@ -1,0 +1,49 @@
+<h3 class="page-header">
+    <i class="fa fa-newspaper-o fa-lg"></i> Impor Bank Soal
+    <span class="pull-right">
+    
+  </span>
+</h3>
+
+<div class="col-md-12">
+    <form class="form-horizontal" name="importForm" id="importForm" style="width: 600px;">
+        <div class="form-group">
+            <label for="" class="control-label col-md-4">Bank Soal</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label col-md-4">Tipe Soal</label>
+            <div class="col-md-8">
+                <div class="radio">
+                    <label><input type="radio" name="optradio">Pilihan Ganda</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">Benar Salah</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">Wacana</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label col-md-4">Unggah File XLS</label>
+            <div class="col-md-8">
+                <div class="col-md-5" ng-switch="">
+                    <a class="btn btn-default" target="_self" href="assets/csv-seed/question.bank.template.csv" download="question.bank.template.csv" title="Unduh Templet CSV Impor Bank Soal" style="color: black">
+                        <i class="fa fa-download fa-fw fa-lg"></i> XLS Template
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <input type="file" id="xlsFile" class="filestyle" data-input="false">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Simpan</button>
+            <a class="btn btn-default">Batal</a>
+        </div>
+    </form>
+</div>
