@@ -1,49 +1,97 @@
-<h3 class="page-header">
-    <i class="fa fa-newspaper-o fa-lg"></i> Impor Bank Soal
-    <span class="pull-right">
-    
-  </span>
-</h3>
+<div ng-switch="resultVisible">
+    <div ng-switch-default>
+        <h3 class="page-header">
+            <i class="fa fa-newspaper-o fa-lg"></i> Impor Bank Soal
+            <span class="pull-right"></span>
+        </h3>
 
-<div class="col-md-12">
-    <form class="form-horizontal" name="importForm" id="importForm" style="width: 600px;">
-        <div class="form-group">
-            <label for="" class="control-label col-md-4">Bank Soal</label>
-            <div class="col-md-8">
-                <input type="text" class="form-control">
-            </div>
+        <div class="col-md-12">
+            <form class="form-horizontal" name="importForm" id="importForm" style="width: 600px;" ng-submit="saveImportData()">
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Bank Soal</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" ng-model="importModel.questionPoolId">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Tipe Soal</label>
+                    <div class="col-md-8">
+                        <div class="radio">
+                            <label><input type="radio" ng-model="importModel.questionGroupType" name="optradio" value="MULTYPLE_CHOICE">Pilihan Ganda</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" ng-model="importModel.questionGroupType" name="optradio" value="TRUE_FALSE">Benar Salah</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" ng-model="importModel.questionGroupType" name="optradio" value="PASSAGE">Wacana</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Bank Soal</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control" ng-model="importModel.passage" rows="6"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Unggah File XLS</label>
+                    <div class="col-md-8">
+                        <div class="col-md-5" ng-switch="">
+                            <a class="btn btn-default" target="_self" href="assets/csv-seed/question.bank.template.csv" download="question.bank.template.csv" title="Unduh Templet CSV Impor Bank Soal" style="color: black">
+                                <i class="fa fa-download fa-fw fa-lg"></i> XLS Template
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" id="xlsFile" class="filestyle" data-input="false">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                    <a class="btn btn-default" ng-click="setVis();">Batal</a>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="" class="control-label col-md-4">Tipe Soal</label>
-            <div class="col-md-8">
-                <div class="radio">
-                    <label><input type="radio" name="optradio">Pilihan Ganda</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="optradio">Benar Salah</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="optradio">Wacana</label>
-                </div>
-            </div>
+    </div>
+    <div ng-switch-when="1">
+        <h3 class="page-header">
+            <i class="fa fa-newspaper-o fa-lg"></i> Hasil Import Data
+            <span class="pull-right"></span>
+        </h3>
+        <div class="col-md-12 col-sm-12" style="overflow-x: scroll">
+            <table class="table table-striped" style="width: 1200px;">
+                <thead>
+                    <tr>
+                        <td>No.</td>
+                        <td>Sub Matapelajaran</td>
+                        <td>Pertanyaan</td>
+                        <td>Pilihan A</td>
+                        <td>Pilihan B</td>
+                        <td>Pilihan C</td>
+                        <td>Pilihan D</td>
+                        <td>Jawaban</td>
+                        <td>Kesulitan</td>
+                        <td>Penjelasaan</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in questions track by $index">
+                        <td>$index</td>
+                        <td>{{row.tags}}</td>
+                        <td>{{row.question}}</td>
+                        <td>{{row.optionA}}</td>
+                        <td>{{row.optionB}}</td>
+                        <td>{{row.optionC}}</td>
+                        <td>{{row.optionD}}</td>
+                        <td>{{row.key}}</td>
+                        <td>{{row.difficulty}}</td>
+                        <td>{{row.explanation}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="form-group">
-            <label for="" class="control-label col-md-4">Unggah File XLS</label>
-            <div class="col-md-8">
-                <div class="col-md-5" ng-switch="">
-                    <a class="btn btn-default" target="_self" href="assets/csv-seed/question.bank.template.csv" download="question.bank.template.csv" title="Unduh Templet CSV Impor Bank Soal" style="color: black">
-                        <i class="fa fa-download fa-fw fa-lg"></i> XLS Template
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <input type="file" id="xlsFile" class="filestyle" data-input="false">
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="form-group">
-            <button class="btn btn-primary" type="submit">Simpan</button>
-            <a class="btn btn-default">Batal</a>
-        </div>
-    </form>
+    </div>
 </div>
