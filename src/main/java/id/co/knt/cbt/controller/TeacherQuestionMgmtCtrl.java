@@ -101,7 +101,7 @@ public class TeacherQuestionMgmtCtrl {
 	 * @param questions
 	 * @return
 	 */
-
+	@RequestMapping(value = "/createQuestion/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createQuestion(@RequestBody List<Object> questions) {
 		LOG.info("Create Question===========> " + questions.size());
 		HttpHeaders headers = new HttpHeaders();
