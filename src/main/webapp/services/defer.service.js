@@ -3,23 +3,22 @@ angular.module('app.core')
         return {
             getPromise: function(service) {
                 var deferred = $q.defer();
-                if (service.success !== undefined) {
-                    service.success(function(data, status, headers, config) {
-                            var results = [];
-                            results.data = data;
-                            results.headers = headers();
-                            results.status = status;
-                            results.config = config;
-                            deferred.resolve(results);
-                        })
-                        .error(function(data, status) {
-                            var errorResponse = [];
-                            errorResponse.data = data;
-                            errorResponse.status = status;
-                            deferred.reject(errorResponse);
-                        });
 
-                }
+                service.success(function(data, status, headers, config) {
+                        var results = [];
+                        results.data = data;
+                        results.headers = headers();
+                        results.status = status;
+                        results.config = config;
+                        deferred.resolve(results);
+                    })
+                    .error(function(data, status) {
+                        var errorResponse = [];
+                        errorResponse.data = data;
+                        errorResponse.status = status;
+                        deferred.reject(errorResponse);
+                    });
+
                 return deferred.promise;
             }
         };

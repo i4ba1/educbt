@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionsBankController', function($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, deferredService, subjectService, teacherService, storageService, errorHandle, $http, $timeout, tinyMce, DialogFactory) {
+    .controller('QuestionsBankController', function($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, subjectService, teacherService, storageService, errorHandle, $http, $timeout, tinyMce, DialogFactory) {
 
         $scope.currentTeacher;
         var token = " ";
@@ -67,7 +67,7 @@ angular
          * Fetch All Question Bank
          */
         function findAllQuestionBank() {
-            var promise = deferredService.getPromise(queastionBankService.fetchAllQuestionBank(token, $scope.currentTeacher.nip));
+            var promise = queastionBankService.fetchAllQuestionBank(token, $scope.currentTeacher.nip);
             promise.then(
                 function(response) {
                     $scope.questionBanks = response.data;
@@ -85,7 +85,7 @@ angular
          * fetching all question by QuestionPoolId to showing detail of Question Pool
          */
         function fetchAllQuestion(id) {
-            var promise = deferredService.getPromise(queastionBankService.fetchAllQuestion(id, token));
+            var promise = queastionBankService.fetchAllQuestion(id, token);
             promise.then(
                 function(response) {
                     updateDataTable(response.data);
@@ -101,7 +101,7 @@ angular
          * fetching all question by QuestionPoolId to showing detail of Question Pool
          */
         function detailQuestionPool(id) {
-            var promise = deferredService.getPromise(queastionBankService.detailQuestionPool(id, token, $scope.currentTeacher.nip));
+            var promise = queastionBankService.detailQuestionPool(id, token, $scope.currentTeacher.nip);
             promise.then(
                     function(response) {
                         $scope.questionBanks = response.data;
@@ -118,7 +118,7 @@ angular
          * find Question Pool by Question Pool Id to show detail of question pool
          */
         function findQuestionBank(id) {
-            var promise = deferredService.getPromise(queastionBankService.findQuestionBank(id, token));
+            var promise = queastionBankService.findQuestionBank(id, token);
             promise.then(
                 function(response) {
                     $scope.selectedQuestionBank = response.data;
@@ -149,7 +149,7 @@ angular
          * used for editng selectedQuestion by Question ID
          */
         function findQuestion(id) {
-            var promise = deferredService.getPromise(queastionBankService.findQuestion(id, token));
+            var promise = queastionBankService.findQuestion(id, token);
             promise.then(
                 function(response) {
                     $scope.selectedQuestion = response.data;
@@ -165,7 +165,7 @@ angular
          * Import All Question Bank
          */
         $scope.importQuestionBank = function() {
-            var promise = deferredService.getPromise(queastionBankService.importQuestionBank($scope.selectedQuestionBank, token));
+            var promise = queastionBankService.importQuestionBank($scope.selectedQuestionBank, token);
             promise.then(
                 function(response) {
                     $state.go('teacher.questionBank');
@@ -220,13 +220,14 @@ angular
 
         $scope.deleteQuestionGroup = function() {
             var id = $scope.selectedQuestionGroup.id;
-            deferredService.getPromise(queastionBankService.deleteQuestionGroup(id, token)).then(function(response) {
-                $scope.data.splice($scope.data.findIndex(group => group.id === id), 1);
-                $scope.questionBanks.splice($scope.questionBanks.findIndex(group => group.id === id), 1);
-                $scope.showModal = false;
-            }, function(errorResponse) {
-                errorHandle.setError(errResponse);
-            });
+            queastionBankService.deleteQuestionGroup(id, token)
+                .then(function(response) {
+                    $scope.data.splice($scope.data.findIndex(group => group.id === id), 1);
+                    $scope.questionBanks.splice($scope.questionBanks.findIndex(group => group.id === id), 1);
+                    $scope.showModal = false;
+                }, function(errorResponse) {
+                    errorHandle.setError(errResponse);
+                });
         }
 
         /*
@@ -262,7 +263,7 @@ angular
             var promise = null;
             if ($scope.isUpdateQuestion) {
                 $scope.selectedQuestion.questionPool = {};
-                promise = deferredService.getPromise(queastionBankService.updateQuestion($scope.selectedQuestion, token));
+                promise = queastionBankService.updateQuestion($scope.selectedQuestion, token);
                 promise.then(
                     function(response) {
                         $state.go('teacher.questionBank.qpdetail');
@@ -278,7 +279,7 @@ angular
          * used for delete selected Question by questionID
          */
         $scope.deleteQuestion = function() {
-            var promise = deferredService.getPromise(queastionBankService.deleteQuestion($scope.selectedQuestion.id, token));
+            var promise = queastionBankService.deleteQuestion($scope.selectedQuestion.id, token);
             promise.then(
                 function(response) {
                     $scope.showModal = false;
@@ -294,7 +295,7 @@ angular
          * used for delete selected Question Pool
          */
         $scope.deleteQuestionBank = function() {
-            var promise = deferredService.getPromise(queastionBankService.deleteQuestionBank($scope.selectedQuestionBank.id, token));
+            var promise = queastionBankService.deleteQuestionBank($scope.selectedQuestionBank.id, token);
             promise.then(
                 function(response) {
                     $scope.showModal = false;
@@ -312,9 +313,9 @@ angular
         $scope.createQuestionPool = function() {
             var promise;
             if ($scope.updateQP) {
-                promise = deferredService.getPromise(queastionBankService.updateQuestionBank($scope.selectedQuestionBank, token));
+                promise = queastionBankService.updateQuestionBank($scope.selectedQuestionBank, token);
             } else {
-                promise = deferredService.getPromise(queastionBankService.createQuestionPool(token, $scope.selectedQuestionBank));
+                promise = queastionBankService.createQuestionPool(token, $scope.selectedQuestionBank);
             }
             promise.then(
                 function(response) {

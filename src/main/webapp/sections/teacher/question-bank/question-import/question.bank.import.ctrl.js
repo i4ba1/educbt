@@ -4,6 +4,7 @@ angular.module('app.core')
 
         var currentTeacher;
         var token = '';
+        var questionBankId = $stateParams.questionBankId;
 
         if (!storageService.isAuthorization("EMPLOYEE")) {
             $state.go("login");
@@ -17,6 +18,7 @@ angular.module('app.core')
         $scope.questionBanks = [];
         $scope.questions = [];
         $scope.importModel = {
+            questionBankName: '',
             questionPoolId: '',
             questionGroupType: '',
             passage: ''
@@ -41,23 +43,21 @@ angular.module('app.core')
         /*
          * Fetch All Question Bank
          */
-        function findAllQuestionBank() {
-            var promise = queastionBankService.fetchAllQuestionBank(token, currentTeacher.nip);
+        function findQuestionById() {
+            var promise = queastionBankService.findQuestionBank(questionBankId, token, currentTeacher.nip);
             promise.then(
                 function(response) {
-                    $scope.questionBanks = response.data;
+                    $scope.importModel.questionBankName = response.data.questionPoolName;
+                    $scope.importModel.questionPoolId = response.data.id;
                 },
                 function(errorResponse) {
                     errorHandle.setError(errorResponse);
                 }
-            ).then(
-                function() {
-                    updateDataTable($scope.questionBanks);
-                });
+            )
         };
 
         $scope.saveImportData = function() {
-            queastionBankService.fetchAllQuestionBank(token, self.file, $scope.importModel, currentTeacher.nip).then(
+            queastionBankService.importQuestionBank(token, self.file, $scope.importModel, currentTeacher.nip).then(
                 function(response) {
                     $scope.questions = response.data;
                     $scope.resultVisible = true;
@@ -68,7 +68,7 @@ angular.module('app.core')
             );
         }
 
-        //findAllQuestionBank();
+        findQuestionById();
 
 
     });

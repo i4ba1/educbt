@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('EventManagementController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, deferredService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory) {
+    .controller('EventManagementController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory) {
 
         $scope.currentTeacher;
         var token = " ";
@@ -147,7 +147,7 @@ angular
          * fetch all event
          */
         function getAllEvent() {
-            var promise = deferredService.getPromise(eventService.fetchAllEvent(token, $scope.currentTeacher.nip));
+            var promise = eventService.fetchAllEvent(token, $scope.currentTeacher.nip);
             promise.then(
                 function(response) {
                     $scope.events = response.data;
@@ -168,7 +168,7 @@ angular
         $scope.fetchEventResult = function() {
             $scope.eventResult = [];
             var cId = parseInt($scope.classData.selectedOption);
-            var promise = deferredService.getPromise(eventService.fetchEventResult($stateParams.eventId, cId, token));
+            var promise = eventService.fetchEventResult($stateParams.eventId, cId, token);
             promise.then(
                 function(response) {
                     $scope.eventResult = response.data;
@@ -182,7 +182,7 @@ angular
          * get event by id
          */
         function getEventById(eventId) {
-            var promise = deferredService.getPromise(eventService.findEvent(eventId, token));
+            var promise = eventService.findEvent(eventId, token);
             promise.then(
                 function(response) {
                     $scope.selectedEvent = response.data;
@@ -217,7 +217,7 @@ angular
          * get class by event id
          */
         function getClassByEventId(eventId) {
-            var promise = deferredService.getPromise(classService.fetchClassByEventId(eventId, token));
+            var promise = classService.fetchClassByEventId(eventId, token);
             promise.then(
                 function(response) {
                     if ($state.is('teacher.eventManagement.result')) {
@@ -241,7 +241,7 @@ angular
          * get question by event id
          */
         function getQuestionByEventId(eventId) {
-            var promise = deferredService.getPromise(queastionBankService.fetchQuestionByEventId(eventId, token));
+            var promise = queastionBankService.fetchQuestionByEventId(eventId, token);
             promise.then(
                     function(response) {
                         $scope.subjectData.selectedOption = JSON.stringify(response.data.QP[0].questionPool.subject);
@@ -268,7 +268,7 @@ angular
          * fetch All question by SubjectID to filling reserved question in question bank
          */
         function getAllQuestionBySubject(subjectId) {
-            var promise = deferredService.getPromise(queastionBankService.fetchAllQuestionBySubject(subjectId, token, $scope.currentTeacher.nip));
+            var promise = queastionBankService.fetchAllQuestionBySubject(subjectId, token, $scope.currentTeacher.nip);
             promise.then(
                 function(response) {
                     $scope.questionBySubjectList = [];
@@ -294,7 +294,7 @@ angular
          * fetch all subject to fill <select> options in create event
          */
         function getAllSubject() {
-            var promise = deferredService.getPromise(subjectService.fetchAllSubject(token));
+            var promise = subjectService.fetchAllSubject(token);
             promise.then(
                 function(response) {
                     $scope.subjectData.availableOptions = response.data;
@@ -309,7 +309,7 @@ angular
          * fetch all Kelas to fill <select option in create event>
          */
         function getAllClass() {
-            var promise = deferredService.getPromise(classService.fetchAllClass(token));
+            var promise = classService.fetchAllClass(token);
             promise.then(
                 function(response) {
                     $scope.classData.availableOptions = response.data;
@@ -445,7 +445,7 @@ angular
 
             if (validData) {
                 if ($scope.isUpdate) {
-                    promise = deferredService.getPromise(eventService.updateEvent(events, token));
+                    promise = eventService.updateEvent(events, token);
                     promise.then(
                         function(response) {
                             $state.go('teacher.eventManagement');
@@ -456,7 +456,7 @@ angular
                     );
 
                 } else {
-                    promise = deferredService.getPromise(eventService.saveEvent(events, token));
+                    promise = eventService.saveEvent(events, token);
                     promise.then(
                         function(response) {
                             $state.go('teacher.eventManagement');

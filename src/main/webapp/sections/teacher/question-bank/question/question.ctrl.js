@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, deferredService, queastionBankService, errorHandle, baseUrl, $sce) {
+    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -127,7 +127,7 @@ angular
         }
 
         $scope.uploadImage = function(file) {
-            var promise = deferredService.getPromise(queastionBankService.uploadImage(token, file, $scope.currentTeacher.nip));
+            var promise = queastionBankService.uploadImage(token, file, $scope.currentTeacher.nip);
             promise.then(function(response) {
                 $scope.showModal = false;
                 $scope.image = null;
@@ -140,7 +140,7 @@ angular
         };
 
         function findAllGallery() {
-            var promise = deferredService.getPromise(queastionBankService.findAllGallery(token, $scope.currentTeacher.nip));
+            var promise = queastionBankService.findAllGallery(token, $scope.currentTeacher.nip);
             promise.then(function(response) {
                 $scope.imageGalery = [];
                 angular.forEach(response.data, function(data) {
@@ -210,7 +210,7 @@ angular
          *fetch all tags in current teacher
          */
         function findAll() {
-            var promise = deferredService.getPromise(subjectService.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, token, $stateParams.subjectId));
+            var promise = subjectService.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, token, $stateParams.subjectId);
             promise.then(
                 function(response) {
                     $scope.tags.availableOption = [];
@@ -233,7 +233,7 @@ angular
          */
         function findQuestionGroupDetail() {
             findAll().then(function() {
-                var promise = deferredService.getPromise(queastionBankService.detailQuestionGroup($stateParams.qId, token));
+                var promise = queastionBankService.detailQuestionGroup($stateParams.qId, token);
                 promise.then(
                     function(response) {
                         $scope.questionGroup = response.data.questionGroup[0];
@@ -301,14 +301,14 @@ angular
             }
 
             if ($scope.questionUpdate) {
-                var promise = deferredService.getPromise(queastionBankService.updateQuestionGroup(token, $scope.questionGroup));
+                var promise = queastionBankService.updateQuestionGroup(token, $scope.questionGroup);
                 promise.then(function(response) {
                     $state.go("^");
                 }, function(errorResponse) {
                     errorHandle.setError(errorResponse);
                 });
             } else {
-                var promise = deferredService.getPromise(queastionBankService.createQuestionGroup(token, $scope.questionGroup));
+                var promise = queastionBankService.createQuestionGroup(token, $scope.questionGroup);
                 promise.then(function(response) {
                     $state.go("^");
                 }, function(errorResponse) {

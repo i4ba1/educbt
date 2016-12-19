@@ -1,5 +1,5 @@
 angular.module('app.core')
-    .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, deferredService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
+    .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
 
         var currentStudent;
         var token = " ";
@@ -45,7 +45,7 @@ angular.module('app.core')
          *
          */
         function fetchStudentAnswer(eventId, nis) {
-            var promise = deferredService.getPromise(studentExamService.fetchStudentAnswer(eventId, nis, token));
+            var promise = studentExamService.fetchStudentAnswer(eventId, nis, token);
             promise.then(
                     function(response) {
                         $scope.studentAnswers = response.data;
@@ -73,7 +73,7 @@ angular.module('app.core')
          *
          */
         function fetchStudentExplanation(eventId, nis) {
-            var promise = deferredService.getPromise(studentExamService.fetchStudentExplanation(eventId, nis, token));
+            var promise = studentExamService.fetchStudentExplanation(eventId, nis, token);
             promise.then(
                     function(response) {
                         $scope.studentAnswers = response.data;
@@ -100,7 +100,7 @@ angular.module('app.core')
                         'ans': $scope.currentQuestion.answered
                     }
                 }];
-                var promise = deferredService.getPromise(studentExamService.updateStudentAnswer(params));
+                var promise = studentExamService.updateStudentAnswer(params);
                 promise.then(function(response) {}, function(errorResponse) {});
             }
         };
@@ -109,7 +109,7 @@ angular.module('app.core')
          * get event by id
          */
         function findEvent(eventId) {
-            var promise = deferredService.getPromise(eventService.findEvent(eventId, token));
+            var promise = eventService.findEvent(eventId, token);
             promise.then(
                     function(response) {
                         $scope.selectedEvent = response.data;
@@ -132,7 +132,7 @@ angular.module('app.core')
         function fetchQuestionByEventId() {
             var eventId = $stateParams.eventId;
             if (eventId != undefined && eventId != null) {
-                var promise = deferredService.getPromise(queastionBankService.fetchQuestionByEventId(eventId, token));
+                var promise = queastionBankService.fetchQuestionByEventId(eventId, token);
                 promise.then(
                     function(response) {
                         $scope.eventQuestions = response.data;
@@ -148,7 +148,7 @@ angular.module('app.core')
          *@param student.nis
          */
         function findStudent(nis) {
-            var promise = deferredService.getPromise(studentService.findStudent(nis, token));
+            var promise = studentService.findStudent(nis, token);
             promise.then(
                 function(response) {
                     $scope.selectedStudent = response.data;

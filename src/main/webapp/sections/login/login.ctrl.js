@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, deferredService, localStorageService, $rootScope, DialogFactory) {
+    .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory) {
         $scope.showDialog = false;
         $scope.openCredit = DialogFactory.openCredit;
 
@@ -9,7 +9,7 @@ angular
             console.log("Length : " + localStorageService.length());
             if (localStorageService.length() == 0) {
                 //$scope.showDialog = true;
-                var promise = deferredService.getPromise(loginService.createAdmin());
+                var promise = loginService.createAdmin();
                 promise.then(function(response) {
                     //$scope.showDialog = false;
                     localStorageService.set('isAdminCreated', true);
@@ -23,7 +23,7 @@ angular
         $scope.user = {};
         $scope.loginSubmit = function() {
             if ($scope.user != null) {
-                var promise = deferredService.getPromise(loginService.loggingIn($scope.user));
+                var promise = loginService.loggingIn($scope.user);
                 promise.then(
                         function(response) {
                             localStorageService.set('TOKEN', response.data[0].token);

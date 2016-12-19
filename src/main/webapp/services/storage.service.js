@@ -15,7 +15,7 @@ angular.module('app.core')
                     result = false;
                 }
             }
-            return true;
+            return result;
         };
 
         dataFactory.getLoggedInUser = function() {

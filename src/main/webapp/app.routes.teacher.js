@@ -83,7 +83,7 @@ function config($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('teacher.questionBank.import', {
+        .state('teacher.questionBank.qpdetail.import', {
             url: '/import',
             views: {
                 'content@teacher': {
@@ -92,15 +92,15 @@ function config($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('teacher.questionBank.qpdetail.qdetail', {
-            url: '/detail/:questionId',
-            views: {
-                'content@teacher': {
-                    templateUrl: 'sections/teacher/question-bank/question-edit/question.detail.html',
-                    controller: 'QuestionsBankController as qstBankCtrl'
-                }
-            }
-        })
+        // .state('teacher.questionBank.qpdetail.qdetail', {
+        //     url: '/detail/:questionId',
+        //     views: {
+        //         'content@teacher': {
+        //             templateUrl: 'sections/teacher/question-bank/question-edit/question.detail.html',
+        //             controller: 'QuestionsBankController as qstBankCtrl'
+        //         }
+        //     }
+        // })
         .state('teacher.questionBank.qpdetail', {
             url: '/question-pool/:questionBankId',
             views: {
