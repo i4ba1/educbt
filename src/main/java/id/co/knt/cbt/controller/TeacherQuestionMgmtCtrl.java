@@ -2,12 +2,14 @@ package id.co.knt.cbt.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -120,7 +122,8 @@ public class TeacherQuestionMgmtCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/importQuestion/", method = RequestMethod.POST)
-	public ResponseEntity<List<Question>> importQuestion(@RequestParam("questionFile") MultipartFile questionFile,
+	public ResponseEntity<List<Question>> importQuestion(@RequestParam("token") String token,
+			@RequestParam("questionFile") MultipartFile questionFile,
 			@RequestParam("questionPoolId") Long questionPoolId,
 			@RequestParam("questionGroupType") String questionGroupType, @RequestParam("passage") String passage) {
 		LOG.info("Import Questionn===========> " + questionFile.getOriginalFilename() + "."
@@ -130,54 +133,168 @@ public class TeacherQuestionMgmtCtrl {
 			HSSFWorkbook workBook = new HSSFWorkbook(questionFile.getInputStream());
 
 			// Creates a worksheet object representing the first sheet
-			HSSFSheet workSheet = workBook.getSheetAt(0);
+			Sheet workSheet = workBook.getSheetAt(0);
+			Iterator<Row> iterator = workSheet.iterator();
 
-			// QuestionGroup qG = questionGroupRepo.findOne(questionGroupId);
 			QuestionPool qp = poolRepo.findOne(questionPoolId);
-			QuestionGroup group = new QuestionGroup();
-			group.setCreatedDate(new Date().getTime());
-			group.setQgType(QG_TYPE.valueOf(questionGroupType));
-			group.setQuestionPool(qp);
-			questionGroupRepo.save(group);
-
+			QuestionGroup group = null;
 			List<Question> questions = new ArrayList<>();
-			for (int i = 0; i < workSheet.getLastRowNum(); i++) {
-				Question question = new Question();
-				HSSFRow row = workSheet.getRow(i);
+			int i = 0;
 
-				question.setQuestion(row.getCell(0).getStringCellValue());
-				question.setOptionA(row.getCell(1).getStringCellValue());
-				question.setOptionB(row.getCell(2).getStringCellValue());
-				question.setOptionC(row.getCell(3).getStringCellValue());
-				question.setOptionD(row.getCell(4).getStringCellValue());
-				question.setOptionE(row.getCell(5).getStringCellValue());
-				question.setKey(row.getCell(6).getStringCellValue());
-				question.setDifficulty(Difficulty.valueOf(row.getCell(7).getStringCellValue()));
-				question.setExplanation(row.getCell(8).getStringCellValue());
-				question.setDisabled(false);
-				question.setTypeQuestion((row.getCell(10).getStringCellValue()));
-				/**
-				 * check if the question type group is PASSAGE, then set the passage
-				 */
-				if (QG_TYPE.PASSAGE.name().equals(questionGroupType)) {
-					//set the passage
-					group.setGlobalValue(passage);
+			if (questionGroupType.equals("PASSAGE")) {
+				group = new QuestionGroup();
+				group.setCreatedDate(new Date().getTime());
+				group.setQgType(QG_TYPE.valueOf(questionGroupType));
+				group.setQuestionPool(qp);
+				// set the passage
+				group.setGlobalValue(passage);
+
+				questionGroupRepo.save(group);
+				while (iterator.hasNext()) {
+					Row nextRow = iterator.next();
+					Iterator<Cell> cellIterator = nextRow.cellIterator();
+					Question question = new Question();
+
+					if (i > 0) {
+						while (cellIterator.hasNext()) {
+							Cell nextCell = cellIterator.next();
+							int columnIndex = nextCell.getColumnIndex();
+							LOG.info(getCellValue(nextCell).toString());
+
+							switch (columnIndex) {
+							case 0:
+								question.setQuestion(getCellValue(nextCell).toString());
+								break;
+							case 1:
+								question.setOptionA(getCellValue(nextCell).toString());
+								break;
+							case 2:
+								question.setOptionB(getCellValue(nextCell).toString());
+								break;
+							case 3:
+								question.setOptionC(getCellValue(nextCell).toString());
+								break;
+							case 4:
+								question.setOptionD(getCellValue(nextCell).toString());
+								break;
+							case 5:
+								question.setOptionE(getCellValue(nextCell).toString());
+								break;
+							case 6:
+								question.setKey(getCellValue(nextCell).toString());
+								break;
+							case 7:
+								question.setDifficulty(Difficulty.valueOf(getCellValue(nextCell).toString()));
+								break;
+							case 8:
+								question.setExplanation(getCellValue(nextCell).toString());
+								break;
+							case 9:
+								question.setTypeQuestion(getCellValue(nextCell).toString());
+								break;
+							default:
+								break;
+							}
+
+							question.setDisabled(false);
+						}
+					}
+
+					i++;
+					question.setQuestionGroup(group);
+					questions.add(question);
 				}
-				question.setQuestionGroup(group);
-				questions.add(question);
+			} else {
+				while (iterator.hasNext()) {
+					Row nextRow = iterator.next();
+					Iterator<Cell> cellIterator = nextRow.cellIterator();
+					Question question = new Question();
+
+					if (i > 0) {
+						while (cellIterator.hasNext()) {
+							Cell nextCell = cellIterator.next();
+							int columnIndex = nextCell.getColumnIndex();
+							LOG.info(getCellValue(nextCell).toString());
+
+							switch (columnIndex) {
+							case 0:
+								question.setQuestion(getCellValue(nextCell).toString());
+								break;
+							case 1:
+								question.setOptionA(getCellValue(nextCell).toString());
+								break;
+							case 2:
+								question.setOptionB(getCellValue(nextCell).toString());
+								break;
+							case 3:
+								question.setOptionC(getCellValue(nextCell).toString());
+								break;
+							case 4:
+								question.setOptionD(getCellValue(nextCell).toString());
+								break;
+							case 5:
+								question.setOptionE(getCellValue(nextCell).toString());
+								break;
+							case 6:
+								question.setKey(getCellValue(nextCell).toString());
+								break;
+							case 7:
+								question.setDifficulty(Difficulty.valueOf(getCellValue(nextCell).toString()));
+								break;
+							case 8:
+								question.setExplanation(getCellValue(nextCell).toString());
+								break;
+							case 9:
+								question.setTypeQuestion(getCellValue(nextCell).toString());
+								break;
+							default:
+								break;
+							}
+
+							question.setDisabled(false);
+						}
+
+						group = new QuestionGroup();
+						group.setCreatedDate(new Date().getTime());
+						group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
+						group.setQuestionPool(qp);
+						questionGroupRepo.save(group);
+						question.setQuestionGroup(group);
+						questions.add(question);
+					}
+
+					i++;
+				}
 			}
 
 			workBook.close();
 			int success = questionService.importQuestion(questions);
-			if(success > 0){
+			if (success > 0) {
 				return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
-			}else{
+			} else {
 				return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
 			}
-			
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private Object getCellValue(Cell cell) {
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
+			return cell.getStringCellValue();
+
+		case Cell.CELL_TYPE_BOOLEAN:
+			return cell.getBooleanCellValue();
+
+		case Cell.CELL_TYPE_NUMERIC:
+			return cell.getNumericCellValue();
+		}
+
+		return null;
 	}
 
 	/**

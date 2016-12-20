@@ -136,7 +136,7 @@ angular
 
         $scope.image = function() {
             var result = "";
-            if ($scope.selectedEvent.eventImgName != "") {
+            if ($scope.selectedEvent.eventImgName !== "" && $scope.selectedEvent.eventImgName !== undefined) {
                 result = 'assets/images/thumbnail-tpl/' + $scope.selectedEvent.eventImgName + '_2.png';
                 $scope.showImage = true;
             }

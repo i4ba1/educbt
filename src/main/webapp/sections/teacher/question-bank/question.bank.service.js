@@ -116,7 +116,7 @@ angular.module('app.core')
                 return $http.get(url + '/user/upload/findAllTeacherGallery/' + token + '/' + nip);
             },
 
-            importQuestionBank: function(token, file, importModel, teacherNip) {
+            importQuestionBank: function(token, file, importModel) {
 
                 var fd = new FormData();
                 fd.append('token', token);
@@ -124,8 +124,7 @@ angular.module('app.core')
                 fd.append('questionPoolId', importModel.questionPoolId);
                 fd.append('questionGroupType', importModel.questionGroupType);
                 fd.append('passage', importModel.passage);
-                fd.append('teacherNip', teacherNip);
-                var uploadUrl = url + "/teacher/questionMgmt/importQuestion";
+                var uploadUrl = url + "/teacher/questionMgmt/importQuestion/";
                 var result = $http.post(uploadUrl, fd, {
                     transformRequest: angular.identity,
                     headers: {

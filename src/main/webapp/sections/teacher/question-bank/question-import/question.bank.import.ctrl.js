@@ -14,15 +14,24 @@ angular.module('app.core')
         }
         var self = this;
         self.file = null;
+        $scope.isPassage = false;
 
         $scope.questionBanks = [];
         $scope.questions = [];
         $scope.importModel = {
             questionBankName: '',
             questionPoolId: '',
-            questionGroupType: '',
+            questionGroupType: 'MC_OR_TF',
             passage: ''
         };
+
+        $scope.isPassageChange = function() {
+            if ($scope.isPassage) {
+                $scope.importModel.questionGroupType = 'PASSAGE'
+            } else {
+                $scope.importModel.questionGroupType = 'MC_OR_TF'
+            }
+        }
 
         $(document).ready(function() {
             $(":file").filestyle({ input: false, buttonName: 'btn-default', buttonText: 'Pilih Berkas XLS' });
@@ -44,7 +53,7 @@ angular.module('app.core')
          * Fetch All Question Bank
          */
         function findQuestionById() {
-            var promise = queastionBankService.findQuestionBank(questionBankId, token, currentTeacher.nip);
+            var promise = queastionBankService.findQuestionBank(questionBankId, token, currentTeacher.id);
             promise.then(
                 function(response) {
                     $scope.importModel.questionBankName = response.data.questionPoolName;
@@ -57,10 +66,10 @@ angular.module('app.core')
         };
 
         $scope.saveImportData = function() {
-            queastionBankService.importQuestionBank(token, self.file, $scope.importModel, currentTeacher.nip).then(
+            queastionBankService.importQuestionBank(token, self.file, $scope.importModel).then(
                 function(response) {
                     $scope.questions = response.data;
-                    $scope.resultVisible = true;
+                    $scope.resultVisible = 1;
                 },
                 function(errorResponse) {
                     errorHandle.setError(errorResponse);

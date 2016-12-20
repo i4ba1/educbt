@@ -1,9 +1,11 @@
 <h3 class="page-header">
     <i class="fa fa-fw fa-bars fa-lg"></i> {{selectedQuestionBank.questionPoolName}}
-    <a ui-sref="teacher.questionBank.qpdetail.import" class="pull-right span-click-able">Import Soal</a>
     <span class="pull-right span-click-able" title="tambah soal" ng-click="showModalQuestionType = true">
-    <i class="fa fa-fw fa-plus-square fa-lg"></i>
-  </span>
+        <i class="fa fa-fw fa-plus-square fa-lg"></i>
+    </span>
+    <a ui-sref="teacher.questionBank.qpdetail.import" class="pull-right span-click-able">
+        <span class="btn btn-primary">Import Soal</span>
+    </a>
 </h3>
 
 <div ng-switch="questionBanks.length">
