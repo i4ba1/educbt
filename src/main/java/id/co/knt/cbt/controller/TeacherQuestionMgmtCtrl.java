@@ -198,11 +198,12 @@ public class TeacherQuestionMgmtCtrl {
 
 							question.setDisabled(false);
 						}
+						
+						question.setQuestionGroup(group);
+						questions.add(question);
 					}
 
 					i++;
-					question.setQuestionGroup(group);
-					questions.add(question);
 				}
 			} else {
 				while (iterator.hasNext()) {

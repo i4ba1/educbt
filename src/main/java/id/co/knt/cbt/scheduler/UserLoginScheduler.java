@@ -23,7 +23,10 @@ public class UserLoginScheduler {
 		if (loginQueue.getQueue() != null && loginQueue.getQueue().size() > 0) {
 			BlockingQueue<Login> blockingQueue = loginQueue.getQueue();
 			while (blockingQueue.peek() != null) {
-				loginService.deleteToken(blockingQueue.peek());
+				if(loginService.findById(blockingQueue.peek().getId()) != null){
+					loginService.deleteToken(blockingQueue.peek());
+				}
+				
 				blockingQueue.poll();
 			}
 		}

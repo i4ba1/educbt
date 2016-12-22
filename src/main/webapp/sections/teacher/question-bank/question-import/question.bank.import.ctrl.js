@@ -25,8 +25,8 @@ angular.module('app.core')
             passage: ''
         };
 
-        $scope.isPassageChange = function() {
-            if ($scope.isPassage) {
+        $scope.isPassageChange = function(param) {
+            if (param) {
                 $scope.importModel.questionGroupType = 'PASSAGE'
             } else {
                 $scope.importModel.questionGroupType = 'MC_OR_TF'

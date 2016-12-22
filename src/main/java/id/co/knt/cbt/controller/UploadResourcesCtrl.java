@@ -60,11 +60,11 @@ public class UploadResourcesCtrl {
 			try {
 				Employee emp = empService.findPassByNip(teacherNip);
 				fileName = file.getOriginalFilename();
-				String filePath = System.getProperty("user.home") + File.separator + Q_IMG_PATH + File.separator + fileName;
+				String filePath = System.getProperty("user.home") + Q_IMG_PATH + File.separator + fileName;
 				fileName = file.getOriginalFilename();
 				
 				byte[] bytes = file.getBytes();
-				String dir = System.getProperty("user.home") + File.separator + Q_IMG_PATH;
+				String dir = System.getProperty("user.home") + Q_IMG_PATH;
 				File serverDirFile = new File(dir);
 				if(!serverDirFile.exists()){
 					serverDirFile.mkdirs();

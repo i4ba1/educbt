@@ -61,19 +61,19 @@ angular
                 }]
             } else {
                 return [{
-                    'index': 'A',
+                    'index': "A",
                     'name': 'A'
                 }, {
-                    'index': 'B',
+                    'index': "B",
                     'name': 'B'
                 }, {
-                    'index': 'C',
+                    'index': "C",
                     'name': 'C'
                 }, {
-                    'index': 'D',
+                    'index': "D",
                     'name': 'D'
                 }, {
-                    'index': 'E',
+                    'index': "E",
                     'name': 'E'
                 }];
             }

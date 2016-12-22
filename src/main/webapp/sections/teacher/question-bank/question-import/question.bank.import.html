@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <label for="" class="control-label col-md-4">Tipe Soal Wacana ?</label>
                     <div class="col-md-8">
-                        <input type="checkbox" ng-model="isPassage" ng-change="isPassageChange()" name="optradio">
+                        <input type="checkbox" ng-model="isPassage" ng-change="isPassageChange(isPassage)" name="optradio">
                     </div>
                 </div>
 
@@ -58,7 +58,6 @@
                 <thead>
                     <tr>
                         <td>No.</td>
-                        <td>Sub Matapelajaran</td>
                         <td>Pertanyaan</td>
                         <td>Pilihan A</td>
                         <td>Pilihan B</td>
@@ -71,8 +70,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in questions track by $index">
-                        <td>{{$index}}</td>
-                        <td>{{row.tags}}</td>
+                        <td>{{$index+1}}</td>
                         <td>{{row.question}}</td>
                         <td>{{row.optionA}}</td>
                         <td>{{row.optionB}}</td>
