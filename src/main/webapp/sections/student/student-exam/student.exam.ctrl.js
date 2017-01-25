@@ -101,7 +101,11 @@ angular.module('app.core')
                     }
                 }];
                 var promise = studentExamService.updateStudentAnswer(params);
-                promise.then(function(response) {}, function(errorResponse) {});
+                promise.then(function(response) {
+                    saveLastWorkingTime({ "message": "reloadEvent", "type": "update", "id": $scope.studentEventTime.id });
+                }, function(errorResponse) {
+
+                });
             }
         };
 
