@@ -1,201 +1,198 @@
 <div class="row panel-custom">
-  <div class="col-xs-12">
-    <div class="col-md-4 col-xs-12 ">
-      <table style="width: 100%">
-        <tbody>
-          <tr>
-            <td class="col-xs-4 col-md-4">
-              Nama
-            </td>
-            <td>:</td>
-            <td>{{selectedStudent.firstName+" "+ selectedStudent.lastName}}</td>
-          </tr>
-          <tr>
-            <td class="col-xs-4 col-md-4">
-              NIS
-            </td>
-            <td>:</td>
-            <td>{{selectedStudent.nis}}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="col-xs-12">
+        <div class="col-md-4 col-xs-12 ">
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td class="col-xs-4 col-md-4">
+                            Nama
+                        </td>
+                        <td>:</td>
+                        <td>{{selectedStudent.firstName+" "+ selectedStudent.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-4 col-md-4">
+                            NIS
+                        </td>
+                        <td>:</td>
+                        <td>{{selectedStudent.nis}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td class="col-xs-4 col-md-4">
+                            Nama Ujian
+                        </td>
+                        <td>:</td>
+                        <td>
+                            {{selectedEvent.eventName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <table style="width: 100%">
+                <tbody>
+                    <tr ng-hide="!isExam">
+                        <td class="col-xs-4 col-md-4">
+                            Waktu :
+                            <span style="margin-left:10px">{{timeWorking|date:'HH : mm : ss'}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col-md-4 col-xs-12">
-      <table style="width: 100%">
-        <tbody>
-          <tr>
-            <td class="col-xs-4 col-md-4">
-              Nama Ujian
-            </td>
-            <td>:</td>
-            <td>
-              {{selectedEvent.eventName}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-4 col-xs-12">
-      <table style="width: 100%">
-        <tbody>
-          <tr ng-hide="!isExam">
-            <td class="col-xs-4 col-md-4">
-              Waktu :
-              <span style="margin-left:10px">{{timeWorking|date:'HH : mm : ss'}}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 <div class="row" style="margin-top: 10px ">
-  <div class="col-sm-10 col-xs-12">
-    <div class="panel-custom" style="margin:0px -14px 0px -14px;">
-      <form id="frmQuestion" name="theform" method="post" class="form_test" action="#" enctype="multipart/form-data">
-        <input name="start_soal" id="start_soal" value="1448860821" type="hidden">
-        <div style="height: 320px; position: relative; overflow-y:auto ">
-          <table class="col-xs-12">
-            <tbody>
-              <tr >
-                <td colspan="3">
-                  <div>
-                    Soal No.
-                    {{currentIndex+1}}
-                    <hr/>
-                  </div>
-                </td>
-              </tr>
-              <tr ng-show="currentQuestion.question.questionGroup.qgType === 'PASSAGE'">
-                <td colspan="3" valign="top">
-                  <div class="panel-custom">
-                    <b style="font-size:14px">
+    <div class="col-sm-10 col-xs-12">
+        <div class="panel-custom" style="margin:0px -14px 0px -14px;">
+            <form id="frmQuestion" name="theform" method="post" class="form_test" action="#" enctype="multipart/form-data">
+                <input name="start_soal" id="start_soal" value="1448860821" type="hidden">
+                <div style="height: 320px; position: relative; overflow-y:auto ">
+                    <table class="col-xs-12">
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <div>
+                                        Soal No. {{currentIndex+1}}
+                                        <hr/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="currentQuestion.question.questionGroup.qgType === 'PASSAGE'">
+                                <td colspan="3" valign="top">
+                                    <div class="panel-custom">
+                                        <b style="font-size:14px">
                       <u>Wacana</u>
                       :</b>
-                    <span ng-bind-html="trustAsHtml(currentQuestion.question.questionGroup.globalValue)"></span>
-                  </div><br/>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3" valign="top">
-                  <div>
-                    <span ng-bind-html="trustAsHtml(currentQuestion.question.question)"></span>
-                  </div>
-                </td>
-              </tr>
+                                        <span ng-bind-html="trustAsHtml(currentQuestion.question.questionGroup.globalValue)"></span>
+                                    </div><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" valign="top">
+                                    <div>
+                                        <span ng-bind-html="trustAsHtml(currentQuestion.question.question)"></span>
+                                    </div>
+                                </td>
+                            </tr>
 
-              <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionA != null)">
-                <td valign="top" width="15">
-                  <input name="optionA" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="A" ng-disabled="(!isExam) && (currentQuestion.answered != 'A')"/>
-                </td>
-                <td valign="top" width="15">
-                  A.
-                </td>
-                <td valign="top">
-                  <span ng-bind-html="trustAsHtml(currentQuestion.question.optionA)"></span><br/>
-                </td>
-              </tr>
-              <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionB != null)">
-                <td valign="top" width="15">
-                  <input name="optionB" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="B" ng-disabled="(!isExam) && (currentQuestion.answered != 'B')"/>
-                </td>
-                <td valign="top" width="15">
-                  B.
-                </td>
-                <td valign="top">
-                  <span ng-bind-html="trustAsHtml(currentQuestion.question.optionB)"></span><br/>
-                </td>
-              </tr>
-              <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionC != null)">
-                <td valign="top" width="15">
-                  <input name="optionC" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="C" ng-disabled="(!isExam) && (currentQuestion.answered != 'C')"/>
-                </td>
-                <td valign="top" width="15">
-                  C.
-                </td>
-                <td valign="top">
-                  <span ng-bind-html="trustAsHtml(currentQuestion.question.optionC)"></span><br/>
-                </td>
-              </tr>
-              <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionD != null)">
-                <td style="vertical-align: top;" width="15">
-                  <input name="optionD" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="D" ng-disabled="(!isExam) && (currentQuestion.answered != 'D')"/>
-                </td>
-                <td valign="top" width="15">
-                  D.
-                </td>
-                <td valign="top">
-                  <span ng-bind-html="trustAsHtml(currentQuestion.question.optionD)"></span><br/>
-                </td>
-              </tr>
-              <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionE != null)">
-                <td style="vertical-align: top;" width="15">
-                  <input name="optionE" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="E" ng-disabled="(!isExam) && (currentQuestion.answered != 'E')"/>
-                </td>
-                <td valign="top" width="15">
-                  E.
-                </td>
-                <td valign="top" align="left">
-                  <span ng-bind-html="trustAsHtml(currentQuestion.question.optionE)"></span><br/>
-                </td>
-              </tr>
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionA != null)">
+                                <td valign="top" width="15">
+                                    <input name="optionA" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="A" ng-disabled="(!isExam) && (currentQuestion.answered != 'A')" />
+                                </td>
+                                <td valign="top" width="15">
+                                    A.
+                                </td>
+                                <td valign="top">
+                                    <span ng-bind-html="trustAsHtml(currentQuestion.question.optionA)"></span><br/>
+                                </td>
+                            </tr>
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionB != null)">
+                                <td valign="top" width="15">
+                                    <input name="optionB" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="B" ng-disabled="(!isExam) && (currentQuestion.answered != 'B')" />
+                                </td>
+                                <td valign="top" width="15">
+                                    B.
+                                </td>
+                                <td valign="top">
+                                    <span ng-bind-html="trustAsHtml(currentQuestion.question.optionB)"></span><br/>
+                                </td>
+                            </tr>
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionC != null)">
+                                <td valign="top" width="15">
+                                    <input name="optionC" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="C" ng-disabled="(!isExam) && (currentQuestion.answered != 'C')" />
+                                </td>
+                                <td valign="top" width="15">
+                                    C.
+                                </td>
+                                <td valign="top">
+                                    <span ng-bind-html="trustAsHtml(currentQuestion.question.optionC)"></span><br/>
+                                </td>
+                            </tr>
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionD != null)">
+                                <td style="vertical-align: top;" width="15">
+                                    <input name="optionD" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="D" ng-disabled="(!isExam) && (currentQuestion.answered != 'D')" />
+                                </td>
+                                <td valign="top" width="15">
+                                    D.
+                                </td>
+                                <td valign="top">
+                                    <span ng-bind-html="trustAsHtml(currentQuestion.question.optionD)"></span><br/>
+                                </td>
+                            </tr>
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionE != null)">
+                                <td style="vertical-align: top;" width="15">
+                                    <input name="optionE" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="E" ng-disabled="(!isExam) && (currentQuestion.answered != 'E')" />
+                                </td>
+                                <td valign="top" width="15">
+                                    E.
+                                </td>
+                                <td valign="top" align="left">
+                                    <span ng-bind-html="trustAsHtml(currentQuestion.question.optionE)"></span><br/>
+                                </td>
+                            </tr>
 
-              <tr ng-show="questionType === 'TF'">
-                <td style="vertical-align: top;" width="15">
-                  <input name="true" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="true" ng-disabled="(!isExam) && (currentQuestion.answered != 'true')"/>
-                </td>
-                <td colspan="2" valign="top" width="15">
-                  Benar
-                </td>
-              </tr>
+                            <tr ng-show="questionType === 'TF'">
+                                <td style="vertical-align: top;" width="15">
+                                    <input name="true" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="true" ng-disabled="(!isExam) && (currentQuestion.answered != 'true')" />
+                                </td>
+                                <td colspan="2" valign="top" width="15">
+                                    Benar
+                                </td>
+                            </tr>
 
-              <tr ng-show="questionType === 'TF'">
-                <td style="vertical-align: top;" width="15">
-                  <input name="false" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="false" ng-disabled="(!isExam) && (currentQuestion.answered != 'false')"/>
-                </td>
-                <td colspan="2" valign="top" width="15">
-                  Salah
-                </td>
+                            <tr ng-show="questionType === 'TF'">
+                                <td style="vertical-align: top;" width="15">
+                                    <input name="false" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="false" ng-disabled="(!isExam) && (currentQuestion.answered != 'false')" />
+                                </td>
+                                <td colspan="2" valign="top" width="15">
+                                    Salah
+                                </td>
 
-              </tr>
+                            </tr>
 
-              <tr ng-hide="isExam">
-                <td colspan="3">
-                  <div style="padding:20px;">
-                    <b>Kunci Jawaban:
-                      {{currentQuestion.question.key}}
-                    </b>
-                    <br/>
-                    <b>Penjelasan:</b>
-                    <br>
-                    <p ng-bind-html="trustAsHtml(currentQuestion.question.explanation)"></p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                            <tr ng-hide="isExam">
+                                <td colspan="3">
+                                    <div style="padding:20px;">
+                                        <b>Kunci Jawaban: {{currentQuestion.question.key}} </b>
+                                        <br/>
+                                        <b>Penjelasan:</b>
+                                        <br>
+                                        <p ng-bind-html="trustAsHtml(currentQuestion.question.explanation)"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="row">
+                    <a ng-click="finishExamintion()" class="btn btn-primary pull-right btn-margin" ng-hide="!isExam">Finish</a>
+                    <input value="&gt;" class="btn btn-default pull-right btn-margin" id="btnNext" name="next" type="button" ng-click="nextSlide()" ng-disabled="currentIndex == max" />
+                    <input value="&lt;" name="prev" id="btnPrev" class="btn btn-default pull-right btn-margin" type="button" ng-click="prevSlide()" ng-disabled="currentIndex == 0" />
+                </div>
+            </form>
         </div>
-        <hr>
-        <div class="row">
-          <a ui-sref="student.task.exam.result" class="btn btn-primary pull-right btn-margin" ng-hide="!isExam">Finish</a>
-          <input value="&gt;" class="btn btn-default pull-right btn-margin" id="btnNext" name="next" type="button" ng-click="nextSlide()" ng-disabled="currentIndex == max"/>
-          <input value="&lt;" name="prev" id="btnPrev" class="btn btn-default pull-right btn-margin" type="button" ng-click="prevSlide()" ng-disabled="currentIndex == 0"/>
+    </div>
+    <div class="col-sm-2 col-xs-12">
+        <div class="row panel-custom" style="height:20em;">
+            <h5 class="page-header margin-header">JAWABAN</h5>
+            <div id="std-answer">
+                <div class="col-md-6 col-xs-12" ng-repeat="studentAnswer in studentAnswers">
+                    <a ng-click="currentSlide($index+1)" class="span-click-able">{{$index+1}}</a>
+                    <span id="no_{{$index+1}}">{{studentAnswer.answered == null?".":"."+convertAnsweer(studentAnswer.answered)}}</span>
+                </div>
+            </div>
         </div>
-      </form>
-    </div>
-  </div>
-  <div class="col-sm-2 col-xs-12">
-    <div class="row panel-custom" style="height:20em;">
-      <h5 class="page-header margin-header">JAWABAN</h5>
-      <div id="std-answer">
-        <div class="col-md-6 col-xs-12" ng-repeat="studentAnswer in studentAnswers">
-          <a ng-click="currentSlide($index+1)" class="span-click-able">{{$index+1}}</a>
-          <span id="no_{{$index+1}}">{{studentAnswer.answered == null?".":"."+convertAnsweer(studentAnswer.answered)}}</span>
+        <div class="row panel-custom" id="std-result" ng-hide="isExam">
+            <h5 class="page-header margin-header">NILAI</h5>
+            <h1 class="huge" style="text-align:center">{{point | number:2}}</h1>
         </div>
-      </div>
     </div>
-    <div class="row panel-custom" id="std-result" ng-hide="isExam">
-      <h5 class="page-header margin-header">NILAI</h5>
-      <h1 class="huge" style="text-align:center">{{point | number:2}}</h1>
-    </div>
-  </div>
 </div>

@@ -215,6 +215,12 @@ angular.module('app.core')
             $timeout($scope.onTimeout, 1000);
         }
 
+        $scope.finishExamintion = function() {
+            $timeout.cancel($scope.onTimeout);
+            $scope.redirect = true;
+            $state.go('student.task.exam.result');
+        }
+
         /*
          * checking authorization
          */
@@ -256,6 +262,7 @@ angular.module('app.core')
                 result.then(
                     function(value) {
                         if (value) {
+                            $timeout.cancel($scope.onTimeout);
                             $scope.redirect = true;
                             $state.go('student.task.exam.result');
                         } else {
