@@ -15,7 +15,7 @@ public class Employee extends User {
 	private static final long serialVersionUID = -249687614267757333L;
 
 	public enum Marital {
-		SINGLE, MARRIED, WIDOW;
+		SINGLE, MARRIED, DIVORCE;
 	}
 
 	@Column(name = "employee_nip", unique = true)

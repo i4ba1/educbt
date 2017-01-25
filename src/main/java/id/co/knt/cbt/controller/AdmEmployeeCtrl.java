@@ -1,11 +1,13 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.Employee;
-import id.co.knt.cbt.model.User.Religion;
-import id.co.knt.cbt.model.User.Sex;
-import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.EmployeeService;
-import id.co.knt.cbt.util.PasswordUtility;
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -16,15 +18,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import id.co.knt.cbt.model.Employee;
+import id.co.knt.cbt.model.Employee.Marital;
+import id.co.knt.cbt.model.User.Religion;
+import id.co.knt.cbt.model.User.Sex;
+import id.co.knt.cbt.model.User.UserType;
+import id.co.knt.cbt.service.EmployeeService;
+import id.co.knt.cbt.util.PasswordUtility;
 
 /**
  *
@@ -139,6 +146,7 @@ public class AdmEmployeeCtrl {
 		teacher.setMobilePhone(obj.getString("mobilePhone"));
 		teacher.setGender(Sex.valueOf(obj.getString("gender")));
 		teacher.setReligion(Religion.valueOf(obj.getString("religion")));
+		teacher.setMaritalStatus(Marital.valueOf(obj.getString("maritalStatus")));
 		teacher.setEmail(obj.getString("email"));
 		teacher.setUserType(UserType.EMPLOYEE);
 		teacher.setAdmin(false);
@@ -226,6 +234,7 @@ public class AdmEmployeeCtrl {
 				newEmp.setMobilePhone(obj.getString("mobilePhone"));
 				newEmp.setGender(Sex.valueOf(obj.getString("gender")));
 				newEmp.setReligion(Religion.valueOf(obj.getString("religion")));
+				newEmp.setMaritalStatus(Marital.valueOf(obj.getString("maritalStatus")));
 				newEmp.setEmail(obj.getString("email"));
 				newEmp.setUserType(UserType.EMPLOYEE);
 				employeeService.save(newEmp);
@@ -304,6 +313,7 @@ public class AdmEmployeeCtrl {
 		currentTeacher.setMobilePhone(obj.getString("mobilePhone"));
 		currentTeacher.setGender(Sex.valueOf(obj.getString("gender")));
 		currentTeacher.setReligion(Religion.valueOf(obj.getString("religion")));
+		currentTeacher.setMaritalStatus(Marital.valueOf(obj.getString("maritalStatus")));
 		currentTeacher.setEmail(obj.getString("email"));
 
 		employeeService.updateTeacher(currentTeacher);
