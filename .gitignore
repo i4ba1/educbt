@@ -13,9 +13,5 @@
 .DS_Store
 /target/**
 /target/cbt-backend.war
-.externalToolBuilders/**
-.idea/**
-.idea/libraries/**
-/smartbee-educbt.iml
-/bin/
 /src/main/webapp/bower_components/**
+.externalToolBuilders/**

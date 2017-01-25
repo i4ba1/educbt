@@ -1,0 +1,39 @@
+<h3 class="page-header">
+  <i class="fa fa-plus-square fa-lg"></i>
+  {{updateQP?"Ubah":"Tambah"}}
+  Bank Soal
+</h3>
+
+<form role="form" class="form" ng-submit="createQuestionPool()">
+  <div class="row form-group ">
+    <label for="subjectSelect" class="control-label col-xs-2 ">Nama Bank Soal*
+    </label>
+    <div class="col-xs-6">
+      <input class="form-control" id="nip" ng-model="selectedQuestionBank.questionPoolName" placeholder="masukan nama bank soal" type="text"/>
+    </div>
+  </div>
+
+  <div class="row form-group ">
+    <label for="subjectSelect" class="control-label col-xs-2">Mata Pelajaran*
+    </label>
+    <div class="col-xs-6" ng-switch="updateQP">
+      <select class="form-control" name="subjectSelect" id="subjectSelect" ng-model="selectedQuestionBank.subject.id" ng-switch-when="false">
+        <option value="" ng-selected="true" ng-disabled="true">
+          <i style="color:grey">-- pilih mata pelajaran --</i>
+        </option>
+        <option ng-repeat="subject in subjectData.availableOptions" value="{{subject.id}}">{{subject.subjectName}}</option>
+      </select>
+      <label class="form-control" ng-switch-default>
+        {{selectedQuestionBank.subject.subjectName}}
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-offset-2">
+      <button class="btn btn-primary" type="submit">{{updateQP? "Ubah" : "Simpan"}}</button>
+      <a class="btn btn-default" ui-sref="^">Batal</a>
+    </div>
+  </div>
+
+</form>

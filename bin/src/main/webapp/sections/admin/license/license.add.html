@@ -1,0 +1,26 @@
+<div class="row col-xs-8">
+  <h3 class="page-header">
+    <i class="fa fa-cog fa-lg"></i>
+    Tambah Lisensi
+  </h3>
+
+  <form name="licenseForm" class="form-horizontal" role="form" style="width:100%" ng-submit="saveLicense()" novalidate>
+
+    <div class="form-group">
+      <label class="control-label col-sm-offset-1 col-sm-3">Kode Lisensi*</label>
+      <div class="col-sm-6" ng-class="{'has-error': licenseForm.licenseCode.$invalid && !licenseForm.licenseCode.$pristine}">
+        <input name="licenseCode" id="licenseCode" class="form-control" ng-model="license" placeholder="Inputkan Kode Lisensi" type="text" ng-required="true"/>
+      </div>
+      <p ng-show="licenseForm.licenseCode.$invalid && !licenseForm.licenseCode.$pristine" class="help-block">
+        <i class="fa fa-times click-able" style="color:red;" title="kode lisensi tidak boleh kosong"></i>
+      </p>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-6">
+        <button class="btn btn-primary" type="submit" ng-disabled="licenseForm.$invalid">Simpan</button>
+        <a ui-sref="^" class="btn btn-default">Batal</a>
+      </div>
+    </div>
+  </form>
+</div>

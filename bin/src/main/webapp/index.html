@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Smart Bee - EDU CBT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/ico/cbt_ico.ico" />
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/student_style.css" rel="stylesheet" />
+  <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="assets/css/admin_style.css" rel="stylesheet" />
+  <link href="assets/css/ng-table.min.css" rel="stylesheet" />
+  <link href="assets/css/4-col-portfolio.css" rel="stylesheet" />
+  <link href="assets/css/login.css" rel="stylesheet" />
+  <link href="assets/css/notification.css" rel="stylesheet" />
+  <link href="assets/css/angularjs-datetime-picker.css" rel="stylesheet" />
+
+</head>
+
+<body ng-app="app" window-exit>
+
+  <ui-view></ui-view>
+
+  <!-- jQuery -->
+  <script src="assets/js/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="assets/js/bootstrap.min.js"></script>
+
+  <!-- Asset-->
+  <script src="assets/js/angular.min.js"></script>
+  <script src="assets/js/angular-cookies.min.js"></script>
+  <script src="assets/js/angular-ui-router.min.js"></script>
+  <script src="assets/js/angular-sanitize.min.js"></script>
+  <script src="assets/js/angular-animate.min.js"></script>
+  <script src="assets/js/ui-bootstrap-tpls-1.1.1.min.js"></script>
+  <script src="assets/js/angular-timer.js"></script>
+  <script src="assets/js/humanize-duration.js"></script>
+  <script src="assets/js/moment-with-locales.js"></script>
+  <script src="assets/js/moment.min.js"></script>
+  <script src="assets/js/ng-table.js"></script>
+  <script src="assets/js/angularjs-datetime-picker.js"></script>
+  <script src="assets/js/angular-csv-import.js"></script>
+  <script src="assets/js/thread.js"></script>
+  <script src="assets/js/angular-thread.js"></script>
+  <script src="assets/js/checklist-model.js"></script>
+  <script src="assets/js/angular-local-storage.min.js"></script>
+  <script src="assets/js/angular-messages.min.js"></script>
+  <script src="assets/js/tinymce-dist/tinymce.js"></script>
+  <script src="assets/js/ui.tinymce.js"></script>
+  <script src="assets/js/spin.min.js"></script>
+  <script src="assets/js/angular-spinner.min.js"></script>
+
+  <!-- App Core -->
+  <script src="app.js "></script>
+  <script src="app.routes.teacher.js"></script>
+  <script src="app.routes.student.js"></script>
+  <script src="app.routes.js"></script>
+  <script src="app.core.js"></script>
+  <script src="app.config.js"></script>
+  <script src="app.messages.js"></script>
+  <script src="services/defer.service.js"></script>
+  <script src="services/base.url.conf.js"></script>
+
+  <!--  App Filters-->
+  <script src="filters/app.paging.filter.js"></script>
+
+  <!-- Directive -->
+  <script src="directives/admin.navbar.drct.js"></script>
+  <script src="directives/teacher.navbar.drct.js"></script>
+  <script src="directives/student.navbar.drct.js"></script>
+  <script src="directives/student.footer.drct.js"></script>
+  <script src="directives/modal.drct.js"></script>
+  <script src="directives/modal.spinner.drct.js"></script>
+  <script src="sections/teacher/event/startdate.drct.js"></script>
+  <script src="sections/teacher/event/enddate.drct.js"></script>
+  <script src="directives/religion.option.drct.js"></script>
+  <script src="directives/marital.status.option.drct.js"></script>
+  <script src="directives/gender.option.drct.js"></script>
+  <script src="directives/class.option.drct.js"></script>
+  <script src="directives/file.model.drct.js"></script>
+  <script src="directives/upload.drct.js"></script>
+  <script src="directives/exit.drct.js"></script>
+  <script src="directives/empty.table.drct.js"></script>
+  <script src="directives/question/ft.qst.drct.js"></script>
+  <script src="directives/question/mc.qst.drct.js"></script>
+  <script src="directives/question/mtch.qst.drct.js"></script>
+  <script src="directives/question/passage.qst.drct.js"></script>
+
+  <!-- Admin Controllers -->
+  <script src="sections/admin/teacher/teacher.ctrl.js"></script>
+  <script src="sections/admin/student/student.ctrl.js"></script>
+  <script src="sections/admin/class/class.ctrl.js"></script>
+  <script src="sections/admin/subject/subject.ctrl.js"></script>
+  <script src="sections/admin/dashboard/dashboard.ctrl.js"></script>
+  <script src="sections/admin/settings/school-profile/school.profile.ctrl.js"></script>
+  <script src="sections/admin/settings/forgot-pswd/forgot.pswd.ctrl.js"></script>
+  <script src="sections/admin/license/license.ctrl.js"></script>
+  <script src="sections/admin/settings/active-user/active.user.ctrl.js"></script>
+  <!-- Admin Services -->
+  <script src="sections/admin/class/class.service.js"></script>
+  <script src="sections/admin/teacher/teacher.service.js"></script>
+  <script src="sections/admin/student/student.service.js"></script>
+  <script src="sections/admin/subject/subject.service.js"></script>
+  <script src="sections/admin/settings/setting.service.js"></script>
+  <script src="sections/admin/license/license.service.js"></script>
+  <script src="sections/admin/settings/active-user/active.user.service.js"></script>
+  <script src="sections/admin/settings/forgot-pswd/forgot.passwd.service.js"></script>
+
+  <!-- Teacher Controllers -->
+  <script src="sections/teacher/dashboard/dashboard.ctrl.js"></script>
+  <script src="sections/teacher/event/event.ctrl.js"></script>
+  <script src="sections/teacher/question-bank/question.bank.ctrl.js"></script>
+  <script src="sections/teacher/question-bank/question/question.ctrl.js"></script>
+  <script src="sections/teacher/settings/teacher.account.setting.ctrl.js"></script>
+  <script src="sections/teacher/chapter/chapter.ctrl.js"></script>
+  <!-- Teacher Services -->
+  <script src="sections/teacher/event/event.service.js"></script>
+  <script src="sections/teacher/question-bank/question.bank.service.js"></script>
+
+  <!-- Student Controllers -->
+  <script src="sections/student/dashboard/dashboard.ctrl.js"></script>
+  <script src="sections/student/student-task/student.task.ctrl.js"></script>
+  <script src="sections/student/student-exam/student.exam.ctrl.js"></script>
+  <script src="sections/student/student-exam/student-exam-result/student.exam.result.ctrl.js"></script>
+
+  <!-- Student Services -->
+  <script src="sections/student/student-task/student.task.service.js"></script>
+  <script src="sections/student/student-exam/student.exam.service.js"></script>
+  <script src="sections/student/student-exam/student-exam-result/student.exam.result.service.js"></script>
+  <!-- General Controller -->
+  <script src="sections/login/login.ctrl.js"></script>
+  <script src="sections/logout/logout.ctrl.js"></script>
+  <script src="sections/change-password/change.pswd.ctrl.js"></script>
+  <script src="components/modal-template/modal.instance.ctrl.js"></script>
+  <script src="components/modal-template/dialog.msg.ctrl.js"></script>
+  <!-- General Service -->
+  <script src="sections/login/login.service.js"></script>
+  <script src="services/storage.service.js"></script>
+  <script src="services/error.handling.js"></script>
+  <script src="services/tinymce.conf.js"></script>
+  <script src="sections/change-password/change.pswd.service.js"></script>
+  <script src="services/label.factory.js"></script>
+  <script src="services/page.val.js"></script>
+  <script src="services/dialog.factory.js"></script>
+
+</body>
+
+</html>

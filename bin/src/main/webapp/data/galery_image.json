@@ -1,0 +1,18 @@
+{
+  "images": [{
+    "name": "agama",
+    "src": "assets/images/thumbnail-tpl/agama_1.png"
+  }, {
+    "name": "biologi",
+    "src": "assets/images/thumbnail-tpl/bio_1.png"
+  }, {
+    "name": "ekonomi",
+    "src": "assets/images/thumbnail-tpl/eco_1.png"
+  }, {
+    "name": "fisika",
+    "src": "assets/images/thumbnail-tpl/fisika_1.png"
+  }, {
+    "name": "geografi",
+    "src": "assets/images/thumbnail-tpl/geo_1.png"
+  }]
+}

@@ -1,0 +1,25 @@
+<div class="row-fluid">
+
+  <div class="col-sm-12 col-sm-8">
+
+    <h3 class="page-header">
+      <a title="back" ui-sref="^" style="text-decoration:none"><i class="fa fa-fw fa-chevron-left"></i></a>{{_event.event_name}}
+      <span style="font-size:medium"> - {{_class.class_name}}</span></h3>
+
+    <table ng-table="studentTable" show-filter="true" class="table table-responsive table-striped">
+      <tr ng-repeat="student in students">
+        <td data-title="'No'" class="centerText">
+          {{$index+1}}
+        </td>
+        <td data-title="'Nama Siswa'" sortable="'student_name'" filter="{ 'student_name': 'text' }">
+          {{student.student_name}}
+        </td>
+        <td data-title="'Nilai'" class="centerText">
+          {{student.score}}
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>
