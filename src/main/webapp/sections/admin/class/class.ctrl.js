@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('ClassController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal) {
+    .controller('ClassController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, SortFactory) {
 
         var token = "";
 
@@ -46,7 +46,7 @@ angular
             var promise = classService.fetchAllClass(token);
             promise.then(
                 function(response) {
-                    $scope.classes = response.data;
+                    $scope.classes = SortFactory.sortArr(response.data, 'className', 'asc');
                     updateTableData($scope.classes);
                 },
                 function(errorResponse) {
