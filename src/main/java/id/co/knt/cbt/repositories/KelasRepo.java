@@ -13,6 +13,6 @@ public interface KelasRepo extends JpaRepository<Kelas, Integer>{
 	@Query("select k from Kelas k where k.className= :className")
 	Kelas findByClassName(@Param("className") String className);
 	
-	@Query("select k from Kelas k where k.activated=true")
+	@Query("select k from Kelas k where k.activated=true ORDER BY className ASC")
 	Iterable<Kelas> findAllByOrderByClassNameAsc();
 }
