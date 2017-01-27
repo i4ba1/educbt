@@ -239,7 +239,7 @@ public class TeacherQuestionMgmtCtrl {
 								question.setKey(getCellValue(nextCell).toString());
 								break;
 							case 7:
-								question.setDifficulty(Integer.parseInt(getCellValue(nextCell).toString()));
+								question.setDifficulty(Math.round(Float.parseFloat(getCellValue(nextCell).toString())));
 								break;
 							case 8:
 								question.setExplanation(getCellValue(nextCell).toString());
