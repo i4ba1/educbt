@@ -1,17 +1,29 @@
 package id.co.knt.cbt.service.impl;
 
-import id.co.knt.cbt.model.*;
-import id.co.knt.cbt.model.Question.Difficulty;
-import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
-import id.co.knt.cbt.repositories.*;
-import id.co.knt.cbt.service.QuestionService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.QuestionGroup;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
+import id.co.knt.cbt.model.QuestionPool;
+import id.co.knt.cbt.model.QuestionTag;
+import id.co.knt.cbt.model.Tag;
+import id.co.knt.cbt.repositories.QuestionGroupRepo;
+import id.co.knt.cbt.repositories.QuestionPoolRepository;
+import id.co.knt.cbt.repositories.QuestionRepo;
+import id.co.knt.cbt.repositories.QuestionTagRepo;
+import id.co.knt.cbt.repositories.TagRepo;
+import id.co.knt.cbt.service.QuestionService;
 
 @Transactional
 @Service("questionService")
@@ -72,7 +84,7 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestion.setOptionD(objQuestion.has("optionD") ? objQuestion.getString("optionD") : null);
             newQuestion.setOptionE(objQuestion.has("optionE") ? objQuestion.getString("optionE") : null);
             newQuestion.setDisabled(false);
-            newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
+            newQuestion.setDifficulty(objQuestion.getInt("difficulty"));
             newQuestion.setExplanation(objQuestion.getString("explanation"));
             newQuestion.setKey(objQuestion.getString("key"));
             newQuestion.setTypeQuestion(QG_TYPE.MC.name());
@@ -83,7 +95,7 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestion = new Question();
             newQuestion.setQuestionGroup(group);
             newQuestion.setQuestion(objQuestion.getString("question"));
-            newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
+            newQuestion.setDifficulty(objQuestion.getInt("difficulty"));
             newQuestion.setDisabled(false);
             newQuestion.setExplanation(objQuestion.getString("explanation"));
             newQuestion.setKey(objQuestion.getString("key"));
@@ -106,7 +118,7 @@ public class QuestionServiceImpl implements QuestionService {
                 newQuestion.setOptionD(objQuestion.has("optionD") ? objQuestion.getString("optionD") : null);
                 newQuestion.setOptionE(objQuestion.has("optionE") ? objQuestion.getString("optionE") : null);
                 newQuestion.setDisabled(false);
-                newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
+                newQuestion.setDifficulty(objQuestion.getInt("difficulty"));
                 newQuestion.setExplanation(objQuestion.getString("explanation"));
                 newQuestion.setKey(objQuestion.getString("key"));
 
@@ -195,7 +207,7 @@ public class QuestionServiceImpl implements QuestionService {
                 question.setOptionD(objQ.has("optionD") ? objQ.getString("optionD") : null);
                 question.setOptionE(objQ.has("optionE") ? objQ.getString("optionE") : null);
                 question.setKey(objQ.getString("key"));
-                question.setDifficulty(Difficulty.valueOf(objQ.getString("difficulty")));
+                question.setDifficulty(objQ.getInt("difficulty"));
                 question.setExplanation(objQ.getString("explanation"));
 
                 JSONArray arrQT = objQ.getJSONArray("tagNames");
@@ -215,7 +227,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.setOptionD(objQ.has("optionD") ? objQ.getString("optionD") : null);
             question.setOptionE(objQ.has("optionE") ? objQ.getString("optionE") : null);
             question.setKey(objQ.getString("key"));
-            question.setDifficulty(Difficulty.valueOf(objQ.getString("difficulty")));
+            question.setDifficulty(objQ.getInt("difficulty"));
             question.setExplanation(objQ.getString("explanation"));
 
             JSONArray arrQT = objQ.getJSONArray("tagNames");

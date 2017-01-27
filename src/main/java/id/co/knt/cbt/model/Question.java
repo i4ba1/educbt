@@ -129,15 +129,30 @@ public class Question implements Serializable{
 	}
 
 	public void setKey(String key) {
-		this.key = key;
+		if(key.equals("true")){
+			this.key = key;
+		}else if(key.equals("false")){
+			this.key = key;
+		}else{
+			this.key = key;
+		}
+		
 	}
 
 	public Difficulty getDifficulty() {
 		return difficulty;
 	}
 
-	public void setDifficulty(Difficulty weight) {
-		this.difficulty = weight;
+	public void setDifficulty(Integer difficulty) {
+		if(difficulty == 1){
+			this.difficulty = Difficulty.valueOf("EASY");
+		}
+		else if(difficulty == 2){
+			this.difficulty = Difficulty.valueOf("MEDIUM");
+		}
+		else if(difficulty == 3){
+			this.difficulty = Difficulty.valueOf("HARD");
+		}
 	}
 
 	public String getExplanation() {
