@@ -46,7 +46,7 @@ angular
             var promise = classService.fetchAllClass(token);
             promise.then(
                 function(response) {
-                    $scope.classes = SortFactory.sortArr(response.data, 'className', 'asc');
+                    $scope.classes = response.data;
                     updateTableData($scope.classes);
                 },
                 function(errorResponse) {
@@ -185,8 +185,8 @@ angular
         function validateImport(csv_result) {
             var valid_data = [];
             angular.forEach(csv_result, function(data) {
-                if (data.className != null && data.className != undefined && data.className != "") {
-                    valid_data.push(data);
+                if (data.NAMA_KELAS != null && data.NAMA_KELAS != undefined && data.NAMA_KELAS != "") {
+                    valid_data.push({ className: data.NAMA_KELAS });
                 }
             });
             return valid_data;

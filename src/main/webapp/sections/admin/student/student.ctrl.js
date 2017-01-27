@@ -55,6 +55,7 @@ angular.module('app.core')
         $scope.showModal = false;
         $scope.showModalLoading = false;
         $scope.classID = "";
+        $scope.importData = [];
 
         /*
          *This Function used to fetch all student data
@@ -98,7 +99,7 @@ angular.module('app.core')
         $scope.importStudent = function() {
             var params = [{
                 authorization: token,
-                students: $scope.csv.result
+                students: $scope.importData
             }];
             $scope.showModalLoading = true;
             var promise = studentService.importStudent(params);
@@ -228,6 +229,42 @@ angular.module('app.core')
             }
 
             $scope.updateData = function() {
+                $scope.importData = [];
+                $scope.csv.result.forEach(function(row) {
+                    switch (row.AGAMA.toString().toUpperCase()) {
+                        case "KATOLIK":
+                            row.AGAMA = 'CHRISTIAN';
+                            break;
+                        case "KRISTEN":
+                            row.AGAMA = 'PROTESTANT';
+                            break;
+                        case "BUDHA":
+                            row.AGAMA = 'BUDDHA';
+                            break;
+                        case "HINDU":
+                            row.AGAMA = 'HINDU';
+                            break;
+                        default:
+                            row.AGAMA = 'ISLAM';
+                    }
+
+                    var newRow = {
+                        nis: row.NIS,
+                        firstName: row.NAMA_DEPAN,
+                        lastName: row.NAMA_BELAKANG,
+                        address: row.ALAMAT,
+                        birthPlace: row.TEMPAT_LAHIR,
+                        birthDate: row.TANGGAL_LAHIR,
+                        phone: row.TELEPON,
+                        mobilePhone: row.NO_HP,
+                        gender: (row.JENIS_KELAMIN.toUpperCase() === 'L' ? 'MALE' : 'FEMALE'),
+                        religion: row.AGAMA,
+                        email: row.EMAIL,
+                        kelas: row.KELAS
+                    }
+
+                    $scope.importData.push(newRow);
+                });
                 updateTableData($scope.csv.result);
             }
 

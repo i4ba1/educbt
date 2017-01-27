@@ -24,6 +24,7 @@ angular
         $scope.isUpdate = false;
         $scope.showModal = false;
         $scope.showModalLoading = false;
+        $scope.importData = [];
 
         $scope.csv = {
             content: null,
@@ -147,7 +148,7 @@ angular
             var params = [];
             var param = {};
             param.authorization = token;
-            param.teachers = $scope.csv.result;
+            param.teachers = $scope.importData;
             params.push(param);
             $scope.showModalLoading = true;
             var promise = teacherService.importTeacher(params);
@@ -213,7 +214,58 @@ angular
             }
 
             $scope.updateData = function() {
-                updateTeacherTable($scope.csv.result);
+                $scope.importData = [];
+                $scope.csv.result.forEach(function(row) {
+                    switch (row.STATUS_PERNIKAHAN.toString().toUpperCase()) {
+                        case "MENIKAH":
+                            row.STATUS_PERNIKAHAN = 'MARRIED';
+                            break;
+                        case "CERAI":
+                            row.STATUS_PERNIKAHAN = 'DIVORCE';
+                            break;
+                        default:
+                            row.STATUS_PERNIKAHAN = 'SINGLE';
+                    }
+
+                    switch (row.AGAMA.toString().toUpperCase()) {
+                        case "KATOLIK":
+                            row.AGAMA = 'CHRISTIAN';
+                            break;
+                        case "KRISTEN":
+                            row.AGAMA = 'PROTESTANT';
+                            break;
+                        case "BUDHA":
+                            row.AGAMA = 'BUDDHA';
+                            break;
+                        case "HINDU":
+                            row.AGAMA = 'HINDU';
+                            break;
+                        default:
+                            row.AGAMA = 'ISLAM';
+                    }
+
+                    var newRow = {
+                        active: (row.MASIH_AKTIF_BEKERJA.toString().toUpperCase() === 'YA' ? true : false),
+                        address: row.ALAMAT,
+                        birthDate: row.TANGGAL_LAHIR,
+                        birthPlace: row.TEMPAT_LAHIR,
+                        email: row.EMAIL,
+                        firstName: row.NAMA_DEPAN,
+                        gender: (row.JENIS_KELAMIN.toUpperCase() === 'L' ? 'MALE' : 'FEMALE'),
+                        jobTitle: row.NAMA_PEKERJAAN,
+                        joiningDate: row.TANGGAL_MASUK,
+                        lastName: row.NAMA_BELAKANG,
+                        maritalStatus: row.STATUS_PERNIKAHAN,
+                        mobilePhone: row.NO_HP,
+                        nip: row.NIP,
+                        phone: row.TELEPON,
+                        religion: row.AGAMA,
+                    }
+
+                    $scope.importData.push(newRow);
+                });
+
+                updateTeacherTable($scope.importData);
             }
 
         } else if ($state.is('admin.teacherMgmt.teacherDetail')) {

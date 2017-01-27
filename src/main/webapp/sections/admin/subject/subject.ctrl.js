@@ -169,8 +169,8 @@ angular
         function validateImport(csv_result) {
             var valid_data = [];
             angular.forEach(csv_result, function(data) {
-                if (data.subjectName != null && data.subjectName != undefined && data.subjectName != "") {
-                    valid_data.push(data);
+                if (data.NAMA_MATAPELAJARAN != null && data.NAMA_MATAPELAJARAN != undefined && data.NAMA_MATAPELAJARAN != "") {
+                    valid_data.push({ subjectName: data.NAMA_MATAPELAJARAN });
                 }
             });
             return valid_data;
