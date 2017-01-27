@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import id.co.knt.cbt.model.Employee;
 import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.model.Question.Difficulty;
 import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.QuestionPool;
@@ -184,7 +183,7 @@ public class TeacherQuestionMgmtCtrl {
 								question.setKey(getCellValue(nextCell).toString());
 								break;
 							case 7:
-								question.setDifficulty(Difficulty.valueOf(getCellValue(nextCell).toString()));
+								question.setDifficulty(Integer.parseInt(getCellValue(nextCell).toString()));
 								break;
 							case 8:
 								question.setExplanation(getCellValue(nextCell).toString());
@@ -240,7 +239,7 @@ public class TeacherQuestionMgmtCtrl {
 								question.setKey(getCellValue(nextCell).toString());
 								break;
 							case 7:
-								question.setDifficulty(Difficulty.valueOf(getCellValue(nextCell).toString()));
+								question.setDifficulty(Integer.parseInt(getCellValue(nextCell).toString()));
 								break;
 							case 8:
 								question.setExplanation(getCellValue(nextCell).toString());
