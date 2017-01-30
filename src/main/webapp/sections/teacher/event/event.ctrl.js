@@ -17,34 +17,34 @@ angular
 
         $scope.eventImgs = [{
             eventImgName: 'agama',
-            label: 'Gambar 1 - Agama'
+            label: 'Gambar 1'
         }, {
             eventImgName: 'bio',
-            label: 'Gambar 2 - Biologi'
+            label: 'Gambar 2'
         }, {
             eventImgName: 'eco',
-            label: 'Gambar 3 -  Ekonomi'
+            label: 'Gambar 3'
         }, {
             eventImgName: 'eng',
-            label: 'Gambar 4 - Bahasa Inggris'
+            label: 'Gambar 4'
         }, {
             eventImgName: 'fisika',
-            label: 'Gambar 5 - Fisika'
+            label: 'Gambar 5'
         }, {
             eventImgName: 'geo',
-            label: 'Gambar 6 - Geografi'
+            label: 'Gambar 6'
         }, {
             eventImgName: 'ind',
-            label: 'Gambar 7 - Bahasa Indonesia'
+            label: 'Gambar 7'
         }, {
             eventImgName: 'kimia',
-            label: 'Gambar 8 - Kimia'
+            label: 'Gambar 8'
         }, {
             eventImgName: 'mat',
-            label: 'Gambar 9 - Matematika'
+            label: 'Gambar 9'
         }, {
             eventImgName: 'sos',
-            label: 'Gambar 10 - Sosiologi'
+            label: 'Gambar 10'
         }];
 
 
