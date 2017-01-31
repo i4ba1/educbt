@@ -37,7 +37,6 @@
           <option ng-repeat="option in eventImgs" value="{{option.eventImgName}}">{{option.label}}</option>
         </select><br/>
                 <img src="{{image()}}" style="width:300px;height:200px" ng-show="showImage">
-                <img>
             </div>
         </div>
 
@@ -124,11 +123,11 @@
             <label class="control-label col-xs-4" for="status">Status*</label>
             <div class="col-xs-6">
                 <select name="status" class="form-control" ng-model="selectedEvent.status" ng-disabled="(!isUpdate || isCompleted)">
-          <option value="PREPARED" ng-disabled="eventStatusVal > 0">PREPARED</option>
-          <option value="PUBLISHED" ng-disabled="eventStatusVal > 1">PUBLISHED</option>
-          <option value="RELEASED" ng-disabled="eventStatusVal > 2">RELEASED</option>
-          <option value="COMPLETED" ng-disabled="eventStatusVal > 3">COMPLETED</option>
-        </select>
+                    <option value="PREPARED" ng-disabled="eventStatusVal > 0">PREPARED</option>
+                    <option value="PUBLISHED" ng-disabled="eventStatusVal > 1">PUBLISHED</option>
+                    <option value="RELEASED" ng-disabled="eventStatusVal > 2">RELEASED</option>
+                    <option value="COMPLETED" ng-disabled="eventStatusVal > 3">COMPLETED</option>
+                </select>
             </div>
         </div>
 
@@ -150,9 +149,9 @@
         <h3 class="page-header">
             <i class="fa fa-list-alt"></i> Daftar Soal
             <span title="Add Question From Question Bank" class="btn btn-default pull-right span-click-able" ng-click="toggleModalQuestion()" ng-hide="!isPrepared">
-        <i class="fa fa-plus-square"></i>
-        Tambah Soal
-      </span>
+                <i class="fa fa-plus-square"></i>
+                Tambah Soal
+            </span>
         </h3>
 
         <table ng-table="eventTable" show-filter="false" class="table table-responsive table-bordered table-striped ">
@@ -178,8 +177,22 @@
     </div>
 </form>
 
-<!-- This Modal is for delete confirmation -->
+<!-- This Modal is for adding question-->
 <modal-dialog title="Bank Soal" visible="showModal" size="modal-lg">
+    <div class="col-md-12">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="subtheme">Saring Sub Materi</label>
+                <select class="form-control" id="sel1">
+                    <option>-Pilih Sub Materi-</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
 
     <table ng-table="questionTable" class="table table-responsive table-striped table-bordered">
         <tr ng-repeat="question in questionData">
@@ -191,6 +204,9 @@
             </td>
             <td data-title="'Kesulitan'">
                 {{convertLabel(question.difficulty)}}
+            </td>
+            <td data-title="'Sub Materi'">
+
             </td>
         </tr>
     </table>
