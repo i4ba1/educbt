@@ -20,7 +20,8 @@ angular.module('app', [
     'ui.tinymce',
     'app.config',
     'angularSpinner',
-    'app.messages'
+    'app.messages',
+    'ui.select'
 ]).config(['usSpinnerConfigProvider', function(usSpinnerConfigProvider) {
     usSpinnerConfigProvider.setTheme('default', {
         color: 'black',

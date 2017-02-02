@@ -68,6 +68,8 @@ angular
         $scope.isUpdate = false;
         $scope.selectedEvent = initEvent();
         $scope.eventResult = [];
+        $scope.tagFilters = [];
+        $scope.subjectTagNames = [];
 
         $scope.dateShow = {
             start: false,
@@ -530,7 +532,22 @@ angular
         $scope.subjectChange = function() {
             $scope.selectedEvent.questions = [];
             updateDataTable($scope.selectedEvent.questions);
+            $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, $scope.subjectData.selectedOption);
         };
+
+        // Fetching TagNames by Teacher ID and Subject ID for serving tag names
+        // Params is teacherId, subjectId
+        $scope.fetchAllChapterByTeachIdAndSubjectId = function(teacherId, subjectId) {
+            subjectService.fetchAllChapterByTeachIdAndSubjectId(teacherId, token, subjectId)
+                .then(
+                    function(response) {
+                        $scope.subjectTagNames = response.data;
+                    },
+                    function(errorResponse) {
+                        console.log(errorResponse);
+                    }
+                );
+        }
 
 
         if ($state.is('teacher.eventManagement')) {

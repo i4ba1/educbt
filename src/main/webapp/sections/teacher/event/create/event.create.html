@@ -15,15 +15,15 @@
             <label class="control-label col-xs-4" for="event_type">Jenis Ujian*</label>
             <div class="col-xs-6">
                 <select name="event_type" class="form-control" ng-model="selectedEvent.eventType" required ng-disabled="!isPrepared" ng-required="true">
-          <option value="" ng-selected="true" ng-disabled="true">
-            <i style="color:grey">-- pilih jenis ujian --</i>
-          </option>
-          <option value="TUGAS">Tugas</option>
-          <option value="KUIS">Kuis</option>
-          <option value="TRYOUT_UAS">Tryout UAS</option>
-          <option value="TRYOUT_UTS">Tryout UTS</option>
-          <option value="TRYOUT_UAN">Tryout UAN</option>
-        </select>
+                    <option value="" ng-selected="true" ng-disabled="true">
+                        <i style="color:grey">-- pilih jenis ujian --</i>
+                    </option>
+                    <option value="TUGAS">Tugas</option>
+                    <option value="KUIS">Kuis</option>
+                    <option value="TRYOUT_UAS">Tryout UAS</option>
+                    <option value="TRYOUT_UTS">Tryout UTS</option>
+                    <option value="TRYOUT_UAN">Tryout UAN</option>
+                </select>
             </div>
         </div>
 
@@ -31,16 +31,17 @@
             <label class="control-label col-xs-4" for="event_type">Pilih Gambar*</label>
             <div class="col-xs-6" style="width:300px;padding-right:0px;">
                 <select name="event_type" class="form-control" ng-model="selectedEvent.eventImgName" ng-required="true" ng-disabled="!isPrepared">
-          <option value="" ng-selected="true" ng-disabled="true">
-            <i style="color:grey">-- pilih gambar --</i>
-          </option>
-          <option ng-repeat="option in eventImgs" value="{{option.eventImgName}}">{{option.label}}</option>
-        </select><br/>
+                    <option value="" ng-selected="true" ng-disabled="true">
+                        <i style="color:grey">-- pilih gambar --</i>
+                    </option>
+                    <option ng-repeat="option in eventImgs" value="{{option.eventImgName}}">{{option.label}}</option>
+                </select>
+                <br/>
                 <img src="{{image()}}" style="width:300px;height:200px" ng-show="showImage">
             </div>
         </div>
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="control-label col-xs-4" for="classSelect">Kelas*</label>
             <div class="col-xs-6">
                 <div class="panel panel-default">
@@ -54,6 +55,19 @@
             </label>
                     </div>
                 </div>
+            </div>
+        </div>-->
+
+        <div class="form-group">
+            <label class="control-label col-xs-4" for="classSelect">Kelas*</label>
+            <div class="col-xs-6">
+                <!--Select kelases-->
+                <ui-select multiple ng-model="selectedEvent.classes" theme="bootstrap" sortable="true" close-on-select="false" ng-disabled="!isPrepared">
+                    <ui-select-match placeholder="Pilih kelas...">{{$item.className}}</ui-select-match>
+                    <ui-select-choices repeat="class in classData.availableOptions | propsFilter: {className: $select.search}">
+                        <div ng-bind-html="class.className | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
 
@@ -135,11 +149,11 @@
             <label class="control-label col-xs-4" for="endTime">Bank Soal*</label>
             <div class="col-xs-6">
                 <select name="subjectSelect" id="subjectSelect" class="form-control" ng-model="subjectData.selectedOption" ng-required="true" ng-disabled="!isPrepared" ng-change="subjectChange()">
-          <option value="" ng-selected="true" ng-disabled="true">
-            <i style="color:grey">-- pilih bank soal --</i>
-          </option>
-          <option ng-repeat="option in subjectData.availableOptions" value="{{option}}">{{option.subjectName}}</option>
-        </select>
+                    <option value="" ng-selected="true" ng-disabled="true">
+                        <i style="color:grey">-- pilih bank soal --</i>
+                    </option>
+                    <option ng-repeat="option in subjectData.availableOptions" value="{{option}}">{{option.subjectName}}</option>
+                </select>
             </div>
         </div>
 
@@ -165,6 +179,15 @@
                 <td data-title="'Kesulitan'">
                     {{convertLabel(question.difficulty)}}
                 </td>
+                <td data-title="Sub Materi">
+                    <div ng-repeat="tag in question.tagNames">
+                        <div class="label label-primary col-xs-3" style="margin-left:2px;margin-top:2px; ">
+                            <label class="pull-left" style="text-overflow:ellipsis">
+                            {{tag.tagName}}
+                            </label>
+                        </div>
+                    </div>
+                </td>
             </tr>
         </table>
 
@@ -182,13 +205,15 @@
     <div class="col-md-12">
         <form class="form-inline">
             <div class="form-group">
-                <label for="subtheme">Saring Sub Materi</label>
-                <select class="form-control" id="sel1">
-                    <option>-Pilih Sub Materi-</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
+                <label>Saring Sub Materi</label>
+
+                <!--Select tag names Filter-->
+                <ui-select multiple ng-model="tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 300px;">
+                    <ui-select-match placeholder="Pilih sub materi...">{{$item.tagName}}</ui-select-match>
+                    <ui-select-choices repeat="tag in subjectTagNames | propsFilter: {tagName: $select.search}">
+                        <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
