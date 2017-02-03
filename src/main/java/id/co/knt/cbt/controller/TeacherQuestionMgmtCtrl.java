@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import id.co.knt.cbt.model.Employee;
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.Question.Difficulty;
 import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.QuestionPool;
@@ -183,7 +184,7 @@ public class TeacherQuestionMgmtCtrl {
 								question.setKey(getCellValue(nextCell).toString());
 								break;
 							case 7:
-								question.setDifficulty(Integer.parseInt(getCellValue(nextCell).toString()));
+								question.setDifficulty(getDifficultyValue(Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
 								break;
 							case 8:
 								question.setExplanation(getCellValue(nextCell).toString());
@@ -239,7 +240,7 @@ public class TeacherQuestionMgmtCtrl {
 								question.setKey(getCellValue(nextCell).toString());
 								break;
 							case 7:
-								question.setDifficulty(Math.round(Float.parseFloat(getCellValue(nextCell).toString())));
+								question.setDifficulty(getDifficultyValue(Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
 								break;
 							case 8:
 								question.setExplanation(getCellValue(nextCell).toString());
@@ -279,6 +280,20 @@ public class TeacherQuestionMgmtCtrl {
 			e.printStackTrace();
 			return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
 		}
+	}
+	
+	private Difficulty getDifficultyValue(Integer difficulty){
+		if(difficulty == 1){
+			return Difficulty.valueOf("EASY");
+		}
+		else if(difficulty == 2){
+			return Difficulty.valueOf("MEDIUM");
+		}
+		else if(difficulty == 3){
+			return Difficulty.valueOf("HARD");
+		}
+		
+		return null;
 	}
 
 	@SuppressWarnings("deprecation")

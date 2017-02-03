@@ -22,56 +22,56 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Question implements Serializable{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7823542438707459455L;
-	
+
 	public enum Difficulty {
 		EASY, MEDIUM, HARD, VERY_HARD;
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
-	
+
 	@Column(name="question", columnDefinition="TEXT")
 	private String question;
-	
+
 	@Column(name="option_a", columnDefinition="TEXT", nullable=true)
 	private String optionA;
-	
+
 	@Column(name="option_b", columnDefinition="TEXT", nullable=true)
 	private String optionB;
-	
+
 	@Column(name="option_c", columnDefinition="TEXT", nullable=true)
 	private String optionC;
-	
+
 	@Column(name="option_d", columnDefinition="TEXT", nullable=true)
 	private String optionD;
-	
+
 	@Column(name="option_e", columnDefinition="TEXT", nullable=true)
 	private String optionE;
-	
+
 	@Column(name="key")
 	private String key;
-	
+
 	@Column(name="difficulty")
 	private Difficulty difficulty;
-	
+
 	@Column(name="explanation", columnDefinition="TEXT")
 	private String explanation;
-	
+
 	@Column(name="disabled")
 	private Boolean disabled = false;
-	
+
 	@Column(name="type_question")
 	private String typeQuestion;
-	
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="question_group_id", referencedColumnName="id")
 	private QuestionGroup questionGroup;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
 	private List<StudentAnswer> studentAnswers;
@@ -115,7 +115,7 @@ public class Question implements Serializable{
 	public void setOptionD(String optionD) {
 		this.optionD = optionD;
 	}
-	
+
 	public String getOptionE() {
 		return optionE;
 	}
@@ -136,23 +136,15 @@ public class Question implements Serializable{
 		}else{
 			this.key = key;
 		}
-		
+
 	}
 
 	public Difficulty getDifficulty() {
 		return difficulty;
 	}
 
-	public void setDifficulty(Integer difficulty) {
-		if(difficulty == 1){
-			this.difficulty = Difficulty.valueOf("EASY");
-		}
-		else if(difficulty == 2){
-			this.difficulty = Difficulty.valueOf("MEDIUM");
-		}
-		else if(difficulty == 3){
-			this.difficulty = Difficulty.valueOf("HARD");
-		}
+	public void setDifficulty(Difficulty difficulty) {
+			this.difficulty = difficulty;
 	}
 
 	public String getExplanation() {
@@ -162,7 +154,7 @@ public class Question implements Serializable{
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
-	
+
 	public String getTypeQuestion() {
 		return typeQuestion;
 	}

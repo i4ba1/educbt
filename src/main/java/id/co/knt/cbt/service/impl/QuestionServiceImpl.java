@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.Question.Difficulty;
 import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.QuestionPool;
@@ -84,7 +85,7 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestion.setOptionD(objQuestion.has("optionD") ? objQuestion.getString("optionD") : null);
             newQuestion.setOptionE(objQuestion.has("optionE") ? objQuestion.getString("optionE") : null);
             newQuestion.setDisabled(false);
-            newQuestion.setDifficulty(objQuestion.getInt("difficulty"));
+            newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
             newQuestion.setExplanation(objQuestion.getString("explanation"));
             newQuestion.setKey(objQuestion.getString("key"));
             newQuestion.setTypeQuestion(QG_TYPE.MC.name());
@@ -95,7 +96,7 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestion = new Question();
             newQuestion.setQuestionGroup(group);
             newQuestion.setQuestion(objQuestion.getString("question"));
-            newQuestion.setDifficulty(objQuestion.getInt("difficulty"));
+            newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
             newQuestion.setDisabled(false);
             newQuestion.setExplanation(objQuestion.getString("explanation"));
             newQuestion.setKey(objQuestion.getString("key"));
@@ -118,7 +119,7 @@ public class QuestionServiceImpl implements QuestionService {
                 newQuestion.setOptionD(objQuestion.has("optionD") ? objQuestion.getString("optionD") : null);
                 newQuestion.setOptionE(objQuestion.has("optionE") ? objQuestion.getString("optionE") : null);
                 newQuestion.setDisabled(false);
-                newQuestion.setDifficulty(objQuestion.getInt("difficulty"));
+                newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
                 newQuestion.setExplanation(objQuestion.getString("explanation"));
                 newQuestion.setKey(objQuestion.getString("key"));
 
@@ -207,7 +208,7 @@ public class QuestionServiceImpl implements QuestionService {
                 question.setOptionD(objQ.has("optionD") ? objQ.getString("optionD") : null);
                 question.setOptionE(objQ.has("optionE") ? objQ.getString("optionE") : null);
                 question.setKey(objQ.getString("key"));
-                question.setDifficulty(objQ.getInt("difficulty"));
+                question.setDifficulty(Difficulty.valueOf(objQ.getString("difficulty")));
                 question.setExplanation(objQ.getString("explanation"));
 
                 JSONArray arrQT = objQ.getJSONArray("tagNames");
@@ -227,7 +228,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.setOptionD(objQ.has("optionD") ? objQ.getString("optionD") : null);
             question.setOptionE(objQ.has("optionE") ? objQ.getString("optionE") : null);
             question.setKey(objQ.getString("key"));
-            question.setDifficulty(objQ.getInt("difficulty"));
+            question.setDifficulty(Difficulty.valueOf(objQ.getString("difficulty")));
             question.setExplanation(objQ.getString("explanation"));
 
             JSONArray arrQT = objQ.getJSONArray("tagNames");
