@@ -225,13 +225,7 @@ angular
                     if ($state.is('teacher.eventManagement.result')) {
                         $scope.classData.availableOptions = response.data;
                     } else {
-                        $scope.selectedEvent.classes = [];
-                        angular.forEach(response.data, function(d) {
-                            $scope.selectedEvent.classes.push(d.id);
-                        });
-                        if ($scope.classData.availableOptions.length == $scope.selectedEvent.classes.length) {
-                            $scope.classData.isSelectAll = true;
-                        }
+                        $scope.selectedEvent.classes = response.data;
                     }
                 },
                 function(error) {
@@ -314,7 +308,12 @@ angular
             var promise = classService.fetchAllClass(token);
             promise.then(
                 function(response) {
-                    $scope.classData.availableOptions = response.data;
+                    $scope.classData.availableOptions = [];
+                    response.data.forEach(function(kelas) {
+                        delete kelas.activated;
+                        delete kelas.createdDate;
+                        $scope.classData.availableOptions.push(kelas);
+                    });
                 },
                 function(errorResponse) {
                     errorHandle.setError(errorResponse);
@@ -408,6 +407,14 @@ angular
             var promise = null;
             var questionsID = [];
             var events = $scope.selectedEvent;
+
+            if ($scope.selectedEvent.classes !== undefined) {
+                var temArr = []
+                $scope.selectedEvent.classes.forEach(function(kelas) {
+                    temArr.push(kelas.id);
+                });
+                events.classes = [].concat(temArr);
+            }
             events.empId = $scope.currentTeacher.id;
             angular.forEach($scope.selectedEvent.questions, function(data) {
                 if (data !== undefined) {
@@ -532,7 +539,8 @@ angular
         $scope.subjectChange = function() {
             $scope.selectedEvent.questions = [];
             updateDataTable($scope.selectedEvent.questions);
-            $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, $scope.subjectData.selectedOption);
+            var subject = JSON.parse($scope.subjectData.selectedOption);
+            $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, subject.id);
         };
 
         // Fetching TagNames by Teacher ID and Subject ID for serving tag names
