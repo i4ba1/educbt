@@ -412,4 +412,16 @@ public class QuestionServiceImpl implements QuestionService {
 		return success;
 	}
 
+	@Override
+	public List<Question> getQuestionByTag(ArrayList<Integer> tagIds) {
+		List<QuestionTag> questionTags = questionTagRepo.findQuestionByTag(tagIds);
+		List<Question> questions = new ArrayList<>();
+		
+		for (QuestionTag questionTag : questionTags) {
+			questions.add(questionTag.getQuestion());
+		}
+		
+		return questions;
+	}
+
 }

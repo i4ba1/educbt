@@ -1,5 +1,6 @@
 package id.co.knt.cbt.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +31,6 @@ public interface QuestionService {
 	Map<String, List<Map<String, Object>>> findQuestionGroupById(Long id);
 	
 	void disabledQG(Long groupId);
+	
+	List<Question> getQuestionByTag(ArrayList<Integer> ids);
 }

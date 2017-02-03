@@ -520,4 +520,21 @@ public class TeacherQuestionMgmtCtrl {
 
 		return new ResponseEntity<List<Question>>(list, HttpStatus.OK);
 	}
+	
+	/**
+	 * 
+	 * @param token
+	 * @param tagIds
+	 * @return
+	 */
+	@RequestMapping(value = "/filterQuestionByTag/{token}/{tagIds}", method = RequestMethod.GET)
+	public ResponseEntity<List<Question>> filterQuestionByTag(@PathVariable("token") String token, @PathVariable("tagIds") ArrayList<Integer> tagIds){
+		List<Question> questions = questionService.getQuestionByTag(tagIds);
+		
+		if(Question.getSerialversionuid() <= 0){
+			return new ResponseEntity<List<Question>>(questions, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+	}
 }
