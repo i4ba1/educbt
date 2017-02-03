@@ -180,13 +180,7 @@
                     {{convertLabel(question.difficulty)}}
                 </td>
                 <td data-title="'Sub Materi'">
-                    <div ng-repeat="tag in question.tagNames">
-                        <div class="label label-primary col-xs-3" style="margin-left:2px;margin-top:2px; ">
-                            <label class="pull-left" style="text-overflow:ellipsis">
-                            {{tag.tagName}}
-                            </label>
-                        </div>
-                    </div>
+                    <div ng-bind-html="convertTagNames(question)"></div>
                 </td>
             </tr>
         </table>

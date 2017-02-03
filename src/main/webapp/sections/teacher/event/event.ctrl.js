@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('EventManagementController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory) {
+    .controller('EventManagementController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory, $sce, SortFactory) {
 
         $scope.currentTeacher;
         var token = " ";
@@ -225,7 +225,7 @@ angular
                     if ($state.is('teacher.eventManagement.result')) {
                         $scope.classData.availableOptions = response.data;
                     } else {
-                        $scope.selectedEvent.classes = response.data;
+                        $scope.selectedEvent.classes = SortFactory.sortArr(response.data, "className", "asc");
                     }
                 },
                 function(error) {
@@ -240,15 +240,19 @@ angular
             var promise = queastionBankService.fetchQuestionByEventId(eventId, token);
             promise.then(
                     function(response) {
-                        $scope.subjectData.selectedOption = JSON.stringify(response.data.QP[0].questionPool.subject);
+                        var subject = response.data.QP[0].questionPool.subject;
+                        $scope.subjectData.selectedOption = JSON.stringify(subject);
                         $scope.selectedEvent.questions = [];
                         response.data.questions.forEach(function(q) {
-                            $scope.selectedEvent.questions.push({
+                            var question = {
                                 id: q.id,
                                 question: q.question,
-                                difficulty: q.difficulty
-                            });
+                                difficulty: q.difficulty,
+                                tagNames: q.tagNames
+                            };
+                            $scope.selectedEvent.questions.push(question);
                         });
+                        $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, subject.id);
                     },
                     function(error) {
                         errorHandle.setError(error);
@@ -555,6 +559,15 @@ angular
                         console.log(errorResponse);
                     }
                 );
+        }
+
+        // Convert TagNames
+        $scope.convertTagNames = function(question) {
+            var stringBuilder = "";
+            question.tagNames.forEach(function(tag) {
+                stringBuilder = stringBuilder.concat('<label class="label label-primary">' + tag.tagName + '</label>');
+            });
+            return $sce.trustAsHtml(stringBuilder);
         }
 
 
