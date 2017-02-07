@@ -281,10 +281,12 @@ angular
                     });
                 },
                 function(errorResponse) {
+                    $scope.questionBySubjectList = [];
                     errorHandle.setError(errorResponse);
                 }
             ).then(
                 function() {
+                    $scope.tagFilters = [];
                     updateQuestionEventTable($scope.questionBySubjectList);
                 }
             );
@@ -556,6 +558,7 @@ angular
                         $scope.subjectTagNames = response.data;
                     },
                     function(errorResponse) {
+                        $scope.subjectTagNames = [];
                         console.log(errorResponse);
                     }
                 );

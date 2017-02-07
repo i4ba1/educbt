@@ -196,39 +196,61 @@
 
 <!-- This Modal is for adding question-->
 <modal-dialog title="Bank Soal" visible="showModal" size="modal-lg">
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-bottom: 15px;">
         <form class="form-inline">
             <div class="form-group">
-                <label>Saring Sub Materi</label>
-
                 <!--Select tag names Filter-->
-                <ui-select multiple ng-model="tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 300px;">
-                    <ui-select-match placeholder="Pilih sub materi...">{{$item.tagName}}</ui-select-match>
+                <ui-select multiple ng-model="tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 700px;">
+                    <ui-select-match placeholder="saring sub materi...">{{$item.tagName}}</ui-select-match>
                     <ui-select-choices repeat="tag in subjectTagNames | propsFilter: {tagName: $select.search}">
                         <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default">saring</button>
         </form>
     </div>
+    <div ng-switch="questionBySubjectList.length">
+        <div ng-switch-default>
+            <table ng-table="questionTable" class="table table-responsive table-striped table-bordered">
+                <tr ng-repeat="question in questionData">
+                    <td>
+                        <input type="checkbox" checklist-model="selectedEvent.questions" checklist-value="question">
+                    </td>
+                    <td data-title="'Pertanyaan'" class="col-xs-8">
+                        <p ng-bind-html="trustAsHtml(question.question)"></p>
+                    </td>
+                    <td data-title="'Kesulitan'">
+                        {{convertLabel(question.difficulty)}}
+                    </td>
+                    <td data-title="'Sub Materi'">
 
-    <table ng-table="questionTable" class="table table-responsive table-striped table-bordered">
-        <tr ng-repeat="question in questionData">
-            <td>
-                <input type="checkbox" checklist-model="selectedEvent.questions" checklist-value="question">
-            </td>
-            <td data-title="'Pertanyaan'" class="col-xs-8">
-                <p ng-bind-html="trustAsHtml(question.question)"></p>
-            </td>
-            <td data-title="'Kesulitan'">
-                {{convertLabel(question.difficulty)}}
-            </td>
-            <td data-title="'Sub Materi'">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-switch-when="0">
+            <table class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="50"></th>
+                        <th>Pertanyaan</th>
+                        <th>Kesulitan</th>
+                        <th>Sub Materi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            Bank Soal Masih Kosong...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-            </td>
-        </tr>
-    </table>
+
 
     <button type="button" class="btn btn-primary" ng-click="uploadQuestion()" style="margin-top:50px">Pilih</button>
 </modal-dialog>
