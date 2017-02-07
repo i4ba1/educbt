@@ -200,8 +200,8 @@
         <form class="form-inline">
             <div class="form-group">
                 <!--Select tag names Filter-->
-                <ui-select multiple ng-model="tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 700px;">
-                    <ui-select-match placeholder="saring sub materi...">{{$item.tagName}}</ui-select-match>
+                <ui-select multiple ng-model="eventCtrl.tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 700px;">
+                    <ui-select-match allow-clear="true" placeholder="saring sub materi...">{{$item.tagName}}</ui-select-match>
                     <ui-select-choices repeat="tag in subjectTagNames | propsFilter: {tagName: $select.search}">
                         <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
                     </ui-select-choices>

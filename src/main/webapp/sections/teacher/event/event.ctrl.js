@@ -68,7 +68,8 @@ angular
         $scope.isUpdate = false;
         $scope.selectedEvent = initEvent();
         $scope.eventResult = [];
-        $scope.tagFilters = [];
+        var self = this;
+        self.tagFilters = [];
         $scope.subjectTagNames = [];
 
         $scope.dateShow = {
@@ -286,7 +287,7 @@ angular
                 }
             ).then(
                 function() {
-                    $scope.tagFilters = [];
+                    self.tagFilters = undefined;
                     updateQuestionEventTable($scope.questionBySubjectList);
                 }
             );
