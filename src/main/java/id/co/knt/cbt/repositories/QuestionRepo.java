@@ -15,7 +15,7 @@ public interface QuestionRepo extends JpaRepository<Question, Long> {
 	@Query("select q from Question q inner join q.questionGroup qG where qG.questionPool.id = :questionPoolId and qG.questionPool.activated=false")
 	List<Question> findQuestionByQPoolId(@Param("questionPoolId") Long questionPoolId);
 
-	@Query("select q from Question q inner join q.questionGroup qG where qG.questionPool.subject.id = :subjectId and qG.questionPool.employee.nip= :nip and qG.questionPool.activated=true")
+	@Query("select q from Question q inner join q.questionGroup qG where qG.questionPool.subject.id = :subjectId and qG.questionPool.employee.nip= :nip and qG.questionPool.activated=true and q.disabled=false")
 	List<Question> findQuestionBySubject(@Param("subjectId") Integer subjectId, @Param("nip") String nip);
 
 	@Query("select q from Question q inner join fetch q.questionGroup qG inner join qG.questionPool qP where qG.id= :id")
