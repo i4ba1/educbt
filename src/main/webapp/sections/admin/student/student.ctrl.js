@@ -265,7 +265,7 @@ angular.module('app.core')
 
                     $scope.importData.push(newRow);
                 });
-                updateTableData($scope.csv.result);
+                updateTableData($scope.importData);
             }
 
         } else if ($state.is('admin.studentMgmt.studentDetail')) {

@@ -546,7 +546,7 @@ public class TeacherQuestionMgmtCtrl {
 	public ResponseEntity<List<Question>> filterQuestionByTag(@PathVariable("token") String token, @PathVariable("tagIds") ArrayList<Integer> tagIds){
 		List<Question> questions = questionService.getQuestionByTag(tagIds);
 		
-		if(Question.getSerialversionuid() <= 0){
+		if(questions.size() <= 0){
 			return new ResponseEntity<List<Question>>(questions, HttpStatus.NOT_FOUND);
 		}
 		
