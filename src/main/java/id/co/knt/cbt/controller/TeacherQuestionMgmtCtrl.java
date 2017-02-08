@@ -374,7 +374,7 @@ public class TeacherQuestionMgmtCtrl {
 	 * @return ResponseEntity<QuestionPool>
 	 */
 	@RequestMapping(value = "/update/", method = RequestMethod.PUT)
-	public ResponseEntity<QuestionPool> updateQuestionPool(@RequestBody List<Object> questionPool) {
+	public ResponseEntity<Void> updateQuestionPool(@RequestBody List<Object> questionPool) {
 		LOG.info("updateQuestionPool Method=============> ");
 
 		JSONArray array = new JSONArray(questionPool);
@@ -385,8 +385,8 @@ public class TeacherQuestionMgmtCtrl {
 		qp.setQuestionPoolName(qpName);
 		QuestionPool updatedQP = poolService.updateNewBankQuestion(qp);
 
-		return updatedQP == null ? new ResponseEntity<QuestionPool>(updatedQP, HttpStatus.EXPECTATION_FAILED)
-				: new ResponseEntity<QuestionPool>(updatedQP, HttpStatus.CREATED);
+		return updatedQP == null ? new ResponseEntity<Void>(HttpStatus.EXPECTATION_FAILED)
+				: new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	/**
