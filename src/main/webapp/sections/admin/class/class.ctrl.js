@@ -225,6 +225,7 @@ angular
                 templateUrl: 'components/modal-template/error.html',
                 controller: 'ModalInstanceCtrl',
                 size: 'sm',
+                backdrop: 'static',
                 resolve: {
                     modalData: function() {
                         return {
