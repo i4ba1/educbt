@@ -134,6 +134,9 @@ angular.module('app.core')
 
                 return result;
 
+            },
+            filterQuestionByTagNames: function(token, tagId) {
+                return $http.get(url + "/createQuestionPool/filterQuestionByTag/" + token + '/' + tagId);
             }
 
         };

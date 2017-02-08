@@ -69,7 +69,7 @@ angular
         $scope.selectedEvent = initEvent();
         $scope.eventResult = [];
         var self = this;
-        self.tagFilters = [];
+        self.tagFilter = null;
         $scope.subjectTagNames = [];
 
         $scope.dateShow = {
@@ -287,7 +287,7 @@ angular
                 }
             ).then(
                 function() {
-                    self.tagFilters = undefined;
+                    self.tagFilter = undefined;
                     updateQuestionEventTable($scope.questionBySubjectList);
                 }
             );
@@ -575,7 +575,16 @@ angular
         }
 
         // Filter Question By TagNames
-        $scope.filterQuestionByTagnames = function(tagnames) {
+        $scope.filterQuestionByTagnames = function(tag) {
+
+            queastionBankService.filterQuestionByTagNames(token, tag.id).then(
+                function(response) {
+
+                },
+                function(errorResponse) {
+
+                }
+            );
 
         }
 

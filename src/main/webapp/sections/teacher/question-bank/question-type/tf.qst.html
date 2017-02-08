@@ -4,7 +4,7 @@
         <div class="col-xs-12">
             <label class="control-label"> Sub Materi * :</label>
             <!--Select tag names Filter-->
-            <ui-select multiple ng-model="selectedQuestion.tagNames" theme="bootstrap" sortable="true" close-on-select="false" style="width: 100%; height: 50px;">
+            <ui-select multiple ng-model="selectedQuestion.tagNames" theme="bootstrap" sortable="true" close-on-select="true" style="width: 100%; height: 50px;">
                 <ui-select-match placeholder="pilih sub materi...">{{$item.tagName}}</ui-select-match>
                 <ui-select-choices repeat="tag in tags.availableOption | propsFilter: {tagName: $select.search}">
                     <div ng-bind-html="tag.tagName | highlight: $select.search"></div>

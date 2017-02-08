@@ -62,7 +62,7 @@
             <label class="control-label col-xs-4" for="classSelect">Kelas*</label>
             <div class="col-xs-6">
                 <!--Select kelases-->
-                <ui-select multiple ng-model="selectedEvent.classes" theme="bootstrap" sortable="true" close-on-select="false" ng-disabled="!isPrepared">
+                <ui-select multiple ng-model="selectedEvent.classes" theme="bootstrap" sortable="true" close-on-select="true" ng-disabled="!isPrepared">
                     <ui-select-match placeholder="Pilih kelas...">{{$item.className}}</ui-select-match>
                     <ui-select-choices repeat="class in classData.availableOptions | propsFilter: {className: $select.search}">
                         <div ng-bind-html="class.className | highlight: $select.search"></div>
@@ -197,15 +197,24 @@
 <!-- This Modal is for adding question-->
 <modal-dialog title="Bank Soal" visible="showModal" size="modal-lg">
     <div class="col-md-12" style="margin-bottom: 15px;">
-        <form class="form-inline" ng-submit="filterQuestionByTagnames(eventCtrl.tagFilters)">
+        <form class="form-inline" ng-submit="filterQuestionByTagnames(eventCtrl.tagFilter)">
             <div class="form-group">
                 <!--Select tag names Filter-->
-                <ui-select multiple ng-model="eventCtrl.tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 700px;">
-                    <ui-select-match allow-clear="true" placeholder="saring sub materi...">{{$item.tagName}}</ui-select-match>
+                <!--<ui-select ng-model="eventCtrl.tagFilters" theme="bootstrap" style="min-width: 300px;" sortable="true">
+                    <ui-select-match allow-clear="true" placeholder="saring sub materi...">{{$select.tag.tagName}}</ui-select-match>
                     <ui-select-choices repeat="tag in subjectTagNames | propsFilter: {tagName: $select.search}">
                         <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
                     </ui-select-choices>
+                </ui-select>-->
+
+                <ui-select ng-model="eventCtrl.tagFilter" theme="bootstrap">
+                    <ui-select-match placeholder="saring sub materi...">{{$select.selected.tagName}}</ui-select-match>
+                    <ui-select-choices group-by="'country'" repeat="tag in subjectTagNames | filter: $select.search">
+                        <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
+                    </ui-select-choices>
                 </ui-select>
+
+
             </div>
             <button type="submit" class="btn btn-default">saring</button>
         </form>
