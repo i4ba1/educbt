@@ -312,10 +312,56 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findQuestionBySubject(Integer subjectId, String nip) {
-        List<Question> questions = questionRepo.findQuestionBySubject(subjectId, nip);
+    public List<Map<String, Object>> findQuestionBySubject(Integer subjectId, String nip) {
+        //List<Question> questions = questionRepo.findQuestionBySubject(subjectId, nip);
+    	List<QuestionGroup> questionGroups = groupRepo.findQuestionGroupByNIP(nip);
+    	
+    	 List<Map<String, Object>> objQuestion = new ArrayList<>();
+         List<Map<String, Object>> objTag = new ArrayList<>();
+         
+    	for (QuestionGroup questionGroup : questionGroups) {
+    		List<Question> list = questionRepo.findQuestionByQGSubjectAndNip(subjectId, nip, questionGroup.getId());
+    		for (Question question : list) {
+    			Map<String, Object> mapQ = new HashMap<>();
+                objTag = new ArrayList<>();
 
-        return questions;
+                mapQ.put("id", question.getId());
+                mapQ.put("question", question.getQuestion());
+                mapQ.put("optionA", question.getOptionA());
+                mapQ.put("optionB", question.getOptionB());
+                mapQ.put("optionC", question.getOptionC());
+                mapQ.put("optionD", question.getOptionD());
+                mapQ.put("optionE", question.getOptionE());
+                mapQ.put("difficulty", question.getDifficulty());
+                mapQ.put("disabled", question.getDisabled());
+                mapQ.put("explanation", question.getExplanation());
+                mapQ.put("key", question.getKey());
+                mapQ.put("typeQuestion", question.getTypeQuestion());
+
+                List<QuestionTag> qt = questionTagRepo.findQT(question.getId());
+                if (qt != null && !qt.isEmpty()) {
+                    Map<String, Object> mapQT = new HashMap<>();
+                    if (qt.size() > 0) {
+                        for (QuestionTag questionTag : qt) {
+                            mapQT = new HashMap<>();
+                            mapQT.put("id", questionTag.getId());
+                            mapQT.put("tagName", questionTag.getTag().getTagName());
+                            objTag.add(mapQT);
+                        }
+                    } else {
+                        mapQT = new HashMap<>();
+                        mapQT.put("id", qt.get(0).getId());
+                        mapQT.put("tagName", qt.get(0).getTag().getTagName());
+                        objTag.add(mapQT);
+                    }
+                }
+
+                mapQ.put("tagNames", objTag);
+                objQuestion.add(mapQ);
+			}
+		}
+         
+        return objQuestion;
     }
 
     @Override

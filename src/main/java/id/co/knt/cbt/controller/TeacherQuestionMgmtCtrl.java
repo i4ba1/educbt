@@ -152,119 +152,124 @@ public class TeacherQuestionMgmtCtrl {
 				questionGroupRepo.save(group);
 				while (iterator.hasNext()) {
 					Row nextRow = iterator.next();
-					Iterator<Cell> cellIterator = nextRow.cellIterator();
-					Question question = new Question();
+					if (nextRow.getCell(i) != null) {
+						Iterator<Cell> cellIterator = nextRow.cellIterator();
+						Question question = new Question();
 
-					if (i > 0) {
-						while (cellIterator.hasNext()) {
-							Cell nextCell = cellIterator.next();
-							int columnIndex = nextCell.getColumnIndex();
-							LOG.info(getCellValue(nextCell).toString());
+						if (i > 0) {
+							while (cellIterator.hasNext()) {
+								Cell nextCell = cellIterator.next();
+								int columnIndex = nextCell.getColumnIndex();
+								LOG.info(getCellValue(nextCell).toString());
 
-							switch (columnIndex) {
-							case 0:
-								question.setQuestion(getCellValue(nextCell).toString());
-								break;
-							case 1:
-								question.setOptionA(getCellValue(nextCell).toString());
-								break;
-							case 2:
-								question.setOptionB(getCellValue(nextCell).toString());
-								break;
-							case 3:
-								question.setOptionC(getCellValue(nextCell).toString());
-								break;
-							case 4:
-								question.setOptionD(getCellValue(nextCell).toString());
-								break;
-							case 5:
-								question.setOptionE(getCellValue(nextCell).toString());
-								break;
-							case 6:
-								question.setKey(getCellValue(nextCell).toString());
-								break;
-							case 7:
-								question.setDifficulty(getDifficultyValue(Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
-								break;
-							case 8:
-								question.setExplanation(getCellValue(nextCell).toString());
-								break;
-							case 9:
-								question.setTypeQuestion(getCellValue(nextCell).toString());
-								break;
-							default:
-								break;
+								switch (columnIndex) {
+								case 0:
+									question.setQuestion(getCellValue(nextCell).toString());
+									break;
+								case 1:
+									question.setOptionA(getCellValue(nextCell).toString());
+									break;
+								case 2:
+									question.setOptionB(getCellValue(nextCell).toString());
+									break;
+								case 3:
+									question.setOptionC(getCellValue(nextCell).toString());
+									break;
+								case 4:
+									question.setOptionD(getCellValue(nextCell).toString());
+									break;
+								case 5:
+									question.setOptionE(getCellValue(nextCell).toString());
+									break;
+								case 6:
+									question.setKey(getCellValue(nextCell).toString());
+									break;
+								case 7:
+									question.setDifficulty(getDifficultyValue(
+											Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
+									break;
+								case 8:
+									question.setExplanation(getCellValue(nextCell).toString());
+									break;
+								case 9:
+									question.setTypeQuestion(getCellValue(nextCell).toString());
+									break;
+								default:
+									break;
+								}
 							}
 
 							question.setDisabled(false);
+							question.setQuestionGroup(group);
+							questions.add(question);
 						}
-						
-						question.setQuestionGroup(group);
-						questions.add(question);
-					}
 
-					i++;
+						i++;
+					}
 				}
 			} else {
 				while (iterator.hasNext()) {
 					Row nextRow = iterator.next();
-					Iterator<Cell> cellIterator = nextRow.cellIterator();
-					Question question = new Question();
+					if (nextRow.getCell(i) != null) {
+						Iterator<Cell> cellIterator = nextRow.cellIterator();
+						Question question = new Question();
 
-					if (i > 0) {
-						while (cellIterator.hasNext()) {
-							Cell nextCell = cellIterator.next();
-							int columnIndex = nextCell.getColumnIndex();
-							LOG.info(getCellValue(nextCell).toString());
+						if (i > 0) {
+							while (cellIterator.hasNext()) {
+								Cell nextCell = cellIterator.next();
+								int columnIndex = nextCell.getColumnIndex();
+								LOG.info(getCellValue(nextCell).toString());
 
-							switch (columnIndex) {
-							case 0:
-								question.setQuestion(getCellValue(nextCell).toString());
-								break;
-							case 1:
-								question.setOptionA(getCellValue(nextCell).toString());
-								break;
-							case 2:
-								question.setOptionB(getCellValue(nextCell).toString());
-								break;
-							case 3:
-								question.setOptionC(getCellValue(nextCell).toString());
-								break;
-							case 4:
-								question.setOptionD(getCellValue(nextCell).toString());
-								break;
-							case 5:
-								question.setOptionE(getCellValue(nextCell).toString());
-								break;
-							case 6:
-								question.setKey(getCellValue(nextCell).toString());
-								break;
-							case 7:
-								question.setDifficulty(getDifficultyValue(Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
-								break;
-							case 8:
-								question.setExplanation(getCellValue(nextCell).toString());
-								break;
-							case 9:
-								question.setTypeQuestion(getCellValue(nextCell).toString());
-								break;
-							default:
-								break;
+								switch (columnIndex) {
+								case 0:
+									question.setQuestion(getCellValue(nextCell).toString());
+									break;
+								case 1:
+									question.setOptionA(getCellValue(nextCell).toString());
+									break;
+								case 2:
+									question.setOptionB(getCellValue(nextCell).toString());
+									break;
+								case 3:
+									question.setOptionC(getCellValue(nextCell).toString());
+									break;
+								case 4:
+									question.setOptionD(getCellValue(nextCell).toString());
+									break;
+								case 5:
+									question.setOptionE(getCellValue(nextCell).toString());
+									break;
+								case 6:
+									question.setKey(getCellValue(nextCell).toString());
+									break;
+								case 7:
+									question.setDifficulty(getDifficultyValue(
+											Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
+									break;
+								case 8:
+									question.setExplanation(getCellValue(nextCell).toString());
+									break;
+								case 9:
+									question.setTypeQuestion(getCellValue(nextCell).toString());
+									break;
+								default:
+									break;
+								}
 							}
 
+							group = new QuestionGroup();
+							group.setCreatedDate(new Date().getTime());
+							group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
+							group.setQuestionPool(qp);
+							questionGroupRepo.save(group);
+
 							question.setDisabled(false);
+							question.setQuestionGroup(group);
+							questions.add(question);
 						}
 
-						group = new QuestionGroup();
-						group.setCreatedDate(new Date().getTime());
-						group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
-						group.setQuestionPool(qp);
-						questionGroupRepo.save(group);
-						question.setQuestionGroup(group);
-						questions.add(question);
+						i++;
 					}
-
-					i++;
 				}
 			}
 
@@ -281,18 +286,16 @@ public class TeacherQuestionMgmtCtrl {
 			return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
 		}
 	}
-	
-	private Difficulty getDifficultyValue(Integer difficulty){
-		if(difficulty == 1){
+
+	private Difficulty getDifficultyValue(Integer difficulty) {
+		if (difficulty == 1) {
 			return Difficulty.valueOf("EASY");
-		}
-		else if(difficulty == 2){
+		} else if (difficulty == 2) {
 			return Difficulty.valueOf("MEDIUM");
-		}
-		else if(difficulty == 3){
+		} else if (difficulty == 3) {
 			return Difficulty.valueOf("HARD");
 		}
-		
+
 		return null;
 	}
 
@@ -523,19 +526,19 @@ public class TeacherQuestionMgmtCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/findQBySubject/{token}/{id}/{nip}", method = RequestMethod.GET)
-	public ResponseEntity<List<Question>> findQuestionsBySbj(@PathVariable("token") String token,
+	public ResponseEntity<List<Map<String, Object>>> findQuestionsBySbj(@PathVariable("token") String token,
 			@PathVariable("id") Integer id, @PathVariable("nip") String nip) {
 		LOG.info("findQuestionsBySbj" + id);
 
-		List<Question> list = questionService.findQuestionBySubject(id, nip);
+		List<Map<String, Object>> list = questionService.findQuestionBySubject(id, nip);
 
 		if (list.size() <= 0 || list == null) {
-			return new ResponseEntity<List<Question>>(list, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<Map<String, Object>>>(list, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<List<Question>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<Map<String, Object>>>(list, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 
 	 * @param token
@@ -543,13 +546,14 @@ public class TeacherQuestionMgmtCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/filterQuestionByTag/{token}/{tagIds}", method = RequestMethod.GET)
-	public ResponseEntity<List<Question>> filterQuestionByTag(@PathVariable("token") String token, @PathVariable("tagIds") ArrayList<Integer> tagIds){
+	public ResponseEntity<List<Question>> filterQuestionByTag(@PathVariable("token") String token,
+			@PathVariable("tagIds") ArrayList<Integer> tagIds) {
 		List<Question> questions = questionService.getQuestionByTag(tagIds);
-		
-		if(questions.size() <= 0){
+
+		if (questions.size() <= 0) {
 			return new ResponseEntity<List<Question>>(questions, HttpStatus.NOT_FOUND);
 		}
-		
+
 		return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
 	}
 }

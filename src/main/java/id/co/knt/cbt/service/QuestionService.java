@@ -22,7 +22,7 @@ public interface QuestionService {
 	
 	List<Question> findQuestionByQP(Long questionPoolId);
 	
-	List<Question> findQuestionBySubject(Integer subjectId, String nip);
+	List<Map<String, Object>> findQuestionBySubject(Integer subjectId, String nip);
 	
 	List<Question> findQuestionByQG(Long qgId);
 	
