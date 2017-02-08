@@ -1,13 +1,13 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.Kelas;
-import id.co.knt.cbt.model.Student;
-import id.co.knt.cbt.model.User.Religion;
-import id.co.knt.cbt.model.User.Sex;
-import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.KelasService;
-import id.co.knt.cbt.service.StudentService;
-import id.co.knt.cbt.util.PasswordUtility;
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -18,15 +18,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import id.co.knt.cbt.model.Kelas;
+import id.co.knt.cbt.model.Student;
+import id.co.knt.cbt.model.User.Religion;
+import id.co.knt.cbt.model.User.Sex;
+import id.co.knt.cbt.model.User.UserType;
+import id.co.knt.cbt.service.KelasService;
+import id.co.knt.cbt.service.StudentService;
+import id.co.knt.cbt.util.PasswordUtility;
 
 /**
  * 
@@ -122,7 +128,6 @@ public class AdmStudentCtrl {
 		Calendar calendar = Calendar.getInstance();
 		gmtFormat.setTimeZone(timeZone);
 
-		Date birthDate = null;
 		String pass = "";
 		try {
 			calendar.setTimeInMillis(longBirthDate);
