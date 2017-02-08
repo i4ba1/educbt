@@ -574,6 +574,11 @@ angular
             return $sce.trustAsHtml(stringBuilder);
         }
 
+        // Filter Question By TagNames
+        $scope.filterQuestionByTagnames = function(tagnames) {
+
+        }
+
 
         if ($state.is('teacher.eventManagement')) {
             if ($scope.currentTeacher != null) {

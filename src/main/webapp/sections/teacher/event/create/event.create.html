@@ -197,7 +197,7 @@
 <!-- This Modal is for adding question-->
 <modal-dialog title="Bank Soal" visible="showModal" size="modal-lg">
     <div class="col-md-12" style="margin-bottom: 15px;">
-        <form class="form-inline">
+        <form class="form-inline" ng-submit="filterQuestionByTagnames(eventCtrl.tagFilters)">
             <div class="form-group">
                 <!--Select tag names Filter-->
                 <ui-select multiple ng-model="eventCtrl.tagFilters" theme="bootstrap" sortable="true" close-on-select="false" style="width: 700px;">
