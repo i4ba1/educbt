@@ -17,5 +17,5 @@ public interface QuestionTagRepo extends JpaRepository<QuestionTag, Long> {
 		List<QuestionTag> findQT(@Param("id") Long id);
 
 		@Query("select qT.question from QuestionTag qT where qT.tag.id in :tagIds")
-		List<QuestionTag> findQuestionByTag(@Param("tagIds")  ArrayList<Integer>  tagIds);
+		List<QuestionTag> findQuestionByTag(@Param("tagIds")  ArrayList<Long>  tagIds);
 }

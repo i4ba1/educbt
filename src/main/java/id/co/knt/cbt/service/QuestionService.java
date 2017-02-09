@@ -32,5 +32,5 @@ public interface QuestionService {
 	
 	void disabledQG(Long groupId);
 	
-	List<Question> getQuestionByTag(ArrayList<Integer> ids);
+	List<Question> getQuestionByTag(ArrayList<Long> ids);
 }

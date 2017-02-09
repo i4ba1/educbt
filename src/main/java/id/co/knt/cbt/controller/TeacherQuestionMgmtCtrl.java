@@ -545,9 +545,9 @@ public class TeacherQuestionMgmtCtrl {
 	 * @param tagIds
 	 * @return
 	 */
-	@RequestMapping(value = "/filterQuestionByTag/{token}/{tagIds}", method = RequestMethod.GET)
+	@RequestMapping(value = "/filterQuestionByTag/{token}/{tagIds}", method = RequestMethod.POST)
 	public ResponseEntity<List<Question>> filterQuestionByTag(@PathVariable("token") String token,
-			@PathVariable("tagIds") ArrayList<Integer> tagIds) {
+			@PathVariable("tagIds") ArrayList<Long> tagIds) {
 		List<Question> questions = questionService.getQuestionByTag(tagIds);
 
 		if (questions.size() <= 0) {
