@@ -7,6 +7,7 @@ angular.module('app.messages')
                     templateUrl: 'components/modal-template/dialog.msg.html',
                     controller: 'DialogMessageCtrl',
                     size: size,
+                    backdrop: 'static',
                     resolve: {
                         titleText: function() {
                             return title;
@@ -25,6 +26,7 @@ angular.module('app.messages')
                     templateUrl: 'components/modal-template/confirmation.msg.html',
                     controller: 'DialogMessageCtrl',
                     size: size,
+                    backdrop: 'static',
                     resolve: {
                         titleText: function() {
                             return title;

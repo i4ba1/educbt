@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce) {
+    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -162,16 +162,21 @@ angular
          * Passage Question Add
          */
         $scope.passageQuestionAdd = function(passageQuestion) {
-            $scope.qPassageType = "";
-            if (!$scope.isUpdatePassageQ) {
-                $scope.passageQuestions.push(passageQuestion);
+            var result = validatingNormalQuestion(passageQuestion, 0);
+            if (result.isValid) {
+                if (!$scope.isUpdatePassageQ) {
+                    $scope.passageQuestions.push(passageQuestion);
+                } else {
+                    $scope.passageQuestions[$scope.editIndexQuestion] = passageQuestion;
+                    $scope.isUpdatePassageQ = false;
+                }
+                $scope.selectedQuestion = initQst();
+                $scope.qstOptions = [];
+                $scope.showAddQst = false;
             } else {
-                $scope.passageQuestions[$scope.editIndexQuestion] = passageQuestion;
-                $scope.isUpdatePassageQ = false;
+                DialogFactory.showDialogMsg('Gagal Simpan', result.message, 'md')
             }
-            $scope.selectedQuestion = initQst();
-            $scope.qstOptions = [];
-            $scope.showAddQst = false;
+
         };
 
         /*
@@ -287,33 +292,138 @@ angular
             $scope.selectedQuestion.tagNames.splice(index, 1);
         };
 
+        // Saving Question 
         $scope.saveQuestion = function() {
+            var result = {};
             if (type === "MC" || type === "TF") {
                 if ($scope.questionUpdate) {
                     $scope.questionGroup.questions[0] = $scope.selectedQuestion;
                 } else {
                     $scope.questionGroup.questions.push($scope.selectedQuestion);
                 }
+                result = validatingNormalQuestion($scope.selectedQuestion, 0);
             } else if (type === "PASSAGE") {
                 $scope.questionGroup.questions = $scope.passageQuestions;
+                result = validatingPassageQuestion($scope.questionGroup);
+
             }
 
-            if ($scope.questionUpdate) {
-                var promise = queastionBankService.updateQuestionGroup(token, $scope.questionGroup);
-                promise.then(function(response) {
-                    $state.go("^");
-                }, function(errorResponse) {
-                    errorHandle.setError(errorResponse);
-                });
+            if (result.isValid) {
+                if ($scope.questionUpdate) {
+                    var promise = queastionBankService.updateQuestionGroup(token, $scope.questionGroup);
+                    promise.then(function(response) {
+                        $state.go("^");
+                    }, function(errorResponse) {
+                        errorHandle.setError(errorResponse);
+                    });
+                } else {
+                    var promise = queastionBankService.createQuestionGroup(token, $scope.questionGroup);
+                    promise.then(function(response) {
+                        $state.go("^");
+                    }, function(errorResponse) {
+                        errorHandle.setError(errorResponse);
+                    });
+                }
             } else {
-                var promise = queastionBankService.createQuestionGroup(token, $scope.questionGroup);
-                promise.then(function(response) {
-                    $state.go("^");
-                }, function(errorResponse) {
-                    errorHandle.setError(errorResponse);
-                });
+                DialogFactory.showDialogMsg('Gagal Simpan', result.message, 'md');
             }
+
+
         };
+
+        //form validating for create or updating passage question 
+        function validatingPassageQuestion(group) {
+            var messageBuilder = "<p style='text-align:left; font-size:10pt;'>";
+            var errorCounter = 0;
+            var QCheckAble = true;
+            var elementId = document.querySelectorAll('[ng-model="questionGroup.globalValue"]')[0].id;
+            var element = tinyMCE.get(elementId).getContent();
+            var isValid = true;
+            if (!element) {
+                errorCounter++;
+                messageBuilder = messageBuilder.concat(errorCounter + " . Wacana tidak boleh kosong <br/>");
+                isValid = false;
+            }
+            if (group.questions.length === 0) {
+                errorCounter++;
+                messageBuilder = messageBuilder.concat(errorCounter + " . Daftar Soal tidak boleh kosong, minimal ada 1 soal. <br/>");
+                QCheckAble = false;
+                isValid = false;
+            }
+            messageBuilder = messageBuilder.concat('</p>');
+            return {
+                isValid: isValid,
+                message: messageBuilder
+            };
+        }
+
+        function validatingNormalQuestion(q, ec) {
+            var messageBuilder = "<p style='text-align:left; font-size:10pt;'>";
+            var isValid = true;
+
+            if (q.tagNames.length === 0) {
+                ec++;
+                messageBuilder = messageBuilder.concat(ec + " . Sub Materi tidak boleh kosong <br/>");
+                isValid = false;
+            }
+
+            if (!q.question) {
+                ec++;
+                messageBuilder = messageBuilder.concat(ec + " . Pertanyaan tidak boleh kosong <br/>");
+                isValid = false;
+            }
+
+            if (!q.key) {
+                ec++;
+                messageBuilder = messageBuilder.concat(ec + " . Kunci Jawab tidak boleh kosong <br/>");
+                isValid = false;
+            }
+
+            if (!q.explanation) {
+                ec++;
+                messageBuilder = messageBuilder.concat(ec + " . Pertanyaan tidak boleh kosong <br/>");
+                isValid = false;
+            }
+
+            if (q.typeQuestion === "MC") {
+                if (!q.optionA) {
+                    ec++;
+                    messageBuilder = messageBuilder.concat(ec + " . Pilihan A tidak boleh kosong <br/>");
+                    isValid = false;
+                }
+                if (!q.optionB) {
+                    ec++;
+                    messageBuilder = messageBuilder.concat(ec + " . Pilihan B tidak boleh kosong <br/>");
+                    isValid = false;
+                }
+                if (!q.optionC) {
+                    ec++;
+                    messageBuilder = messageBuilder.concat(ec + " . Pilihan C tidak boleh kosong <br/>");
+                    isValid = false;
+                }
+                if (!q.optionD) {
+                    ec++;
+                    messageBuilder = messageBuilder.concat(ec + " . Pilihan D tidak boleh kosong <br/>");
+                    isValid = false;
+                }
+                if (!q.optionE) {
+                    ec++;
+                    messageBuilder = messageBuilder.concat(ec + " . Pilihan E tidak boleh kosong <br/>");
+                    isValid = false;
+                }
+            }
+            if (!q.difficulty) {
+                ec++;
+                messageBuilder = messageBuilder.concat(ec + " . Taraf Kesukaran tidak boleh kosong <br/>");
+                isValid = false;
+            }
+            messageBuilder = messageBuilder.concat('</p>');
+            return {
+                isValid: isValid,
+                message: messageBuilder
+            }
+        }
+
 
         if ($stateParams.qId != null && $stateParams.qId != "") {
             $(document).ready(function() {
