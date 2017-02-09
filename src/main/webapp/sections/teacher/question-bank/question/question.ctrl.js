@@ -296,12 +296,15 @@ angular
         $scope.saveQuestion = function() {
             var result = {};
             if (type === "MC" || type === "TF") {
-                if ($scope.questionUpdate) {
-                    $scope.questionGroup.questions[0] = $scope.selectedQuestion;
-                } else {
-                    $scope.questionGroup.questions.push($scope.selectedQuestion);
-                }
                 result = validatingNormalQuestion($scope.selectedQuestion, 0);
+                if (result.isValid) {
+                    if ($scope.questionUpdate) {
+                        $scope.questionGroup.questions[0] = $scope.selectedQuestion;
+                    } else {
+                        $scope.questionGroup.questions.push($scope.selectedQuestion);
+                    }
+                }
+
             } else if (type === "PASSAGE") {
                 $scope.questionGroup.questions = $scope.passageQuestions;
                 result = validatingPassageQuestion($scope.questionGroup);
@@ -381,7 +384,7 @@ angular
 
             if (!q.explanation) {
                 ec++;
-                messageBuilder = messageBuilder.concat(ec + " . Pertanyaan tidak boleh kosong <br/>");
+                messageBuilder = messageBuilder.concat(ec + " . Pembahasan tidak boleh kosong <br/>");
                 isValid = false;
             }
 

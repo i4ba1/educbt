@@ -277,7 +277,8 @@ angular
                         $scope.questionBySubjectList.push({
                             id: q.id,
                             question: q.question,
-                            difficulty: q.difficulty
+                            difficulty: q.difficulty,
+                            tagNames: q.tagNames
                         });
                     });
                 },
