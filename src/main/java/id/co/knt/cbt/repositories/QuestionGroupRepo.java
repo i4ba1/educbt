@@ -18,6 +18,6 @@ public interface QuestionGroupRepo extends JpaRepository<QuestionGroup, Long> {
 	@Query("select qG from QuestionGroup qG inner join fetch qG.questionPool qP inner join qG.questions where qG.id= :id and qG.deleted=false")
 	QuestionGroup findQuestionGroupById(@Param("id") Long id);
 	
-	@Query("select qG from QuestionGroup qG inner join fetch qG.questionPool qP where qP.employee.nip= :nip and gG.deleted=false")
+	@Query("select qG from QuestionGroup qG inner join fetch qG.questionPool qP where qP.employee.nip= :nip and qG.deleted=false")
 	List<QuestionGroup> findQuestionGroupByNIP(@Param("nip") String nip);
 }

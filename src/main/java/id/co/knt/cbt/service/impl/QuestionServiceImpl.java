@@ -90,6 +90,8 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestion.setKey(objQuestion.getString("key"));
             newQuestion.setTypeQuestion(QG_TYPE.MC.name());
             questionRepo.save(newQuestion);
+            listNewQ.add(newQuestion);
+            
             success++;
         } else if (QG_TYPE.TF.name().equals(qgType)) {
             objQuestion = arrQuestions.getJSONObject(0);
@@ -102,6 +104,8 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestion.setKey(objQuestion.getString("key"));
             newQuestion.setTypeQuestion(QG_TYPE.TF.name());
             questionRepo.save(newQuestion);
+            listNewQ.add(newQuestion);
+            
             success++;
         } else if (QG_TYPE.PASSAGE.name().equals(qgType)) {
             String strPassage = objQG.getString("globalValue");
