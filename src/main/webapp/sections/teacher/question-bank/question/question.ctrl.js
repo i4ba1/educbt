@@ -232,30 +232,28 @@ angular
          * fetch all question from qstGroup and show detail qstGroup
          */
         function findQuestionGroupDetail() {
-            findAll().then(function() {
-                var promise = queastionBankService.detailQuestionGroup($stateParams.qId, token);
-                promise.then(
-                    function(response) {
-                        $scope.questionGroup = response.data.questionGroup[0];
-                        if (type == "PASSAGE") {
-                            $scope.passageQuestions = $scope.questionGroup.questions;
-                        } else {
-                            $scope.selectedQuestion = $scope.questionGroup.questions[0];
-                            if ($scope.tags.availableOption.length > 0 && $scope.selectedQuestion.tagNames.length > 0) {
-                                for (var i = 0; i < $scope.selectedQuestion.tagNames.length; i++) {
-                                    var data = $scope.selectedQuestion.tagNames[i];
-                                    $scope.tags.availableOption.splice($scope.tags.availableOption.findIndex(d => d.tagName === data.tagName), 1);
-                                };
-                            }
-                            if (type == "MC") {
-                                $scope.qstOptions = initOptionQst("MC");
-                            }
+            var promise = queastionBankService.detailQuestionGroup($stateParams.qId, token);
+            promise.then(
+                function(response) {
+                    $scope.questionGroup = response.data.questionGroup[0];
+                    if (type == "PASSAGE") {
+                        $scope.passageQuestions = $scope.questionGroup.questions;
+                    } else {
+                        $scope.selectedQuestion = $scope.questionGroup.questions[0];
+                        if ($scope.tags.availableOption.length > 0 && $scope.selectedQuestion.tagNames.length > 0) {
+                            for (var i = 0; i < $scope.selectedQuestion.tagNames.length; i++) {
+                                var data = $scope.selectedQuestion.tagNames[i];
+                                $scope.tags.availableOption.splice($scope.tags.availableOption.findIndex(d => d.tagName === data.tagName), 1);
+                            };
                         }
-                    },
-                    function(errorResponse) {
-                        errorHandle.setError(errorResponse);
-                    });
-            });
+                        if (type == "MC") {
+                            $scope.qstOptions = initOptionQst("MC");
+                        }
+                    }
+                },
+                function(errorResponse) {
+                    errorHandle.setError(errorResponse);
+                });
         };
 
         $scope.showPanel = function(value, value_2) {
@@ -318,7 +316,10 @@ angular
         };
 
         if ($stateParams.qId != null && $stateParams.qId != "") {
-            findQuestionGroupDetail();
+            $(document).ready(function() {
+                findAll();
+                findQuestionGroupDetail();
+            })
             $scope.questionUpdate = true;
         } else {
             findAll();
