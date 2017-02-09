@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.QuestionTag;
 
 @Repository
@@ -17,5 +18,5 @@ public interface QuestionTagRepo extends JpaRepository<QuestionTag, Long> {
 		List<QuestionTag> findQT(@Param("id") Long id);
 
 		@Query("select qT.question from QuestionTag qT where qT.tag.id in :tagIds")
-		List<QuestionTag> findQuestionByTag(@Param("tagIds")  ArrayList<Long>  tagIds);
+		List<Question> findQuestionByTag(@Param("tagIds")  ArrayList<Long>  tagIds);
 }
