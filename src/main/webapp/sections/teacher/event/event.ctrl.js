@@ -576,16 +576,36 @@ angular
         }
 
         // Filter Question By TagNames
-        $scope.filterQuestionByTagnames = function(tag) {
+        $scope.filterQuestionByTagnames = function(tags) {
+            if (tags) {
+                var tagIds = [];
+                tags.forEach(function(tag) {
+                    tagIds.push(tag.id);
+                });
+                queastionBankService.filterQuestionByTagNames(token, tagIds).then(
+                    function(response) {
+                        $scope.questionBySubjectList = [];
+                        response.data.forEach(function(q) {
+                            $scope.questionBySubjectList.push({
+                                id: q.id,
+                                question: q.question,
+                                difficulty: q.difficulty,
+                                tagNames: q.tagNames
+                            });
+                        });
+                    },
+                    function(errorResponse) {
+                        $scope.questionBySubjectList = [];
+                        errorHandle.setError(errorResponse);
+                    }
+                ).then(
+                    function() {
+                        self.tagFilter = undefined;
+                        updateQuestionEventTable($scope.questionBySubjectList);
+                    }
+                );
 
-            queastionBankService.filterQuestionByTagNames(token, tag.id).then(
-                function(response) {
-
-                },
-                function(errorResponse) {
-
-                }
-            );
+            }
 
         }
 

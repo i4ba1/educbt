@@ -200,20 +200,12 @@
         <form class="form-inline" ng-submit="filterQuestionByTagnames(eventCtrl.tagFilter)">
             <div class="form-group">
                 <!--Select tag names Filter-->
-                <!--<ui-select ng-model="eventCtrl.tagFilters" theme="bootstrap" style="min-width: 300px;" sortable="true">
-                    <ui-select-match allow-clear="true" placeholder="saring sub materi...">{{$select.tag.tagName}}</ui-select-match>
-                    <ui-select-choices repeat="tag in subjectTagNames | propsFilter: {tagName: $select.search}">
-                        <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
-                    </ui-select-choices>
-                </ui-select>-->
-
-                <ui-select ng-model="eventCtrl.tagFilter" theme="bootstrap">
-                    <ui-select-match placeholder="saring sub materi...">{{$select.selected.tagName}}</ui-select-match>
-                    <ui-select-choices group-by="'country'" repeat="tag in subjectTagNames | filter: $select.search">
+                <ui-select multiple ng-model="eventCtrl.tagFilter" theme="bootstrap" sortable="true" close-on-select="true" style="width: 700px;">
+                    <ui-select-match placeholder="saring sub materi...">{{$item.tagName}}</ui-select-match>
+                    <ui-select-choices group-by="'country'" repeat="tag in subjectTagNames | propsFilter: {tagName : $select.search}">
                         <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
-
 
             </div>
             <button type="submit" class="btn btn-default">saring</button>

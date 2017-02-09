@@ -135,8 +135,18 @@ angular.module('app.core')
                 return result;
 
             },
-            filterQuestionByTagNames: function(token, tagId) {
-                return $http.get(url + "/createQuestionPool/filterQuestionByTag/" + token + '/' + tagId);
+            filterQuestionByTagNames: function(token, tagIds) {
+                var fd = new FormData();
+                fd.append('token', token);
+                fd.append('tagIds', tagIds);
+                var uploadUrl = url + "/teacher/questionMgmt/filterQuestionByTag/";
+                var result = $http.post(uploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                })
+                return result;
             }
 
         };
