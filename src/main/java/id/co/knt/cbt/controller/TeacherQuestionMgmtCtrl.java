@@ -546,14 +546,14 @@ public class TeacherQuestionMgmtCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/filterQuestionByTag/", method = RequestMethod.POST)
-	public ResponseEntity<List<Question>> filterQuestionByTag(@RequestParam("token") String token,
+	public ResponseEntity<List<Map<String, Object>>> filterQuestionByTag(@RequestParam("token") String token,
 			@RequestParam("tagIds") ArrayList<Long> tagIds) {
-		List<Question> questions = questionService.getQuestionByTag(tagIds);
+		List<Map<String, Object>> questions = questionService.getQuestionByTag(tagIds);
 
 		if (questions.size() <= 0) {
-			return new ResponseEntity<List<Question>>(questions, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<Map<String, Object>>>(questions, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+		return new ResponseEntity<List<Map<String, Object>>>(questions, HttpStatus.OK);
 	}
 }
