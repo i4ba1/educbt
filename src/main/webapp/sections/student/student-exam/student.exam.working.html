@@ -115,7 +115,7 @@
                                     <span ng-bind-html="trustAsHtml(currentQuestion.question.optionC)"></span><br/>
                                 </td>
                             </tr>
-                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionD != null)">
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionD)">
                                 <td style="vertical-align: top;" width="15">
                                     <input name="optionD" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="D" ng-disabled="(!isExam) && (currentQuestion.answered != 'D')" />
                                 </td>
@@ -126,7 +126,7 @@
                                     <span ng-bind-html="trustAsHtml(currentQuestion.question.optionD)"></span><br/>
                                 </td>
                             </tr>
-                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionE != null)">
+                            <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionE)">
                                 <td style="vertical-align: top;" width="15">
                                     <input name="optionE" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="E" ng-disabled="(!isExam) && (currentQuestion.answered != 'E')" />
                                 </td>
