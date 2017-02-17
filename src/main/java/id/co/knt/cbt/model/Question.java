@@ -35,7 +35,7 @@ public class Question implements Serializable{
 	@Column(name="id")
 	private Long id;
 
-	@Column(name="question", columnDefinition="TEXT")
+	@Column(name="question", columnDefinition="TEXT", nullable=true)
 	private String question;
 
 	@Column(name="option_a", columnDefinition="TEXT", nullable=true)

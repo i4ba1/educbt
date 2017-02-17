@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +42,9 @@ public class UploadResourcesCtrl {
 	@Autowired
 	private EmployeeService empService;
 
+	@Autowired
+	private QuestionService questionService;
+
 	/**
 	 * Upload the image from gallery+
 	 * 
@@ -50,9 +54,11 @@ public class UploadResourcesCtrl {
 	 */
 	@RequestMapping(value = "/uploadImgQuestion/", method = RequestMethod.POST)
 	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
-			@RequestParam("file") MultipartFile file, @RequestParam("teacherNip") String teacherNip) {
+			@RequestParam("teacherNip") String teacherNip, @RequestParam(questionId) Long questionId,
+			@RequestBody List<Object> images) {
 		LOG.info("/uploadImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
+		Question q = questionService.findQuestionById(questionId);
 
 		String fileName = "";
 		Gallery resources = null;
