@@ -76,6 +76,10 @@ public class Question implements Serializable{
 	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
 	private List<StudentAnswer> studentAnswers;
 
+	@JsonIgnore
+	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	private List<QuestionImages> questionImages;	
+
 	public String getQuestion() {
 		return question;
 	}
@@ -193,5 +197,13 @@ public class Question implements Serializable{
 
 	public void setStudentAnswers(List<StudentAnswer> studentAnswers) {
 		this.studentAnswers = studentAnswers;
+	}
+
+	public List<QuestionImages> getQuestionImages() {
+		return this.questionImages;
+	}
+
+	public void setQuestionImages(List<QuestionImages> questionImages) {
+		this.questionImages = questionImages;
 	}
 }
