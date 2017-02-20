@@ -1,11 +1,9 @@
 package id.co.knt.cbt.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +13,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import id.co.knt.cbt.model.Employee;
 import id.co.knt.cbt.model.Gallery;
+import id.co.knt.cbt.model.QuestionGroup;
+import id.co.knt.cbt.model.QuestionGroupImages;
+import id.co.knt.cbt.model.QuestionGroupImages.ImageExtention;
 import id.co.knt.cbt.service.EmployeeService;
 import id.co.knt.cbt.service.GalleryService;
+import id.co.knt.cbt.service.QuestionGroupService;
+import id.co.knt.cbt.service.QuestionService;
 
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
@@ -34,7 +35,7 @@ public class UploadResourcesCtrl {
 
 	@Value("${path.question.image}")
 	private String Q_IMG_PATH = "";
-	private static final Logger LOG = LoggerFactory.getLogger(AdmSchoolCtrl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UploadResourcesCtrl.class);
 
 	@Autowired
 	private GalleryService resourceService;
@@ -45,49 +46,59 @@ public class UploadResourcesCtrl {
 	@Autowired
 	private QuestionService questionService;
 
+	@Autowired
+	private QuestionGroupService questionGroupService;
+
 	/**
 	 * Upload the image from gallery+
 	 * 
 	 * @param token
-	 * @param file
+	 * @param teacherId
+	 * @param questionId
+	 * @param List of images(fileName, base64)
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadImgQuestion/", method = RequestMethod.POST)
 	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
-			@RequestParam("teacherNip") String teacherNip, @RequestParam(questionId) Long questionId,
+			@RequestParam("teacherId") String teacherId, @RequestParam("questionGroupId") Long questionGroupId,
 			@RequestBody List<Object> images) {
 		LOG.info("/uploadImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
-		Question q = questionService.findQuestionById(questionId);
-
-		String fileName = "";
-		Gallery resources = null;
-		if (!file.isEmpty()) {
-			try {
-				Employee emp = empService.findPassByNip(teacherNip);
-				fileName = file.getOriginalFilename();
-				String filePath = System.getProperty("user.home") + Q_IMG_PATH + File.separator + fileName;
-				fileName = file.getOriginalFilename();
-				
-				byte[] bytes = file.getBytes();
-				String dir = System.getProperty("user.home") + Q_IMG_PATH;
-				File serverDirFile = new File(dir);
-				if(!serverDirFile.exists()){
-					serverDirFile.mkdirs();
+		QuestionGroup qGroup = questionGroupService.findQuestionGroupById(questionGroupId);
+		try {
+				JSONArray arrayImg = new JSONArray(images);
+				QuestionGroupImages questionGroupImages = null;
+				for(int i=0; i<arrayImg.length(); i++){
+					JSONObject obj = arrayImg.getJSONObject(i);
+					questionGroupImages = new QuestionGroupImages();
+					questionGroupImages.setImageName(obj.getString("imageName"));
+					String imageName = obj.getString("imageName");
+					questionGroupImages.setBase64Image(obj.getString("base64"));
+					questionGroupImages.setImageExtention(ImageExtention.valueOf(imageName.substring(imageName.lastIndexOf("."), imageName.length()-1)));
+					questionGroupImages.setCreatedDate(System.currentTimeMillis());
+					questionGroupImages.setQuestionGroup(qGroup);
+					questionService.addNewQuestionImage(questionGroupImages);
 				}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
-				// Create the file on server
-				File serverFile = new File(filePath);
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
+		return new ResponseEntity<Void>(header, HttpStatus.OK);
+	}
 
-				resources = new Gallery(fileName, filePath, file.getContentType(), new Date().getTime(), emp);
-				resourceService.addNew(resources);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+	@RequestMapping(value = "/deleteImgQuestion/", method = RequestMethod.POST)
+	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
+			@RequestParam("teacherId") String teacherId, @RequestParam("questionGroupImageId") Long questionGroupId) {
+		LOG.info("/uploadImgQuestion/ ");
+		HttpHeaders header = new HttpHeaders();
+
+		try {
+			QuestionGroupImages groupImages = questionService.findQGImages(questionGroupId);
+			questionService.deleteQuestionImage(groupImages);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<Void>(header, HttpStatus.OK);

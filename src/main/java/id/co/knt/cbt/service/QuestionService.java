@@ -6,6 +6,7 @@ import java.util.Map;
 
 import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.QuestionGroup;
+import id.co.knt.cbt.model.QuestionGroupImages;
 
 public interface QuestionService {
 	int addNewQuestion(List<Object> questions);
@@ -33,4 +34,10 @@ public interface QuestionService {
 	void disabledQG(Long groupId);
 	
 	List<Map<String, Object>> getQuestionByTag(ArrayList<Long> ids);
+	
+	void addNewQuestionImage(QuestionGroupImages questionGroupImages);
+	
+	void deleteQuestionImage(QuestionGroupImages questionGroupImages);
+	
+	QuestionGroupImages findQGImages(Long id);
 }

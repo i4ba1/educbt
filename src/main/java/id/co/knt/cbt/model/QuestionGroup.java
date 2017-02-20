@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -58,6 +59,10 @@ public class QuestionGroup implements Serializable {
 	@JsonProperty("questions")
 	@OneToMany(mappedBy = "questionGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Question> questions;
+
+	@JsonIgnore
+	@OneToMany(mappedBy="questionGroup", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	private List<QuestionGroupImages> questionGroupImages;
 
 	public Long getId() {
 		return id;
@@ -115,4 +120,11 @@ public class QuestionGroup implements Serializable {
 		questions.add(q);
 	}
 
+	public List<QuestionGroupImages> getQuestionGroupImages() {
+		return this.questionGroupImages;
+	}
+
+	public void setQuestionImages(List<QuestionGroupImages> questionGroupImages) {
+		this.questionGroupImages = questionGroupImages;
+	}
 }

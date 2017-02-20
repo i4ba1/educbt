@@ -16,9 +16,11 @@ import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.Question.Difficulty;
 import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
+import id.co.knt.cbt.model.QuestionGroupImages;
 import id.co.knt.cbt.model.QuestionPool;
 import id.co.knt.cbt.model.QuestionTag;
 import id.co.knt.cbt.model.Tag;
+import id.co.knt.cbt.repositories.QuestionGroupImagesRepo;
 import id.co.knt.cbt.repositories.QuestionGroupRepo;
 import id.co.knt.cbt.repositories.QuestionPoolRepository;
 import id.co.knt.cbt.repositories.QuestionRepo;
@@ -38,6 +40,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private QuestionGroupRepo groupRepo;
+	
+	@Autowired
+	private QuestionGroupImagesRepo questionGroupImagesRepo;
 
 	@Autowired
 	private TagRepo tagRepo;
@@ -510,6 +515,22 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 
 		return objQuestion;
+	}
+
+	@Override
+	public void addNewQuestionImage(QuestionGroupImages questionGroupImages) {
+		questionGroupImagesRepo.save(questionGroupImages);
+	}
+
+	@Override
+	public void deleteQuestionImage(QuestionGroupImages questionGroupImages) {
+		questionGroupImagesRepo.delete(questionGroupImages);
+	}
+
+	@Override
+	public QuestionGroupImages findQGImages(Long id) {
+		QuestionGroupImages groupImages = questionGroupImagesRepo.findOne(id);
+		return groupImages;
 	}
 
 }

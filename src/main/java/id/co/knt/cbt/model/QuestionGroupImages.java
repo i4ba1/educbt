@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="cbt_question_images")
-public class QuestionImages implements Serializable{
+public class QuestionGroupImages implements Serializable{
 
 	/**
 	 * 
@@ -45,8 +45,8 @@ public class QuestionImages implements Serializable{
 	private Long createdDate;
 
 	@ManyToOne
-	@JoinColumn(name="question_id", nullable=false)
-	private Question question;
+	@JoinColumn(name="question_group_id", nullable=false)
+	private QuestionGroup questionGroup;
 
 	public Long getId() {
 		return id;
@@ -84,11 +84,11 @@ public class QuestionImages implements Serializable{
 		this.createdDate = createdDate;
 	}
 
-	public Question getQuestion(){
-		return this.question;
+	public QuestionGroup getQuestionGroup(){
+		return this.questionGroup;
 	}
 
-	public void setQuestion(Question question){
-		this.question = question;
+	public void setQuestionGroup(QuestionGroup questionGroup){
+		this.questionGroup = questionGroup;
 	}	
 }
