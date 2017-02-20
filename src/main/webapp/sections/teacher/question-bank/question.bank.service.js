@@ -147,6 +147,20 @@ angular.module('app.core')
                     }
                 })
                 return result;
+            },
+            uploadImages: function(token, nip, qImages) {
+                var fd = new FormData();
+                fd.append('token', token);
+                fd.append('nip', nip);
+                fd.append('images', qImages);
+                var uploadUrl = url + "/teacher/questionMgmt/filterQuestionByTag/";
+                var result = $http.post(uploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                })
+                return result;
             }
 
         };

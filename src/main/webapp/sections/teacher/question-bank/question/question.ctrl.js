@@ -128,17 +128,8 @@ angular
         }
 
         // upload images
-        $scope.uploadImage = function(file) {
-            // var promise = queastionBankService.uploadImage(token, file, $scope.currentTeacher.nip);
-            // promise.then(function(response) {
-            //     $scope.showModal = false;
-            //     $scope.image = null;
-            //     $scope.file = null;
-            // }, function(errorResponse) {
-            //     errorHandle.setError(errorResponse);
-            // }).then(function() {
-            //     findAllGallery();
-            // });
+        $scope.uploadImages = function() {
+            queastionBankService.uploadImages($scope.currentTeacher.nip, token, $scope.images);
         };
 
         // open insert images 
@@ -338,14 +329,20 @@ angular
                 if ($scope.questionUpdate) {
                     var promise = queastionBankService.updateQuestionGroup(token, $scope.questionGroup);
                     promise.then(function(response) {
-                        $state.go("^");
+                        $scope.uploadImages();
+                        $timeout(function() {
+                            $state.go("^");
+                        }, 2000);
                     }, function(errorResponse) {
                         errorHandle.setError(errorResponse);
                     });
                 } else {
                     var promise = queastionBankService.createQuestionGroup(token, $scope.questionGroup);
                     promise.then(function(response) {
-                        $state.go("^");
+                        $scope.uploadImages();
+                        $timeout(function() {
+                            $state.go("^");
+                        }, 2000);
                     }, function(errorResponse) {
                         errorHandle.setError(errorResponse);
                     });
