@@ -27,6 +27,7 @@ angular
         $scope.image;
         $scope.imageGalery = [];
         $scope.trustAsHtml = tinyMce.trustAsHtml;
+        $scope.images = [];
 
         if (!storageService.isAuthorization("EMPLOYEE")) {
             $state.go("login");
@@ -126,18 +127,40 @@ angular
             questions: []
         }
 
+        // upload images
         $scope.uploadImage = function(file) {
-            var promise = queastionBankService.uploadImage(token, file, $scope.currentTeacher.nip);
-            promise.then(function(response) {
-                $scope.showModal = false;
-                $scope.image = null;
-                $scope.file = null;
-            }, function(errorResponse) {
-                errorHandle.setError(errorResponse);
-            }).then(function() {
-                findAllGallery();
-            });
+            // var promise = queastionBankService.uploadImage(token, file, $scope.currentTeacher.nip);
+            // promise.then(function(response) {
+            //     $scope.showModal = false;
+            //     $scope.image = null;
+            //     $scope.file = null;
+            // }, function(errorResponse) {
+            //     errorHandle.setError(errorResponse);
+            // }).then(function() {
+            //     findAllGallery();
+            // });
         };
+
+        // open insert images 
+        $scope.showImagesPanel = function(tinymceModel) {
+            var element = document.querySelectorAll('[ng-model="' + tinymceModel + '"]')[0];
+
+            DialogFactory.openImagesGallery($scope.images).then(
+                function(response) {
+                    $scope.images = response.images;
+                    var ed = tinyMCE.get(element.id);
+                    var image = ed.getDoc().createElement("img")
+                    image.src = response.selectedImage.base64;
+                    image.style.cssText = "height:100px; width:auto; max-width:200px;"
+                    ed.execCommand('mceInsertContent', false, image.outerHTML);
+                },
+                function(dismiss) {
+                    $scope.images = response.images;
+                }
+            );
+        };
+
+
 
         function findAllGallery() {
             var promise = queastionBankService.findAllGallery(token, $scope.currentTeacher.nip);

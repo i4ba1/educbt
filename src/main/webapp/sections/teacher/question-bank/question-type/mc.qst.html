@@ -17,6 +17,9 @@
             <label class="control-label">Pertanyaan* :</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.question')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceQuestion" ng-model="selectedQuestion.question" ng-required="true"></textarea>
         </div>
     </div>
@@ -27,6 +30,9 @@
             <label class="control-label">Pilihan A * :</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionA')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionA" ng-required="true"></textarea>
         </div>
     </div>
@@ -37,6 +43,9 @@
             <label class="control-label">Pilihan B * :</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionB')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionB" ng-required="true"></textarea>
         </div>
     </div>
@@ -47,6 +56,9 @@
             <label class="control-label">Pilihan C *:</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionC')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionC"></textarea>
         </div>
     </div>
@@ -57,6 +69,9 @@
             <label class="control-label">Pilihan D:</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionD')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionD"></textarea>
         </div>
     </div>
@@ -67,6 +82,9 @@
             <label class="control-label">Pilihan E:</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionE')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionE"></textarea>
         </div>
     </div>
@@ -107,7 +125,10 @@
             <label class="control-label">Pembahasan * :</label>
         </div>
         <div class="col-xs-12">
-            <textarea ui-tinymce="tinymceExplanation" ng-model="selectedQuestion.explanation" ng-required="true"></textarea>
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.explanation')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
+            <textarea id='pembahasan' ui-tinymce="tinymceExplanation" ng-model="selectedQuestion.explanation" ng-required="true"></textarea>
         </div>
     </div>
 

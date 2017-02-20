@@ -21,7 +21,8 @@ angular.module('app', [
     'app.config',
     'angularSpinner',
     'app.messages',
-    'ui.select'
+    'ui.select',
+    'naif.base64'
 ]).config(['usSpinnerConfigProvider', function(usSpinnerConfigProvider) {
     usSpinnerConfigProvider.setTheme('default', {
         color: 'black',

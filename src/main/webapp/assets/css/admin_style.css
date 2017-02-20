@@ -370,3 +370,84 @@ ul.alert-dropdown {
     padding: 5px 0px 0px 15px;
     border-left: 1px solid grey;
 }
+
+.tinymce-add-image {
+    position: absolute;
+    top: 5px;
+    right: 21px;
+    z-index: 9;
+}
+
+.add-image {
+    text-align: center;
+    margin: 75px 0px;
+    font-size: 2em;
+}
+
+.add-image:hover {
+    color: navy;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.add-image:active {
+    transform: scale(0.9, 0.9);
+}
+
+.image-preview {
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    min-height: 200px;
+    text-align: center;
+}
+
+.image-preview>img {
+    border: 1px;
+    max-height: 180px;
+    width: auto;
+    height: 180px;
+    margin: 5px;
+    max-width: 98%;
+}
+
+.image-list {
+    margin: 5px;
+    height: 75px;
+    max-height: 75px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    /*float: left;*/
+    display: inline-block;
+    position: relative;
+}
+
+.image-list>img {
+    width: auto;
+    max-width: 200px;
+    height: 100%;
+}
+
+.delete-list {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 27.5px;
+    height: 27.5px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 27.5px;
+    color: white;
+    background-color: black;
+    border-radius: 0px 0px 0px 5px;
+}
+
+.delete-list:hover {
+    color: red;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.delete-list:active {
+    color: black;
+}

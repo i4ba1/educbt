@@ -18,6 +18,9 @@
             <label class="control-label">Pertanyaan* :</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.question')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceQuestion" ng-model="selectedQuestion.question" ng-required="true"></textarea>
         </div>
     </div>
@@ -54,6 +57,9 @@
             <label class="control-label">Pembahasan* :</label>
         </div>
         <div class="col-xs-12">
+            <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.explanation')">
+                <i class="fa fa-picture-o"></i> Galeri
+            </div>
             <textarea ui-tinymce="tinymceExplanation" ng-model="selectedQuestion.explanation" ng-required="true"></textarea>
         </div>
     </div>
