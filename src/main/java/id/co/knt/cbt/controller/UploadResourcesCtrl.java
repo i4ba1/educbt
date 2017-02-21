@@ -59,8 +59,8 @@ public class UploadResourcesCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadImgQuestion/", method = RequestMethod.POST)
-	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
-			@RequestParam("teacherId") String teacherId, @RequestParam("questionGroupId") Long questionGroupId,
+	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token, 
+		@RequestParam("questionGroupId") Long questionGroupId,
 			@RequestBody List<Object> images) {
 		LOG.info("/uploadImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
@@ -89,7 +89,7 @@ public class UploadResourcesCtrl {
 
 	@RequestMapping(value = "/deleteImgQuestion/", method = RequestMethod.POST)
 	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
-			@RequestParam("teacherId") String teacherId, @RequestParam("questionGroupImageId") Long questionGroupId) {
+			@RequestParam("questionGroupImageId") Long questionGroupId) {
 		LOG.info("/uploadImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
 
