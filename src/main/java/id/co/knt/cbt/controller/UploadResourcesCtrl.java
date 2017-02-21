@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.knt.cbt.model.Gallery;
 import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroupImages;
-import id.co.knt.cbt.model.QuestionGroupImages.ImageExtention;
 import id.co.knt.cbt.service.GalleryService;
 import id.co.knt.cbt.service.QuestionService;
 
@@ -57,7 +56,7 @@ public class UploadResourcesCtrl {
 		
 		try {
 				JSONArray arrayObj = new JSONArray(objects);
-				Long id = arrayObj.getLong(1);
+				Long id = arrayObj.getJSONObject(0).getLong("questionGroupId");
 				JSONArray arrayImages = arrayObj.getJSONObject(0).getJSONArray("images");
 				QuestionGroup qGroup = questionService.findQGById(id);
 				QuestionGroupImages questionGroupImages = null;
@@ -66,9 +65,7 @@ public class UploadResourcesCtrl {
 					JSONObject obj = arrayImages.getJSONObject(i);
 					questionGroupImages = new QuestionGroupImages();
 					questionGroupImages.setImageName(obj.getString("imageName"));
-					String imageName = obj.getString("imageName");
 					questionGroupImages.setBase64Image(obj.getString("base64"));
-					questionGroupImages.setImageExtention(ImageExtention.valueOf(imageName.substring(imageName.lastIndexOf("."), imageName.length()-1)));
 					questionGroupImages.setCreatedDate(System.currentTimeMillis());
 					questionGroupImages.setQuestionGroup(qGroup);
 					questionService.addNewQuestionImage(questionGroupImages);
@@ -96,20 +93,5 @@ public class UploadResourcesCtrl {
 		}
 
 		return new ResponseEntity<Void>(header, HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * @param token
-	 * @return
-	 */
-	@RequestMapping(value = "/findAllTeacherGallery/{token}/{teacherNip}", method = RequestMethod.GET)
-	public ResponseEntity<List<Gallery>> findSchool(@PathVariable("token") String token,
-			@PathVariable("teacherNip") String teacherNip) {
-		LOG.info("Find all gallery /findAllGallery");
-		List<Gallery> gallery = resourceService.findGalleryByEmp(teacherNip);
-
-		return gallery != null ? new ResponseEntity<List<Gallery>>(gallery, HttpStatus.OK)
-				: new ResponseEntity<List<Gallery>>(gallery, HttpStatus.NOT_FOUND);
 	}
 }

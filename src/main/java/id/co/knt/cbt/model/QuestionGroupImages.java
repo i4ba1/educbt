@@ -22,10 +22,6 @@ public class QuestionGroupImages implements Serializable{
 	 */
 	private static final long serialVersionUID = -7358715092532048219L;
 
-	public enum ImageExtention {
-		PNG, JPEG, JPG, GIF;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -36,10 +32,6 @@ public class QuestionGroupImages implements Serializable{
 
 	@Column(name="image_name")
 	private String imageName;
-
-	@Column(name = "image_extention")
-	@Enumerated(EnumType.STRING)
-	private ImageExtention imageExtention;
 
 	@Column(name = "created_date")
 	private Long createdDate;
@@ -66,14 +58,6 @@ public class QuestionGroupImages implements Serializable{
 
 	public void setImageName(String imageName){
 		this.imageName = imageName;
-	}
-
-	public ImageExtention getImageExtention(){
-		return this.imageExtention;
-	}
-
-	public void setImageExtention(ImageExtention imageExtention){
-		this.imageExtention = imageExtention;
 	}
 
 	public Long getCreatedDate(){
