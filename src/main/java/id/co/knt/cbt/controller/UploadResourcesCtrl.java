@@ -23,9 +23,7 @@ import id.co.knt.cbt.model.Gallery;
 import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroupImages;
 import id.co.knt.cbt.model.QuestionGroupImages.ImageExtention;
-import id.co.knt.cbt.service.EmployeeService;
 import id.co.knt.cbt.service.GalleryService;
-import id.co.knt.cbt.service.QuestionGroupService;
 import id.co.knt.cbt.service.QuestionService;
 
 @CrossOrigin(origins="http://localhost:8787")
@@ -41,13 +39,7 @@ public class UploadResourcesCtrl {
 	private GalleryService resourceService;
 
 	@Autowired
-	private EmployeeService empService;
-
-	@Autowired
 	private QuestionService questionService;
-
-	@Autowired
-	private QuestionGroupService questionGroupService;
 
 	/**
 	 * Upload the image from gallery+
@@ -59,17 +51,19 @@ public class UploadResourcesCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadImgQuestion/", method = RequestMethod.POST)
-	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token, 
-		@RequestParam("questionGroupId") Long questionGroupId,
-			@RequestBody List<Object> images) {
+	public ResponseEntity<Void> uploadImgQuestion(@RequestBody List<Object> objects) {
 		LOG.info("/uploadImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
-		QuestionGroup qGroup = questionGroupService.findQuestionGroupById(questionGroupId);
+		
 		try {
-				JSONArray arrayImg = new JSONArray(images);
+				JSONArray arrayObj = new JSONArray(objects);
+				Long id = arrayObj.getLong(1);
+				JSONArray arrayImages = arrayObj.getJSONObject(0).getJSONArray("images");
+				QuestionGroup qGroup = questionService.findQGById(id);
 				QuestionGroupImages questionGroupImages = null;
-				for(int i=0; i<arrayImg.length(); i++){
-					JSONObject obj = arrayImg.getJSONObject(i);
+				
+				for(int i=0; i<arrayImages.length(); i++){
+					JSONObject obj = arrayImages.getJSONObject(i);
 					questionGroupImages = new QuestionGroupImages();
 					questionGroupImages.setImageName(obj.getString("imageName"));
 					String imageName = obj.getString("imageName");

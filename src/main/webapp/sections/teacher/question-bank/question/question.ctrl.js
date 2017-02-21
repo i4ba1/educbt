@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory) {
+    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory,$timeout) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -128,8 +128,8 @@ angular
         }
 
         // upload images
-        $scope.uploadImages = function() {
-            queastionBankService.uploadImages($scope.currentTeacher.nip, token, $scope.images);
+        $scope.uploadImages = function(questionGroupId) {
+            queastionBankService.uploadImages( token, questionGroupId, $scope.images);
         };
 
         // open insert images 
@@ -329,7 +329,7 @@ angular
                 if ($scope.questionUpdate) {
                     var promise = queastionBankService.updateQuestionGroup(token, $scope.questionGroup);
                     promise.then(function(response) {
-                        $scope.uploadImages();
+                        $scope.uploadImages($stateParams.qId);
                         $timeout(function() {
                             $state.go("^");
                         }, 2000);
@@ -339,7 +339,7 @@ angular
                 } else {
                     var promise = queastionBankService.createQuestionGroup(token, $scope.questionGroup);
                     promise.then(function(response) {
-                        $scope.uploadImages();
+                        $scope.uploadImages(response.data.id);
                         $timeout(function() {
                             $state.go("^");
                         }, 2000);
@@ -458,5 +458,5 @@ angular
             findAll();
         }
 
-        findAllGallery();
+        // findAllGallery();
     });

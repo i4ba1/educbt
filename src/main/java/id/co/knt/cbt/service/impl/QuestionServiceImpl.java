@@ -40,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private QuestionGroupRepo groupRepo;
-	
+
 	@Autowired
 	private QuestionGroupImagesRepo questionGroupImagesRepo;
 
@@ -60,7 +60,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public int addNewQuestion(List<Object> questions) {
+	public QuestionGroup addNewQuestion(List<Object> questions) {
 		int success = 0;
 		JSONArray array = new JSONArray(questions);
 		JSONObject objQG = array.getJSONObject(0).getJSONObject("questionGroup");
@@ -175,8 +175,11 @@ public class QuestionServiceImpl implements QuestionService {
 			}
 		}
 
-		return success;
-
+		if (success > 0) {
+			return group;
+		}else{
+			return null;
+		}
 	}
 
 	/**
@@ -531,6 +534,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public QuestionGroupImages findQGImages(Long id) {
 		QuestionGroupImages groupImages = questionGroupImagesRepo.findOne(id);
 		return groupImages;
+	}
+
+	@Override
+	public QuestionGroup findQGById(Long id) {
+		QuestionGroup questionGroup = groupRepo.findOne(id);
+		return questionGroup;
 	}
 
 }

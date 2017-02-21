@@ -9,7 +9,7 @@ import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroupImages;
 
 public interface QuestionService {
-	int addNewQuestion(List<Object> questions);
+	QuestionGroup addNewQuestion(List<Object> questions);
 	
 	int importQuestion(List<Question> questions);
 
@@ -30,6 +30,8 @@ public interface QuestionService {
 	List<QuestionGroup> findQuestionGroupByQP(Long qpId, String nip);
 	
 	Map<String, List<Map<String, Object>>> findQuestionGroupById(Long id);
+	
+	QuestionGroup findQGById(Long id);
 	
 	void disabledQG(Long groupId);
 	

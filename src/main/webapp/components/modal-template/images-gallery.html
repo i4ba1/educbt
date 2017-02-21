@@ -8,7 +8,7 @@
             <div ng-switch="images.length">
                 <div ng-switch-default style="overflow-y: auto; height: 300px; padding: 15px 15px;">
                     <div ng-repeat="image in images track by $index" class="image-list">
-                        <img ng-src="{{image.base64}}" alt="not show" tooltip-placement="bottom" uib-tooltip="{{image.fileName}}" ng-click="doubleClick(image)">
+                        <img ng-src="{{image.base64}}" alt="not show" tooltip-placement="bottom" uib-tooltip="{{image.imageName}}" ng-click="doubleClick(image)">
                         <div class="delete-list" tooltip-placement="bottom" uib-tooltip="hapus gambar ini?" ng-click="deleteImage($index)">
                             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
                         </div>

@@ -148,18 +148,19 @@ angular.module('app.core')
                 })
                 return result;
             },
-            uploadImages: function(token, nip, qImages) {
-                var fd = new FormData();
+            uploadImages: function(token, questionGroupId, qImages) {
+                /*var fd = new FormData();
                 fd.append('token', token);
-                fd.append('nip', nip);
+                fd.append('questionGroupId', questionGroupId);
                 fd.append('images', qImages);
-                var uploadUrl = url + "/teacher/questionMgmt/filterQuestionByTag/";
-                var result = $http.post(uploadUrl, fd, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                })
+                */
+                var params = [{
+                    'authorization': token,
+                    'questionGroupId': questionGroupId,
+                    'images': qImages
+                }];
+                var uploadUrl = url + "/user/upload/uploadImgQuestion/";
+                var result = $http.post(uploadUrl, params);
                 return result;
             }
 

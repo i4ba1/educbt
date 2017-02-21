@@ -104,16 +104,16 @@ public class TeacherQuestionMgmtCtrl {
 	 * @return
 	 */
 	@RequestMapping(value = "/createQuestion/", method = RequestMethod.POST)
-	public ResponseEntity<Void> createQuestion(@RequestBody List<Object> questions) {
+	public ResponseEntity<QuestionGroup> createQuestion(@RequestBody List<Object> questions) {
 		LOG.info("Create Question===========> " + questions.size());
 		HttpHeaders headers = new HttpHeaders();
 
-		int success = questionService.addNewQuestion(questions);
-		if (success <= 0) {
-			return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		QuestionGroup questionGroup = questionService.addNewQuestion(questions);
+		if (questionGroup == null) {
+			return new ResponseEntity<QuestionGroup>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		return new ResponseEntity<QuestionGroup>(questionGroup, HttpStatus.OK);
 	}
 
 	/**

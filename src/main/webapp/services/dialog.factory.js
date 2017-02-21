@@ -71,7 +71,7 @@ angular.module('app.messages')
                         };
                         $scope.saveImage = function(file) {
                             $scope.images.push({
-                                fileName: file.filename,
+                                imageName: file.filename,
                                 base64: 'data:' + file.filetype + ';base64,' + file.base64
                             });
                             $scope.addImage('list');

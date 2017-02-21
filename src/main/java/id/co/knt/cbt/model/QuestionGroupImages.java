@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="cbt_question_images")
+@Table(name="cbt_question_group_images")
 public class QuestionGroupImages implements Serializable{
 
 	/**
