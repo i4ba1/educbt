@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="cbt_question_group_images")
 public class QuestionGroupImages implements Serializable{
@@ -38,6 +41,7 @@ public class QuestionGroupImages implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name="question_group_id", nullable=false)
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	private QuestionGroup questionGroup;
 
 	public Long getId() {

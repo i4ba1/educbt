@@ -8,10 +8,13 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.co.knt.cbt.controller.UploadResourcesCtrl;
 import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.Question.Difficulty;
 import id.co.knt.cbt.model.QuestionGroup;
@@ -31,6 +34,7 @@ import id.co.knt.cbt.service.QuestionService;
 @Transactional
 @Service("questionService")
 public class QuestionServiceImpl implements QuestionService {
+	private static final Logger LOG = LoggerFactory.getLogger(UploadResourcesCtrl.class);
 
 	@Autowired
 	private QuestionRepo questionRepo;
@@ -49,7 +53,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private QuestionTagRepo questionTagRepo;
-	
+
 	@Autowired
 	private QuestionGroupImagesRepo groupImagesRepo;
 
@@ -180,7 +184,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		if (success > 0) {
 			return group;
-		}else{
+		} else {
 			return null;
 		}
 	}
@@ -448,13 +452,13 @@ public class QuestionServiceImpl implements QuestionService {
 			mapQ.put("tagNames", objTag);
 			objQuestion.add(mapQ);
 		}
-		
+
 		for (QuestionGroupImages image : images) {
 			Map<String, Object> mapImage = new HashMap<>();
 			mapImage.put("id", image.getId());
 			mapImage.put("imageName", image.getImageName());
 			mapImage.put("base64", image.getBase64Image());
-			
+
 			objImages.add(mapImage);
 		}
 
@@ -542,17 +546,20 @@ public class QuestionServiceImpl implements QuestionService {
 		JSONArray arrayImages = arrayObj.getJSONObject(0).getJSONArray("images");
 		QuestionGroup qGroup = findQGById(id);
 		QuestionGroupImages questionGroupImages = null;
-		
-		for(int i=0; i<arrayImages.length(); i++){
+
+		for (int i = 0; i < arrayImages.length(); i++) {
 			JSONObject obj = arrayImages.getJSONObject(i);
-			questionGroupImages = new QuestionGroupImages();
-			questionGroupImages.setImageName(obj.getString("imageName"));
-			questionGroupImages.setBase64Image(obj.getString("base64"));
-			questionGroupImages.setCreatedDate(System.currentTimeMillis());
-			questionGroupImages.setQuestionGroup(qGroup);
+			if(obj.isNull("id")){
+				questionGroupImages = new QuestionGroupImages();
+				questionGroupImages.setImageName(obj.getString("imageName"));
+				questionGroupImages.setBase64Image(obj.getString("base64"));
+				questionGroupImages.setCreatedDate(System.currentTimeMillis());
+				questionGroupImages.setQuestionGroup(qGroup);
+				questionGroupImagesRepo.save(questionGroupImages);
+			}
+
 		}
-		
-		questionGroupImagesRepo.save(questionGroupImages);
+
 	}
 
 	@Override
@@ -565,7 +572,7 @@ public class QuestionServiceImpl implements QuestionService {
 		QuestionGroupImages groupImages = questionGroupImagesRepo.findOne(id);
 		return groupImages;
 	}
-	
+
 	@Override
 	public QuestionGroup findQGById(Long id) {
 		QuestionGroup questionGroup = groupRepo.findOne(id);
