@@ -49,6 +49,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private QuestionTagRepo questionTagRepo;
+	
+	@Autowired
+	private QuestionGroupImagesRepo groupImagesRepo;
 
 	public QuestionServiceImpl() {
 		super();
@@ -392,6 +395,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public Map<String, List<Map<String, Object>>> findQuestionGroupById(Long id) {
 		QuestionGroup questionGroup = groupRepo.findQuestionGroupById(id);
+		List<QuestionGroupImages> images = groupImagesRepo.findByQuestionGroupId(id);
 		Map<String, List<Map<String, Object>>> mapQG = new HashMap<>();
 		Map<String, Object> mapQGV = new HashMap<>();
 
@@ -403,6 +407,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		List<Map<String, Object>> objQuestion = new ArrayList<>();
 		List<Map<String, Object>> objTag = new ArrayList<>();
+		List<Map<String, Object>> objImages = new ArrayList<>();
 		List<Question> questions = questionGroup.getQuestions();
 
 		for (Question question : questions) {
@@ -443,10 +448,19 @@ public class QuestionServiceImpl implements QuestionService {
 			mapQ.put("tagNames", objTag);
 			objQuestion.add(mapQ);
 		}
+		
+		for (QuestionGroupImages image : images) {
+			Map<String, Object> mapImage = new HashMap<>();
+			mapImage.put("imageName", image.getImageName());
+			mapImage.put("base64", image.getBase64Image());
+			
+			objImages.add(mapImage);
+		}
 
 		mapQGV.put("questions", objQuestion);
 		objQG.add(mapQGV);
 		mapQG.put("questionGroup", objQG);
+		mapQG.put("images", objImages);
 
 		return mapQG;
 	}
@@ -521,7 +535,22 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void addNewQuestionImage(QuestionGroupImages questionGroupImages) {
+	public void addNewQuestionImage(List<Object> objects) {
+		JSONArray arrayObj = new JSONArray(objects);
+		Long id = arrayObj.getJSONObject(0).getLong("questionGroupId");
+		JSONArray arrayImages = arrayObj.getJSONObject(0).getJSONArray("images");
+		QuestionGroup qGroup = findQGById(id);
+		QuestionGroupImages questionGroupImages = null;
+		
+		for(int i=0; i<arrayImages.length(); i++){
+			JSONObject obj = arrayImages.getJSONObject(i);
+			questionGroupImages = new QuestionGroupImages();
+			questionGroupImages.setImageName(obj.getString("imageName"));
+			questionGroupImages.setBase64Image(obj.getString("base64"));
+			questionGroupImages.setCreatedDate(System.currentTimeMillis());
+			questionGroupImages.setQuestionGroup(qGroup);
+		}
+		
 		questionGroupImagesRepo.save(questionGroupImages);
 	}
 
@@ -531,15 +560,21 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public QuestionGroupImages findQGImages(Long id) {
+	public QuestionGroupImages findQGImage(Long id) {
 		QuestionGroupImages groupImages = questionGroupImagesRepo.findOne(id);
 		return groupImages;
 	}
-
+	
 	@Override
 	public QuestionGroup findQGById(Long id) {
 		QuestionGroup questionGroup = groupRepo.findOne(id);
 		return questionGroup;
+	}
+
+	@Override
+	public List<QuestionGroupImages> findQGImages(Long id) {
+		List<QuestionGroupImages> images = questionGroupImagesRepo.findByQuestionGroupId(id);
+		return images;
 	}
 
 }

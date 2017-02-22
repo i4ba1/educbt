@@ -37,9 +37,11 @@ public interface QuestionService {
 	
 	List<Map<String, Object>> getQuestionByTag(ArrayList<Long> ids);
 	
-	void addNewQuestionImage(QuestionGroupImages questionGroupImages);
+	void addNewQuestionImage(List<Object> objects);
 	
 	void deleteQuestionImage(QuestionGroupImages questionGroupImages);
 	
-	QuestionGroupImages findQGImages(Long id);
+	QuestionGroupImages findQGImage(Long id);
+	
+	List<QuestionGroupImages> findQGImages(Long id);
 }

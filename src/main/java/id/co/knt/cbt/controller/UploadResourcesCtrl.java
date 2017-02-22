@@ -1,9 +1,8 @@
 package id.co.knt.cbt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.co.knt.cbt.model.Gallery;
-import id.co.knt.cbt.model.QuestionGroup;
 import id.co.knt.cbt.model.QuestionGroupImages;
-import id.co.knt.cbt.service.GalleryService;
 import id.co.knt.cbt.service.QuestionService;
 
 @CrossOrigin(origins="http://localhost:8787")
@@ -33,9 +29,6 @@ public class UploadResourcesCtrl {
 	@Value("${path.question.image}")
 	private String Q_IMG_PATH = "";
 	private static final Logger LOG = LoggerFactory.getLogger(UploadResourcesCtrl.class);
-
-	@Autowired
-	private GalleryService resourceService;
 
 	@Autowired
 	private QuestionService questionService;
@@ -55,21 +48,7 @@ public class UploadResourcesCtrl {
 		HttpHeaders header = new HttpHeaders();
 		
 		try {
-				JSONArray arrayObj = new JSONArray(objects);
-				Long id = arrayObj.getJSONObject(0).getLong("questionGroupId");
-				JSONArray arrayImages = arrayObj.getJSONObject(0).getJSONArray("images");
-				QuestionGroup qGroup = questionService.findQGById(id);
-				QuestionGroupImages questionGroupImages = null;
-				
-				for(int i=0; i<arrayImages.length(); i++){
-					JSONObject obj = arrayImages.getJSONObject(i);
-					questionGroupImages = new QuestionGroupImages();
-					questionGroupImages.setImageName(obj.getString("imageName"));
-					questionGroupImages.setBase64Image(obj.getString("base64"));
-					questionGroupImages.setCreatedDate(System.currentTimeMillis());
-					questionGroupImages.setQuestionGroup(qGroup);
-					questionService.addNewQuestionImage(questionGroupImages);
-				}
+				questionService.addNewQuestion(objects);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -77,15 +56,30 @@ public class UploadResourcesCtrl {
 
 		return new ResponseEntity<Void>(header, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/findImages/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<QuestionGroupImages>> findImages(@PathVariable("token") String token, @PathVariable("id") Long id) {
+		LOG.info("/findImages/ ");
+		List<QuestionGroupImages> images = new ArrayList<>();
+		
+		try {
+				images = questionService.findQGImages(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<QuestionGroupImages>>(images, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<List<QuestionGroupImages>>(images, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/deleteImgQuestion/", method = RequestMethod.POST)
 	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
 			@RequestParam("questionGroupImageId") Long questionGroupId) {
-		LOG.info("/uploadImgQuestion/ ");
+		LOG.info("/deleteImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
 
 		try {
-			QuestionGroupImages groupImages = questionService.findQGImages(questionGroupId);
+			QuestionGroupImages groupImages = questionService.findQGImage(questionGroupId);
 			questionService.deleteQuestionImage(groupImages);
 		} catch (Exception e) {
 			e.printStackTrace();

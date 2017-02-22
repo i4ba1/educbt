@@ -60,7 +60,7 @@ public class QuestionGroup implements Serializable {
 	@OneToMany(mappedBy = "questionGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Question> questions;
 
-	@JsonIgnore
+	@JsonProperty("questionGroupImages")
 	@OneToMany(mappedBy="questionGroup", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
 	private List<QuestionGroupImages> questionGroupImages;
 
