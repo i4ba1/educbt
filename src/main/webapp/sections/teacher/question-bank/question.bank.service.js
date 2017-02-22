@@ -162,6 +162,9 @@ angular.module('app.core')
                 var uploadUrl = url + "/user/upload/uploadImgQuestion/";
                 var result = $http.post(uploadUrl, params);
                 return result;
+            },
+            deleteImage: function(token, imageId) {
+                $http.delete(url + '/user/upload/deleteImgQuestion/' + token + '/' + imageId);
             }
 
         };

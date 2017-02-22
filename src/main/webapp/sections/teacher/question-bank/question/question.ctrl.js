@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory,$timeout) {
+    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory, $timeout) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -129,14 +129,16 @@ angular
 
         // upload images
         $scope.uploadImages = function(questionGroupId) {
-            queastionBankService.uploadImages( token, questionGroupId, $scope.images);
+            if ($scope.images.length > 0) {
+                queastionBankService.uploadImages(token, questionGroupId, $scope.images);
+            }
         };
 
         // open insert images 
         $scope.showImagesPanel = function(tinymceModel) {
             var element = document.querySelectorAll('[ng-model="' + tinymceModel + '"]')[0];
 
-            DialogFactory.openImagesGallery($scope.images).then(
+            DialogFactory.openImagesGallery($scope.images, token).then(
                 function(response) {
                     $scope.images = response.images;
                     var ed = tinyMCE.get(element.id);
@@ -255,6 +257,7 @@ angular
             promise.then(
                 function(response) {
                     $scope.questionGroup = response.data.questionGroup[0];
+                    $scope.images = response.data.images;
                     if (type == "PASSAGE") {
                         $scope.passageQuestions = $scope.questionGroup.questions;
                     } else {

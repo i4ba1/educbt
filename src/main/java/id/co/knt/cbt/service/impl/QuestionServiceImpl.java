@@ -451,6 +451,7 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		for (QuestionGroupImages image : images) {
 			Map<String, Object> mapImage = new HashMap<>();
+			mapImage.put("id", image.getId());
 			mapImage.put("imageName", image.getImageName());
 			mapImage.put("base64", image.getBase64Image());
 			

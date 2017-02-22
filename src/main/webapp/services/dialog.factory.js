@@ -1,5 +1,5 @@
 angular.module('app.messages')
-    .factory('DialogFactory', ['$uibModal', function($uibModal) {
+    .factory('DialogFactory', ['$uibModal', function($uibModal, $http) {
         return {
             showDialogMsg: function(title, content, size) {
                 var modalInstance = $uibModal.open({
@@ -52,14 +52,15 @@ angular.module('app.messages')
                 });
             },
 
-            openImagesGallery: function(images) {
+            openImagesGallery: function(images, token) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/images-gallery.html',
-                    controller: function($scope, $uibModalInstance, images) {
+                    controller: function($scope, $uibModalInstance, queastionBankService, images, token) {
                         $scope.view = 'list';
                         $scope.images = images;
                         $scope.file;
+                        var token = token;
 
                         $scope.close = function(value) {
                             $uibModalInstance.dismiss({
@@ -85,6 +86,10 @@ angular.module('app.messages')
                         };
 
                         $scope.deleteImage = function(index) {
+                            var imageId = $scope.images[index].id;
+                            if (imageId) {
+                                queastionBankService.deleteImage(token, imageId);
+                            }
                             $scope.images.splice(index, 1);
                         }
                     },
@@ -93,6 +98,12 @@ angular.module('app.messages')
                     resolve: {
                         images: function() {
                             return images;
+                        },
+                        token: function() {
+                            return token;
+                        },
+                        http: function() {
+                            return $http;
                         }
                     }
                 });

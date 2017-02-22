@@ -48,7 +48,7 @@ public class UploadResourcesCtrl {
 		HttpHeaders header = new HttpHeaders();
 		
 		try {
-				questionService.addNewQuestion(objects);
+				questionService.addNewQuestionImage(objects);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,14 +72,14 @@ public class UploadResourcesCtrl {
 		return new ResponseEntity<List<QuestionGroupImages>>(images, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/deleteImgQuestion/", method = RequestMethod.POST)
-	public ResponseEntity<Void> uploadImgQuestion(@RequestParam("token") String token,
-			@RequestParam("questionGroupImageId") Long questionGroupId) {
+	@RequestMapping(value = "/deleteImgQuestion/{token}/{questionGroupImageId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> uploadImgQuestion(@PathVariable("token") String token,
+			@PathVariable("questionGroupImageId") Long questionGroupImageId) {
 		LOG.info("/deleteImgQuestion/ ");
 		HttpHeaders header = new HttpHeaders();
 
 		try {
-			QuestionGroupImages groupImages = questionService.findQGImage(questionGroupId);
+			QuestionGroupImages groupImages = questionService.findQGImage(questionGroupImageId);
 			questionService.deleteQuestionImage(groupImages);
 		} catch (Exception e) {
 			e.printStackTrace();
