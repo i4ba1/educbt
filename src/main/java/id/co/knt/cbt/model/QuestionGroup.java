@@ -60,10 +60,6 @@ public class QuestionGroup implements Serializable {
 	@OneToMany(mappedBy = "questionGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Question> questions;
 
-	@JsonProperty("questionGroupImages")
-	@OneToMany(mappedBy="questionGroup", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
-	private List<QuestionGroupImages> questionGroupImages;
-
 	public Long getId() {
 		return id;
 	}
@@ -118,13 +114,5 @@ public class QuestionGroup implements Serializable {
 		}
 
 		questions.add(q);
-	}
-
-	public List<QuestionGroupImages> getQuestionGroupImages() {
-		return this.questionGroupImages;
-	}
-
-	public void setQuestionImages(List<QuestionGroupImages> questionGroupImages) {
-		this.questionGroupImages = questionGroupImages;
 	}
 }

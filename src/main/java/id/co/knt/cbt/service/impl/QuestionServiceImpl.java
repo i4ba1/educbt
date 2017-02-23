@@ -8,13 +8,10 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import id.co.knt.cbt.controller.UploadResourcesCtrl;
 import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.Question.Difficulty;
 import id.co.knt.cbt.model.QuestionGroup;
@@ -34,7 +31,6 @@ import id.co.knt.cbt.service.QuestionService;
 @Transactional
 @Service("questionService")
 public class QuestionServiceImpl implements QuestionService {
-	private static final Logger LOG = LoggerFactory.getLogger(UploadResourcesCtrl.class);
 
 	@Autowired
 	private QuestionRepo questionRepo;

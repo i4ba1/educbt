@@ -79,9 +79,7 @@ public class UploadResourcesCtrl {
 
 		try {
 			QuestionGroupImages groupImages = questionService.findQGImage(questionGroupImageId);
-			groupImages.setQuestionGroup(null);
-			QuestionGroupImages updatedGroupImages = questionService.updateQuestionImage(groupImages);
-			questionService.deleteQuestionImage(updatedGroupImages);
+			questionService.deleteQuestionImage(groupImages);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
