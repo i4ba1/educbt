@@ -93,16 +93,16 @@
         <label class="control-label col-xs-12" style="margin-top:20px">Kunci Jawab* :</label>
         <div class="col-xs-12">
             <select name="key" class="form-control" ng-model="selectedQuestion.key" ng-required="true">
-        <option value="" ng-disabled="true">
-          <i style="color:grey">-- pilih kunci jawaban --</i>
-        </option>
-        <!--<option ng-repeat="option in qstOptions" value="{{option.index}}">{{option.name}}</option>-->
-         <option value="A">A</option>
-         <option value="B">B</option>
-         <option value="C">C</option>
-         <option value="D">D</option>
-         <option value="E">E</option>
-      </select>
+                    <option value="" ng-disabled="true">
+                    <i style="color:grey">-- pilih kunci jawaban --</i>
+                    </option>
+                    <!--<option ng-repeat="option in qstOptions" value="{{option.index}}">{{option.name}}</option>-->
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                </select>
         </div>
     </div>
 
@@ -110,13 +110,13 @@
         <label class="control-label col-xs-12" style="margin-top:20px">Taraf Kesukaran* :</label>
         <div class="col-xs-12">
             <select name="difficulty" class="form-control" ng-model="selectedQuestion.difficulty" ng-required="true">
-        <option value="" ng-selected="true" ng-disabled="true">
-          <i style="color:grey">-- pilih taraf kesukaran soal --</i>
-        </option>
-        <option value="EASY">MUDAH</option>
-        <option value="MEDIUM">SEDANG</option>
-        <option value="HARD">SUKAR</option>
-      </select>
+                    <option value="" ng-selected="true" ng-disabled="true">
+                    <i style="color:grey">-- pilih taraf kesukaran soal --</i>
+                    </option>
+                    <option value="EASY">MUDAH</option>
+                    <option value="MEDIUM">SEDANG</option>
+                    <option value="HARD">SUKAR</option>
+                </select>
         </div>
     </div>
 

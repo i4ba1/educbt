@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory, $timeout) {
+    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory, $timeout, bsLoadingOverlayService) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -253,6 +253,9 @@ angular
          * fetch all question from qstGroup and show detail qstGroup
          */
         function findQuestionGroupDetail() {
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             var promise = queastionBankService.detailQuestionGroup($stateParams.qId, token);
             promise.then(
                 function(response) {
@@ -272,8 +275,16 @@ angular
                             $scope.qstOptions = initOptionQst("MC");
                         }
                     }
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
+                    }, 1500);
                 },
                 function(errorResponse) {
+                    bsLoadingOverlayService.stop({
+                        referenceId: 'loading'
+                    });
                     errorHandle.setError(errorResponse);
                 });
         };
@@ -327,16 +338,24 @@ angular
                 result = validatingPassageQuestion($scope.questionGroup);
 
             }
-
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             if (result.isValid) {
                 if ($scope.questionUpdate) {
                     var promise = queastionBankService.updateQuestionGroup(token, $scope.questionGroup);
                     promise.then(function(response) {
                         $scope.uploadImages($stateParams.qId);
                         $timeout(function() {
+                            bsLoadingOverlayService.stop({
+                                referenceId: 'loading'
+                            });
                             $state.go("^");
                         }, 2000);
                     }, function(errorResponse) {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
                         errorHandle.setError(errorResponse);
                     });
                 } else {
@@ -344,9 +363,15 @@ angular
                     promise.then(function(response) {
                         $scope.uploadImages(response.data.id);
                         $timeout(function() {
+                            bsLoadingOverlayService.stop({
+                                referenceId: 'loading'
+                            });
                             $state.go("^");
                         }, 2000);
                     }, function(errorResponse) {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
                         errorHandle.setError(errorResponse);
                     });
                 }
