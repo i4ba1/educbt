@@ -107,10 +107,10 @@ angular.module('app.core')
             var promise = studentService.importStudent(params);
             promise.then(
                 function(response) {
-                    bsLoadingOverlayService.stop({
-                        referenceId: 'loading'
-                    });
                     $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
                         $state.go('admin.studentMgmt');
                     }, 500);
                 },
@@ -235,43 +235,50 @@ angular.module('app.core')
             }
 
             $scope.updateData = function() {
-                $scope.importData = [];
-                $scope.csv.result.forEach(function(row) {
-                    switch (row.AGAMA.toString().toUpperCase()) {
-                        case "KATOLIK":
-                            row.AGAMA = 'CHRISTIAN';
-                            break;
-                        case "KRISTEN":
-                            row.AGAMA = 'PROTESTANT';
-                            break;
-                        case "BUDHA":
-                            row.AGAMA = 'BUDDHA';
-                            break;
-                        case "HINDU":
-                            row.AGAMA = 'HINDU';
-                            break;
-                        default:
-                            row.AGAMA = 'ISLAM';
-                    }
 
-                    var newRow = {
-                        nis: row.NIS,
-                        firstName: row.NAMA_DEPAN,
-                        lastName: row.NAMA_BELAKANG,
-                        address: row.ALAMAT,
-                        birthPlace: row.TEMPAT_LAHIR,
-                        birthDate: row.TANGGAL_LAHIR,
-                        phone: row.TELEPON,
-                        mobilePhone: row.NO_HP,
-                        gender: (row.JENIS_KELAMIN.toUpperCase() === 'L' ? 'MALE' : 'FEMALE'),
-                        religion: row.AGAMA,
-                        email: row.EMAIL,
-                        kelas: row.KELAS
-                    }
+                if ($scope.csv.result.length > 0 && $scope.csv.result[0].NIS) {
+                    $scope.importData = [];
+                    $scope.csv.result.forEach(function(row) {
+                        switch (row.AGAMA.toString().toUpperCase()) {
+                            case "KATOLIK":
+                                row.AGAMA = 'CHRISTIAN';
+                                break;
+                            case "KRISTEN":
+                                row.AGAMA = 'PROTESTANT';
+                                break;
+                            case "BUDHA":
+                                row.AGAMA = 'BUDDHA';
+                                break;
+                            case "HINDU":
+                                row.AGAMA = 'HINDU';
+                                break;
+                            default:
+                                row.AGAMA = 'ISLAM';
+                        }
 
-                    $scope.importData.push(newRow);
-                });
-                updateTableData($scope.importData);
+                        var newRow = {
+                            nis: row.NIS,
+                            firstName: row.NAMA_DEPAN,
+                            lastName: row.NAMA_BELAKANG,
+                            address: row.ALAMAT,
+                            birthPlace: row.TEMPAT_LAHIR,
+                            birthDate: row.TANGGAL_LAHIR,
+                            phone: row.TELEPON,
+                            mobilePhone: row.NO_HP,
+                            gender: (row.JENIS_KELAMIN.toUpperCase() === 'L' ? 'MALE' : 'FEMALE'),
+                            religion: row.AGAMA,
+                            email: row.EMAIL,
+                            kelas: row.KELAS
+                        }
+
+                        $scope.importData.push(newRow);
+                    });
+                    updateTableData($scope.importData);
+                } else {
+                    $scope.open('Berkas CSV tidak valid', ['Berkas CSV yang diunggah tidak sesuai dengan format standar, silahkan lihat template yang telah disediakan.']);
+                }
+
+
             }
 
             $scope.reupload = function() {
@@ -303,7 +310,7 @@ angular.module('app.core')
                 animation: true,
                 templateUrl: 'components/modal-template/error.html',
                 controller: 'ModalInstanceCtrl',
-                size: 'sm',
+                size: 'md',
                 backdrop: 'static',
                 resolve: {
                     modalData: function() {

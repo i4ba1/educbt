@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('TeacherController', function($scope, $filter, ngTableParams, $stateParams, $state, teacherService, storageService, errorHandle, $timeout, $uibModal) {
+    .controller('TeacherController', function($scope, $filter, ngTableParams, $stateParams, $state, teacherService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
         var token = " ";
         /*
          * checking authorization
@@ -150,22 +150,28 @@ angular
             param.authorization = token;
             param.teachers = $scope.importData;
             params.push(param);
-            $scope.showModalLoading = true;
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             var promise = teacherService.importTeacher(params);
             promise.then(
                 function(response) {
-                    $scope.showModalLoading = false;
                     $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
                         $state.go('admin.teacherMgmt');
                     }, 500);
                 },
                 function(errorResponse) {
-                    $scope.showModalLoading = false;
-                    if (errorResponse.status == 409) {
-                        $timeout(function() {
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
+                        if (errorResponse.status == 409) {
                             $scope.open("Gagal Simpan", ["NIP guru sudah digunakan", "Silahkan gunakan NIP yang berbeda"]);
-                        }, 1000);
-                    }
+                        }
+                    }, 1000);
                     errorHandle.setError(errorResponse);
                 });
         };
@@ -214,58 +220,80 @@ angular
             }
 
             $scope.updateData = function() {
-                $scope.importData = [];
-                $scope.csv.result.forEach(function(row) {
-                    switch (row.STATUS_PERNIKAHAN.toString().toUpperCase()) {
-                        case "MENIKAH":
-                            row.STATUS_PERNIKAHAN = 'MARRIED';
-                            break;
-                        case "CERAI":
-                            row.STATUS_PERNIKAHAN = 'DIVORCE';
-                            break;
-                        default:
-                            row.STATUS_PERNIKAHAN = 'SINGLE';
-                    }
 
-                    switch (row.AGAMA.toString().toUpperCase()) {
-                        case "KATOLIK":
-                            row.AGAMA = 'CHRISTIAN';
-                            break;
-                        case "KRISTEN":
-                            row.AGAMA = 'PROTESTANT';
-                            break;
-                        case "BUDHA":
-                            row.AGAMA = 'BUDDHA';
-                            break;
-                        case "HINDU":
-                            row.AGAMA = 'HINDU';
-                            break;
-                        default:
-                            row.AGAMA = 'ISLAM';
-                    }
+                if ($scope.csv.result.length > 0 && $scope.csv.result[0].NIP) {
 
-                    var newRow = {
-                        active: (row.MASIH_AKTIF_BEKERJA.toString().toUpperCase() === 'YA' ? true : false),
-                        address: row.ALAMAT,
-                        birthDate: row.TANGGAL_LAHIR,
-                        birthPlace: row.TEMPAT_LAHIR,
-                        email: row.EMAIL,
-                        firstName: row.NAMA_DEPAN,
-                        gender: (row.JENIS_KELAMIN.toUpperCase() === 'L' ? 'MALE' : 'FEMALE'),
-                        jobTitle: row.NAMA_PEKERJAAN,
-                        joiningDate: row.TANGGAL_MASUK,
-                        lastName: row.NAMA_BELAKANG,
-                        maritalStatus: row.STATUS_PERNIKAHAN,
-                        mobilePhone: row.NO_HP,
-                        nip: row.NIP,
-                        phone: row.TELEPON,
-                        religion: row.AGAMA,
-                    }
+                    $scope.importData = [];
+                    $scope.csv.result.forEach(function(row) {
+                        switch (row.STATUS_PERNIKAHAN.toString().toUpperCase()) {
+                            case "MENIKAH":
+                                row.STATUS_PERNIKAHAN = 'MARRIED';
+                                break;
+                            case "CERAI":
+                                row.STATUS_PERNIKAHAN = 'DIVORCE';
+                                break;
+                            default:
+                                row.STATUS_PERNIKAHAN = 'SINGLE';
+                        }
 
-                    $scope.importData.push(newRow);
-                });
+                        switch (row.AGAMA.toString().toUpperCase()) {
+                            case "KATOLIK":
+                                row.AGAMA = 'CHRISTIAN';
+                                break;
+                            case "KRISTEN":
+                                row.AGAMA = 'PROTESTANT';
+                                break;
+                            case "BUDHA":
+                                row.AGAMA = 'BUDDHA';
+                                break;
+                            case "HINDU":
+                                row.AGAMA = 'HINDU';
+                                break;
+                            default:
+                                row.AGAMA = 'ISLAM';
+                        }
 
-                updateTeacherTable($scope.importData);
+                        var newRow = {
+                            active: (row.MASIH_AKTIF_BEKERJA.toString().toUpperCase() === 'YA' ? true : false),
+                            address: row.ALAMAT,
+                            birthDate: row.TANGGAL_LAHIR,
+                            birthPlace: row.TEMPAT_LAHIR,
+                            email: row.EMAIL,
+                            firstName: row.NAMA_DEPAN,
+                            gender: (row.JENIS_KELAMIN.toUpperCase() === 'L' ? 'MALE' : 'FEMALE'),
+                            jobTitle: row.NAMA_PEKERJAAN,
+                            joiningDate: row.TANGGAL_MASUK,
+                            lastName: row.NAMA_BELAKANG,
+                            maritalStatus: row.STATUS_PERNIKAHAN,
+                            mobilePhone: row.NO_HP,
+                            nip: row.NIP,
+                            phone: row.TELEPON,
+                            religion: row.AGAMA,
+                        }
+
+                        $scope.importData.push(newRow);
+                    });
+
+                    updateTeacherTable($scope.importData);
+                } else {
+                    $scope.open('Berkas CSV tidak valid', ['Berkas CSV yang diunggah tidak sesuai dengan format standar, silahkan lihat template yang telah disediakan.']);
+                }
+
+            }
+
+            $scope.reupload = function() {
+                $scope.csv = {
+                    content: null,
+                    header: true,
+                    headerVisible: true,
+                    separator: ',',
+                    separatorVisible: true,
+                    result: null,
+                    encoding: 'ISO-8859-1',
+                    encodingVisible: true,
+                };
+                $scope.data = undefined;
+                document.getElementById('importForm').reset();
             }
 
         } else if ($state.is('admin.teacherMgmt.teacherDetail')) {
@@ -282,7 +310,7 @@ angular
                 animation: true,
                 templateUrl: 'components/modal-template/error.html',
                 controller: 'ModalInstanceCtrl',
-                size: 'sm',
+                size: 'md',
                 backdrop: 'static',
                 resolve: {
                     modalData: function() {

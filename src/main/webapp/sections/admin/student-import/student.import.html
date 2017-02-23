@@ -25,7 +25,7 @@
         <div class="pull-right">
             <button class="btn btn-primary" type="button" ng-click="reupload()">Impor Ulang</button>
         </div>
-        <table ng-table="studentTable" show-filter="true" class="table table-responsive table-striped ">
+        <table ng-table="studentTable" class="table table-responsive table-striped ">
             <tr ng-repeat="student in data">
                 <td data-title="'No'">
                     {{$index+1+(studentTable.count()*(studentTable.page()-1))}}

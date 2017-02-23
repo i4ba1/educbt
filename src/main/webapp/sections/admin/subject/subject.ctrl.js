@@ -149,10 +149,10 @@ angular
             var promise = subjectService.importSubject(params);
             promise.then(
                 function(response) {
-                    bsLoadingOverlayService.stop({
-                        referenceId: 'loading'
-                    });
                     $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
                         $state.go('admin.subjectMgmt');
                     }, 500);
                 },
@@ -215,8 +215,13 @@ angular
             }
 
             $scope.updateData = function() {
-                $scope.csv.result = validateImport($scope.csv.result);
-                updateTableData($scope.csv.result);
+                if ($scope.csv.result.length > 0 && $scope.csv.result[0].NAMA_MATAPELAJARAN) {
+                    $scope.csv.result = validateImport($scope.csv.result);
+                    updateTableData($scope.csv.result);
+                } else {
+                    $scope.open('Berkas CSV tidak valid', ['Berkas CSV yang diunggah tidak sesuai dengan format standar, silahkan lihat template yang telah disediakan.']);
+                }
+
             }
 
             $scope.reupload = function() {
@@ -248,7 +253,7 @@ angular
                 animation: true,
                 templateUrl: 'components/modal-template/error.html',
                 controller: 'ModalInstanceCtrl',
-                size: 'sm',
+                size: 'md',
                 backdrop: 'static',
                 resolve: {
                     modalData: function() {
