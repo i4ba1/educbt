@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('ClassController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, SortFactory) {
+    .controller('ClassController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
 
         var token = "";
 
@@ -137,21 +137,27 @@ angular
             param.classes = $scope.csv.result;
             params.push(param);
             var promise = classService.importClass(params);
-            $scope.showModalLoading = true;
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             promise.then(
                 function(response) {
-                    $scope.showModalLoading = false;
+                    bsLoadingOverlayService.stop({
+                        referenceId: 'loading'
+                    });
                     $timeout(function() {
                         $state.go('admin.classMgmt');
                     }, 500);
                 },
                 function(errorResponse) {
-                    $scope.showModalLoading = false;
-                    if (errorResponse.status == 409) {
-                        $timeout(function() {
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
+                        if (errorResponse.status == 409) {
                             $scope.open('Gagal Simpan', ["Data kelas sudah pernah disimpan"]);
-                        }, 1000);
-                    }
+                        }
+                    }, 3000);
                     errorHandle.setError(errorResponse);
                 });
         }
@@ -209,6 +215,21 @@ angular
                 $scope.csv.result = validateImport($scope.csv.result)
                 updateTableData($scope.csv.result);
 
+            }
+
+            $scope.reupload = function() {
+                $scope.csv = {
+                    content: null,
+                    header: true,
+                    headerVisible: true,
+                    separator: ',',
+                    separatorVisible: true,
+                    result: null,
+                    encoding: 'ISO-8859-1',
+                    encodingVisible: true,
+                };
+                $scope.data = undefined;
+                document.getElementById('importForm').reset();
             }
         } else if ($state.is('admin.classMgmt.classDetail')) {
             if ($stateParams.classId != undefined && $stateParams.classId != null && $stateParams.classId != "") {

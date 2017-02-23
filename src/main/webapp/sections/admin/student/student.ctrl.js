@@ -1,6 +1,6 @@
 angular.module('app.core')
     .controller('StudentController', function($scope, $filter, ngTableParams,
-        $stateParams, $state, studentService, classService, $timeout, $log, storageService, errorHandle, $uibModal) {
+        $stateParams, $state, studentService, classService, $timeout, $log, storageService, errorHandle, $uibModal, bsLoadingOverlayService) {
 
         var token = " ";
         /*
@@ -101,22 +101,28 @@ angular.module('app.core')
                 authorization: token,
                 students: $scope.importData
             }];
-            $scope.showModalLoading = true;
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             var promise = studentService.importStudent(params);
             promise.then(
                 function(response) {
-                    $scope.showModalLoading = false;
+                    bsLoadingOverlayService.stop({
+                        referenceId: 'loading'
+                    });
                     $timeout(function() {
                         $state.go('admin.studentMgmt');
                     }, 500);
                 },
                 function(errorResponse) {
-                    $scope.showModalLoading = false;
-                    if (errorResponse.status == 409) {
-                        $timeout(function() {
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
+                        if (errorResponse.status == 409) {
                             $scope.open("Gagal Simpan", ["NIS siswa sudah digunakan", "Silahkan gunakan NIS yang berbeda"]);
-                        }, 1000);
-                    }
+                        }
+                    }, 3000);
                     errorHandle.setError(errorResponse);
                 });
         }
@@ -266,6 +272,21 @@ angular.module('app.core')
                     $scope.importData.push(newRow);
                 });
                 updateTableData($scope.importData);
+            }
+
+            $scope.reupload = function() {
+                $scope.csv = {
+                    content: null,
+                    header: true,
+                    headerVisible: true,
+                    separator: ',',
+                    separatorVisible: true,
+                    result: null,
+                    encoding: 'ISO-8859-1',
+                    encodingVisible: true,
+                };
+                $scope.data = undefined;
+                document.getElementById('importForm').reset();
             }
 
         } else if ($state.is('admin.studentMgmt.studentDetail')) {

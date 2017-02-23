@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('SubjectController', function($scope, $filter, ngTableParams, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, $uibModal) {
+    .controller('SubjectController', function($scope, $filter, ngTableParams, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
 
         /*
          * checking authorization
@@ -143,22 +143,28 @@ angular
             param.authorization = token;
             param.subjects = $scope.csv.result;
             params.push(param);
-            $scope.showModalLoading = true;
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             var promise = subjectService.importSubject(params);
             promise.then(
                 function(response) {
-                    $scope.showModalLoading = false;
+                    bsLoadingOverlayService.stop({
+                        referenceId: 'loading'
+                    });
                     $timeout(function() {
                         $state.go('admin.subjectMgmt');
                     }, 500);
                 },
                 function(errorResponse) {
-                    $scope.showModalLoading = false;
-                    if (errorResponse.status == 409) {
-                        $timeout(function() {
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
+                        if (errorResponse.status == 409) {
                             $scope.open("Gagal Simpan", ["matapelajaran sudah pernah dibuat"]);
-                        }, 1000);
-                    }
+                        }
+                    }, 3000);
                     errorHandle.setError(errorResponse);
                 });
         };
@@ -211,6 +217,21 @@ angular
             $scope.updateData = function() {
                 $scope.csv.result = validateImport($scope.csv.result);
                 updateTableData($scope.csv.result);
+            }
+
+            $scope.reupload = function() {
+                $scope.csv = {
+                    content: null,
+                    header: true,
+                    headerVisible: true,
+                    separator: ',',
+                    separatorVisible: true,
+                    result: null,
+                    encoding: 'ISO-8859-1',
+                    encodingVisible: true,
+                };
+                $scope.data = undefined;
+                document.getElementById('importForm').reset();
             }
 
         } else if ($state.is('admin.subjectMgmt.subjectDetail')) {
