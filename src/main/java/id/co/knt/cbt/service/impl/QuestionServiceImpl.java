@@ -585,4 +585,10 @@ public class QuestionServiceImpl implements QuestionService {
 		return images;
 	}
 
+	@Override
+	public QuestionGroupImages updateQuestionImage(QuestionGroupImages questionGroupImages) {
+		QuestionGroupImages image = questionGroupImagesRepo.saveAndFlush(questionGroupImages);
+		return image == null?null:image;
+	}
+
 }

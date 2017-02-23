@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,8 +38,7 @@ public class QuestionGroupImages implements Serializable{
 	private Long createdDate;
 
 	@ManyToOne
-	@JoinColumn(name="question_group_id", nullable=false)
-	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JoinColumn(name="question_group_id", nullable=true)
 	private QuestionGroup questionGroup;
 
 	public Long getId() {

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.knt.cbt.model.QuestionGroupImages;
@@ -80,7 +79,9 @@ public class UploadResourcesCtrl {
 
 		try {
 			QuestionGroupImages groupImages = questionService.findQGImage(questionGroupImageId);
-			questionService.deleteQuestionImage(groupImages);
+			groupImages.setQuestionGroup(null);
+			QuestionGroupImages updatedGroupImages = questionService.updateQuestionImage(groupImages);
+			questionService.deleteQuestionImage(updatedGroupImages);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);

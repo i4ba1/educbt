@@ -44,4 +44,6 @@ public interface QuestionService {
 	QuestionGroupImages findQGImage(Long id);
 	
 	List<QuestionGroupImages> findQGImages(Long id);
+
+	QuestionGroupImages updateQuestionImage(QuestionGroupImages questionGroupImages);
 }
