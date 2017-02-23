@@ -164,22 +164,22 @@ public class TeacherQuestionMgmtCtrl {
 
 								switch (columnIndex) {
 								case 0:
-									question.setQuestion(getCellValue(nextCell).toString());
+									question.setQuestion(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 1:
-									question.setOptionA(getCellValue(nextCell).toString());
+									question.setOptionA(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 2:
-									question.setOptionB(getCellValue(nextCell).toString());
+									question.setOptionB(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 3:
-									question.setOptionC(getCellValue(nextCell).toString());
+									question.setOptionC(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 4:
-									question.setOptionD(getCellValue(nextCell).toString());
+									question.setOptionD(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 5:
-									question.setOptionE(getCellValue(nextCell).toString());
+									question.setOptionE(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 6:
 									question.setKey(getCellValue(nextCell).toString());
@@ -218,26 +218,25 @@ public class TeacherQuestionMgmtCtrl {
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
 								int columnIndex = nextCell.getColumnIndex();
-								LOG.info(getCellValue(nextCell).toString());
 
 								switch (columnIndex) {
 								case 0:
-									question.setQuestion(getCellValue(nextCell).toString());
+									question.setQuestion(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 1:
-									question.setOptionA(getCellValue(nextCell).toString());
+									question.setOptionA(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 2:
-									question.setOptionB(getCellValue(nextCell).toString());
+									question.setOptionB(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 3:
-									question.setOptionC(getCellValue(nextCell).toString());
+									question.setOptionC(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 4:
-									question.setOptionD(getCellValue(nextCell).toString());
+									question.setOptionD(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 5:
-									question.setOptionE(getCellValue(nextCell).toString());
+									question.setOptionE(getCellValue(nextCell) == null? null:getCellValue(nextCell).toString());
 									break;
 								case 6:
 									question.setKey(getCellValue(nextCell).toString());
