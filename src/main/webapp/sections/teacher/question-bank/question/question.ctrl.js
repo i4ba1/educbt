@@ -376,6 +376,9 @@ angular
                     });
                 }
             } else {
+                bsLoadingOverlayService.stop({
+                    referenceId: 'loading'
+                });
                 DialogFactory.showDialogMsg('Gagal Simpan', result.message, 'md');
             }
 

@@ -1,6 +1,6 @@
 'use strict';
 angular.module('app.core')
-    .controller('QuestionBankImportController', function($scope, $stateParams, $state, queastionBankService, teacherService, storageService, DialogFactory, errorHandle) {
+    .controller('QuestionBankImportController', function($scope, $stateParams, $state, queastionBankService, teacherService, storageService, DialogFactory, errorHandle, bsLoadingOverlayService, $timeout) {
 
         var currentTeacher;
         var token = '';
@@ -66,12 +66,25 @@ angular.module('app.core')
         };
 
         $scope.saveImportData = function() {
+            bsLoadingOverlayService.start({
+                referenceId: 'loading'
+            });
             queastionBankService.importQuestionBank(token, self.file, $scope.importModel).then(
                 function(response) {
-                    $scope.questions = response.data;
-                    $scope.resultVisible = 1;
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        });
+                        $scope.questions = response.data;
+                        $scope.resultVisible = 1;
+                    }, 1500);
                 },
                 function(errorResponse) {
+                    $timeout(function() {
+                        bsLoadingOverlayService.stop({
+                            referenceId: 'loading'
+                        })
+                    }, 1500);
                     errorHandle.setError(errorResponse);
                 }
             );
