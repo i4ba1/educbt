@@ -9,7 +9,7 @@
 	<groupId>com.cbt.backend</groupId>
 	<artifactId>smartbee-educbt</artifactId>
 	<packaging>war</packaging>
-	<version>1.8.42</version>
+	<version>1.11.45</version>
 	<name>cbt-backend Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
