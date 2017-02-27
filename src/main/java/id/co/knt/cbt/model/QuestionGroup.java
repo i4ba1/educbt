@@ -46,6 +46,9 @@ public class QuestionGroup implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private QG_TYPE qgType;
 
+	@Column(name = "question_group_name")
+	private String questionGroupName;
+
 	@Column(name = "global_value", columnDefinition="TEXT")
 	private String globalValue;
 
