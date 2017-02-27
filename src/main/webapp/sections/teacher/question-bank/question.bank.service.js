@@ -79,7 +79,8 @@ angular.module('app.core')
             createQuestionGroup: function(token, questionGroup) {
                 var params = [{
                     'authorization': token,
-                    'questionGroup': questionGroup
+                    'questionGroup': questionGroup,
+                    'questionGroupName': questionGroup.questionGroupName
                 }];
                 return $http.post(url + '/teacher/questionMgmt/createQuestion/', params);
             },
@@ -87,7 +88,8 @@ angular.module('app.core')
             updateQuestionGroup: function(token, questionGroup) {
                 var params = [{
                     'authorization': token,
-                    'questionGroup': questionGroup
+                    'questionGroup': questionGroup,
+                    'questionGroupName': questionGroup.questionGroupName
                 }];
                 return $http.put(url + '/teacher/questionMgmt/updateQ/', params);
             },
