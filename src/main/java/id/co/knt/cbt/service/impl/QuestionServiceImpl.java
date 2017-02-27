@@ -207,13 +207,13 @@ public class QuestionServiceImpl implements QuestionService {
 		JSONArray arrayQ = objQG.getJSONArray("questions");
 		JSONObject objQ = null;
 		Question updatedQuestion = null;
+		
+		QuestionGroup qg = groupRepo.findOne(objQG.getLong("id"));
+		qg.setQuestionGroupName(questionGroupName);
+		qg.setGlobalValue(objQG.getString("globalValue"));
+		groupRepo.saveAndFlush(qg);
 
 		if (objQG.getString("qgType").compareTo(QG_TYPE.PASSAGE.name()) == 0) {
-
-			QuestionGroup qg = groupRepo.findOne(objQG.getLong("id"));
-			qg.setQuestionGroupName(questionGroupName);
-			qg.setGlobalValue(objQG.getString("globalValue"));
-			groupRepo.saveAndFlush(qg);
 
 			for (int i = 0; i < arrayQ.length(); i++) {
 				objQ = arrayQ.getJSONObject(i);
@@ -407,6 +407,7 @@ public class QuestionServiceImpl implements QuestionService {
 		mapQGV.put("id", questionGroup.getId());
 		mapQGV.put("createdDate", questionGroup.getCreatedDate());
 		mapQGV.put("qgType", questionGroup.getQgType());
+		mapQGV.put("questionGroupName", questionGroup.getQuestionGroupName())
 		mapQGV.put("globalValue", questionGroup.getGlobalValue());
 
 		List<Map<String, Object>> objQuestion = new ArrayList<>();
