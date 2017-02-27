@@ -67,12 +67,14 @@ public class QuestionServiceImpl implements QuestionService {
 		int success = 0;
 		JSONArray array = new JSONArray(questions);
 		JSONObject objQG = array.getJSONObject(0).getJSONObject("questionGroup");
+		String questionGroupName = array.getJSONObject(0).getString("questionGroupName");
 		JSONArray arrQuestions = objQG.getJSONArray("questions") == null ? null : objQG.getJSONArray("questions");
 		String qgType = objQG.getString("qgType");
 		Long qPoolId = objQG.getLong("questionPoolId");
 
 		QuestionPool qp = poolRepo.findOne(qPoolId);
 		QuestionGroup group = new QuestionGroup();
+		group.setQuestionGroupName(questionGroupName);
 		group.setCreatedDate(new Date().getTime());
 		group.setQgType(QG_TYPE.valueOf(qgType));
 		group.setQuestionPool(qp);
@@ -201,6 +203,7 @@ public class QuestionServiceImpl implements QuestionService {
 	public Question updateCurrentQuestion(List<Object> objects) {
 		JSONArray array = new JSONArray(objects);
 		JSONObject objQG = array.getJSONObject(0).getJSONObject("questionGroup");
+		String questionGroupName = array.getJSONObject(0).getString("questionGroupName");
 		JSONArray arrayQ = objQG.getJSONArray("questions");
 		JSONObject objQ = null;
 		Question updatedQuestion = null;

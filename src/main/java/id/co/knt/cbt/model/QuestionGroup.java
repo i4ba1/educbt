@@ -83,6 +83,14 @@ public class QuestionGroup implements Serializable {
 		this.qgType = qgType;
 	}
 
+	public void setQuestionGroupName(String questionGroupName){
+		this.questionGroupName = questionGroupName;
+	}
+
+	public String getQuestionGroupName(){
+		return this.questionGroupName;
+	}
+
 	public String getGlobalValue() {
 		return globalValue;
 	}
