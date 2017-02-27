@@ -211,6 +211,7 @@ public class QuestionServiceImpl implements QuestionService {
 		if (objQG.getString("qgType").compareTo(QG_TYPE.PASSAGE.name()) == 0) {
 
 			QuestionGroup qg = groupRepo.findOne(objQG.getLong("id"));
+			qg.setQuestionGroupName(questionGroupName);
 			qg.setGlobalValue(objQG.getString("globalValue"));
 			groupRepo.saveAndFlush(qg);
 
