@@ -42,7 +42,7 @@ import id.co.knt.cbt.service.QuestionService;
 import id.co.knt.cbt.service.SubjectService;
 
 /**
- * 
+ *
  * @author MNI
  *
  */
@@ -73,7 +73,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Create new QuestionPool
-	 * 
+	 *
 	 * @param questionPool
 	 * @return
 	 */
@@ -99,7 +99,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Create new question
-	 * 
+	 *
 	 * @param questions
 	 * @return
 	 */
@@ -117,7 +117,7 @@ public class TeacherQuestionMgmtCtrl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param questionFile
 	 * @return
 	 */
@@ -187,7 +187,8 @@ public class TeacherQuestionMgmtCtrl {
 										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
 								break;
 							case 6:
-								question.setKey(getCellValue(nextCell).toString());
+								question.setKey(
+										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
 								break;
 							case 7:
 								question.setDifficulty(getDifficultyValue(
@@ -249,7 +250,8 @@ public class TeacherQuestionMgmtCtrl {
 										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
 								break;
 							case 6:
-								question.setKey(getCellValue(nextCell).toString());
+								question.setKey(
+										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
 								break;
 							case 7:
 								question.setDifficulty(getDifficultyValue(
@@ -325,7 +327,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Find all question pool
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(value = { "", "/{token}/{nip}" }, method = RequestMethod.GET)
@@ -346,7 +348,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Delete the question pool, mean we just set the is_activated=false
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -380,7 +382,7 @@ public class TeacherQuestionMgmtCtrl {
 	/**
 	 * Update selected question pool Only question pool name and subject can be
 	 * edit
-	 * 
+	 *
 	 * @param questionPool
 	 * @return ResponseEntity<QuestionPool>
 	 */
@@ -402,7 +404,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Find selected question pool by id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -417,7 +419,7 @@ public class TeacherQuestionMgmtCtrl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param token
 	 * @param id
 	 * @param nip
@@ -438,7 +440,7 @@ public class TeacherQuestionMgmtCtrl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param token
 	 * @param qgId
 	 * @return
@@ -458,7 +460,7 @@ public class TeacherQuestionMgmtCtrl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -474,7 +476,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Find list all question in selected question pool
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -491,7 +493,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Update current question
-	 * 
+	 *
 	 * @param objects
 	 * @return
 	 */
@@ -506,7 +508,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Delete selected question
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -529,7 +531,7 @@ public class TeacherQuestionMgmtCtrl {
 
 	/**
 	 * Find question by subject id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -548,7 +550,7 @@ public class TeacherQuestionMgmtCtrl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param token
 	 * @param tagIds
 	 * @return
