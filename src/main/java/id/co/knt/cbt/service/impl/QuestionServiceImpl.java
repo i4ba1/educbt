@@ -207,10 +207,12 @@ public class QuestionServiceImpl implements QuestionService {
 		JSONArray arrayQ = objQG.getJSONArray("questions");
 		JSONObject objQ = null;
 		Question updatedQuestion = null;
-		
+
 		QuestionGroup qg = groupRepo.findOne(objQG.getLong("id"));
 		qg.setQuestionGroupName(questionGroupName);
-		qg.setGlobalValue(objQG.getString("globalValue"));
+		if (!objQG.isNull("globalValue")) {
+			qg.setGlobalValue(objQG.getString("globalValue"));
+		}
 		groupRepo.saveAndFlush(qg);
 
 		if (objQG.getString("qgType").compareTo(QG_TYPE.PASSAGE.name()) == 0) {
@@ -550,7 +552,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		for (int i = 0; i < arrayImages.length(); i++) {
 			JSONObject obj = arrayImages.getJSONObject(i);
-			if(obj.isNull("id")){
+			if (obj.isNull("id")) {
 				questionGroupImages = new QuestionGroupImages();
 				questionGroupImages.setImageName(obj.getString("imageName"));
 				questionGroupImages.setBase64Image(obj.getString("base64"));
@@ -589,7 +591,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public QuestionGroupImages updateQuestionImage(QuestionGroupImages questionGroupImages) {
 		QuestionGroupImages image = questionGroupImagesRepo.saveAndFlush(questionGroupImages);
-		return image == null?null:image;
+		return image == null ? null : image;
 	}
 
 }

@@ -28,6 +28,7 @@ angular
         $scope.imageGalery = [];
         $scope.trustAsHtml = tinyMce.trustAsHtml;
         $scope.images = [];
+        $scope.questionGroup;
 
         if (!storageService.isAuthorization("EMPLOYEE")) {
             $state.go("login");
