@@ -155,7 +155,7 @@ public class TeacherQuestionMgmtCtrl {
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
 					Question question = new Question();
 
-					if (i > 0) {
+					if (i > 0 && i < nextRow.getRowNum()) {
 						while (cellIterator.hasNext()) {
 							Cell nextCell = cellIterator.next();
 							int columnIndex = nextCell.getColumnIndex();
@@ -219,7 +219,7 @@ public class TeacherQuestionMgmtCtrl {
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
 					Question question = new Question();
 
-					if (i > 0) {
+					if (i > 0 && i < nextRow.getRowNum()) {
 						while (cellIterator.hasNext()) {
 							Cell nextCell = cellIterator.next();
 							int columnIndex = nextCell.getColumnIndex();
