@@ -407,7 +407,7 @@ public class QuestionServiceImpl implements QuestionService {
 		mapQGV.put("id", questionGroup.getId());
 		mapQGV.put("createdDate", questionGroup.getCreatedDate());
 		mapQGV.put("qgType", questionGroup.getQgType());
-		mapQGV.put("questionGroupName", questionGroup.getQuestionGroupName())
+		mapQGV.put("questionGroupName", questionGroup.getQuestionGroupName());
 		mapQGV.put("globalValue", questionGroup.getGlobalValue());
 
 		List<Map<String, Object>> objQuestion = new ArrayList<>();
