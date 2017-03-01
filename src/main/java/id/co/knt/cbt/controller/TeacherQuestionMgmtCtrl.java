@@ -142,13 +142,20 @@ public class TeacherQuestionMgmtCtrl {
 			int i = 0;
 
 			if (questionGroupType.equals("PASSAGE")) {
-				
+				group = new QuestionGroup();
+				group.setCreatedDate(new Date().getTime());
+				group.setQgType(QG_TYPE.PASSAGE);
+				group.setQuestionPool(qp);
+				// set the passage
+				group.setGlobalValue(passage);
+				questionGroupRepo.save(group);
+
 				while (iterator.hasNext()) {
 					Row nextRow = iterator.next();
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
 					Question question = new Question();
 
-				if (nextRow.getCell(0) != null || !nextRow.getCell(0).equals("")) {
+					if (nextRow.getCell(0) != null || !nextRow.getCell(0).equals("")) {
 						if (i > 0) {
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
@@ -201,19 +208,11 @@ public class TeacherQuestionMgmtCtrl {
 								}
 							}
 
-							group = new QuestionGroup();
-							group.setCreatedDate(new Date().getTime());
-							group.setQgType(QG_TYPE.PASSAGE);
-							group.setQuestionPool(qp);
-							// set the passage
-							group.setGlobalValue(passage);
-							questionGroupRepo.save(group);
-							
 							question.setDisabled(false);
 							question.setQuestionGroup(group);
 							questions.add(question);
 						}
-						
+
 						i++;
 					}
 				}
@@ -285,7 +284,7 @@ public class TeacherQuestionMgmtCtrl {
 							question.setQuestionGroup(group);
 							questions.add(question);
 						}
-						
+
 						i++;
 					}
 				}
