@@ -145,7 +145,7 @@ angular
                     var ed = tinyMCE.get(element.id);
                     var image = ed.getDoc().createElement("img")
                     image.src = response.selectedImage.base64;
-                    image.style.cssText = "height:100px; width:auto; max-width:200px;"
+                    image.style.cssText = "height:auto; width:250px; max-width:700px;"
                     ed.execCommand('mceInsertContent', false, image.outerHTML);
                 },
                 function(dismiss) {
