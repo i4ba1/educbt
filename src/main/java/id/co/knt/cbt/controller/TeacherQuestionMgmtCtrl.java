@@ -142,76 +142,79 @@ public class TeacherQuestionMgmtCtrl {
 			int i = 0;
 
 			if (questionGroupType.equals("PASSAGE")) {
-				group = new QuestionGroup();
-				group.setCreatedDate(new Date().getTime());
-				group.setQgType(QG_TYPE.valueOf(questionGroupType));
-				group.setQuestionPool(qp);
-				// set the passage
-				group.setGlobalValue(passage);
-
 				questionGroupRepo.save(group);
 				while (iterator.hasNext()) {
 					Row nextRow = iterator.next();
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
 					Question question = new Question();
 
-					if (i > 0 && i < nextRow.getRowNum()) {
-						while (cellIterator.hasNext()) {
-							Cell nextCell = cellIterator.next();
-							int columnIndex = nextCell.getColumnIndex();
-							LOG.info(getCellValue(nextCell).toString());
+				if (nextRow.getCell(0) != null || !nextRow.getCell(0).equals("")) {
+						if (i > 0) {
+							while (cellIterator.hasNext()) {
+								Cell nextCell = cellIterator.next();
+								int columnIndex = nextCell.getColumnIndex();
+								LOG.info(getCellValue(nextCell).toString());
 
-							switch (columnIndex) {
-							case 0:
-								question.setQuestion(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 1:
-								question.setOptionA(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 2:
-								question.setOptionB(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 3:
-								question.setOptionC(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 4:
-								question.setOptionD(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 5:
-								question.setOptionE(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 6:
-								question.setKey(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 7:
-								question.setDifficulty(getDifficultyValue(
-										Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
-								break;
-							case 8:
-								question.setExplanation(getCellValue(nextCell).toString());
-								break;
-							case 9:
-								question.setTypeQuestion(getCellValue(nextCell).toString());
-								break;
-							default:
-								break;
+								switch (columnIndex) {
+								case 0:
+									question.setQuestion(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 1:
+									question.setOptionA(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 2:
+									question.setOptionB(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 3:
+									question.setOptionC(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 4:
+									question.setOptionD(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 5:
+									question.setOptionE(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 6:
+									question.setKey(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 7:
+									question.setDifficulty(getDifficultyValue(
+											Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
+									break;
+								case 8:
+									question.setExplanation(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 9:
+									question.setTypeQuestion(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								default:
+									break;
+								}
 							}
+
+							group = new QuestionGroup();
+							group.setCreatedDate(new Date().getTime());
+							group.setQgType(QG_TYPE.PASSAGE);
+							group.setQuestionPool(qp);
+							// set the passage
+							group.setGlobalValue(passage);
+							
+							question.setDisabled(false);
+							question.setQuestionGroup(group);
+							questions.add(question);
 						}
-
-						question.setDisabled(false);
-						question.setQuestionGroup(group);
-						questions.add(question);
+						
+						i++;
 					}
-
-					i++;
-
 				}
 			} else {
 				while (iterator.hasNext()) {
@@ -219,67 +222,71 @@ public class TeacherQuestionMgmtCtrl {
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
 					Question question = new Question();
 
-					if (i > 0 && i < nextRow.getRowNum()) {
-						while (cellIterator.hasNext()) {
-							Cell nextCell = cellIterator.next();
-							int columnIndex = nextCell.getColumnIndex();
+					if (nextRow.getCell(0) != null || !nextRow.getCell(0).equals("")) {
+						if (i > 0) {
+							while (cellIterator.hasNext()) {
+								Cell nextCell = cellIterator.next();
+								int columnIndex = nextCell.getColumnIndex();
 
-							switch (columnIndex) {
-							case 0:
-								question.setQuestion(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 1:
-								question.setOptionA(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 2:
-								question.setOptionB(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 3:
-								question.setOptionC(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 4:
-								question.setOptionD(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 5:
-								question.setOptionE(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 6:
-								question.setKey(
-										getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
-								break;
-							case 7:
-								question.setDifficulty(getDifficultyValue(
-										Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
-								break;
-							case 8:
-								question.setExplanation(getCellValue(nextCell).toString());
-								break;
-							case 9:
-								question.setTypeQuestion(getCellValue(nextCell).toString());
-								break;
-							default:
-								break;
+								switch (columnIndex) {
+								case 0:
+									question.setQuestion(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 1:
+									question.setOptionA(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 2:
+									question.setOptionB(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 3:
+									question.setOptionC(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 4:
+									question.setOptionD(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 5:
+									question.setOptionE(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 6:
+									question.setKey(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 7:
+									question.setDifficulty(getDifficultyValue(
+											Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
+									break;
+								case 8:
+									question.setExplanation(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								case 9:
+									question.setTypeQuestion(
+											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									break;
+								default:
+									break;
+								}
 							}
+
+							group = new QuestionGroup();
+							group.setCreatedDate(new Date().getTime());
+							group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
+							group.setQuestionPool(qp);
+							questionGroupRepo.save(group);
+
+							question.setDisabled(false);
+							question.setQuestionGroup(group);
+							questions.add(question);
 						}
-
-						group = new QuestionGroup();
-						group.setCreatedDate(new Date().getTime());
-						group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
-						group.setQuestionPool(qp);
-						questionGroupRepo.save(group);
-
-						question.setDisabled(false);
-						question.setQuestionGroup(group);
-						questions.add(question);
+						
+						i++;
 					}
-
-					i++;
 				}
 			}
 
