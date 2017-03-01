@@ -149,6 +149,8 @@ public class TeacherQuestionMgmtCtrl {
 				// set the passage
 				group.setGlobalValue(passage);
 				questionGroupRepo.save(group);
+				long groupId = group.getId();
+				group = questionGroupRepo.findOne(groupId);
 				boolean hasQroupName = false;
 
 				while (iterator.hasNext()) {
@@ -231,14 +233,15 @@ public class TeacherQuestionMgmtCtrl {
 
 					if (nextRow.getCell(0) != null || !nextRow.getCell(0).equals("")) {
 						if (i > 0) {
+
+							group = new QuestionGroup();
+							group.setCreatedDate(new Date().getTime());
+							group.setQuestionPool(qp);
+							
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
 								int columnIndex = nextCell.getColumnIndex();
 
-								group = new QuestionGroup();
-								group.setCreatedDate(new Date().getTime());
-								group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
-								group.setQuestionPool(qp);
 
 								switch (columnIndex) {
 								case 0:
@@ -288,7 +291,7 @@ public class TeacherQuestionMgmtCtrl {
 									break;
 								}
 							}
-
+							group.setQgType(QG_TYPE.valueOf(question.getTypeQuestion()));
 							questionGroupRepo.save(group);
 
 							question.setDisabled(false);
