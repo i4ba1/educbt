@@ -160,7 +160,6 @@ public class TeacherQuestionMgmtCtrl {
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
 								int columnIndex = nextCell.getColumnIndex();
-								LOG.info(getCellValue(nextCell).toString());
 
 								switch (columnIndex) {
 								case 0:
