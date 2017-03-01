@@ -142,7 +142,7 @@ public class TeacherQuestionMgmtCtrl {
 			int i = 0;
 
 			if (questionGroupType.equals("PASSAGE")) {
-				questionGroupRepo.save(group);
+				
 				while (iterator.hasNext()) {
 					Row nextRow = iterator.next();
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
@@ -207,6 +207,7 @@ public class TeacherQuestionMgmtCtrl {
 							group.setQuestionPool(qp);
 							// set the passage
 							group.setGlobalValue(passage);
+							questionGroupRepo.save(group);
 							
 							question.setDisabled(false);
 							question.setQuestionGroup(group);

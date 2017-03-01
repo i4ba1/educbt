@@ -18,7 +18,7 @@
                 {{(group.questionGroupName?group.questionGroupName:"---")}}
             </td>
             <td data-title="'Tanggal dibuat'">
-                {{group.createdDate | date:"dd/MM/yyyy"}}
+                {{group.createdDate | date:"dd/MM/yyyy at HH:mm:ss "}}
             </td>
             <td data-title="'Jenis Soal'">
                 <p ng-bind="getQGType(group.qgType)"></p>
