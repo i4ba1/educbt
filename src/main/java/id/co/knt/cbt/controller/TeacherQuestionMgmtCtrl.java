@@ -158,7 +158,7 @@ public class TeacherQuestionMgmtCtrl {
 					Iterator<Cell> cellIterator = nextRow.cellIterator();
 					Question question = new Question();
 
-					if (nextRow.getCell(0) != null || !nextRow.getCell(0).equals("")) {
+					if (nextRow.getCell(1) != null || !nextRow.getCell(1).equals("")) {
 						if (i > 0) {
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
