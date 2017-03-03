@@ -172,10 +172,10 @@
                     </table>
                 </div>
                 <hr>
-                <div class="row">
-                    <a ng-click="finishExamintion()" class="btn btn-primary pull-right btn-margin" ng-hide="!isExam">Finish</a>
-                    <input value="&gt;" class="btn btn-default pull-right btn-margin" id="btnNext" name="next" type="button" ng-click="nextSlide()" ng-disabled="currentIndex == max" />
-                    <input value="&lt;" name="prev" id="btnPrev" class="btn btn-default pull-right btn-margin" type="button" ng-click="prevSlide()" ng-disabled="currentIndex == 0" />
+                <div class="row" style="padding:0px 15px;">
+                    <a ng-click="finishExamintion()" class="btn btn-primary pull-left btn-margin" ng-hide="!isExam">selesai</a>
+                    <input value="selanjutnya" class="btn btn-default pull-right btn-margin" id="btnNext" name="next" type="button" ng-click="nextSlide()" ng-disabled="currentIndex == max" />
+                    <input value="sebelumnya" name="prev" id="btnPrev" class="btn btn-default pull-right btn-margin" type="button" ng-click="prevSlide()" ng-disabled="currentIndex == 0" />
                 </div>
             </form>
         </div>

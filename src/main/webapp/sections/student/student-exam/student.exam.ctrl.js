@@ -18,6 +18,7 @@ angular.module('app.core')
         $scope.timeWorking = 0;
         $scope.studentEventTime = { id: null };
         $scope.redirect = false;
+        $scope.lastTimeout;
 
         $scope.trustAsHtml = tinyMce.trustAsHtml;
         $scope.currentQuestion = {
@@ -205,10 +206,12 @@ angular.module('app.core')
             $scope.counter--;
             $scope.timeWorking = new Date(0, 0, 0).setSeconds($scope.counter);
             if ($scope.counter > 0) {
-                mytimeout = $timeout($scope.onTimeout, 1000);
+                var timeout = $timeout($scope.onTimeout, 1000);
+                $timeout.cancel($scope.lastTimeout);
+                $scope.lastTimeout = timeout;
             } else {
                 DialogFactory.showDialogMsg("Ujian Selesai", "Waktu Telah Habis", "md");
-                $timeout.cancel($scope.onTimeout);
+                $timeout.cancel($scope.lastTimeout);
                 $scope.redirect = true;
                 $state.go('student.task.exam.result');
             }
@@ -216,11 +219,12 @@ angular.module('app.core')
 
         function startTimer(time) {
             $scope.counter = time;
-            $timeout($scope.onTimeout, 1000);
+            var timeout = $timeout($scope.onTimeout, 1000);
+            $scope.lastTimeout = timeout;
         }
 
         $scope.finishExamintion = function() {
-            $timeout.cancel($scope.onTimeout);
+            $timeout.cancel($scope.lastTimeout);
             $scope.redirect = true;
             $state.go('student.task.exam.result');
         }
@@ -266,7 +270,7 @@ angular.module('app.core')
                 result.then(
                     function(value) {
                         if (value) {
-                            $timeout.cancel($scope.onTimeout);
+                            $timeout.cancel($scope.lastTimeout);
                             $scope.redirect = true;
                             $state.go('student.task.exam.result');
                         } else {
@@ -304,7 +308,7 @@ angular.module('app.core')
             promise.then(
                 function(response) {
                     if (param.message === "backButtonEvent") {
-                        $timeout.cancel($scope.onTimeout);
+                        $timeout.cancel($scope.lastTimeout);
                     }
                 },
                 function(errorResponse) {
