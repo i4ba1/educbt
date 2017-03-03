@@ -196,11 +196,15 @@ public class StudentCtrl {
         double total = 0.0;
 
         for (StudentAnswer sa : list) {
-            if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0 && sa.getAnswered() != null) {
-                sa.setCorrect(true);
-                studentAnswerService.updateSA(sa);
-                correct++;
-            } else {
+        	if (sa.getAnswered() != null) {
+        		if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
+                    sa.setCorrect(true);
+                    studentAnswerService.updateSA(sa);
+                    correct++;
+                }else{
+                	incorrect++;
+                }
+        	}else {
                 incorrect++;
             }
         }
