@@ -198,10 +198,13 @@ public class TeacherQuestionMgmtCtrl {
 									break;
 								case 7:
 									if (getCellValue(nextCell).toString() != null) {
-										if (Integer.parseInt(getCellValue(nextCell).toString()) == 0) {
-											question.setKey("false");
-										}else if(Integer.parseInt(getCellValue(nextCell).toString()) == 1){
-											question.setKey("true");
+										String key = getCellValue(nextCell).toString();
+										if(key.equals("1.0") || key.equals("0.0")){
+											if (key.equals("1.0")) {
+												question.setKey("true");
+											}else{
+												question.setKey("false");
+											}	
 										}else{
 											question.setKey(getCellValue(nextCell).toString());
 										}
@@ -279,8 +282,18 @@ public class TeacherQuestionMgmtCtrl {
 											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
 									break;
 								case 7:
-									question.setKey(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									if (getCellValue(nextCell).toString() != null) {
+										String key = getCellValue(nextCell).toString();
+										if(key.equals("1.0") || key.equals("0.0")){
+											if (key.equals("1.0")) {
+												question.setKey("true");
+											}else{
+												question.setKey("false");
+											}	
+										}else{
+											question.setKey(getCellValue(nextCell).toString());
+										}
+									}
 									break;
 								case 8:
 									question.setDifficulty(getDifficultyValue(

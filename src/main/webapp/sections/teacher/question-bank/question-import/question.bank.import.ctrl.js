@@ -88,7 +88,39 @@ angular.module('app.core')
                     errorHandle.setError(errorResponse);
                 }
             );
-        }
+        };
+
+        $scope.checkKey = function(key) {
+            var result = "";
+            if (key) {
+                if (key === "true") {
+                    result = "BENAR";
+                } else if (key === "false") {
+                    result = "SALAH";
+                } else {
+                    result = key;
+                }
+            } else {
+                result = "---";
+            }
+            return result;
+        };
+
+        $scope.checkDiff = function(diff) {
+            var result = "";
+            if (diff) {
+                if (diff === "EASY") {
+                    result = "MUDAH";
+                } else if (diff === "MEDIUM") {
+                    result = "SEDANG";
+                } else {
+                    result = "SUKAR";
+                }
+            } else {
+                result = "---";
+            }
+            return result;
+        };
 
         findQuestionById();
 
