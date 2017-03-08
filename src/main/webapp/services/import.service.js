@@ -23,4 +23,4 @@ angular.module('app.core')
 
       return lines;
     }
-  });
+  }]);

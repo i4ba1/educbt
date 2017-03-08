@@ -15,4 +15,4 @@
 /target/cbt-backend.war
 /src/main/webapp/bower_components/**
 .externalToolBuilders/**
-
+.tern-project
