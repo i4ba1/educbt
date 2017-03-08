@@ -197,8 +197,15 @@ public class TeacherQuestionMgmtCtrl {
 											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
 									break;
 								case 7:
-									question.setKey(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+									if (getCellValue(nextCell).toString() != null) {
+										if (Integer.parseInt(getCellValue(nextCell).toString()) == 0) {
+											question.setKey("false");
+										}else if(Integer.parseInt(getCellValue(nextCell).toString()) == 1){
+											question.setKey("true");
+										}else{
+											question.setKey(getCellValue(nextCell).toString());
+										}
+									}
 									break;
 								case 8:
 									question.setDifficulty(getDifficultyValue(
