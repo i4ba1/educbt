@@ -205,7 +205,14 @@ angular.module('app.core')
 
             $scope.counter--;
             $scope.timeWorking = new Date(0, 0, 0).setSeconds($scope.counter);
-            if ($scope.counter > 0) {
+            if ($scope.counter === 300) {
+                DialogFactory.showDialogMsg("Peringatan", "5 menit lagi waktu akan habis", "md");
+                var timeout = $timeout($scope.onTimeout, 1000);
+                $timeout.cancel($scope.lastTimeout);
+                $scope.lastTimeout = timeout;
+                angular.element('#working-time').css('color', 'red');
+                angular.element('#working-time').css('font-wight', 'bold');
+            } else if ($scope.counter > 0) {
                 var timeout = $timeout($scope.onTimeout, 1000);
                 $timeout.cancel($scope.lastTimeout);
                 $scope.lastTimeout = timeout;
