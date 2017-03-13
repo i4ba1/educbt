@@ -32,8 +32,11 @@ angular.module('app', [
             length: 20
         });
     }])
-    .run(function(bsLoadingOverlayService) {
+    .run(function(bsLoadingOverlayService, DialogFactory, $rootScope) {
         bsLoadingOverlayService.setGlobalConfig({
             templateUrl: 'components/overlay.html'
         });
+
+        $rootScope.openHelp = DialogFactory.openHelpMsg;
+
     });

@@ -110,6 +110,22 @@ angular.module('app.messages')
 
 
                 return modalInstance.result;
+            },
+
+            openHelpMsg: function(helpType) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'components/modal-template/help.msg.html',
+                    controller: function($scope, helpType) {
+                        $scope.helpType = helpType;
+                    },
+                    size: 'md',
+                    resolve: {
+                        helpType: function() {
+                            return helpType;
+                        }
+                    }
+                });
             }
 
         };

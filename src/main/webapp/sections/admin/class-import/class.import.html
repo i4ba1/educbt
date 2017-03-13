@@ -4,9 +4,12 @@
         <h3 class="page-header">
             <i class="fa fa-fw fa-newspaper-o fa-lg"></i>Impor Data Kelas
             <span class="pull-right">
-              <a target="_self" href="assets/csv-seed/grade.template.csv" download="grade.template.csv" title="Unduh Templet CSV Impor Kelas">
-                <i class="fa fa-download"></i>
-              </a>
+                <a class="btn btn-primary" target="_self" href="assets/csv-seed/grade.template.csv" download="grade.template.csv" tooltip-placement="top" uib-tooltip="Unduh Templet CSV Impor Kelas">
+                    <i class="fa fa-download"></i>
+                </a>
+                <a class="btn btn-primary" tooltip-placement="top" uib-tooltip="Bantuan" ng-click="openHelp('import-class')">
+                    <i class="fa fa-question"></i>
+                </a>
             </span>
         </h3>
         <form name="importForm" id="importForm">

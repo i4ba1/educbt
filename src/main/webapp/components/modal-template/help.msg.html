@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <h3 class="modal-title"> <i class="fa fa-question-circle fa-lg"></i> Bantuan </h3>
+</div>
+<div class="modal-body">
+    <div ng-switch="helpType">
+        <div ng-switch-when="import-subject">
+            <p>Format Pengisian Impor Data Matapelajaran :
+                <br>
+                <ol>
+                    <li><b>NAMA_MATAPELAJARAN : </b> isilah nama mata pelajaran dengan format teks</li>
+                </ol>
+                <br>
+                <b>Tidak diperbolehkan menggunakan  tanda koma ( , ) dalam pengisian data</b>
+            </p>
+        </div>
+        <div ng-switch-when="import-class">
+            <p>Format Pengisian Impor Data Kelas :
+                <br>
+                <ol>
+                    <li><b>NAMA_KELAS : </b> nama kelas boleh menggunakan huruf maupun angka, jika NAMA_KELAS diisi dengan angka di harapkan ubah formatnya menjadi teks
+
+                        <ul>
+                            <li><b>Klik Kanan pada Cell</b></li>
+                            <li><b>Kemudian pilih "Format Cells"</b></li>
+                            <li><b>Pada "Category" pilih "Text"</b></li>
+                            <li><b>OK</b></li>
+                        </ul>
+
+                    </li>
+                </ol>
+                <br>
+                <b>Tidak diperbolehkan menggunakan  tanda koma ( , ) dalam pengisian data</b>
+            </p>
+        </div>
+        <div ng-switch-when="import-student">
+            <p>Format Pengisian Impor Data Siswa :
+                <br>
+                <ol>
+                    <li><b>NIS: </b> nis bisa diisi dengan teks ataupun angka, jika nis diisi dengan angka di harapkan ubah formatnya menjadi teks
+
+                        <ul>
+                            <li><b>Klik Kanan pada Cell</b></li>
+                            <li><b>Kemudian pilih "Format Cells"</b></li>
+                            <li><b>Pada "Category" pilih "Text"</b></li>
+                            <li><b>OK</b></li>
+                        </ul>
+
+                    </li>
+                    <li><b>NAMA_DEPAN : </b> isilah nama depan guru</li>
+                    <li><b>NAMA_BELAKANG : </b> isilah nama belakang guru</li>
+                    <li><b>ALAMAT :</b> isilah alamat lengkap ( <b>tidak boleh ada tanda koma ','</b> )</li>
+                    <li><b>TEMPAT_LAHIR : </b> isilah tempat lahir dengan format teks</li>
+                    <li><b>TANGGAL_LAHIR : </b> isilah dengan format <b>"dd/mm/yyyy"</b> contoh : 22/11/1991 </li>
+                    <li><b>No Telepon dan No HP : </b> isilah dengan angka kemudian lakukan format teks seperti saat pengisian NIP</li>
+                    <li><b>JENIS_KELAMIN : </b> isilah jenis kelamin dengan "L" untuk laki-laki dan "P" untuk perempuan</li>
+                    <li><b>AGAMA : </b> isilah dengan "islam, kristen, budha, katolik atau hindu"</li>
+                    <li><b>EMAIL : </b> isilah email dengan format teks</li>
+                    <li><b>MASIH_AKTIF : </b> isilah dengan "ya" atau "tidak"</li>
+                    <li><b>NAMA_PEKERJAAN : </b> isilah nama pekerjaan dengan format teks</li>
+                    <li><b>KELAS : </b> nama kelas boleh menggunakan huruf maupun angka, jika KELAS diisi dengan angka di harapkan ubah formatnya menjadi teks </li>
+                </ol>
+                <br>
+                <b>Tidak diperbolehkan menggunakan  tanda koma ( , ) dalam pengisian data</b>
+            </p>
+        </div>
+        <div ng-switch-when="import-teacher">
+            <p>Format Pengisian Impor Data Guru:
+                <br>
+                <ol>
+                    <li><b>NIP : </b> nip bisa diisi dengan teks ataupun angka, jika nip diisi dengan angka di harapkan ubah formatnya menjadi teks
+
+                        <ul>
+                            <li><b>Klik Kanan pada Cell</b></li>
+                            <li><b>Kemudian pilih "Format Cells"</b></li>
+                            <li><b>Pada "Category" pilih "Text"</b></li>
+                            <li><b>OK</b></li>
+                        </ul>
+
+                    </li>
+                    <li><b>NAMA_DEPAN : </b> isilah nama depan guru</li>
+                    <li><b>NAMA_BELAKANG : </b> isilah nama belakang guru</li>
+                    <li><b>ALAMAT :</b> isilah alamat lengkap ( <b>tidak boleh ada tanda koma ','</b> )</li>
+                    <li><b>TEMPAT_LAHIR : </b> isilah tempat lahir dengan format teks</li>
+                    <li><b>TANGGAL_LAHIR : </b> isilah dengan format <b>"dd/mm/yyyy"</b> contoh : 22/11/1991 </li>
+                    <li><b>No Telepon dan No HP : </b> isilah dengan angka kemudian lakukan format teks seperti saat pengisian NIP</li>
+                    <li><b>JENIS_KELAMIN : </b> isilah jenis kelamin dengan "L" untuk laki-laki dan "P" untuk perempuan</li>
+                    <li><b>TANGGAL_MASUK : </b> isilah dengan format <b>"dd/mm/yyyy"</b></li>
+                    <li><b>AGAMA : </b> isilah dengan "islam, kristen, budha, katolik atau hindu"</li>
+                    <li><b>EMAIL : </b> isilah email dengan format teks</li>
+                    <li><b>MASIH_AKTIF : </b> isilah dengan "ya" atau "tidak"</li>
+                    <li><b>NAMA_PEKERJAAN : </b> isilah nama pekerjaan dengan format teks</li>
+                    <li><b>STATUS_PERNIKAHAN : </b>isilah dengan "menikah, belum, atau cerai"</li>
+                </ol>
+                <br>
+                <b>Tidak diperbolehkan menggunakan  tanda koma ( , ) dalam pengisian data</b>
+            </p>
+        </div>
+        <div ng-switch-when="import-question">
+            <p>Format Pengisian Impor Data Bank Soal
+                <br>
+                <ol>
+                    <li><b>Tipe Soal wacana ? : </b> Ceklis jika inggin membuat soal "wacana", dan biarkan tidak terceklis jika ingin membuat soal "pilihan ganda" atau "benar-salah"</li>
+                    <li><b>Teks Wacana : </b> isilah wacana yang nantinya akan dijadikan wacana pada soal yang diimpor.</li>
+                    <li><b>XLS Template : </b> tombol untuk mengunduh file template bank soal </li>
+                    <li><b>Cara Pengisian Template</b><br>
+                        <ul>
+                            <li><b>NAMA SOAL : </b> Nama soal bisa diisi dengan huruf maupun angka , contoh : Soal 1</li>
+                            <li><b>PERTANYAAN : </b> isilah dengan format teks, dengan langkah : <br>
+                                <ul>
+                                    <li>Klik kanan "Cell" yang aktif</li>
+                                    <li>Pilih "Format Cells"</li>
+                                    <li>pada "Category" pilih "Text"</li>
+                                    <li><b>OK</b></li>
+                                </ul>
+
+                            </li>
+                            <li><b>PILIHAN A-E : </b> isilah dengan format teks</li>
+                            <li><b>KUNCI JAWABAN : </b> isilah kunci jawab dengan format ( A - E) untuk tipe "pilihan ganda", atau (1 = benar, 0 = salah) untuk tipe pertanyaan "benar-salah"</li>
+                            <li><b>KESULITAN : </b> tingkat kesulitan dibagi jadi tingkatan yaitu 1(mudah),2(sedang), atau 3(sukar)</li>
+                            <li><b>PEMBAHASAN : </b> isilah pembahasan dengan format teks</li>
+                            <li><b>JENIS_SOAL : </b> isilah jenis soal dengan kode "MC" untuk soal tipe pilihan ganda, atau kode "TF" untu soal tipe "benar-salah"</li>
+                            <li><b>Disarankan menghapus 3-5 baris kosong setelah soal terakhir</b></li>
+
+                        </ul>
+                        <br/>
+
+                    </li>
+                    <li><b>Pilih Berkas : </b> pilihlah berkas bank soal, sesuai format template yang disediakan</li>
+                    <li><b>Pilih Simpan</b></li>
+                </ol>
+            </p>
+        </div>
+    </div>
+</div>

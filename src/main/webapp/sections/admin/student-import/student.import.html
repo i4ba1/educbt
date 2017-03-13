@@ -3,7 +3,10 @@
         <h3 class="page-header">
             <i class="fa fa-fw fa-newspaper-o fa-lg"></i>Impor Data Siswa
             <span class="pull-right">
-              <a target="_self" href="assets/csv-seed/student.template.csv" download="student.template.csv" title="Unduh Templet CSV Impor Siswa"><i class="fa fa-download"></i></a>
+              <a class="btn btn-primary" target="_self" href="assets/csv-seed/student.template.csv" download="student.template.csv"  tooltip-placement="top" uib-tooltip="Unduh Templet CSV Impor Siswa"><i class="fa fa-download"></i></a>
+              <a class="btn btn-primary" tooltip-placement="top" uib-tooltip="Bantuan" ng-click="openHelp('import-student')">
+                <i class="fa fa-question"></i>
+              </a>
             </span>
         </h3>
         <form name="importForm" id="importForm">
