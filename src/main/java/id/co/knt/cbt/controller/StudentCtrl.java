@@ -311,14 +311,14 @@ public class StudentCtrl {
      * @return
      */
     @RequestMapping(value = {"/list_student_answer/{token}/{eventId}/{nis}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<StudentAnswer>> listStudentAnswer(@PathVariable("token") String token,
+    public ResponseEntity<List<Map<String, Object>>> listStudentAnswer(@PathVariable("token") String token,
                                                                  @PathVariable("eventId") Long eventId, @PathVariable("nis") String nis) {
-        List<StudentAnswer> list = studentAnswerService.findSAByEvent(eventId, nis);
+    	List<Map<String, Object>> list = studentAnswerService.resultEvent(eventId, nis);
 
         Collections.shuffle(list);
 
-        return list.size() > 0 ? new ResponseEntity<List<StudentAnswer>>(list, HttpStatus.OK)
-                : new ResponseEntity<List<StudentAnswer>>(list, HttpStatus.NOT_FOUND);
+        return list.size() > 0 ? new ResponseEntity<List<Map<String, Object>>>(list, HttpStatus.OK)
+                : new ResponseEntity<List<Map<String, Object>>>(list, HttpStatus.NOT_FOUND);
     }
 
     /**

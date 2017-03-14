@@ -1,7 +1,9 @@
 package id.co.knt.cbt.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -53,22 +55,6 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 	}
 
 	@Override
-	public List<StudentAnswer> findSAByEvent(Long eventId, String nis) {
-		List<StudentAnswer> list = studentAnswerRepo.findSAByEvent(eventId, nis);
-		List<StudentAnswer> newList = new ArrayList<>();
-		
-		for (StudentAnswer sa : list) {
-			Question newQuestion = sa.getQuestion();
-			String key = System.currentTimeMillis()+"#"+newQuestion.getKey()+"#"+System.nanoTime();
-			newQuestion.setKey(key);
-			sa.setQuestion(newQuestion);
-			newList.add(sa);
-		}
-		
-		return newList;
-	}
-
-	@Override
 	public StudentAnswer findSAByQuestion(Long qId) {
 		// TODO Auto-generated method stub
 		return null;
@@ -81,4 +67,47 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 		return count;
 	}
 
+	@Override
+	public List<StudentAnswer> findSAByEvent(Long eventId, String nis) {
+		List<StudentAnswer> list = studentAnswerRepo.findSAByEvent(eventId, nis);
+		
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> resultEvent(Long eventId, String nis) {
+		List<StudentAnswer> list = studentAnswerRepo.findSAByEvent(eventId, nis);
+		List<Map<String, Object>> listData = new ArrayList<>();
+		
+		Map<String, Object> mapSA = new HashMap<>();
+		Map<String, Object> mapQuestion = new HashMap<>();
+		List<Map<String, Object>> questions = new ArrayList<>();
+		
+		for (StudentAnswer sa : list) {
+			mapSA.put("answered", sa.getAnswered());
+			mapSA.put("correct", sa.getCorrect());
+			mapSA.put("event", sa.getEvent());
+			mapSA.put("id", sa.getId());
+			
+			Question q = sa.getQuestion();
+			mapQuestion.put("id", q.getId());
+			mapQuestion.put("question", q.getQuestion());
+			mapQuestion.put("optionA", q.getOptionA());
+			mapQuestion.put("optionB", q.getOptionB());
+			mapQuestion.put("optionC", q.getOptionC());
+			mapQuestion.put("optionD", q.getOptionD());
+			mapQuestion.put("optionE", q.getOptionE());
+			mapQuestion.put("key", System.currentTimeMillis()+"#"+q.getKey()+"#"+System.nanoTime());
+			mapQuestion.put("explanation", q.getExplanation());
+			mapQuestion.put("typeQuestion", q.getTypeQuestion());
+			mapQuestion.put("questioGroup", q.getQuestionGroup());
+			questions.add(mapQuestion);
+			
+			mapSA.put("question", questions);
+			mapSA.put("student", sa.getStudent());
+			listData.add(mapSA);
+		}
+		
+		return listData;
+	}
 }

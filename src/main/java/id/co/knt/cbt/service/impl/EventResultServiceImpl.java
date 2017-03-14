@@ -1,13 +1,14 @@
 package id.co.knt.cbt.service.impl;
 
-import id.co.knt.cbt.model.EventResult;
-import id.co.knt.cbt.repositories.EventResultRepo;
-import id.co.knt.cbt.service.EventResultService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import id.co.knt.cbt.model.EventResult;
+import id.co.knt.cbt.repositories.EventResultRepo;
+import id.co.knt.cbt.service.EventResultService;
 
 @Transactional
 @Service("eventResultService")
