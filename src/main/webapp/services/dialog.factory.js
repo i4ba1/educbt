@@ -126,7 +126,24 @@ angular.module('app.messages')
                         }
                     }
                 });
-            }
+            },
+
+            showReminderMsg: function(title, content, size) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'components/modal-template/dialog.msg.html',
+                    controller: 'DialogMessageCtrl',
+                    size: size,
+                    resolve: {
+                        titleText: function() {
+                            return title;
+                        },
+                        contentText: function() {
+                            return content;
+                        }
+                    }
+                });
+            },
 
         };
     }]);
