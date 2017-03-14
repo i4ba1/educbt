@@ -1,5 +1,6 @@
 package id.co.knt.cbt.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.StudentAnswer;
 import id.co.knt.cbt.repositories.StudentAnswerRepo;
 import id.co.knt.cbt.service.StudentAnswerService;
@@ -53,8 +55,17 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 	@Override
 	public List<StudentAnswer> findSAByEvent(Long eventId, String nis) {
 		List<StudentAnswer> list = studentAnswerRepo.findSAByEvent(eventId, nis);
+		List<StudentAnswer> newList = new ArrayList<>();
 		
-		return list;
+		for (StudentAnswer sa : list) {
+			Question newQuestion = sa.getQuestion();
+			String key = System.currentTimeMillis()+"#"+newQuestion.getKey()+"#"+System.nanoTime();
+			newQuestion.setKey(key);
+			sa.setQuestion(newQuestion);
+			newList.add(sa);
+		}
+		
+		return newList;
 	}
 
 	@Override
