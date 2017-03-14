@@ -49,7 +49,11 @@ angular.module('app.core')
             var promise = studentExamService.fetchStudentAnswer(eventId, nis, token);
             promise.then(
                     function(response) {
-                        $scope.studentAnswers = response.data;
+                        $scope.studentAnswers = [];
+                        angular.forEach(response.data, function(d) {
+                            d.question.key = d.question.key.split("#")[1];
+                            $scope.studentAnswers.push(d);
+                        });
                     },
                     function(errorResponse) {
                         errorHandle.setError(errorResponse);
