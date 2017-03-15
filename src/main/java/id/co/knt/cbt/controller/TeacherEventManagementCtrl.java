@@ -147,8 +147,7 @@ public class TeacherEventManagementCtrl {
 			e.setStartDate(longSD);
 			e.setEndDate(longED);
 
-			if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PUBLISHED)
-					|| EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PREPARED)) {
+			if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PUBLISHED)) {
 
 				e.setWorkingTime(obj.getInt("workingTime"));
 				e.setDeleted(false);
@@ -170,7 +169,6 @@ public class TeacherEventManagementCtrl {
 					EventQuestion eq = new EventQuestion(e, q);
 					eventQuestionService.addNew(eq);
 				}
-				// e.setEve100 rowsntQuestions(listEQ);
 
 				JSONArray arrayKelas = obj.getJSONArray("classes");
 				// Delete the all event kelas mapping table
@@ -186,15 +184,6 @@ public class TeacherEventManagementCtrl {
 					EventKelas ek = new EventKelas(e, k);
 					eventKelasService.addNew(ek);
 				}
-				// e.setEventKelas(listEK);
-
-				return eventService.updateEvent(e) == null ? new ResponseEntity<Event>(e, HttpStatus.EXPECTATION_FAILED)
-						: new ResponseEntity<Event>(e, HttpStatus.OK);
-
-			} else if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.RELEASED)
-					|| EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.COMPLETED)) {
-
-				e.setStatus(EventStatusType.valueOf(obj.getString("status")));
 
 				return eventService.updateEvent(e) == null ? new ResponseEntity<Event>(e, HttpStatus.EXPECTATION_FAILED)
 						: new ResponseEntity<Event>(e, HttpStatus.OK);
