@@ -215,7 +215,7 @@ angular.module('app.core')
                 $timeout.cancel($scope.lastTimeout);
                 $scope.lastTimeout = timeout;
                 angular.element('#working-time').css('color', 'red');
-                angular.element('#working-time').css('font-wight', 'bold');
+                angular.element('#working-time').css('font-weight', 'bold');
             } else if ($scope.counter > 0) {
                 var timeout = $timeout($scope.onTimeout, 1000);
                 $timeout.cancel($scope.lastTimeout);
