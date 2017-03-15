@@ -2,6 +2,7 @@ package id.co.knt.cbt.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class StudentAnswer implements Serializable {
 	@JoinColumn(name="student_id", referencedColumnName="id")
 	private Student student;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
 	@JoinColumn(name="question_id", referencedColumnName="id")
 	private Question question;
 	
