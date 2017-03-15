@@ -105,4 +105,11 @@ public class EventServiceImpl implements EventService {
 		List<Event> events = eventRepo.findEventByTeacher(nip);
 		return events;
 	}
+
+	@Override
+	public List<Event> fetchPublishedEvent() {
+		List<Event> publishedEvents = eventRepo.findPublishedEvent();
+		
+		return publishedEvents;
+	}
 }

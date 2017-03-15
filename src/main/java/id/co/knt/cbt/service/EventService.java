@@ -37,5 +37,7 @@ public interface EventService {
 	
 	List<Event> listNewEvent(EventType eventType);
 	
+	List<Event> fetchPublishedEvent();
+	
 	List<Event> findAllByTeacher(String nip);
 } 
