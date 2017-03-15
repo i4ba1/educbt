@@ -51,7 +51,7 @@ public class UserAutoLogoutCtrl {
 				if (blockingQueue == null || blockingQueue.size() <= 0) {
 					loginQueue.setQueue(l);
 				}else{
-					while (blockingQueue.peek() != null) {
+					while (blockingQueue.peek() != null && !token.equals(null)) {
 						if(!blockingQueue.peek().getToken().equals(token)){
 							loginQueue.setQueue(l);
 							break;
