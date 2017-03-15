@@ -314,10 +314,6 @@ public class StudentCtrl {
     public ResponseEntity<List<Map<String, Object>>> listStudentAnswer(@PathVariable("token") String token,
                                                                  @PathVariable("eventId") Long eventId, @PathVariable("nis") String nis) {
     	List<Map<String, Object>> list = studentAnswerService.resultEvent(eventId, nis);
-    	
-    	for (Map<String, Object> map : list) {
-			LOG.info("id=======> ", map.get("id"));
-		}
 
         Collections.shuffle(list);
 

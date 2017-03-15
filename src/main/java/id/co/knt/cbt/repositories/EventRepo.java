@@ -31,6 +31,9 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 
 	@Query("select e from Event e where e.eventType= :eventType and e.status = 3 order by e.createdDate asc")
 	List<Event> fetchRecentEvent(@Param("eventType") EventType eventType);
+	
+	@Query("select e from Event e where e.status = 1 order by e.createdDate desc")
+	List<Event> findPublishedEvent();
 
 	@Query("select e from Event e JOIN FETCH e.classes where e.id= :eventId")
 	Event findEventKelas(@Param("eventId") Long id);
