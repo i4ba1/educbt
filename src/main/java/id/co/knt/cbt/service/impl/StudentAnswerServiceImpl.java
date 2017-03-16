@@ -87,8 +87,8 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 			mapSA = new HashMap<>();
 			mapSA.put("answered", sa.getAnswered());
 			mapSA.put("correct", sa.getCorrect());
-			mapSA.put("event", sa.getEvent());
-			mapSA.put("id", sa.getId());
+			mapSA.put("eventId", sa.getEvent().getId());
+			mapSA.put("id",sa.getId());
 			
 			Question q = sa.getQuestion();
 			mapQuestion = new HashMap<>();
@@ -105,7 +105,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 			mapQuestion.put("questioGroup", q.getQuestionGroup());
 			
 			mapSA.put("question", mapQuestion);
-			mapSA.put("student", sa.getStudent());
+			mapSA.put("studentId", sa.getStudent().getId());
 			listData.add(mapSA);
 		}
 		
