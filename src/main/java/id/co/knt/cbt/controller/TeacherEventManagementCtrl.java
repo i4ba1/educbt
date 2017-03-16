@@ -132,10 +132,12 @@ public class TeacherEventManagementCtrl {
 		LOG.info("createEvent================> ");
 
 		Event e = null;
-		JSONArray array = new JSONArray(events);
-		JSONObject obj = array.getJSONObject(0).getJSONObject("event");
+		JSONArray array = null;
+		JSONObject obj = null;
 
 		if (events.size() > 0) {
+			array = new JSONArray(events);
+			obj = array.getJSONObject(0).getJSONObject("event");
 			e = eventService.findEventById(obj.getLong("id"));
 			LOG.info("Event================> " + obj.getString("eventName"));
 			e.setEventName(obj.getString("eventName"));
@@ -147,7 +149,8 @@ public class TeacherEventManagementCtrl {
 			e.setStartDate(longSD);
 			e.setEndDate(longED);
 
-			if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PUBLISHED)) {
+			if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PREPARED) ||
+				EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PUBLISHED)) {
 
 				e.setWorkingTime(obj.getInt("workingTime"));
 				e.setDeleted(false);
@@ -188,6 +191,10 @@ public class TeacherEventManagementCtrl {
 				return eventService.updateEvent(e) == null ? new ResponseEntity<Event>(e, HttpStatus.EXPECTATION_FAILED)
 						: new ResponseEntity<Event>(e, HttpStatus.OK);
 
+			} else if(EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.UNPUBLISHED)){
+				e.setStatus(EventStatusType.PREPARED);
+				return eventService.updateEvent(e) == null ? new ResponseEntity<Event>(e, HttpStatus.EXPECTATION_FAILED)
+						: new ResponseEntity<Event>(e, HttpStatus.OK);
 			}
 		}
 
