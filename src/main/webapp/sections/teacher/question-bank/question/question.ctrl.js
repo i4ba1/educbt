@@ -31,7 +31,7 @@ angular
         $scope.questionGroup;
 
         if (!storageService.isAuthorization("EMPLOYEE")) {
-            $state.go("login");
+            $state.go("checkroute");
         } else {
             $scope.currentTeacher = storageService.getLoggedInUser();
             token = storageService.getToken();

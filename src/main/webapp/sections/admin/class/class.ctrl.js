@@ -9,7 +9,7 @@ angular
          * checking authorization
          */
         if (!storageService.isAuthorization("ADMIN")) {
-            $state.go("login");
+            $state.go("checkroute");
         } else {
             token = storageService.getToken();
         }

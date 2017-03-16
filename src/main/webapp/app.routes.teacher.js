@@ -4,7 +4,7 @@ angular.module('app.routes.teacher', ['ui.router'])
     .config(config);
 
 function config($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
         .state('teacher', {
