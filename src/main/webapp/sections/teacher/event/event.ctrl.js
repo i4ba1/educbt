@@ -446,14 +446,14 @@ angular
             var validData = false;
             var invalidMsg = [];
             // check class data is not empty
-            if (events.classes != null && events.classes.length > 0) {
+            if (events.classes && events.classes.length > 0) {
                 validData = true;
             } else {
                 validData = false;
                 invalidMsg.push("kelas belum di pilih");
             }
 
-            if (events.questions != null && events.questions.length > 0) {
+            if (events.questions && events.questions.length > 0) {
                 validData = true;
             } else {
                 validData = false;
@@ -607,7 +607,41 @@ angular
 
             }
 
-        }
+        };
+
+        $scope.publishOrUnPublish = function(param) {
+            $scope.selectedEvent.status = param;
+            $scope.isPrepared = !$scope.isPrepared;
+            if (param === "PUBLISHED") {
+                $scope.saveOrUpdate();
+            }
+        };
+
+        $scope.isPublishVisible = function() {
+            if ($scope.selectedEvent.status === "PREPARED" && $scope.isUpdate) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.isUnPublishVisible = function() {
+            if ($scope.selectedEvent.status !== "PREPARED" && $scope.isUpdate) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.isUnPublishDisable = function() {
+            if ($scope.selectedEvent.status === "RELEASED") {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+
 
 
         if ($state.is('teacher.eventManagement')) {
