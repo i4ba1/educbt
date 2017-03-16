@@ -62,9 +62,9 @@ public class LoginController {
          */
         User user = userService.validateUser(obj.getString("un"),
                 Base64.getEncoder().encodeToString(obj.getString("ps").getBytes()));
-        Boolean isLogin = user == null ? false : true;
+        Boolean isValid = user == null ? false : true;
 
-        if (isLogin) {
+        if (isValid) {
             Login login = loginService.findByUser(user);
 
             /**
