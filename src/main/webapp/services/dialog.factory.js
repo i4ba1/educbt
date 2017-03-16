@@ -1,5 +1,5 @@
 angular.module('app.messages')
-    .factory('DialogFactory', ['$uibModal', function($uibModal, $http) {
+    .factory('DialogFactory', ['$uibModal', "$uibModal", "$http", function($uibModal, $http, $timeout) {
         return {
             showDialogMsg: function(title, content, size) {
                 var modalInstance = $uibModal.open({
@@ -132,7 +132,22 @@ angular.module('app.messages')
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/dialog.msg.html',
-                    controller: 'DialogMessageCtrl',
+                    controller: function($scope, $uibModalInstance, titleText, contentText, $sce, $timeout) {
+
+                        $scope.titleText = titleText;
+                        $scope.contentText = contentText;
+                        $scope.trustAsHtml = $sce.trustAsHtml;
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss('cancel');
+                        };
+                        $scope.close = function(value) {
+                            $uibModalInstance.close(value);
+                        }
+
+                        var timeout = $timeout(function() {
+                            $scope.close(timeout);
+                        }, 10000);
+                    },
                     size: size,
                     resolve: {
                         titleText: function() {
@@ -143,6 +158,10 @@ angular.module('app.messages')
                         }
                     }
                 });
+
+                modalInstance.result.then(function(result) {
+                    $timeout.cancel(result);
+                }, function(dismiss) {});
             },
 
         };
