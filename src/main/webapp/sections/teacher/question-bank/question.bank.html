@@ -1,56 +1,53 @@
 <div class="row-fluid">
 
-  <div class="col-xs-12" ng-switch="questionBanks.length">
+    <div class="col-xs-12" ng-switch="questionBanks.length">
 
-    <h3 class="page-header">
-      <i class="fa fa-fw fa-newspaper-o fa-lg"></i>
-      Bank Soal
-      <a ng-hide="false" ui-sref="teacher.questionBank.create" title="Tambah Bank Soal">
-        <i class="fa fa-fw fa-plus-square pull-right"></i>
-      </a>
-    </h3>
+        <h3 class="page-header">
+            <img src="assets/images/icon-tpls/bank_soal_1.png" alt=""> Bank Soal
+            <button class="btn btn-primary pull-right" type="button" tooltip-placement="top" uib-tooltip="Tambah Bank Soal" ui-sref="teacher.questionBank.create"><i class="fa fa-fw fa-plus fa-lg"></i></button>
+        </h3>
 
-    <table ng-table="questionBankTable" class="table table-responsive table-striped table-hover table-bordered" ng-switch-default>
-      <tr ng-repeat="questionBank in data">
-        <td data-title="'No'" align="center">
-          {{$index+1+(questionBankTable.count()*(questionBankTable.page()-1))}}
-        </td>
-        <td data-title="'Nama Bank Soal'">
-          {{questionBank.questionPoolName}}
-        </td>
-        <td data-title="'Tanggal Dibuat'" class="centerText">
-          {{questionBank.createdDate| date:"dd/MM/yyyy"}}
-        </td>
-        <td data-title="'Matapelajaran'" class="centerText">
-          {{questionBank.subject.subjectName}}
-        </td>
-        <td class="centerText">
-          <a ui-sref="teacher.questionBank.create({questionBankId:questionBank.id})" class="span-click-able" title="ubah"><i class="fa fa-fw fa-pencil fa-lg"></i></a>
-          <label ng-click="toggleModal(questionBank)" class="span-click-able" title="hapus">
+        <table ng-table="questionBankTable" class="table table-responsive table-striped table-hover table-bordered" ng-switch-default>
+            <tr ng-repeat="questionBank in data">
+                <td data-title="'No'" align="center">
+                    {{$index+1+(questionBankTable.count()*(questionBankTable.page()-1))}}
+                </td>
+                <td data-title="'Nama Bank Soal'">
+                    {{questionBank.questionPoolName}}
+                </td>
+                <td data-title="'Tanggal Dibuat'" class="centerText">
+                    {{questionBank.createdDate| date:"dd/MM/yyyy"}}
+                </td>
+                <td data-title="'Matapelajaran'" class="centerText">
+                    {{questionBank.subject.subjectName}}
+                </td>
+                <td class="centerText">
+                    <a ui-sref="teacher.questionBank.create({questionBankId:questionBank.id})" class="span-click-able" title="ubah"><i class="fa fa-fw fa-pencil fa-lg"></i></a>
+                    <label ng-click="toggleModal(questionBank)" class="span-click-able" title="hapus">
             <i class="fa fa-fw fa-trash-o fa-lg"></i>
           </label>
-          <a ui-sref="teacher.questionBank.qpdetail({questionBankId:questionBank.id})" class="span-click-able" title="detail">
-            <i class="fa fa-fw fa-bars fa-lg"></i>
-          </al>
-        </td>
-      </tr>
-    </table>
+                    <a ui-sref="teacher.questionBank.qpdetail({questionBankId:questionBank.id})" class="span-click-able" title="detail">
+                        <i class="fa fa-fw fa-bars fa-lg"></i>
+                        </al>
+                </td>
+            </tr>
+        </table>
 
-    <div ng-switch-when="0">
-      <empty-table colspan="5" headers="{{['Nama Bank Soal','Tanggal Dibuat','Matapelajaran']}}" content="Bank soal belum di tambahkan"></empty-table>
+        <div ng-switch-when="0">
+            <empty-table colspan="5" headers="{{['Nama Bank Soal','Tanggal Dibuat','Matapelajaran']}}" content="Bank soal belum di tambahkan"></empty-table>
+        </div>
+
     </div>
-
-  </div>
 
 </div>
 
 <!-- This Modal is for delete confirmation -->
 <modal-dialog title="Konfirmasi Hapus Data" visible="showModal">
-  <div class="centerText">
-    Apakah anda yakin untuk menghapus bank soal ?
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="deleteQuestionBank()">Ya</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Tidak</button>
-  </div>
+    <div class="centerText">
+        Apakah anda yakin untuk menghapus bank soal ?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="deleteQuestionBank()">Ya</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Tidak</button>
+    </div>
 </modal-dialog>

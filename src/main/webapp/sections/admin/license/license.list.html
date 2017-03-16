@@ -3,11 +3,7 @@
     <div class="col-lg-6 col-md-6" ng-switch="licenses.length">
         <h3 class="page-header">
             <i class="fa fa-cog fa-lg"></i> Manajemen Lisensi
-            <span class="pull-right">
-        <a ui-sref="admin.licenseMgmt.create" title="Tambah Lisensi Baru Baru">
-          <i class="fa fa-fw fa-plus-square fa-lg"></i>
-        </a>
-      </span>
+            <button class="btn btn-primary pull-right" type="button" tooltip-placement="top" uib-tooltip="Tambah Lisensi" ui-sref="admin.licenseMgmt.create"><i class="fa fa-fw fa-plus fa-lg"></i></button>
         </h3>
 
         <table ng-table="licenseTable" class="table table-responsive table-striped table-hover table-bordered" ng-switch-default>

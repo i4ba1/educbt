@@ -1,53 +1,48 @@
 <div class="row-fluid">
 
-  <div class="col-lg-6 col-md-6" ng-switch="data.length">
+    <div class="col-lg-6 col-md-6" ng-switch="data.length">
 
-    <h3 class="page-header">
-      <i class="fa fa-newspaper-o fa-lg"></i>
-      Data Mata Pelajaran
-      <span class="pull-right">
-        <a ui-sref="admin.subjectMgmt.subjectDetail" title="Tambah Mata Pelajaran Baru">
-          <i class="fa fa-fw fa-plus-square fa-lg"></i>
-        </a>
-      </span>
-    </h3>
+        <h3 class="page-header">
+            <img src="assets/images/icon-tpls/kelola_data_master_1.png" alt=""> Data Mata Pelajaran
+            <button class="btn btn-primary pull-right" type="button" tooltip-placement="top" uib-tooltip="Tambah Mata Pelajaran" ui-sref="admin.subjectMgmt.subjectDetail"><i class="fa fa-fw fa-plus fa-lg"></i></button>
+        </h3>
 
-    <table ng-table="subjectsTable" class="table table-responsive table-striped table-hover table-bordered" ng-switch-default>
-      <tr ng-repeat="subject in data">
-        <td data-title="'No'" align="center">
-          {{$index+1+(subjectsTable.count()*(subjectsTable.page()-1))}}
-        </td>
-        <td data-title="'Nama Mata Pelajaran'" align="center">
-          {{subject.subjectName}}
-        </td>
-        <td style="padding-left:10px;" class="col-xs-3">
-          <div class="row" style="margin-left:10px">
-            <a ui-sref="admin.subjectMgmt.subjectDetail({subjectId: subject.id})" class="col-md-3 col-lg-3" title="ubah">
-              <i class="fa fa-fw fa-pencil fa-lg"></i>
-            </a>
-            <span class="col-md-3 col-lg-3 span-click-able" title="hapus" ng-click="toggleModal(subject)">
+        <table ng-table="subjectsTable" class="table table-responsive table-striped table-hover table-bordered" ng-switch-default>
+            <tr ng-repeat="subject in data">
+                <td data-title="'No'" align="center">
+                    {{$index+1+(subjectsTable.count()*(subjectsTable.page()-1))}}
+                </td>
+                <td data-title="'Nama Mata Pelajaran'" align="center">
+                    {{subject.subjectName}}
+                </td>
+                <td style="padding-left:10px;" class="col-xs-3">
+                    <div class="row" style="margin-left:10px">
+                        <a ui-sref="admin.subjectMgmt.subjectDetail({subjectId: subject.id})" class="col-md-3 col-lg-3" title="ubah">
+                            <i class="fa fa-fw fa-pencil fa-lg"></i>
+                        </a>
+                        <span class="col-md-3 col-lg-3 span-click-able" title="hapus" ng-click="toggleModal(subject)">
               <i class="fa fa-fw fa-trash-o fa-lg"></i>
             </span>
-          </div>
-        </td>
-      </tr>
-    </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
-    <div ng-switch-when="0">
-      <empty-table colspan="3" headers="{{['Nama Mata Pelajaran']}}" content="Data mata pelajaran belum ditambahkan"></empty-table>
+        <div ng-switch-when="0">
+            <empty-table colspan="3" headers="{{['Nama Mata Pelajaran']}}" content="Data mata pelajaran belum ditambahkan"></empty-table>
+        </div>
+
     </div>
 
-  </div>
-
-  <!-- This Modal is for delete confirmation -->
-  <modal-dialog title="Konfirmasi Hapus Data" visible="showModal">
-    <div>
-      Apakah anda yakin untuk menghapus data mata pelajaran?
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" ng-click="delete()">Ya</button>
-      <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Tidak</button>
-    </div>
-  </modal-dialog>
+    <!-- This Modal is for delete confirmation -->
+    <modal-dialog title="Konfirmasi Hapus Data" visible="showModal">
+        <div>
+            Apakah anda yakin untuk menghapus data mata pelajaran?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="delete()">Ya</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Tidak</button>
+        </div>
+    </modal-dialog>
 
 </div>

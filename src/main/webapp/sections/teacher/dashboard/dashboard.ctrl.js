@@ -17,6 +17,8 @@ angular.module('app.core')
                 $state.go('teacher.eventManagement');
             } else if (params == 'settings') {
                 $state.go('teacher.accountSetting');
+            } else if (params == 'chapter') {
+                $state.go('teacher.chapter');
             }
         }
     });

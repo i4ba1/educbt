@@ -1,11 +1,9 @@
 <h3 class="page-header">
-    <i class="fa fa-fw fa-bars fa-lg"></i> {{selectedQuestionBank.questionPoolName}}
-    <span class="pull-right span-click-able" tooltip-placement="top" uib-tooltip="tambah soal" ng-click="showModalQuestionType = true">
-        <i class="fa fa-fw fa-plus-square fa-lg"></i>
-    </span>
-    <a ui-sref="teacher.questionBank.qpdetail.import" class="pull-right span-click-able">
-        <span class="btn btn-primary">Impor Soal</span>
-    </a>
+    <img src="assets/images/icon-tpls/bank_soal_1.png" alt=""> {{selectedQuestionBank.questionPoolName}}
+    <div class="pull-right">
+        <button ui-sref="teacher.questionBank.qpdetail.import" class="btn btn-primary" type="button"><img src="assets/images/icon-tpls/impor_2.png" alt="" class="icon-size" tooltip-placement="top" uib-tooltip="impor soal"></button>
+        <button class="btn btn-primary" type="button" tooltip-placement="top" uib-tooltip="tambah soal" ng-click="showModalQuestionType = true"><i class="fa fa-fw fa-plus fa-lg"></i></button>
+    </div>
 </h3>
 
 <div ng-switch="questionBanks.length">

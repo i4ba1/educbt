@@ -21,19 +21,19 @@ angular.module('app.core')
         $scope.titleData = {
             availableOptions: [{
                 'title': 'Tugas',
-                'ico': 'book',
+                'ico': 'tugas_1.png',
                 'value': 'TUGAS'
             }, {
                 'title': 'Kuis',
-                'ico': 'gamepad',
+                'ico': 'quiz_1.png',
                 'value': 'KUIS'
             }, {
                 'title': 'Tryout UTS/UAS',
-                'ico': 'language',
+                'ico': 'uas_1.png',
                 'value': 'TRYOUT_UTS|TRYOUT_UAS'
             }, {
                 'title': 'Tryout UAN',
-                'ico': 'cubes',
+                'ico': 'uan_1.png',
                 'value': 'TRYOUT_UAN'
             }],
             selectedOption: null
