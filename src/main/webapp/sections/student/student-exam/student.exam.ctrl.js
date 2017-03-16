@@ -40,7 +40,15 @@ angular.module('app.core')
         }
 
 
-
+        /*
+         * checking authorization
+         */
+        if (!storageService.isAuthorization("STUDENT")) {
+            $state.go("checkroute");
+        } else {
+            currentStudent = storageService.getLoggedInUser();
+            token = storageService.getToken();
+        }
 
         /*
          *

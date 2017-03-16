@@ -10,7 +10,7 @@ angular
         var token = " ";
         $scope.currentTeacher = null;
         if (!storageService.isAuthorization("EMPLOYEE")) {
-            $state.go("login");
+            $state.go("checkroute");
         } else {
             token = storageService.getToken();
             $scope.currentTeacher = storageService.getLoggedInUser();

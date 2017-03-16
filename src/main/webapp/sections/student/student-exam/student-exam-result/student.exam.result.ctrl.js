@@ -7,7 +7,7 @@ angular.module('app.core')
          * checking authorization
          */
         if (!storageService.isAuthorization("STUDENT")) {
-            $state.go("login");
+            $state.go("checkroute");
         } else {
             currentStudent = storageService.getLoggedInUser();
             token = storageService.getToken();

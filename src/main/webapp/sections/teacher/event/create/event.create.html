@@ -133,7 +133,7 @@
       </div>
     </div> -->
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="control-label col-xs-4" for="status">Status*</label>
             <div class="col-xs-6">
                 <select name="status" class="form-control" ng-model="selectedEvent.status" ng-disabled="(!isUpdate || isCompleted)">
@@ -143,7 +143,7 @@
                     <option value="COMPLETED" ng-disabled="eventStatusVal > 3">COMPLETED</option>
                 </select>
             </div>
-        </div>
+        </div>-->
 
         <div class="form-group">
             <label class="control-label col-xs-4" for="endTime">Bank Soal*</label>
@@ -187,7 +187,9 @@
 
         <div class="form-group">
             <div class="col-xs-6">
-                <button class="btn btn-primary" role="button" type="submit" ng-hide="isCompleted" ng-disabled="eventForm.$invalid">{{isUpdate?"Ubah":"Simpan"}}</button>
+                <button type="button" class="btn btn-primary" ng-click="publishOrUnPublish('PUBLISHED')" ng-hide="!isPublishVisible()" ng-show="isPublishVisible()">Publish</button>
+                <button type="button" class="btn btn-primary" ng-click="publishOrUnPublish('PREPARED')" ng-hide="!isUnPublishVisible()" ng-show="isUnPublishVisible()" ng-disabled="isUnPublishDisable()">Unpublish</button>
+                <button class="btn btn-default" role="button" type="submit" ng-hide="isCompleted" ng-disabled="eventForm.$invalid">{{isUpdate?"Ubah":"Simpan"}}</button>
                 <a ui-sref="^" class="btn btn-default" role="button">Batal</a>
             </div>
         </div>

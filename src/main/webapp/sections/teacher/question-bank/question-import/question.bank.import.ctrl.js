@@ -7,7 +7,7 @@ angular.module('app.core')
         var questionBankId = $stateParams.questionBankId;
 
         if (!storageService.isAuthorization("EMPLOYEE")) {
-            $state.go("login");
+            $state.go("checkroute");
         } else {
             currentTeacher = storageService.getLoggedInUser();
             token = storageService.getToken();
