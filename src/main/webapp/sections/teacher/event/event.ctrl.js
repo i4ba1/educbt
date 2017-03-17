@@ -174,7 +174,18 @@ angular
             var promise = eventService.fetchEventResult($stateParams.eventId, cId, token);
             promise.then(
                 function(response) {
-                    $scope.eventResult = response.data;
+                    $scope.eventResult = [];
+                    response.data.forEach(function(data) {
+                        $scope.eventResult.push({
+                            "KELAS": data.student.kelas.className,
+                            "NIS": data.student.nis,
+                            "NAMA SISWA": data.student.firstName + " " + data.student.lastName,
+                            "JUMLAH BENAR": data.correct,
+                            "JUMLAH SALAH": data.incorrect,
+                            "NILAI": data.total
+                        })
+                    });
+
                 },
                 function(errorResponse) {
                     errorHandle.setError(errorResponse);
@@ -667,6 +678,10 @@ angular
                 $timeout(function() {
                     getClassByEventId($stateParams.eventId);
                 }, 500)
+
+                $scope.exportDataToXlsx = function() {
+                    DialogFactory.exportDataToXlsx($scope.eventResult, $scope.selectedEvent.eventName);
+                }
             }
         }
     });

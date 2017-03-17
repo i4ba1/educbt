@@ -164,5 +164,37 @@ angular.module('app.messages')
                 }, function(dismiss) {});
             },
 
+            exportDataToXlsx: function(eventResultData, eventName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'components/modal-template/export-xlsx-preview.html',
+                    size: 'lg',
+                    backdrop: 'static',
+                    resolve: {
+                        eventResultData: function() {
+                            return eventResultData;
+                        },
+                        eventName: function() {
+                            return eventName;
+                        }
+                    },
+                    controller: function($scope, eventResultData, $uibModalInstance, eventName) {
+                        $scope.eventResultData = eventResultData;
+                        $scope.eventName = eventName;
+
+                        $scope.close = function() {
+                            $uibModalInstance.close("Close");
+                        }
+
+                        $scope.exportToExcel = function() {
+                            var className = ($scope.eventResultData[0])["KELAS"];
+                            alasql('SELECT * INTO XLSX("' + $scope.eventName + "_" + className + '.xlsx",{headers:true}) FROM ?', [$scope.eventResultData]);
+
+                            $scope.close();
+                        }
+                    }
+                });
+            }
+
         };
     }]);
