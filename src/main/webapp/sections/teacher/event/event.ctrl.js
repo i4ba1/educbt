@@ -134,6 +134,15 @@ angular
                 $scope.open('md', "E", "Tanggal & waktu tidak valid", ["waktu dimulai harus lebih kecil dari waktu berakhir"], "");
             }
         };
+        $timeout(function() {
+            $scope.$watch("selectedEvent.startDate", function(newValue, oldValue) {
+                $scope.getTimeMinutes();
+            });
+
+            $scope.$watch("selectedEvent.endDate", function(newValue, oldValue) {
+                $scope.getTimeMinutes();
+            });
+        }, 2000);
 
         $scope.trustAsHtml = tinyMce.trustAsHtml;
 
