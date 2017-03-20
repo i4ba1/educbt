@@ -133,14 +133,21 @@ angular
             } else {
                 $scope.open('md', "E", "Tanggal & waktu tidak valid", ["waktu dimulai harus lebih kecil dari waktu berakhir"], "");
             }
+            return mmEnd >= mmStart;
         };
         $timeout(function() {
             $scope.$watch("selectedEvent.startDate", function(newValue, oldValue) {
-                $scope.getTimeMinutes();
+                var isValid = $scope.getTimeMinutes();
+                if (!isValid) {
+                    $scope.selectedEvent.startDate = oldValue;
+                }
             });
 
             $scope.$watch("selectedEvent.endDate", function(newValue, oldValue) {
-                $scope.getTimeMinutes();
+                var isValid = $scope.getTimeMinutes();
+                if (!isValid) {
+                    $scope.selectedEvent.endDate = oldValue;
+                }
             });
         }, 2000);
 
