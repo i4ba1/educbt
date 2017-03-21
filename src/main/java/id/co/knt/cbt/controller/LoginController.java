@@ -112,7 +112,6 @@ public class LoginController {
                         return firstLogin(dt, rand, dateTime, user);
                     } else {
                     	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
-                        //return reLogin(login, dt, rand, dateTime);
                     }
                 } else {
                     if (logins.size() < numberOfUser) {
@@ -130,7 +129,6 @@ public class LoginController {
                     return firstLogin(dt, rand, dateTime, user);
                 } else {
                 	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
-                    //return reLogin(login, dt, rand, dateTime);
                 }
             }
         }
