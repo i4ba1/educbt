@@ -111,14 +111,15 @@ public class LoginController {
                     if (login == null) {
                         return firstLogin(dt, rand, dateTime, user);
                     } else {
-                        return reLogin(login, dt, rand, dateTime);
+                    	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+                        //return reLogin(login, dt, rand, dateTime);
                     }
                 } else {
                     if (logins.size() < numberOfUser) {
                         if (login == null) {
                             return firstLogin(dt, rand, dateTime, user);
                         } else {
-                            return reLogin(login, dt, rand, dateTime);
+                        	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
                         }
                     } else {
                         return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
@@ -128,7 +129,8 @@ public class LoginController {
                 if (login == null) {
                     return firstLogin(dt, rand, dateTime, user);
                 } else {
-                    return reLogin(login, dt, rand, dateTime);
+                	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+                    //return reLogin(login, dt, rand, dateTime);
                 }
             }
         }
