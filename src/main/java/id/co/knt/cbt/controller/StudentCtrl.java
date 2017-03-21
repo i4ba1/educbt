@@ -1,6 +1,7 @@
 package id.co.knt.cbt.controller;
 
 import id.co.knt.cbt.model.*;
+import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.service.*;
 import org.json.JSONArray;
@@ -55,10 +56,25 @@ public class StudentCtrl {
      * @return
      */
     @RequestMapping(value = {"/list_event/{token}/{evtType}/{classId}/{nis}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Map<String, Object>>> listEvent(@PathVariable("token") String token,
+    public synchronized ResponseEntity<List<Map<String, Object>>> listEvent(@PathVariable("token") String token,
                                                                @PathVariable("evtType") String evtType, @PathVariable("classId") Integer classId,
                                                                @PathVariable("nis") String nis) {
 
+    	/**
+    	 * Check if any event need to be released
+    	 */
+    	List<Event> publishedEvent = eventService.fetchPublishedEvent();
+    	Long currentTime = System.currentTimeMillis();
+
+		if (!publishedEvent.isEmpty() || publishedEvent.size() > 0) {
+			for (Event event : publishedEvent) {
+				if (currentTime >= event.getStartDate()) {
+					event.setStatus(EventStatusType.RELEASED);
+				}
+				eventService.updateEvent(event);
+			}
+		}
+    	
         Map<String, Object> mapJson = null;
         List<Map<String, Object>> listJsonMap = new ArrayList<Map<String, Object>>();
         List<EventKelas> eventClasses = null;

@@ -24,10 +24,6 @@ public class EventStatusScheduler {
 
 		if (!publishedEvent.isEmpty() || publishedEvent.size() > 0) {
 			for (Event event : publishedEvent) {
-				if (currentTime >= event.getStartDate()) {
-					event.setStatus(EventStatusType.RELEASED);
-				}
-
 				if (currentTime >= event.getEndDate()) {
 					event.setStatus(EventStatusType.COMPLETED);
 				}
