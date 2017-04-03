@@ -14,23 +14,8 @@ function config($stateProvider, $urlRouterProvider) {
             views: {
                 '': {
                     template: '',
-                    controller: function(localStorageService, $state) {
-                        var user = localStorageService.get("USER");
-                        if (user) {
-                            switch (user.userType.toLowerCase()) {
-                                case "student":
-                                    $state.go("student");
-                                    break;
-                                case "employee":
-                                    $state.go("teacher");
-                                    break;
-                                case "admin":
-                                    $state.go("admin");
-                                    break;
-                            }
-                        } else {
-                            $state.go("login");
-                        }
+                    controller: function(storageService) {
+                        storageService.isUserExistThenRedirectTo();
                     }
                 }
             }

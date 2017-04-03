@@ -39,6 +39,25 @@ angular.module('app.core')
             return localStorageService.get("TOKEN");
         };
 
+        dataFactory.isUserExistThenRedirectTo = function() {
+            var user = localStorageService.get("USER");
+            if (user) {
+                switch (user.userType.toLowerCase()) {
+                    case "student":
+                        $state.go("student");
+                        break;
+                    case "employee":
+                        $state.go("teacher");
+                        break;
+                    case "admin":
+                        $state.go("admin");
+                        break;
+                }
+            } else {
+                $state.go("login");
+            }
+        };
+
         return dataFactory;
 
     }]);

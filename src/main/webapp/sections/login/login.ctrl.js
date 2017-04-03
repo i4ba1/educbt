@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory) {
+    .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory, storageService) {
         $scope.showDialog = false;
         $scope.openCredit = DialogFactory.openCredit;
 
@@ -17,6 +17,8 @@ angular
                     //$scope.showDialog = false;
                     localStorageService.set('isAdminCreated', false);
                 });
+            } else {
+                storageService.isUserExistThenRedirectTo();
             }
         }
 
