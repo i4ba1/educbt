@@ -35,6 +35,7 @@ public class LoginController {
     @Value("${path.question.image}")
     private static final String QUESTION_IMAGE_DIRECTORY = "";
     private static final Logger LOG = Logger.getLogger(LoginController.class);
+    
     @Autowired
     LoginService loginService;
     @Autowired
@@ -78,7 +79,7 @@ public class LoginController {
 
             Date dt = new Date();
             DateTime dateTime = new DateTime(dt);
-            dateTime = dateTime.plusHours(6);
+            dateTime = dateTime.plusHours(3);
             SecureRandom rand = new SecureRandom();
 
             int numberOfUser = 0;
@@ -166,6 +167,7 @@ public class LoginController {
                 : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
     }
 
+    
     private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
                                                               DateTime dateTime) {
         login.setLoginDate(dt);
