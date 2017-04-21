@@ -34,6 +34,26 @@ angular
 
         };
 
+        $scope.registrationLicense = function() {
+            var promise = licenseService.registrationLicense($scope.license);
+            promise.then(
+                function(response) {
+                    $state.go('^');
+                },
+                function(errorResponse) {
+                    var message = "";
+                    if (errorResponse.status == 404) {
+                        message = "Lisensi yang anda masukan salah"
+                    } else if (errorResponse.status == 409) {
+                        message = "lisensi sudah pernah digunakan"
+                    } else {
+                        errorHandle.setError(errorResponse);
+                    }
+                    $scope.open('Gagal Simpan', [message]);
+                });
+
+        };
+
         $scope.open = function(title, messages) {
             var modalInstance = $uibModal.open({
                 animation: true,
