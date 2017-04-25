@@ -5,6 +5,7 @@ import id.co.knt.cbt.service.LicenseService;
 import id.web.pos.integra.gawl.Gawl;
 import id.web.pos.integra.gawl.Gawl.UnknownCharacterException;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -71,7 +72,7 @@ public class AdmLicenseCtrl {
 							//get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, passkey, activationKey, new Date().getTime(), xlock, numberOfClient);
+								license = new License(licenseKey, passKey, activationKey, new Date().getTime(), xlock, numberOfClient);
  								licenseService.createNewLicense(license);
 							}else{
 								return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
