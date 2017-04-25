@@ -27,7 +27,7 @@ public class AdmLicenseCtrl {
 
 	/**
 	 * Find all token
-	 * 
+	 *
 	 * @param token
 	 * @return
 	 */
@@ -41,7 +41,7 @@ public class AdmLicenseCtrl {
 
 	/**
 	 * Create new token
-	 * 
+	 *
 	 * @param objects
 	 * @return
 	 */
@@ -49,7 +49,12 @@ public class AdmLicenseCtrl {
 	public ResponseEntity<Void> addNewLicense(@RequestBody List<Object> objects) {
 		HttpHeaders headers = new HttpHeaders();
 		JSONArray arrayJson = new JSONArray(objects);
-		String licenseKey = arrayJson.getJSONObject(0).getString("license");
+		JSONObject obj = arrayJson.getJSONObject(0);
+		String licenseKey = obj.getString("license");
+		String passKey = obj.getString("passKey");
+		String xlock = obj.getString("xlock");
+		String activationKey = obj.getString("activationKey");
+		String registerDate = obj.getString("registerDate");
 
 		Gawl gawl = new Gawl();
 		License license = null;
@@ -61,12 +66,12 @@ public class AdmLicenseCtrl {
 					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
 						byte Type = extractResult.get(Gawl.TYPE);
 						byte seed1 = extractResult.get(Gawl.SEED1);
-						
+
 						if (Type == TYPE) {
 							//get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, new Date().getTime(), numberOfClient);
+								license = new License(licenseKey, passkey, activationKey, new Date().getTime(), xlock, numberOfClient);
  								licenseService.createNewLicense(license);
 							}else{
 								return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
@@ -74,7 +79,7 @@ public class AdmLicenseCtrl {
 						}else{
 							return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
 						}
-						
+
 					}else{
 						return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
 					}
@@ -82,9 +87,9 @@ public class AdmLicenseCtrl {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				return new ResponseEntity<Void>(headers, HttpStatus.OK);
-				
+
 			} else {
 				return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
 			}
@@ -95,7 +100,7 @@ public class AdmLicenseCtrl {
 
 	/**
 	 * Delete selected license
-	 * 
+	 *
 	 * @param token
 	 * @param license
 	 * @return

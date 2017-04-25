@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class License implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7117977408293795916L;
 
@@ -22,24 +22,36 @@ public class License implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private Integer id;
-	
+
 	@Column(name="license_key")
 	private String license;
-	
+
+	@Column(name = "passkey")
+	private String passKey;
+
+	@Column(name = "activation_key")
+	private String activationKey;
+
 	@Column(name="created_date")
 	private Long createdDate;
-	
+
+	@Column(name = "xlock")
+	private String xlock;
+
 	@Column(name="number_of_license")
 	private Integer numberOfClient;
-	
+
 	public License() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public License(String license, Long createdDate, Integer numberOfLicense) {
+	public License(String license, String passKey, String activationKey, Long createdDate, String xlock, Integer numberOfLicense) {
 		super();
 		this.license = license;
 		this.createdDate = createdDate;
+		this.passKey = passkey;
+		this.activationKey = activationKey;
+		this.xlock = xlock;
 		this.numberOfClient = numberOfLicense;
 	}
 
@@ -49,6 +61,30 @@ public class License implements Serializable {
 
 	public void setLicense(String license) {
 		this.license = license;
+	}
+
+	public String getPassKey() {
+		return passkey;
+	}
+
+	public void setPassKey(String passkey) {
+		this.passkey = passkey;
+	}
+
+	public String getActivationKey() {
+		return activationKey;
+	}
+
+	public void setActivationKey(String activationKey) {
+		this.activationKey = activationKey;
+	}
+
+	public void setXLock(String xlock) {
+		this.xlock = xlock;
+	}
+
+	public String getXLock() {
+		return xlock;
 	}
 
 	public Long getCreatedDate() {
