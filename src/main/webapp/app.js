@@ -23,7 +23,8 @@ angular.module('app', [
         'app.messages',
         'ui.select',
         'naif.base64',
-        "bsLoadingOverlay"
+        "bsLoadingOverlay",
+        'ngResource'
     ]).config(['usSpinnerConfigProvider', function(usSpinnerConfigProvider) {
         usSpinnerConfigProvider.setTheme('default', {
             color: 'black',

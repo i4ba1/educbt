@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal) {
+    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, LicenseCRUD) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -35,22 +35,39 @@ angular
         };
 
         $scope.registrationLicense = function() {
-            var promise = licenseService.registrationLicense($scope.license);
-            promise.then(
-                function(response) {
+            var licenseCrud = licenseService.licenseCrud($scope.license);
+            licenseCrud.save({ serialNumber: $scope.license }, function(response) {
                     $state.go('^');
                 },
                 function(errorResponse) {
                     var message = "";
                     if (errorResponse.status == 404) {
-                        message = "Lisensi yang anda masukan salah"
+                        message = "Lisensi yang anda masukan salah";
                     } else if (errorResponse.status == 409) {
-                        message = "lisensi sudah pernah digunakan"
+                        message = "lisensi sudah pernah digunakan";
+                    } else if (errorResponse.status == 417) {
+                        message = "lisensi tidak valid";
                     } else {
                         errorHandle.setError(errorResponse);
                     }
                     $scope.open('Gagal Simpan', [message]);
-                });
+                }
+            );
+            // promise.then(
+            //     function(response) {
+            //         $state.go('^');
+            //     },
+            //     function(errorResponse) {
+            // var message = "";
+            // if (errorResponse.status == 404) {
+            //     message = "Lisensi yang anda masukan salah"
+            // } else if (errorResponse.status == 409) {
+            //     message = "lisensi sudah pernah digunakan"
+            // } else {
+            //     errorHandle.setError(errorResponse);
+            // }
+            // $scope.open('Gagal Simpan', [message]);
+            //     });
 
         };
 

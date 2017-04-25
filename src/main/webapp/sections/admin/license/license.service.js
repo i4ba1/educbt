@@ -1,5 +1,5 @@
 angular.module('app.core')
-    .factory('licenseService', ['$http', '$q', 'baseUrl', function($http, $q, baseUrl) {
+    .factory('licenseService', ['$http', '$q', 'baseUrl', '$resource', function($http, $q, baseUrl, $resource) {
         var url = baseUrl.getUrl();
         return {
 
@@ -16,8 +16,10 @@ angular.module('app.core')
             deleteLicense: function(id, token) {
                 return $http.delete(url + '/admin/license/delete/' + token + '/' + id);
             },
-            registrationLicense: function(license) {
-                return $http.post('http://192.168.5.188:8080/helpdesk/api/snManagement/registerAndActivated', license);
+            licenseCrud: function(serialNumber) {
+                var crud = $resource('http://192.168.5.188:8080/helpdesk/api/snManagement/registerAndActivated/:serialNumber', { serialNumber: serialNumber });
+                return crud;
             }
+
         };
     }]);
