@@ -55,7 +55,7 @@ public class AdmLicenseCtrl {
 		String passKey = obj.getString("passKey");
 		String xlock = obj.getString("xlock");
 		String activationKey = obj.getString("activationKey");
-		String registerDate = obj.getString("registerDate");
+		long registerDate = obj.getLong("registerDate");
 
 		Gawl gawl = new Gawl();
 		License license = null;
@@ -72,7 +72,7 @@ public class AdmLicenseCtrl {
 							//get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, passKey, activationKey, new Date().getTime(), xlock, numberOfClient);
+								license = new License(licenseKey, passKey, activationKey, registerDate, xlock, numberOfClient);
  								licenseService.createNewLicense(license);
 							}else{
 								return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);

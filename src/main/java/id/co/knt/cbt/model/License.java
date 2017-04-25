@@ -49,7 +49,7 @@ public class License implements Serializable {
 		super();
 		this.license = license;
 		this.createdDate = createdDate;
-		this.passKey = passkey;
+		this.passKey = passKey;
 		this.activationKey = activationKey;
 		this.xlock = xlock;
 		this.numberOfClient = numberOfLicense;
@@ -64,11 +64,11 @@ public class License implements Serializable {
 	}
 
 	public String getPassKey() {
-		return passkey;
+		return passKey;
 	}
 
-	public void setPassKey(String passkey) {
-		this.passkey = passkey;
+	public void setPassKey(String passKey) {
+		this.passKey = passKey;
 	}
 
 	public String getActivationKey() {
