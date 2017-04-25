@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, LicenseCRUD) {
+    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -14,8 +14,8 @@ angular
         $scope.licenses = [];
         $scope.showModal = false;
 
-        $scope.saveLicense = function() {
-            var promise = licenseService.saveLicense($scope.license, token);
+        $scope.saveLicense = function(activatedSerial) {
+            var promise = licenseService.saveLicense(activatedSerial, token);
             promise.then(
                 function(response) {
                     $state.go('^');
@@ -37,7 +37,13 @@ angular
         $scope.registrationLicense = function() {
             var licenseCrud = licenseService.licenseCrud($scope.license);
             licenseCrud.save({ serialNumber: $scope.license }, function(response) {
-                    $state.go('^');
+                    $scope.saveLicense({
+                        'license': response.serialNumber,
+                        'passKey': response.passKey,
+                        'xlock': response.xlock,
+                        'activationKey': response.activationKey,
+                        'registerDate': response.registerDate
+                    });
                 },
                 function(errorResponse) {
                     var message = "";

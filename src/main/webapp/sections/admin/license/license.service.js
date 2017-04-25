@@ -3,10 +3,14 @@ angular.module('app.core')
         var url = baseUrl.getUrl();
         return {
 
-            saveLicense: function(license, token) {
+            saveLicense: function(obj, token) {
                 var params = [{
                     'authorization': token,
-                    'license': license
+                    'license': obj.license,
+                    'passKey': obj.passKey,
+                    'xlock': obj.xlock,
+                    'activationKey': obj.activationKey,
+                    'registerDate': obj.registerDate
                 }];
                 return $http.post(url + '/admin/license/create/', params);
             },
