@@ -12,21 +12,22 @@ import id.co.knt.cbt.util.UserLoginQueue;
 
 @Component
 public class UserLoginScheduler {
-	
+
 	@Autowired
 	LoginService loginService;
-	
+
 	@Scheduled(fixedRate=600000)
 	public void removeWhenIdle(){
 		UserLoginQueue loginQueue = UserLoginQueue.getInstance();
-		
+
 		if (loginQueue.getQueue() != null && loginQueue.getQueue().size() > 0) {
 			BlockingQueue<Login> blockingQueue = loginQueue.getQueue();
 			while (blockingQueue.peek() != null) {
-				if(loginService.findById(blockingQueue.peek().getId()) != null){
+				if(loginService.findById(blockingQueue.peek().getId()) != null &&
+				loginService.validateToken(blockingQueue.peek().getToken(), System.currentTimeMillis())){
 					loginService.deleteToken(blockingQueue.peek());
 				}
-				
+
 				blockingQueue.poll();
 			}
 		}

@@ -12,14 +12,14 @@ import id.co.knt.cbt.service.LoginService;
 
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
-	
+
 	@Autowired
 	private LoginRepository loginRepo;
 
 	@Override
 	public Login saveLogin(Login login) {
 		Login newLogin = loginRepo.save(login);
-		
+
 		return newLogin;
 	}
 
@@ -48,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Login findByToken(String token) {
 		Login l = loginRepo.findByToken(token);
-		
+
 		return l;
 	}
 

@@ -168,7 +168,7 @@ public class LoginController {
     }
 
     
-    private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
+    /*private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
                                                               DateTime dateTime) {
         login.setLoginDate(dt);
         login.setToken(new BigInteger(130, rand).toString(50));
@@ -184,7 +184,7 @@ public class LoginController {
         return loginService.updateToken(login) != null
                 ? new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK)
                 : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
-    }
+    }*/
 
     /**
      * Logged out user
