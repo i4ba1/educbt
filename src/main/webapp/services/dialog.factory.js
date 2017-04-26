@@ -17,6 +17,8 @@ angular.module('app.messages')
                         }
                     }
                 });
+
+                return modalInstance.result;
             },
 
             confDialogMsg: function(title, content, size) {
