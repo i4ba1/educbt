@@ -71,6 +71,7 @@ angular
         var self = this;
         self.tagFilter = null;
         $scope.subjectTagNames = [];
+        $scope.ismeridian = false;
 
         $scope.dateShow = {
             start: false,

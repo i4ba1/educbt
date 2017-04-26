@@ -79,7 +79,7 @@
                         <start-date-directive dt="selectedEvent.startDate" disable="!isPrepared"></start-date-directive>
                     </div>
                     <div class="col-xs-3">
-                        <div uib-timepicker id="startTime" ng-model="selectedEvent.startDate" hour-step="1" minute-step="1" show-meridian="false" ng-disabled="!isPrepared"></div>
+                        <div uib-timepicker id="startTime" ng-model="selectedEvent.startDate" readonly-input="true" hour-step="1" minute-step="1" show-meridian="ismeridian" ng-disabled="!isPrepared"></div>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                         <start-date-directive dt="selectedEvent.endDate" disable="!isPrepared"></start-date-directive>
                     </div>
                     <div class="col-xs-3">
-                        <div uib-timepicker id="endTime" ng-model="selectedEvent.endDate" hour-step="1" minute-step="1" show-meridian="false" ng-disabled="!isPrepared"></div>
+                        <div uib-timepicker id="endTime" ng-model="selectedEvent.endDate" hour-step="1" minute-step="1" show-meridian="ismeridian" readonly-input="true" ng-disabled="!isPrepared"></div>
                     </div>
                 </div>
             </div>

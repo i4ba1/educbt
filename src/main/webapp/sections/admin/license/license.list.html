@@ -12,7 +12,7 @@
                     {{$index+1+(licenseTable.count()*(licenseTable.page()-1))}}
                 </td>
                 <td data-title="'Kode Lisensi'" align="center">
-                    {{code.license | uppercase}}
+                    {{code.xlock | uppercase}}
                 </td>
                 <td data-title="'Tanggal Dibuat'" align="center">
                     {{code.createdDate | date :'dd MMMM yyyy'}}
