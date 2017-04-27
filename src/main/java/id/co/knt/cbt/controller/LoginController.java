@@ -201,7 +201,7 @@ public class LoginController {
 
         Login login = loginService.findByToken(obj.getString("token"));
         if (login == null) {
-            return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZE);
+            return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZED);
         }
 
         loginService.deleteToken(login);
