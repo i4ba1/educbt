@@ -35,7 +35,7 @@ public class LoginController {
     @Value("${path.question.image}")
     private static final String QUESTION_IMAGE_DIRECTORY = "";
     private static final Logger LOG = Logger.getLogger(LoginController.class);
-    
+
     @Autowired
     LoginService loginService;
     @Autowired
@@ -129,7 +129,8 @@ public class LoginController {
                 if (login == null) {
                     return firstLogin(dt, rand, dateTime, user);
                 } else {
-                	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+                	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(),
+                    HttpStatus.EXPECTATION_FAILED);
                 }
             }
         }
@@ -167,7 +168,7 @@ public class LoginController {
                 : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
     }
 
-    
+
     /*private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
                                                               DateTime dateTime) {
         login.setLoginDate(dt);
@@ -200,7 +201,7 @@ public class LoginController {
 
         Login login = loginService.findByToken(obj.getString("token"));
         if (login == null) {
-            return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZE);
         }
 
         loginService.deleteToken(login);

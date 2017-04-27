@@ -1,6 +1,0 @@
-Gradient
-#528cbc
-#234167
-
-Satu pixel
-#213148
