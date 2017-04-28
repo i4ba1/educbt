@@ -49,7 +49,10 @@ angular
                                 message = "Nama Pengguna atau Kata Sandi Tidak Valid";
                             } else if (errorResponse.status == 403) {
                                 title = "Kuota Penuh";
-                                message = "Maaf jumlah siswa yang dibolehkan login sudah penuh";
+                                message = "Maaf jumlah siswa yang diperbolehkan login sudah memnuhi kuota";
+                            } else if (errorResponse.status == 417) {
+                                title = "Gagal Masuk";
+                                message = "Akun dengan nama pengguna <b><i>'" + $scope.user.un + "'</i></b> sedang aktif, silahkan tunggu hingga sesi pengguna habis.";
                             } else {
                                 title = "Applikasi Bermasalah";
                                 message = "Maaf applikasi bermasalah silahkan hubungi PT KNT untuk perbaikan."

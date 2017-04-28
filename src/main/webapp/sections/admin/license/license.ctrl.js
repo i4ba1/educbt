@@ -13,11 +13,14 @@ angular
         $scope.license = "";
         $scope.licenses = [];
         $scope.showModal = false;
+        $scope.switchPanel = $stateParams.paramUrl;
 
         $scope.saveLicense = function(activatedSerial) {
             var promise = licenseService.saveLicense(activatedSerial, token);
             promise.then(
                 function(response) {
+                    var message = "";
+                    $scope.open('Registrasi Berhasil', [message]);
                     $state.go('^');
                 },
                 function(errorResponse) {
