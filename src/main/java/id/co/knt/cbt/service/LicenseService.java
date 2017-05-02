@@ -6,6 +6,8 @@ import id.co.knt.cbt.model.License;
 
 public interface LicenseService {
 	License createNewLicense(License license);
+
+	License update(License license);
 	
 	License readLicense(Integer id);
 	

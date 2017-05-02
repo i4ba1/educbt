@@ -2,6 +2,7 @@ package id.co.knt.cbt.controller;
 
 import id.co.knt.cbt.model.License;
 import id.co.knt.cbt.service.LicenseService;
+import id.co.knt.cbt.util.MACAddr;
 import id.web.pos.integra.gawl.Gawl;
 import id.web.pos.integra.gawl.Gawl.UnknownCharacterException;
 import org.json.JSONArray;
@@ -12,11 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins="http://localhost:8787")
+@CrossOrigin(origins="http://localhost:8080")
 @RestController
 @RequestMapping(value = "/admin/license")
 public class AdmLicenseCtrl {
@@ -52,8 +52,6 @@ public class AdmLicenseCtrl {
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0);
 		String licenseKey = obj.getString("license");
-		String passKey = obj.getString("passKey");
-		String xlock = obj.getString("xlock");
 		String activationKey = obj.getString("activationKey");
 		long registerDate = obj.getLong("registerDate");
 
@@ -67,12 +65,16 @@ public class AdmLicenseCtrl {
 					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
 						byte Type = extractResult.get(Gawl.TYPE);
 						byte seed1 = extractResult.get(Gawl.SEED1);
+						byte seed2 = extractResult.get(Gawl.SEED2);
+						String passKey = gawl.pass(seed1, seed2);
+						String xlock = gawl.xlock(licenseKey);
+						byte[] macAddr = MACAddr.getMacAddress();
 
 						if (Type == TYPE) {
 							//get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, passKey, activationKey, registerDate, xlock, numberOfClient);
+								license = new License(licenseKey, passKey, activationKey, registerDate, xlock,  macAddr, numberOfClient);
  								licenseService.createNewLicense(license);
 							}else{
 								return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
@@ -97,6 +99,16 @@ public class AdmLicenseCtrl {
 		} else {
 			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
 		}
+	}
+
+	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
+	public ResponseEntity<License> activate(@RequestBody License license){
+		License updatedLicense = licenseService.update(license);
+		if(updatedLicense == null) {
+			return new ResponseEntity<License>(updatedLicense, HttpStatus.NO_CONTENT );
+		}else{
+			return new ResponseEntity<License>(updatedLicense, HttpStatus.OK) ;
+		} 
 	}
 
 	/**

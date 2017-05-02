@@ -24,7 +24,7 @@ public class UserLoginScheduler {
 			BlockingQueue<Login> blockingQueue = loginQueue.getQueue();
 			while (blockingQueue.peek() != null) {
 				if(loginService.findById(blockingQueue.peek().getId()) != null &&
-				loginService.validateToken(blockingQueue.peek().getToken(), System.currentTimeMillis())){
+				!loginService.validateToken(blockingQueue.peek().getToken(), System.currentTimeMillis())){
 					loginService.deleteToken(blockingQueue.peek());
 				}
 

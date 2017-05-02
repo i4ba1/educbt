@@ -44,4 +44,10 @@ public class LicenseServiceImpl implements LicenseService {
 		License l = licenseRepo.findLicenseByLicenseKey(licenseKey);
 		return l == null? true:false;
 	}
+
+	@Override
+	public License update(License license){
+		License updatedLicense = licenseRepo.saveAndFlush(license);
+		return updatedLicense;
+	}
 }
