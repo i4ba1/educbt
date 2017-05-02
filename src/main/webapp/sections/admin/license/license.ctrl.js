@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('app.core')
-    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal) {
+    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, $sce) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -15,12 +15,12 @@ angular
         $scope.showModal = false;
         $scope.switchPanel = $stateParams.paramUrl;
 
-        $scope.saveLicense = function(activatedSerial) {
-            var promise = licenseService.saveLicense(activatedSerial, token);
+        $scope.saveLicense = function(license) {
+            var promise = licenseService.saveLicense(license, token);
             promise.then(
                 function(response) {
                     var message = "";
-                    $scope.open('Registrasi Berhasil', [message]);
+                    $scope.open('Registrasi Berhasil', []);
                     $state.go('^');
                 },
                 function(errorResponse) {
@@ -37,16 +37,10 @@ angular
 
         };
 
-        $scope.registrationLicense = function() {
+        $scope.onlineActivate = function() {
             var licenseCrud = licenseService.licenseCrud($scope.license);
             licenseCrud.save({ serialNumber: $scope.license }, function(response) {
-                    $scope.saveLicense({
-                        'license': response.serialNumber,
-                        'passKey': response.passKey,
-                        'xlock': response.xlock,
-                        'activationKey': response.activationKey,
-                        'registerDate': response.registerDate
-                    });
+
                 },
                 function(errorResponse) {
                     var message = "";
@@ -62,23 +56,16 @@ angular
                     $scope.open('Gagal Simpan', [message]);
                 }
             );
-            // promise.then(
-            //     function(response) {
-            //         $state.go('^');
-            //     },
-            //     function(errorResponse) {
-            // var message = "";
-            // if (errorResponse.status == 404) {
-            //     message = "Lisensi yang anda masukan salah"
-            // } else if (errorResponse.status == 409) {
-            //     message = "lisensi sudah pernah digunakan"
-            // } else {
-            //     errorHandle.setError(errorResponse);
-            // }
-            // $scope.open('Gagal Simpan', [message]);
-            //     });
-
         };
+
+        $scope.isActive = function(activationKey) {
+
+            if (activationKey) {
+                return $sce.trustAsHtml('<span style="color:green;text-align:center;" title="teraktifasi"><i class="fa fa-check fa-fw fa-lg" aria-hidden="true"></i></span>');
+            } else {
+                return $sce.trustAsHtml('<span style="color:red;text-align:center;" title="belum teraktifasi"><i class="fa fa-times fa-fw fa-lg" aria-hidden="true"></i></span>');
+            }
+        }
 
         $scope.open = function(title, messages) {
             var modalInstance = $uibModal.open({
