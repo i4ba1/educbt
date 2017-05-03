@@ -7,6 +7,7 @@ import id.co.knt.cbt.model.User.UserType;
 import id.co.knt.cbt.service.LicenseService;
 import id.co.knt.cbt.service.LoginService;
 import id.co.knt.cbt.service.UserService;
+import id.co.knt.cbt.util.MACAddr;
 import id.web.pos.integra.gawl.Gawl;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -72,6 +73,11 @@ public class LoginController {
              * Get number of licenses in database
              */
             List<License> licenses = licenseService.licenses();
+            if(MACAddr.getMacAddress().length != licenses.get(0).getMacAddr().length){
+            	if(updateLicenseStatus(licenses) > 0){
+            		return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.METHOD_NOT_ALLOWED);
+            	}
+            }
 
            /* if (licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE) {
                 return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
@@ -136,6 +142,18 @@ public class LoginController {
         }
 
         return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.NOT_FOUND);
+    }
+    
+    private int updateLicenseStatus(List<License> list){
+    	int count = 0;
+    	for (License license : list) {
+			license.setLicenseStatus(false);
+			License l = licenseService.update(license);
+			if(l != null)
+				count++; 
+		}
+    	
+    	return count;
     }
 
     private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,

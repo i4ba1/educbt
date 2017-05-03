@@ -44,6 +44,9 @@ public class License implements Serializable {
 	@Column(name="number_of_license")
 	private Integer numberOfClient;
 
+	@Column(name = "licenseStatus")
+	private boolean licenseStatus;
+
 	public License() {
 		// TODO Auto-generated constructor stub
 	}
@@ -117,5 +120,21 @@ public class License implements Serializable {
 
 	public void setNumberOfClient(Integer numberOfClient) {
 		this.numberOfClient = numberOfClient;
+	}
+
+	public String getXlock() {
+		return xlock;
+	}
+
+	public void setXlock(String xlock) {
+		this.xlock = xlock;
+	}
+
+	public boolean isLicenseStatus() {
+		return licenseStatus;
+	}
+
+	public void setLicenseStatus(boolean licenseStatus) {
+		this.licenseStatus = licenseStatus;
 	}
 }
