@@ -1,0 +1,149 @@
+<div class="row-fluid">
+
+  <div class="panel col-xs-8" style="padding:0px;height:600px; overflow-y:auto">
+    <form class="form" role="form" ng-submit="saveOrUpdate()" style="width:100%">
+
+      <div class="form-group">
+        <label class="control-label col-xs-12" for="question">Tema :</label>
+        <div class="col-xs-12">
+          <input class="form-control" id="option_a" ng-model="selectedQuestion.theme" placeholder="masukan tema" type="text"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-12" style="margin-top:10px">
+          <label class="control-label">Pertanyaan :</label>
+          <label class="btn pull-right" ng-show="!showQuestion" ng-click="showQuestion = true; showOptionsQuestion = false;" title="edit pertanyaan">
+            <i class="fa fa-pencil " aria-hidden="true"></i>
+          </label>
+        </div>
+        <div class="col-xs-12" ng-show="showQuestion">
+          <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.question"></textarea>
+          <label class="btn btn-default" ng-click="showQuestion = false" style="margin-top:10px">
+            Simpan</label>
+        </div>
+        <div class="col-xs-12" ng-show="!showQuestion">
+          <div class="panel panel-default" style="min-height:100px; max-height:200px; padding:5px; overflow-y:auto">
+            <p ng-bind-html="trustAsHtml(selectedQuestion.question)"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-12" style="margin-top:10px">
+          <label class="control-label">Pilihan Jawaban :</label>
+          <label class="btn pull-right" ng-click="showOptionsQuestion = true;showQuestion = false" title="tambaha pilihan jawaban" ng-hide="listOptionQuestions.length >=4 ">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+          </label>
+        </div>
+
+        <div ng-show="showOptionsQuestion" class="col-xs-12">
+          <textarea ui-tinymce="tinymceOptions" ng-model="optionModel"></textarea>
+          <label class="btn btn-primary" ng-click="saveOption(optionModel)" style="margin-top:10px">
+            Simpan Jawaban</label>
+          <label class="btn btn-default" ng-click="cancelOption()" style="margin-top:10px">
+            Batal</label>
+        </div>
+        <div ng-show="!showOptionsQuestion" class="col-xs-12">
+
+          <div ng-switch="listOptionQuestions.length">
+            <table class="table table-bordered" ng-switch-default>
+              <thead>
+                <tr>
+                  <th width="50">Index</th>
+                  <th>Pertanyaan</th>
+                  <th width="50"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="optionQuestion in listOptionQuestions">
+                  <td>{{optionQuestion.index}}</td>
+                  <td>
+                    <p ng-bind-html="trustAsHtml(optionQuestion.option)"></p>
+                  </td>
+                  <td>
+                    <label class="btn btn-default" ng-click="deleteOption(optionQuestion)">
+                      delete</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-bordered" ng-switch-when="0">
+              <thead>
+                <tr>
+                  <th width="50">Index</th>
+                  <th>Pertanyaan</th>
+                  <th width="50"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="3" align="center">pilihan jawaban belum tersedia</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-xs-12">Kunci Jawab</label>
+        <div class="col-xs-12">
+          <select name="event_type" class="form-control" ng-model="selectedQuestion.key" ng-required="true">
+            <option value="" ng-selected="true" ng-disabled="true">
+              <i style="color:grey">-- pilih kunci jawaban --</i>
+            </option>
+            <option ng-repeat="option in listOptionQuestions" value="{{option.index}}">{{option.index}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-12" style="margin-top:10px">
+          <label class="control-label">Pembahasan :</label>
+          <label class="btn pull-right" ng-show="!showExplanation" ng-click="showExplanation = true" title="edit pembahasan">
+            <i class="fa fa-pencil " aria-hidden="true"></i>
+          </label>
+        </div>
+        <div class="col-xs-12" ng-show="showExplanation">
+          <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.explanation"></textarea>
+          <label class="btn btn-default" ng-click="showExplanation = false" style="margin-top:10px">
+            Simpan</label>
+        </div>
+        <div class="col-xs-12" ng-show="!showExplanation">
+          <div class="panel panel-default" style="min-height:100px; max-height:200px; padding:5px; overflow-y:auto">
+            <p ng-bind-html="trustAsHtml(selectedQuestion.explanation )"></p>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="col-xs-4">
+    <label class="control-label" for="question">Galeri :</label>
+    <uib-accordion close-others="true">
+      <uib-accordion-group is-open="status.open1">
+        <uib-accordion-heading>
+          <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+          Gambar
+          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open1, 'glyphicon-chevron-right': !status.open1}"></i>
+        </uib-accordion-heading>
+        <div ng-repeat="image in image_galery.images">
+          <img src="{{image.src}}" style="width:10%"></img>
+        </div>
+      </uib-accordion-group>
+      </uib-accordion-group>
+    </uib-accordion>
+
+    <div class="btn-group pull-right">
+      <label class="btn btn-default" title="unggah gambar">
+        <i class="fa fa-picture-o fa-lg" aria-hidden="true"></i>
+      </label>
+    </div>
+
+  </div>
+
+</div>

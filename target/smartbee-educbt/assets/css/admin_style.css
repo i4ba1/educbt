@@ -1,0 +1,473 @@
+#wrapper {
+    padding-left: 0;
+}
+
+#page-wrapper {
+    width: 100%;
+    padding-top: 60px;
+    background-color: #fff;
+}
+
+.huge {
+    font-size: 50px;
+    line-height: normal;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 225px;
+    }
+    #page-wrapper {
+        padding-top: 60px;
+    }
+}
+
+
+/* Top Navigation */
+
+.top-nav {
+    padding: 0 15px;
+}
+
+.top-nav>li {
+    display: block;
+}
+
+.top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: #DDDBDB;
+}
+
+.top-nav>li>a:hover,
+.top-nav>li>a:focus,
+.top-nav>.open>a,
+.top-nav>.open>a:hover,
+.top-nav>.open>a:focus {
+    color: #fff;
+    background: transparent;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+
+ul.message-dropdown {
+    padding: 0;
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+li.message-preview {
+    width: 275px;
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+}
+
+li.message-preview>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+li.message-footer {
+    margin: 5px 0;
+}
+
+ul.alert-dropdown {
+    width: 200px;
+}
+
+
+/* Side Navigation */
+
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 51px;
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        background: #205081;
+        bottom: 0;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+    }
+    .side-nav>li>a {
+        width: 225px;
+    }
+    .side-nav li a:hover,
+    .side-nav li a:focus {
+        outline: none;
+        background: #3572B0;
+    }
+}
+
+.side-nav>li>ul {
+    padding: 0;
+}
+
+.side-nav>li>ul>li>a {
+    display: block;
+    padding: 10px 15px 10px 38px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.side-nav>li>ul>li>a:hover {
+    color: #fff;
+}
+
+.navbar-top {
+    background: rgba(82, 140, 188, 1);
+    background: -moz-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(82, 140, 188, 1)), color-stop(100%, rgba(35, 65, 103, 1)));
+    background: -webkit-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: -o-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: linear-gradient(to bottom, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#528cbc', endColorstr='#234167', GradientType=0);
+    border-color: #213148;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #DDDBDB;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #DDDBDB;
+}
+
+.navbar-inverse .navbar-nav>li>a:focus,
+.navbar-inverse .navbar-nav>li>a:hover {
+    background-color: #3572B0;
+}
+
+.form-horizontal .control-label {
+    text-align: left;
+}
+
+.close-btn {
+    color: grey;
+    float: right;
+}
+
+.close-btn:hover {
+    color: #205081;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.click-able {}
+
+.click-able:hover {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.centerText {
+    text-align: center;
+}
+
+.span-click-able {
+    color: #337AB7;
+}
+
+.span-click-able:hover {
+    cursor: pointer;
+    cursor: hand;
+    color: #23527C;
+}
+
+.thumbnail-custom {
+    position: relative;
+    overflow: hidden;
+}
+
+.caption-custom {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(66, 139, 202, 0.75);
+    width: 100%;
+    height: 100%;
+    padding: 2%;
+    display: none;
+    text-align: center;
+    color: #fff !important;
+    z-index: 2;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.img-responsive-3 {
+    width: 600px;
+    height: 300px;
+}
+
+.img-responsive-2 {
+    max-width: 75%;
+    height: auto;
+}
+
+.img-nav-brand {
+    margin: 0px 36px 0px 36px;
+}
+
+@media (max-width: 767px) {
+    .img-hiden {
+        display: none;
+    }
+}
+
+.panel-custome {}
+
+.panel-custome>.panel-heading {
+    background: rgba(82, 140, 188, 1);
+    background: -moz-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(82, 140, 188, 1)), color-stop(100%, rgba(35, 65, 103, 1)));
+    background: -webkit-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: -o-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    background: linear-gradient(to bottom, rgba(82, 140, 188, 1) 0%, rgba(35, 65, 103, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#528cbc', endColorstr='#234167', GradientType=0);
+}
+
+.form-horizontal {
+    width: 500px;
+}
+
+.datetime-picker-dropdown {}
+
+.datetime-picker-dropdown>li.date-picker-menu div>table .btn-default {
+    border: 0;
+}
+
+.datetime-picker-dropdown>li.time-picker-menu div>table {}
+
+.padding-right-less {
+    padding-right: 0px;
+}
+
+@font-face {
+    font-family: bankgthd-webfont;
+    src: url(../../assets/fonts/bankgthd-webfont.ttf);
+}
+
+.digital-clock {
+    font-family: bankgthd-webfont;
+    font-size: 15pt;
+}
+
+.ng-valid {}
+
+.ng-invalid {}
+
+.ng-pristine {}
+
+.ng-dirty {}
+
+.ng-touched {}
+
+
+/* really specific css rules applied by angular */
+
+.ng-invalid-required {}
+
+.ng-invalid-minlength {}
+
+.ng-valid-max-length {}
+
+.styleDate {
+    border: 1px solid #DCDCDC;
+    box-shadow: 1px 1px 1px #F8F8FF;
+    border-radius: 5px
+}
+
+.dialog-msg {
+    min-height: 50px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    font-style: italic;
+    font-size: 12pt;
+}
+
+.dialog-title {
+    font-size: 14pt;
+    color: #205081;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.dialog-close {
+    width: 25px;
+    height: 25px;
+    background: #205081;
+    border-radius: 5px;
+    line-height: 25px;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+}
+
+.dialog-close:hover {
+    cursor: pointer;
+    cursor: hand;
+    transform: scale(1.2, 1.2);
+}
+
+.dialog-close:active {
+    transform: scale(1, 1);
+}
+
+.knt-credit {
+    font-weight: bold;
+}
+
+.knt-credit:hover {
+    cursor: pointer;
+    curson: hand;
+    color: #205081;
+}
+
+.knt-credit-v2 {
+    font-weight: bold;
+}
+
+.knt-credit-v2:hover {
+    cursor: pointer;
+    curson: hand;
+}
+
+.wrapper-min-height {
+    min-height: 95vh !important;
+}
+
+.cbt-main-footer {
+    background-color: #205081;
+    color: white;
+    max-height: 5vh;
+    height: 5vh;
+    padding: 5px 0px 0px 15px;
+    border-left: 1px solid grey;
+}
+
+.tinymce-add-image {
+    position: absolute;
+    top: 5px;
+    right: 21px;
+    z-index: 9;
+}
+
+.add-image {
+    text-align: center;
+    margin: 75px 0px;
+    font-size: 2em;
+}
+
+.add-image:hover {
+    color: navy;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.add-image:active {
+    transform: scale(0.9, 0.9);
+}
+
+.image-preview {
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    min-height: 200px;
+    text-align: center;
+}
+
+.image-preview>img {
+    border: 1px;
+    max-height: 180px;
+    width: auto;
+    height: 180px;
+    margin: 5px;
+    max-width: 98%;
+}
+
+.image-list {
+    margin: 5px;
+    height: 75px;
+    max-height: 75px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    /*float: left;*/
+    display: inline-block;
+    position: relative;
+}
+
+.image-list>img {
+    width: auto;
+    max-width: 200px;
+    height: 100%;
+}
+
+.delete-list {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 27.5px;
+    height: 27.5px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 27.5px;
+    color: white;
+    background-color: black;
+    border-radius: 0px 0px 0px 5px;
+}
+
+.delete-list:hover {
+    color: red;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.delete-list:active {
+    color: black;
+}
+
+.overlay-loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    background: rgba(119, 136, 153, 0.5);
+    z-index: 1000;
+}
+
+.overlay-loading>label {
+    font-size: 14pt;
+    margin-top: 30vh;
+}
+
+.icon-size {
+    width: 20px;
+}
