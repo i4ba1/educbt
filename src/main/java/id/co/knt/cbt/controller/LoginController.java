@@ -69,16 +69,6 @@ public class LoginController {
         if (isValid) {
             Login login = loginService.findByUser(user);
 
-            /**
-             * Get number of licenses in database
-             */
-            List<License> licenses = licenseService.licenses();
-            if(MACAddr.getMacAddress().length != licenses.get(0).getMacAddr().length){
-            	if(updateLicenseStatus(licenses) > 0){
-            		return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.METHOD_NOT_ALLOWED);
-            	}
-            }
-
            /* if (licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE) {
                 return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
             }*/
@@ -93,14 +83,27 @@ public class LoginController {
             /**
              * If licenses is zero it mean DEMO version
              */
-            for (License value : licenses) {
-                Gawl gawl = new Gawl();
-                try {
-                    Map<String, Byte> map = gawl.extract(value.getLicense());
-                    int module = map.get(Gawl.MODULE);
-                    numberOfUser += module;
-                } catch (Exception e) {
-                    e.printStackTrace();
+            List<License> licenses = licenseService.licenses();
+            if(licenses.size() > 0){
+                 /**
+                 * Get number of licenses in database
+                 */
+            
+                if(MACAddr.getMacAddress().length != licenses.get(0).getMacAddr().length){
+                    if(updateLicenseStatus(licenses) > 0){
+                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.METHOD_NOT_ALLOWED);
+                    }
+                }
+                
+                for (License value : licenses) {
+                    Gawl gawl = new Gawl();
+                    try {
+                        Map<String, Byte> map = gawl.extract(value.getLicense());
+                        int module = map.get(Gawl.MODULE);
+                        numberOfUser += module;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

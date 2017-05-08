@@ -9,7 +9,6 @@
 /target/WEB-INF/**
 .classpath
 .project
-.settings
 .DS_Store
 /target/**
 /target/cbt-backend.war
@@ -17,3 +16,4 @@
 .externalToolBuilders/**
 .tern-project
 .vscode
+.settings/**
