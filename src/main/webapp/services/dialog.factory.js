@@ -196,7 +196,25 @@ angular.module('app.messages')
                         }
                     }
                 });
+            },
+            licenseActivation: function() {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'components/modal-template/activation.msg.html',
+                    size: 'sm',
+                    backdrop: 'static',
+                    controller: function($scope, $uibModalInstance) {
+                        $scope.type = "";
+
+                        $scope.close = function() {
+                            $uibModalInstance.close($scope.type);
+                        }
+                    }
+                });
+
+                return modalInstance.result;
             }
+
 
         };
     }]);

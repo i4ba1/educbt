@@ -180,6 +180,9 @@ function config($stateProvider, $urlRouterProvider) {
         })
         .state('admin.licenseMgmt.create', {
             url: '/create-:paramUrl',
+            params: {
+                license: null
+            },
             views: {
                 'content@admin': {
                     templateUrl: 'sections/admin/license/license.add.html',

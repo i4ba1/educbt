@@ -13,7 +13,23 @@ angular
         $scope.license = "";
         $scope.licenses = [];
         $scope.showModal = false;
-        $scope.switchPanel = $stateParams.paramUrl;
+
+        if ($state.is("admin.licenseMgmt.create")) {
+            $scope.switchPanel = $stateParams.paramUrl;
+            $scope.license = $stateParams.license;
+            if (!$scope.license) {
+                $state.go("admin.licenseMgmt");
+            }
+
+            $scope.submitActivationKey = function(license) {
+                var licenseCrud = licenseService.manualActivation(license, token).then(function(response) {
+
+                    },
+                    function(errorResponse) {
+
+                    });
+            }
+        }
 
         $scope.saveLicense = function(license) {
             var promise = licenseService.saveLicense(license, token);
@@ -70,6 +86,19 @@ angular
             } else {
                 return $sce.trustAsHtml('<span style="color:red;text-align:center;" title="belum teraktifasi"><i class="fa fa-times fa-fw fa-lg" aria-hidden="true"></i></span>');
             }
+        }
+
+        $scope.activation = function(license) {
+            DialogFactory.licenseActivation().then(function(response) {
+                if (response === "internet") {
+
+                } else {
+                    $state.go("admin.licenseMgmt.create", {
+                        paramUrl: "activation",
+                        license: license
+                    })
+                }
+            }, function() {})
         }
 
         $scope.open = function(title, messages) {

@@ -1,11 +1,52 @@
 <div ng-switch="switchPanel">
-    <div ng-switch-when="activation" class="row col-xs-8">
+    <div ng-switch-when="activation" class="row col-xs-12">
         <h3 class="page-header">
             <i class="fa fa-cog fa-lg"></i> Aktivasi Lisensi
         </h3>
+
+        <form name="formInfo" class="form-horizontal" style="width:80%;font-weight:bolder;" ng-submit="submitActivationKey(license)">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Server ID </label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control " ng-disabled="true" ng-model="license.macAddr">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Kode Serial</label>
+                <div class="col-sm-2" style="margin-right:-20px;">
+                    <input type="text" class="form-control" ng-disabled="true" ng-model="license.license">
+                </div>
+                <div class="col-sm-1" style="width:25px">
+                    <label class="control-label">-</label>
+                </div>
+                <div class="col-sm-2" style="margin:0px -20px;">
+                    <input type="text" class="form-control" ng-disabled="true" ng-model="license.passKey">
+                </div>
+                <div class="col-sm-1" style="width:25px">
+                    <label class="control-label">-</label>
+                </div>
+                <div class="col-sm-2" style="margin:0px -20px;">
+                    <input type="text" class="form-control" ng-disabled="true" ng-model="license.xlock">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Kode Aktivasi </label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" ng-model="license.activationKey">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2">
+                    <button class="btn btn-primary" type="submit" style="margin-left:15px;">Simpan</button>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <div ng-switch-when="registration" class="row col-xs-8">
+    <div ng-switch-when="registration" class="row col-xs-12">
         <h3 class="page-header">
             <i class="fa fa-cog fa-lg"></i> Registrasi Lisensi
         </h3>

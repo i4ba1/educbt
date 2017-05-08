@@ -24,6 +24,23 @@ angular.module('app.core')
             licenseCrud: function(serialNumber) {
                 var crud = $resource('http://192.168.5.188:8080/helpdesk/api/snManagement/registerAndActivated/:serialNumber', { serialNumber: serialNumber });
                 return crud;
+            },
+            manualActivation: function(obj, token) {
+                var license = {
+                    "id": obj.id,
+                    "license": obj.license,
+                    "passKey": obj.passKey,
+                    "activationKey": obj.activationKey,
+                    "createdDate": obj.createdDate,
+                    "xlock": obj.xlock,
+                    "macAddr": obj.macAddr,
+                    "numberOfClient": obj.numberOfClient,
+                    "licenseStatus": obj.licenseStatus
+                }
+
+                license = JSON.stringify({ authorization: token, license: license });
+                return $http.post(url + '/admin/license/activate/', license);
+
             }
 
         };
