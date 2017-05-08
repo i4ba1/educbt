@@ -106,8 +106,9 @@ public class AdmLicenseCtrl {
 	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
 	public ResponseEntity<License> activate(@RequestBody List<Object> objects) throws Exception{
 		JSONArray arrayJson = new JSONArray(objects);
+		JSONObject obj = arrayJson.getJSONObject(0);
 		ObjectMapper mapper = new ObjectMapper();
-		License license = mapper.readValue(arrayJson.getJSONObject(1).toString(), License.class);
+		License license = mapper.readValue(obj.get("license").toString(), License.class);
 
 		License updatedLicense = licenseService.update(license);
 		if(updatedLicense == null) {
