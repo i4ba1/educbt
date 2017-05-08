@@ -1,6 +1,7 @@
 angular.module('app.core')
     .factory('licenseService', ['$http', '$q', 'baseUrl', '$resource', function($http, $q, baseUrl, $resource) {
         var url = baseUrl.getUrl();
+        var remoteUrl = baseUrl.getRemote();
         return {
 
             saveLicense: function(license, token) {
@@ -22,9 +23,46 @@ angular.module('app.core')
                 return $http.delete(url + '/admin/license/delete/' + token + '/' + id);
             },
             licenseCrud: function(serialNumber) {
-                var crud = $resource('http://192.168.5.188:8080/helpdesk/api/snManagement/registerAndActivated/:serialNumber', { serialNumber: serialNumber });
-                return crud;
+
+                var param = {
+                    serialNumber: serialNumber.license,
+                    passKey: serialNumber.passKey,
+                    activationKey: serialNumber.activationKey,
+                    registerDate: serialNumber.registerDate,
+                    xlock: serialNumber.xlock,
+                    macAddr: serialNumber.macAddr,
+                    serialNumberStatus: serialNumber.licenseStatus
+                }
+                return $http.post(remote + '/api/snManagement/activateByInternet/', param);
+
             },
+
+            dummySave: function(license, token) {
+                var params = [{
+                    'authorization': token,
+                    'license': license,
+                    'activationKey': "",
+                    'registerDate': new Date().getTime()
+                }];
+                return $http.post(url + '/admin/license/dummyCreate/', params);
+            },
+
+            register: function(serialNumber) {
+
+                var param = {
+                    serialNumber: serialNumber.license,
+                    passKey: serialNumber.passKey,
+                    activationKey: serialNumber.activationKey,
+                    registerDate: serialNumber.registerDate,
+                    xlock: serialNumber.xlock,
+                    macAddr: serialNumber.macAddr,
+                    serialNumberStatus: serialNumber.licenseStatus
+                }
+
+                return $http.post(remote + '/api/snManagement/register/', param);
+
+            },
+
             manualActivation: function(obj, token) {
                 var license = {
                     "id": obj.id,
@@ -38,8 +76,7 @@ angular.module('app.core')
                     "licenseStatus": obj.licenseStatus
                 }
 
-                license = JSON.stringify({ authorization: token, license: license });
-                return $http.post(url + '/admin/license/activate/', license);
+                return $http.post(url + '/admin/license/activate/', [{ authorization: token, license: license }]);
 
             }
 

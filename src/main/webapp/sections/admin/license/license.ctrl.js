@@ -17,18 +17,51 @@ angular
         if ($state.is("admin.licenseMgmt.create")) {
             $scope.switchPanel = $stateParams.paramUrl;
             $scope.license = $stateParams.license;
-            if (!$scope.license) {
+            if (!$scope.license && $stateParams.paramUrl === "activation") {
                 $state.go("admin.licenseMgmt");
             }
 
             $scope.submitActivationKey = function(license) {
-                var licenseCrud = licenseService.manualActivation(license, token).then(function(response) {
-
+                var licenseCrud = licenseService.manualActivation(license, token).then(
+                    function(response) {
+                        DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm").then(
+                            function() {},
+                            function(dismiss) {
+                                $state.go('^');
+                            }
+                        )
                     },
                     function(errorResponse) {
-
-                    });
+                        console.log(errorResponse);
+                    }
+                );
             }
+        }
+
+        $scope.saveLicenseOnline = function() {
+            var promise = licenseService.saveLicense(license, token);
+            promise.then(
+                function(response) {
+                    var message = "";
+                    DialogFactory.showDialogMsg('Registrasi Berhasil', "Registrasi lisensi baru telah berhasil", "sm").then(
+                        function() {},
+                        function(dismiss) {
+                            $state.go('^');
+                        }
+                    )
+
+                },
+                function(errorResponse) {
+                    var message = "";
+                    if (errorResponse.status == 404) {
+                        message = "Lisensi yang anda masukan salah"
+                    } else if (errorResponse.status == 409) {
+                        message = "lisensi sudah pernah digunakan"
+                    } else {
+                        errorHandle.setError(errorResponse);
+                    }
+                    $scope.open('Gagal Simpan', [message]);
+                });
         }
 
         $scope.saveLicense = function(license) {
@@ -36,7 +69,7 @@ angular
             promise.then(
                 function(response) {
                     var message = "";
-                    DialogFactory.showDialogMsg('Registrasi Berhasil', "Registrasi Berhasil", "sm").then(
+                    DialogFactory.showDialogMsg('Registrasi Berhasil', "Registrasi lisensi baru telah berhasil", "sm").then(
                         function() {},
                         function(dismiss) {
                             $state.go('^');
@@ -58,9 +91,9 @@ angular
 
         };
 
-        $scope.onlineActivate = function() {
-            var licenseCrud = licenseService.licenseCrud($scope.license);
-            licenseCrud.save({ serialNumber: $scope.license }, function(response) {
+        $scope.onlineActivate = function(license) {
+            var result = licenseService.licenseCrud(license);
+            result.then(function(response) {
 
                 },
                 function(errorResponse) {
@@ -91,7 +124,7 @@ angular
         $scope.activation = function(license) {
             DialogFactory.licenseActivation().then(function(response) {
                 if (response === "internet") {
-
+                    $scope.onlineActivate(license);
                 } else {
                     $state.go("admin.licenseMgmt.create", {
                         paramUrl: "activation",
