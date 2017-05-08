@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
 import java.util.Map;
 
@@ -102,7 +104,11 @@ public class AdmLicenseCtrl {
 	}
 
 	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
-	public ResponseEntity<License> activate(@RequestBody License license){
+	public ResponseEntity<License> activate(@RequestBody List<Object> objects) throws Exception{
+		JSONArray arrayJson = new JSONArray(objects);
+		ObjectMapper mapper = new ObjectMapper();
+		License license = mapper.readValue(arrayJson.getJSONObject(1).toString(), License.class);
+
 		License updatedLicense = licenseService.update(license);
 		if(updatedLicense == null) {
 			return new ResponseEntity<License>(updatedLicense, HttpStatus.NO_CONTENT );
