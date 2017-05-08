@@ -108,6 +108,7 @@ public class AdmLicenseCtrl {
 		JSONObject obj = arrayJson.getJSONObject(0);
 		ObjectMapper mapper = new ObjectMapper();
 		License license = mapper.readValue(obj.get("license").toString(), License.class);
+		license = licenseService.createNewLicense(license);
 		
 		if(license == null){
 			return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
