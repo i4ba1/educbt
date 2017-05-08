@@ -122,14 +122,6 @@ public class License implements Serializable {
 		this.numberOfClient = numberOfClient;
 	}
 
-	public String getXlock() {
-		return xlock;
-	}
-
-	public void setXlock(String xlock) {
-		this.xlock = xlock;
-	}
-
 	public boolean isLicenseStatus() {
 		return licenseStatus;
 	}
