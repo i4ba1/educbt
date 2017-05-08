@@ -42,15 +42,8 @@ public class AdmLicenseCtrl {
 				: new ResponseEntity<List<License>>(licenses, HttpStatus.NOT_FOUND);
 	}
 
-	/**
-	 * Create new token
-	 *
-	 * @param objects
-	 * @return
-	 */
-	@RequestMapping(value = "/create/", method = RequestMethod.POST)
-	public ResponseEntity<Void> addNewLicense(@RequestBody List<Object> objects) {
-		HttpHeaders headers = new HttpHeaders();
+	@RequestMapping(value = "/dummyCreate/", method = RequestMethod.POST)
+	public ResponseEntity<License> dummyCreate(@RequestBody List<Object> objects) {
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0);
 		String licenseKey = obj.getString("license");
@@ -77,30 +70,50 @@ public class AdmLicenseCtrl {
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey, passKey, activationKey, registerDate, xlock,  macAddr, numberOfClient);
- 								licenseService.createNewLicense(license);
 							}else{
-								return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
+								return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 							}
 						}else{
-							return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
+							return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 						}
 
 					}else{
-						return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
+						return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 					}
 				} catch (UnknownCharacterException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				return new ResponseEntity<Void>(headers, HttpStatus.OK);
+				return new ResponseEntity<License>(license, HttpStatus.OK);
 
 			} else {
-				return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 			}
 		} else {
-			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
+			return new ResponseEntity<License>(license, HttpStatus.CONFLICT);
 		}
+	}	
+
+	/**
+	 * Create new token
+	 *
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = "/create/", method = RequestMethod.POST)
+	public ResponseEntity<Void> addNewLicense(@RequestBody List<Object> objects) throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		JSONArray arrayJson = new JSONArray(objects);
+		JSONObject obj = arrayJson.getJSONObject(0);
+		ObjectMapper mapper = new ObjectMapper();
+		License license = mapper.readValue(obj.get("license").toString(), License.class);
+		
+		if(license == null){
+			return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<Void >(headers, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
