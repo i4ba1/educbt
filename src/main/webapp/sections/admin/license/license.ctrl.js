@@ -19,11 +19,14 @@ angular
             $scope.license = $stateParams.license;
             if (!$scope.license && $stateParams.paramUrl === "activation") {
                 $state.go("admin.licenseMgmt");
+            } else {
+
             }
 
         }
 
         $scope.submitActivationKey = function(license) {
+            license.licenseStatus = true;
             var licenseCrud = licenseService.manualActivation(license, token).then(
                 function(response) {
                     DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm").then(
@@ -35,6 +38,9 @@ angular
                 },
                 function(errorResponse) {
                     console.log(errorResponse);
+                    if (errorResponse.status === 417) {
+                        DialogFactory.showDialogMsg('Aktivasi Gagal', "Kode Aktifasi Tidak Valid", "sm")
+                    }
                 }
             );
         }
@@ -116,7 +122,6 @@ angular
             result.then(function(response) {
                     isSuccess = true;
                     license.activationKey = response.data.activationKey;
-                    license.licenseStatus = true;
                 },
                 function(errorResponse) {
                     var message = "";
