@@ -118,16 +118,22 @@ public class AdmLicenseCtrl {
 	}
 
 	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
-	public ResponseEntity<License> activate(@RequestBody List<Object> objects) throws Exception{
+	public ResponseEntity<License> activate(@RequestBody List<Object> objects){
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0);
 		ObjectMapper mapper = new ObjectMapper();
-		License license = mapper.readValue(obj.get("license").toString(), License.class);
-		Gawl gawl = new Gawl();
-		if(!gawl.challenge(license.getPassKey(), license.getActivationKey())){
-			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
-		}
+		License license = null;
 
+		try{
+			license = mapper.readValue(obj.get("license").toString(), License.class);
+			Gawl gawl = new Gawl();
+			Map<String, Byte> info = gawl.extract(license.getLicense());
+      		String passKey = gawl.pass(((Byte)info.get("seed1")).byteValue(), ((Byte)info.get("seed2")).byteValue());
+			gawl.challenge(passKey, license.getActivationKey());
+		}catch(Exception e){
+			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED );
+		}
+		
 		License updatedLicense = licenseService.update(license);
 		if(updatedLicense == null) {
 			return new ResponseEntity<License>(updatedLicense, HttpStatus.NO_CONTENT );
