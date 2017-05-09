@@ -38,8 +38,45 @@ angular
             }
         }
 
-        $scope.saveLicenseOnline = function() {
-            var promise = licenseService.saveLicense(license, token);
+        $scope.saveLicenseOnline = function(license) {
+            var isSuccess = false;
+            var promise = licenseService.register(license).then(
+                function(response) {
+                    isSuccess = true;
+                },
+                function(errorResponse) {
+                    console.log(errorResponse);
+                }
+            ).then(function() {
+                if (isSuccess) {
+                    $scope.saveLicense(license);
+                }
+            });
+
+        };
+
+        $scope.dummySave = function(license) {
+            var isSuccess = false;
+            var result = null;
+            licenseService.dummySave(license, token).then(
+                function(response) {
+                    isSuccess = true;
+                    result = response.data;
+                },
+                function(errorResponse) {
+                    console.log(errorResponse);
+                }
+            ).then(function() {
+                if (isSuccess) {
+                    $scope.saveLicenseOnline(result);
+                }
+            });
+
+        };
+
+        $scope.saveLicense = function(obj) {
+
+            var promise = licenseService.saveLicense(obj.license, token);
             promise.then(
                 function(response) {
                     var message = "";
@@ -62,32 +99,7 @@ angular
                     }
                     $scope.open('Gagal Simpan', [message]);
                 });
-        }
 
-        $scope.saveLicense = function(license) {
-            var promise = licenseService.saveLicense(license, token);
-            promise.then(
-                function(response) {
-                    var message = "";
-                    DialogFactory.showDialogMsg('Registrasi Berhasil', "Registrasi lisensi baru telah berhasil", "sm").then(
-                        function() {},
-                        function(dismiss) {
-                            $state.go('^');
-                        }
-                    )
-
-                },
-                function(errorResponse) {
-                    var message = "";
-                    if (errorResponse.status == 404) {
-                        message = "Lisensi yang anda masukan salah"
-                    } else if (errorResponse.status == 409) {
-                        message = "lisensi sudah pernah digunakan"
-                    } else {
-                        errorHandle.setError(errorResponse);
-                    }
-                    $scope.open('Gagal Simpan', [message]);
-                });
 
         };
 

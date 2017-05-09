@@ -33,7 +33,7 @@ angular.module('app.core')
                     macAddr: serialNumber.macAddr,
                     serialNumberStatus: serialNumber.licenseStatus
                 }
-                return $http.post(remote + '/api/snManagement/activateByInternet/', param);
+                return $http.post(remoteUrl + '/api/snManagement/activateByInternet/', param);
 
             },
 
@@ -59,7 +59,7 @@ angular.module('app.core')
                     serialNumberStatus: serialNumber.licenseStatus
                 }
 
-                return $http.post(remote + '/api/snManagement/register/', param);
+                return $http.post(remoteUrl + '/api/snManagement/register/', param);
 
             },
 
