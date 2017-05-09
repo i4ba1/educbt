@@ -23,9 +23,9 @@
                 <td data-title="'Status'" align="center">
                     <div ng-bind-html="isActive(code.activationKey)"></div>
                 </td>
-                <td data-title="' '" align="center">
+                <td data-title="' '">
                     <a class="click-able" ng-click="toggleModal(code)" title="hapus lisensi"><i class="fa fa-fw fa-trash fa-lg"></i></a>
-                    <a class="click-able" ng-click="activation(code)" title="activasi"><i class="fa fa-globe fa-fw fa-lg" aria-hidden="true"></i></a>
+                    <a class="click-able" ng-click="activation(code)" title="activasi"><i class="fa fa-globe fa-fw fa-lg" aria-hidden="true" ng-hide="code.licenseStatus"></i></a>
                 </td>
             </tr>
         </table>

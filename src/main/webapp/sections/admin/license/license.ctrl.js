@@ -21,21 +21,22 @@ angular
                 $state.go("admin.licenseMgmt");
             }
 
-            $scope.submitActivationKey = function(license) {
-                var licenseCrud = licenseService.manualActivation(license, token).then(
-                    function(response) {
-                        DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm").then(
-                            function() {},
-                            function(dismiss) {
-                                $state.go('^');
-                            }
-                        )
-                    },
-                    function(errorResponse) {
-                        console.log(errorResponse);
-                    }
-                );
-            }
+        }
+
+        $scope.submitActivationKey = function(license) {
+            var licenseCrud = licenseService.manualActivation(license, token).then(
+                function(response) {
+                    DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm").then(
+                        function() {},
+                        function(dismiss) {
+                            $state.go("admin.licenseMgmt");
+                        }
+                    )
+                },
+                function(errorResponse) {
+                    console.log(errorResponse);
+                }
+            );
         }
 
         $scope.saveLicenseOnline = function(license) {
@@ -46,6 +47,11 @@ angular
                 },
                 function(errorResponse) {
                     console.log(errorResponse);
+                    if (errorResponse.status <= 0) {
+                        DialogFactory.showDialogMsg('Koneksi Internet Bermasalah', "Harap periksa kembali koneksi internet Anda, agar dapat mendaftarkan serial number ini...!", "md");
+                    } else if (errorResponse.status === 404) {
+                        DialogFactory.showDialogMsg('Registrasi Gagal', "Serial Number ini sudah diaftarkan untuk server lain...", "md");
+                    }
                 }
             ).then(function() {
                 if (isSuccess) {
@@ -65,6 +71,7 @@ angular
                 },
                 function(errorResponse) {
                     console.log(errorResponse);
+                    DialogFactory.showDialogMsg('Registrasi Gagal', "Serial Number ini tidak valid", "sm");
                 }
             ).then(function() {
                 if (isSuccess) {
@@ -74,9 +81,9 @@ angular
 
         };
 
-        $scope.saveLicense = function(obj) {
+        $scope.saveLicense = function(license) {
 
-            var promise = licenseService.saveLicense(obj.license, token);
+            var promise = licenseService.saveLicense(license, token);
             promise.then(
                 function(response) {
                     var message = "";
@@ -104,9 +111,12 @@ angular
         };
 
         $scope.onlineActivate = function(license) {
+            var isSuccess = false;
             var result = licenseService.licenseCrud(license);
             result.then(function(response) {
-
+                    isSuccess = true;
+                    license.activationKey = response.data.activationKey;
+                    license.licenseStatus = true;
                 },
                 function(errorResponse) {
                     var message = "";
@@ -121,11 +131,16 @@ angular
                     }
                     $scope.open('Gagal Simpan', [message]);
                 }
+            ).then(
+                function() {
+                    if (isSuccess) {
+                        $scope.submitActivationKey(license);
+                    }
+                }
             );
         };
 
         $scope.isActive = function(activationKey) {
-
             if (activationKey) {
                 return $sce.trustAsHtml('<span style="color:green;text-align:center;" title="teraktifasi"><i class="fa fa-check fa-fw fa-lg" aria-hidden="true"></i></span>');
             } else {
