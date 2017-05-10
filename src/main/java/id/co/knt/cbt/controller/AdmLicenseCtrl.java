@@ -127,10 +127,9 @@ public class AdmLicenseCtrl {
 		try{
 			license = mapper.readValue(obj.get("license").toString(), License.class);
 			Gawl gawl = new Gawl();
-			//Map<String, Byte> info = gawl.extract(license.getLicense());
-      		//String passKey = gawl.pass(((Byte)info.get("seed1")).byteValue(), ((Byte)info.get("seed2")).byteValue());
-			gawl.challenge(license.getPassKey() , license.getActivationKey());
-			if(gawl.challenge(license.getPassKey(), license.getActivationKey())){
+			Map<String, Byte> info = gawl.extract(license.getLicense());
+      		String passKey = gawl.pass(((Byte)info.get("seed1")).byteValue(), ((Byte)info.get("seed2")).byteValue());
+			if(!gawl.challenge(passKey, license.getActivationKey())){
 				return new ResponseEntity<License>(license , HttpStatus.EXPECTATION_FAILED);
 			}
 		}catch(Exception e){
