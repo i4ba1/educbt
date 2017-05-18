@@ -1,5 +1,13 @@
-angular.module('app.core')
-    .factory('storageService', ['$http', '$q', 'baseUrl', '$state', 'localStorageService', '$rootScope', function($http, $q, baseUrl, $state, localStorageService, $rootScope) {
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .factory('storageService', storageService);
+
+    storageService.$inject = ['$http', 'baseUrl', '$state', 'localStorageService', '$rootScope'];
+
+    function storageService($http, baseUrl, $state, localStorageService, $rootScope) {
         var url = baseUrl.getUrl();
         var dataFactory = {};
 
@@ -60,4 +68,6 @@ angular.module('app.core')
 
         return dataFactory;
 
-    }]);
+    }
+
+})();

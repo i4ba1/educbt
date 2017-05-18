@@ -1,5 +1,13 @@
-angular.module('app.core')
-    .factory('licenseService', ['$http', '$q', 'baseUrl', '$resource', function($http, $q, baseUrl, $resource) {
+(function() {
+
+    'use strict';
+
+    angular.module('app.core')
+        .factory('licenseService', licenseService);
+
+    licenseService.$inject = ['$http', 'baseUrl'];
+
+    function licenseService($http, baseUrl, ) {
         var url = baseUrl.getUrl();
         var remoteUrl = baseUrl.getRemote();
         return {
@@ -81,4 +89,6 @@ angular.module('app.core')
             }
 
         };
-    }]);
+    }
+
+})();

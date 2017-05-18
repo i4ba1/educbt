@@ -1,7 +1,13 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('ClassController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core')
+        .controller('ClassController', ClassController);
+
+    ClassController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+
+    function ClassController($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
 
         var token = "";
 
@@ -263,4 +269,6 @@ angular
             });
         };
 
-    });
+    }
+
+})();

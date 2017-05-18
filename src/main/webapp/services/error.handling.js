@@ -1,5 +1,13 @@
-angular.module('app.core')
-    .factory('errorHandle', ['storageService', 'DialogFactory', function(storageService, DialogFactory) {
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .factory('errorHandle', errorHandle);
+
+    errorHandle.$inject = ['storageService', 'DialogFactory'];
+
+    function errorHandle(storageService, DialogFactory) {
         var handle = [];
         handle.setError = function(errorRespon) {
             if (errorRespon.status == 401) {
@@ -13,4 +21,5 @@ angular.module('app.core')
             }
         };
         return handle;
-    }]);
+    }
+})();

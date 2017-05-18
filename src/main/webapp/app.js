@@ -1,43 +1,60 @@
-'use strict';
+(function() {
 
-angular.module('app', [
-        'ui.router',
-        'app.routes',
-        'app.routes.teacher',
-        'app.routes.student',
-        'app.core',
-        'ngTable',
-        'ngSanitize',
-        'timer',
-        'ui.bootstrap',
-        // 'angularjs-datetime-picker',
-        'ngCsvImport',
-        'ngThread',
-        'checklist-model',
-        'paginationFilter',
-        'LocalStorageModule',
-        'ngMessages',
-        'ui.tinymce',
-        'app.config',
-        'angularSpinner',
-        'app.messages',
-        'ui.select',
-        'naif.base64',
-        "bsLoadingOverlay",
-        'ngResource'
-    ]).config(['usSpinnerConfigProvider', function(usSpinnerConfigProvider) {
+    'use strict';
+
+    angular
+        .module('app', [
+            'ui.router',
+            'app.routes',
+            'app.routes.teacher',
+            'app.routes.student',
+            'app.core',
+            'ngTable',
+            'ngSanitize',
+            'ngCsvImport',
+            'ngThread',
+            'ngMessages',
+            'ngResource',
+            'timer',
+            'ui.bootstrap',
+            // 'angularjs-datetime-picker',
+            'checklist-model',
+            'LocalStorageModule',
+            'angularSpinner',
+            'ui.select',
+            'ui.tinymce',
+            'naif.base64',
+            "bsLoadingOverlay"
+        ])
+        .config(config)
+        .run(run);
+
+    run.$inject = ['bsLoadingOverlayService', 'DialogFactory', '$rootScope'];
+    config.$inject = ['usSpinnerConfigProvider', 'localStorageServiceProvider'];
+
+    // ===========[function]======================================================
+
+    function run(bsLoadingOverlayService, DialogFactory, $rootScope) {
+        bsLoadingOverlayService.setGlobalConfig({
+            templateUrl: 'components/overlay.html'
+        });
+
+        $rootScope.openHelp = DialogFactory.openHelpMsg;
+    }
+
+    function config(usSpinnerConfigProvider, localStorageServiceProvider) {
         usSpinnerConfigProvider.setTheme('default', {
             color: 'black',
             radius: 20,
             width: 10,
             length: 20
         });
-    }])
-    .run(function(bsLoadingOverlayService, DialogFactory, $rootScope) {
-        bsLoadingOverlayService.setGlobalConfig({
-            templateUrl: 'components/overlay.html'
-        });
 
-        $rootScope.openHelp = DialogFactory.openHelpMsg;
+        localStorageServiceProvider
+            .setPrefix('eduCbtApp')
+            .setStorageType('localStorage')
+            .setNotify(true, true)
+            .setStorageCookie(1, '<path>', false);
+    }
 
-    });
+})();

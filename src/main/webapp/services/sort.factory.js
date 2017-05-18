@@ -1,5 +1,14 @@
-angular.module('app.core')
-    .factory('SortFactory', [function() {
+(function() {
+
+    'use strict';
+
+    angular
+        .module('app')
+        .factory('SortFactory', SortFactory);
+
+    SortFactory.$inject = [];
+
+    function SortFactory() {
         return {
             sortArr: function(arrayObj, sortBy, orderBy) {
                 arrayObj.sort(function(objA, objB) {
@@ -13,4 +22,6 @@ angular.module('app.core')
                 return arrayObj;
             }
         };
-    }]);
+    }
+
+})();

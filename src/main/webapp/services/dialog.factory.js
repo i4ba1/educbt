@@ -1,5 +1,12 @@
-angular.module('app.messages')
-    .factory('DialogFactory', ['$uibModal', "$uibModal", "$http", function($uibModal, $http, $timeout) {
+(function() {
+    'use strict';
+
+    angular.module('app')
+        .factory('DialogFactory', DialogFactory);
+
+    DialogFactory.$inject = ["$uibModal", "$http", "$timeout"];
+
+    function DialogFactory($uibModal, $http, $timeout) {
         return {
             showDialogMsg: function(title, content, size) {
                 var modalInstance = $uibModal.open({
@@ -217,4 +224,6 @@ angular.module('app.messages')
 
 
         };
-    }]);
+    }
+
+})();

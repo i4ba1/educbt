@@ -1,7 +1,13 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('LicenseController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, $sce, DialogFactory) {
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core')
+        .controller('LicenseController', LicenseController);
+
+    LicenseController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'licenseService', '$timeout', '$uibModal', '$sce', 'DialogFactory'];
+
+    function LicenseController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, $sce, DialogFactory) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -247,4 +253,6 @@ angular
         } else {
 
         }
-    });
+    }
+
+})();

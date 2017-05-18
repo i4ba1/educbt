@@ -1,7 +1,12 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('ActiveUserController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, activeUserService) {
+(function() {
+    'use strict';
+    angular
+        .module('app.core')
+        .controller('ActiveUserController', ActiveUserController);
+
+    ActiveUserController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'activeUserService']
+
+    function ActiveUserController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, activeUserService) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -72,4 +77,5 @@ angular
         };
 
         fetchAllActiveUser();
-    });
+    }
+})();

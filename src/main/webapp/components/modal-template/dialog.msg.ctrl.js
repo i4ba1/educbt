@@ -1,6 +1,6 @@
 'use strict';
 angular
-    .module('app.messages')
+    .module('app')
     .controller('DialogMessageCtrl', function($scope, $uibModalInstance, titleText, contentText, $sce) {
 
         $scope.titleText = titleText;

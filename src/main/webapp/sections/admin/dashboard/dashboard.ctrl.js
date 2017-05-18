@@ -1,5 +1,14 @@
-angular.module('app.core')
-    .controller('DashboardController', function($scope, $state, storageService) {
+(function() {
+
+    'use strict';
+
+    angular
+        .module('app.core')
+        .controller('DashboardController', DashboardController);
+
+    DashboardController.$inject = ['$scope', '$state', 'storageService'];
+
+    function DashboardController($scope, $state, storageService) {
         /*
          * checking authorization
          */
@@ -19,4 +28,5 @@ angular.module('app.core')
             }
         }
 
-    });
+    }
+})();
