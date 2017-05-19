@@ -1,7 +1,13 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('QuestionController', function($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, baseUrl, $sce, DialogFactory, $timeout, bsLoadingOverlayService) {
+(function() {
+
+    'use strict';
+    angular
+        .module('app.core')
+        .controller('QuestionController', QuestionController);
+
+    QuestionController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', '$http', 'tinyMce', 'subjectService', 'queastionBankService', 'errorHandle', '$sce', 'DialogFactory', '$timeout', 'bsLoadingOverlayService'];
+
+    function QuestionController($scope, $filter, ngTableParams, $stateParams, $state, storageService, $http, tinyMce, subjectService, queastionBankService, errorHandle, $sce, DialogFactory, $timeout, bsLoadingOverlayService) {
 
         var token = "";
         var type = $stateParams.qType;
@@ -456,16 +462,7 @@ angular
                     messageBuilder = messageBuilder.concat(ec + " . Pilihan C tidak boleh kosong <br/>");
                     isValid = false;
                 }
-                // if (!q.optionD) {
-                //     ec++;
-                //     messageBuilder = messageBuilder.concat(ec + " . Pilihan D tidak boleh kosong <br/>");
-                //     isValid = false;
-                // }
-                // if (!q.optionE) {
-                //     ec++;
-                //     messageBuilder = messageBuilder.concat(ec + " . Pilihan E tidak boleh kosong <br/>");
-                //     isValid = false;
-                // }
+
             }
             if (!q.difficulty) {
                 ec++;
@@ -490,5 +487,6 @@ angular
             findAll();
         }
 
-        // findAllGallery();
-    });
+    }
+
+})();

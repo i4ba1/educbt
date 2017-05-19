@@ -1,5 +1,14 @@
-angular.module('app.core')
-    .controller('SchoolProfileController', function($scope, schoolProfileService, $state, $http, storageService, baseUrl, errorHandle) {
+(function() {
+
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('SchoolProfileController', SchoolProfileController);
+
+    SchoolProfileController.$inject = ['$scope', 'SchoolProfileService', '$state', 'storageService', 'errorHandle'];
+
+    function SchoolProfileController($scope, SchoolProfileService, $state, storageService, errorHandle) {
 
         /*
          * checking authorization
@@ -136,4 +145,6 @@ angular.module('app.core')
         };
 
         fetchScoolProfile();
-    });
+    }
+
+})();

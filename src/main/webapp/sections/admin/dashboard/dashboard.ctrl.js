@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.core')
+        .module('app')
         .controller('DashboardController', DashboardController);
 
     DashboardController.$inject = ['$scope', '$state', 'storageService'];

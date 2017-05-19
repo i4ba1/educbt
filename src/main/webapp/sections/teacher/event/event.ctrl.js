@@ -1,7 +1,13 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('EventManagementController', function($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory, $sce, SortFactory) {
+(function() {
+
+    'use strict';
+    angular
+        .module('app')
+        .controller('EventManagementController', EventManagementController);
+
+    EventManagementController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'subjectService', 'queastionBankService', 'eventService', 'teacherService', 'storageService', 'errorHandle', '$timeout', 'tinyMce', 'labelFactory', '$uibModal', 'DialogFactory', '$sce', 'SortFactory'];
+
+    function EventManagementController($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory, $sce, SortFactory) {
 
         $scope.currentTeacher;
         var token = " ";
@@ -701,4 +707,6 @@ angular
                 }
             }
         }
-    });
+    }
+
+})();

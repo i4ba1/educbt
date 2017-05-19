@@ -1,5 +1,13 @@
-angular.module('app.core')
-    .controller('TeacherDashboardController', function($scope, $state, storageService, teacherService) {
+(function() {
+
+    'use strict';
+    angular
+        .module('app')
+        .controller('TeacherDashboardController', TeacherDashboardController);
+
+    TeacherDashboardController.$inject = ['$scope', '$state', 'storageService', 'teacherService'];
+
+    function TeacherDashboardController($scope, $state, storageService, teacherService) {
         /*
          * checking authorization
          */
@@ -21,4 +29,6 @@ angular.module('app.core')
                 $state.go('teacher.chapter');
             }
         }
-    });
+    }
+
+})();

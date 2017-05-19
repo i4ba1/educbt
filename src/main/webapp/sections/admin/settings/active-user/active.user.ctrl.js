@@ -1,12 +1,12 @@
 (function() {
     'use strict';
     angular
-        .module('app.core')
+        .module('app')
         .controller('ActiveUserController', ActiveUserController);
 
-    ActiveUserController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'activeUserService']
+    ActiveUserController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'ActiveUserService']
 
-    function ActiveUserController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, activeUserService) {
+    function ActiveUserController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, ActiveUserService) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -29,7 +29,7 @@
          */
         function fetchAllActiveUser() {
             $scope.activeUsers = [];
-            var promise = activeUserService.fetchAllActiveUser(token);
+            var promise = ActiveUserService.fetchAllActiveUser(token);
             promise.then(
                 function(response) {
                     $scope.activeUsers = response.data;
@@ -42,7 +42,7 @@
         };
 
         $scope.delete = function() {
-            var promise = activeUserService.deleteActiveUser($scope.activeUser.id, token);
+            var promise = ActiveUserService.deleteActiveUser($scope.activeUser.id, token);
             promise.then(
                 function(response) {
                     $scope.showModal = false;

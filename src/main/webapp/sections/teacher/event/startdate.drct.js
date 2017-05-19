@@ -1,103 +1,113 @@
-angular.module('app.core')
-  .directive('startDateDirective', function() {
-    var controller = ['$scope', function($scope) {
-      $scope.today = function() {
-        $scope.dt = new Date();
-      };
-      $scope.today();
+(function() {
 
-      $scope.clear = function() {
-        $scope.dt = null;
-      };
+    'use strict';
 
-      // Disable weekend selection
-      $scope.disabled = function(date, mode) {
-        return mode === 'day' && (date.getDay() === 0);
-      };
 
-      $scope.minDate = new Date(1975, 0, 1);
-      $scope.maxDate = new Date(2020, 11, 31);
+    angular.module('app.core')
+        .directive('startDateDirective', startDateDirective);
 
-      $scope.open1 = function() {
-        $scope.popup1.opened = true;
-      };
+    function startDateDirective() {
+        var controller = ['$scope', function($scope) {
+            $scope.today = function() {
+                $scope.dt = new Date();
+            };
+            $scope.today();
 
-      $scope.open3 = function() {
-        $scope.popup3.opened = true;
-      };
+            $scope.clear = function() {
+                $scope.dt = null;
+            };
 
-      $scope.setDate = function(year, month, day) {
-        $scope.dt = new Date(year, month, day);
-      };
+            // Disable weekend selection
+            $scope.disabled = function(date, mode) {
+                return mode === 'day' && (date.getDay() === 0);
+            };
 
-      $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-      };
+            $scope.minDate = new Date(1975, 0, 1);
+            $scope.maxDate = new Date(2020, 11, 31);
 
-      $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy',
-        'shortDate'
-      ];
-      $scope.format = $scope.formats[0];
-      $scope.altInputFormats = ['M!/d!/yyyy'];
+            $scope.open1 = function() {
+                $scope.popup1.opened = true;
+            };
 
-      $scope.popup1 = {
-        opened: false
-      };
+            $scope.open3 = function() {
+                $scope.popup3.opened = true;
+            };
 
-      $scope.popup3 = {
-        opened: false
-      };
+            $scope.setDate = function(year, month, day) {
+                $scope.dt = new Date(year, month, day);
+            };
 
-      var tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      var afterTomorrow = new Date();
-      afterTomorrow.setDate(tomorrow.getDate() + 1);
-      $scope.events = [{
-        date: tomorrow,
-        status: 'full'
-      }, {
-        date: afterTomorrow,
-        status: 'partially'
-      }];
+            $scope.dateOptions = {
+                formatYear: 'yy',
+                startingDay: 1
+            };
 
-      $scope.getDayClass = function(date, mode) {
-        if (mode === 'day') {
-          var dayToCheck = new Date(date)
-            .setHours(0, 0, 0, 0);
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy',
+                'shortDate'
+            ];
+            $scope.format = $scope.formats[0];
+            $scope.altInputFormats = ['M!/d!/yyyy'];
 
-          for (var i = 0; i < $scope.events.length; i++) {
-            var currentDay = new Date($scope.events[i].date)
-              .setHours(0, 0, 0, 0);
+            $scope.popup1 = {
+                opened: false
+            };
 
-            if (dayToCheck === currentDay) {
-              return $scope.events[i].status;
-            }
-          }
-        }
+            $scope.popup3 = {
+                opened: false
+            };
 
-        return '';
-      };
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            var afterTomorrow = new Date();
+            afterTomorrow.setDate(tomorrow.getDate() + 1);
+            $scope.events = [{
+                date: tomorrow,
+                status: 'full'
+            }, {
+                date: afterTomorrow,
+                status: 'partially'
+            }];
 
-    }];
+            $scope.getDayClass = function(date, mode) {
+                if (mode === 'day') {
+                    var dayToCheck = new Date(date)
+                        .setHours(0, 0, 0, 0);
 
-    template = '<p class="input-group">' +
-      '<input name="{{name}}" type="text" ng-disabled="disable" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="dt" is-open="popup3.opened" min-date="minDate" max-date="maxDate"' +
-      'datepicker-options="dateOptions" ng-required="true" close-text="Close"/>' +
-      '<span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open3()">' +
-      '<i class="glyphicon glyphicon-calendar"></i>' +
-      '</button>' +
-      '</span>' +
-      '</p>';
+                    for (var i = 0; i < $scope.events.length; i++) {
+                        var currentDay = new Date($scope.events[i].date)
+                            .setHours(0, 0, 0, 0);
 
-    return {
-      restrict: 'EA', //Default in 1.3+
-      controller: controller,
-      scope: {
-        dt: '=',
-        disable: '=',
-        name:'@'
-      },
-      template: template
-    };
-  });
+                        if (dayToCheck === currentDay) {
+                            return $scope.events[i].status;
+                        }
+                    }
+                }
+
+                return '';
+            };
+
+        }];
+
+        template = '<p class="input-group">' +
+            '<input name="{{name}}" type="text" ng-disabled="disable" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="dt" is-open="popup3.opened" min-date="minDate" max-date="maxDate"' +
+            'datepicker-options="dateOptions" ng-required="true" close-text="Close"/>' +
+            '<span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open3()">' +
+            '<i class="glyphicon glyphicon-calendar"></i>' +
+            '</button>' +
+            '</span>' +
+            '</p>';
+
+        return {
+            restrict: 'EA', //Default in 1.3+
+            controller: controller,
+            scope: {
+                dt: '=',
+                disable: '=',
+                name: '@'
+            },
+            template: template
+        };
+    }
+
+
+})();

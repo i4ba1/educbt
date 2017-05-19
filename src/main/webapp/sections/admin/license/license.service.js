@@ -2,12 +2,12 @@
 
     'use strict';
 
-    angular.module('app.core')
-        .factory('licenseService', licenseService);
+    angular.module('app')
+        .factory('LicenseService', LicenseService);
 
-    licenseService.$inject = ['$http', 'baseUrl'];
+    LicenseService.$inject = ['$http', 'baseUrl'];
 
-    function licenseService($http, baseUrl, ) {
+    function LicenseService($http, baseUrl, ) {
         var url = baseUrl.getUrl();
         var remoteUrl = baseUrl.getRemote();
         return {

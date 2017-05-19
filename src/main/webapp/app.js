@@ -25,6 +25,7 @@
             'ui.tinymce',
             'naif.base64',
             "bsLoadingOverlay"
+
         ])
         .config(config)
         .run(run);

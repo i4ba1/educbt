@@ -1,11 +1,11 @@
 (function() {
     'use strict';
-    angular.module('app.core')
-        .factory('classService', classService);
+    angular.module('app')
+        .factory('ClassService', ClassService);
 
-    classService.$inject = ['$http', 'baseUrl'];
+    ClassService.$inject = ['$http', 'baseUrl'];
 
-    function classService($http, baseUrl) {
+    function ClassService($http, baseUrl) {
         var url = baseUrl.getUrl();
         return {
 

@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('app.core')
+        .module('app')
         .controller('ClassController', ClassController);
 
-    ClassController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+    ClassController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'ClassService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
 
-    function ClassController($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+    function ClassController($scope, $filter, ngTableParams, $stateParams, $state, ClassService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
 
         var token = "";
 
@@ -49,7 +49,7 @@
          *This Function used to fetch all teacher data
          */
         function findAll() {
-            var promise = classService.fetchAllClass(token);
+            var promise = ClassService.fetchAllClass(token);
             promise.then(
                 function(response) {
                     $scope.classes = response.data;
@@ -65,7 +65,7 @@
          * find class by classID used while editing class
          */
         function findClass(id) {
-            var promise = classService.findClass(id, token);
+            var promise = ClassService.findClass(id, token);
             promise.then(
                 function(response) {
                     $scope.selectedClass = response.data;
@@ -89,7 +89,7 @@
             params.push(param);
 
             if ($scope.isUpdate) {
-                promise = classService.updateClass(params);
+                promise = ClassService.updateClass(params);
                 promise.then(
                     function(response) {
                         $state.go('admin.classMgmt');
@@ -98,7 +98,7 @@
                         errorHandle.setError(errorResponse);
                     });
             } else {
-                promise = classService.createClass(params);
+                promise = ClassService.createClass(params);
                 promise.then(
                     function(response) {
                         $state.go('admin.classMgmt');
@@ -114,7 +114,7 @@
          * function to deleteting selectedClass by class id
          */
         $scope.delete = function() {
-            var promise = classService.deleteClass($scope.selectedClass.id, token);
+            var promise = ClassService.deleteClass($scope.selectedClass.id, token);
             promise.then(
                 function(response) {
                     $scope.showModal = false;
@@ -142,7 +142,7 @@
             param.authorization = token;
             param.classes = $scope.csv.result;
             params.push(param);
-            var promise = classService.importClass(params);
+            var promise = ClassService.importClass(params);
             bsLoadingOverlayService.start({
                 referenceId: 'loading'
             });

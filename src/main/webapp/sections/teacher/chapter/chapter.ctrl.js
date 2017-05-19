@@ -1,7 +1,14 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('ChapterController', function($scope, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, DialogFactory) {
+(function() {
+
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('ChapterController', ChapterController);
+
+    ChapterController.$inject = ['$scope', '$stateParams', '$state', 'subjectService', 'storageService', 'errorHandle', '$timeout', 'DialogFactory'];
+
+    function ChapterController($scope, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, DialogFactory) {
 
         /*
          * checking authorization
@@ -162,4 +169,6 @@ angular
                 $scope.isUpdate = false;
             }
         }
-    });
+    }
+
+})();

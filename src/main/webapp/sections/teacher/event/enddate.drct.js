@@ -1,103 +1,112 @@
-angular.module('app.core')
-  .directive('endDateDirective', function() {
-    var controller = ['$scope', function($scope) {
-      $scope.today = function() {
-        $scope.endDate = new Date();
-      };
-      $scope.today();
+(function() {
+    'use strict';
 
-      $scope.clear = function() {
-        $scope.endDate = null;
-      };
+    angular.module('app')
+        .directive('endDateDirective', endDateDirective);
 
-      // Disable weekend selection
-      $scope.disabled = function(date, mode) {
-        return mode === 'day' && (date.getDay() === 0 || date.getDay() ===
-          6);
-      };
+    endDateDirective.$inject = [];
 
-      $scope.toggleMin = function() {
-        $scope.minDate = $scope.minDate ? null : new Date();
-      };
+    function endDateDirective() {
+        var controller = ['$scope', function($scope) {
+            $scope.today = function() {
+                $scope.endDate = new Date();
+            };
+            $scope.today();
 
-      $scope.toggleMin();
-      $scope.maxDate = new Date(2020, 5, 22);
+            $scope.clear = function() {
+                $scope.endDate = null;
+            };
 
-      $scope.open1 = function() {
-        $scope.popup1.opened = true;
-      };
+            // Disable weekend selection
+            $scope.disabled = function(date, mode) {
+                return mode === 'day' && (date.getDay() === 0 || date.getDay() ===
+                    6);
+            };
 
-      $scope.open4 = function() {
-        $scope.popup4.opened = true;
-      };
+            $scope.toggleMin = function() {
+                $scope.minDate = $scope.minDate ? null : new Date();
+            };
 
-      $scope.setDate = function(year, month, day) {
-        $scope.endDate = new Date(year, month, day);
-      };
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2020, 5, 22);
 
-      $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-      };
+            $scope.open1 = function() {
+                $scope.popup1.opened = true;
+            };
 
-      $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy',
-        'shortDate'
-      ];
-      $scope.format = $scope.formats[0];
-      $scope.altInputFormats = ['M!/d!/yyyy'];
+            $scope.open4 = function() {
+                $scope.popup4.opened = true;
+            };
 
-      $scope.popup1 = {
-        opened: false
-      };
+            $scope.setDate = function(year, month, day) {
+                $scope.endDate = new Date(year, month, day);
+            };
 
-      $scope.popup4 = {
-        opened: false
-      };
+            $scope.dateOptions = {
+                formatYear: 'yy',
+                startingDay: 1
+            };
 
-      var tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      var afterTomorrow = new Date();
-      afterTomorrow.setDate(tomorrow.getDate() + 1);
-      $scope.events = [{
-        date: tomorrow,
-        status: 'full'
-      }, {
-        date: afterTomorrow,
-        status: 'partially'
-      }];
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy',
+                'shortDate'
+            ];
+            $scope.format = $scope.formats[0];
+            $scope.altInputFormats = ['M!/d!/yyyy'];
 
-      $scope.getDayClass = function(date, mode) {
-        if (mode === 'day') {
-          var dayToCheck = new Date(date)
-            .setHours(0, 0, 0, 0);
+            $scope.popup1 = {
+                opened: false
+            };
 
-          for (var i = 0; i < $scope.events.length; i++) {
-            var currentDay = new Date($scope.events[i].date)
-              .setHours(0, 0, 0, 0);
+            $scope.popup4 = {
+                opened: false
+            };
 
-            if (dayToCheck === currentDay) {
-              return $scope.events[i].status;
-            }
-          }
-        }
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            var afterTomorrow = new Date();
+            afterTomorrow.setDate(tomorrow.getDate() + 1);
+            $scope.events = [{
+                date: tomorrow,
+                status: 'full'
+            }, {
+                date: afterTomorrow,
+                status: 'partially'
+            }];
 
-        return '';
-      };
+            $scope.getDayClass = function(date, mode) {
+                if (mode === 'day') {
+                    var dayToCheck = new Date(date)
+                        .setHours(0, 0, 0, 0);
 
-    }];
+                    for (var i = 0; i < $scope.events.length; i++) {
+                        var currentDay = new Date($scope.events[i].date)
+                            .setHours(0, 0, 0, 0);
 
-    template = '<p class="input-group">' +
-      '<input type="text" class="form-control" uib-datepicker-popup ng-model="endDate" is-open="popup4.opened" min-date="minDate" max-date="maxDate"' +
-      'datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>' +
-      '<span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open4()">' +
-      '<i class="glyphicon glyphicon-calendar"></i>' +
-      '</button>' +
-      '</span>' +
-      '</p>';
+                        if (dayToCheck === currentDay) {
+                            return $scope.events[i].status;
+                        }
+                    }
+                }
 
-    return {
-      restrict: 'EA', //Default in 1.3+
-      controller: controller,
-      template: template
-    };
-  });
+                return '';
+            };
+
+        }];
+
+        template = '<p class="input-group">' +
+            '<input type="text" class="form-control" uib-datepicker-popup ng-model="endDate" is-open="popup4.opened" min-date="minDate" max-date="maxDate"' +
+            'datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>' +
+            '<span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open4()">' +
+            '<i class="glyphicon glyphicon-calendar"></i>' +
+            '</button>' +
+            '</span>' +
+            '</p>';
+
+        return {
+            restrict: 'EA', //Default in 1.3+
+            controller: controller,
+            template: template
+        };
+    }
+
+})();
