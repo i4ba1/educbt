@@ -1,5 +1,5 @@
 'use strict';
-angular.module('app.core')
+angular.module('app')
     .controller('QuestionBankImportController', function($scope, $stateParams, $state, queastionBankService, teacherService, storageService, DialogFactory, errorHandle, bsLoadingOverlayService, $timeout) {
 
         var currentTeacher;

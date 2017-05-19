@@ -1,9 +1,7 @@
 (function() {
-    'use strict';
 
-    angular
-        .module('app')
-        .factory('errorHandle', errorHandle);
+    'use strict';
+    angular.module('app').factory('errorHandle', errorHandle);
 
     errorHandle.$inject = ['storageService', 'DialogFactory'];
 

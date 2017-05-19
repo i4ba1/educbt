@@ -1,6 +1,6 @@
 'use strict';
 angular
-    .module('app.core')
+    .module('app')
     .controller('ChangePasswordController', function($scope, $stateParams, $timeout, $state, storageService, errorHandle, changePswdService, DialogFactory) {
 
         var token = "";

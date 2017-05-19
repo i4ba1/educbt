@@ -1,4 +1,4 @@
-angular.module('app.core')
+angular.module('app')
   .factory('studentExamService', ['$http', '$q', 'baseUrl', function($http, $q, baseUrl) {
     var url = baseUrl.getUrl();
     return {

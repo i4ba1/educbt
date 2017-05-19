@@ -1,14 +1,9 @@
 (function() {
 
     'use strict';
+    angular.module('app').factory('SortFactory', sortFactory);
 
-    angular
-        .module('app')
-        .factory('SortFactory', SortFactory);
-
-    SortFactory.$inject = [];
-
-    function SortFactory() {
+    function sortFactory() {
         return {
             sortArr: function(arrayObj, sortBy, orderBy) {
                 arrayObj.sort(function(objA, objB) {

@@ -1,27 +1,16 @@
 (function() {
 
     'use strict';
-
-    angular.module('app')
-        .factory('tinyMce', tinyMce);
+    angular.module('app').factory('tinyMce', tinyMce);
 
     tinyMce.$inject = ['$sce'];
 
     function tinyMce($sce) {
         var tinyMce = {};
         var varMenu = {
-            file: {
-                title: 'File',
-                items: 'newdocument'
-            },
-            edit: {
-                title: 'Edit',
-                items: 'undo redo | cut copy paste | selectall'
-            },
-            insert: {
-                title: 'Insert',
-                items: 'charmap'
-            },
+            file: { title: 'File', items: 'newdocument' },
+            edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall' },
+            insert: { title: 'Insert', items: 'charmap' },
             format: {
                 title: 'Format',
                 items: 'bold italic underline strikethrough superscript subscript | formats | removeformat'
@@ -30,10 +19,7 @@
                 title: 'Table',
                 items: 'inserttable tableprops deletetable | cell row column'
             },
-            tools: {
-                title: 'Tools',
-                items: 'spellchecker code'
-            }
+            tools: { title: 'Tools', items: 'spellchecker code' }
         };
 
         var themeAdvancedFonts =

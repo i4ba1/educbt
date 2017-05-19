@@ -1,6 +1,6 @@
 'use strict';
 angular
-    .module('app.core')
+    .module('app')
     .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory, storageService) {
         $scope.showDialog = false;
         $scope.openCredit = DialogFactory.openCredit;

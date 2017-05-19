@@ -2,7 +2,7 @@
 
     'use strict';
     angular
-        .module('app.core')
+        .module('app')
         .controller('QuestionController', QuestionController);
 
     QuestionController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', '$http', 'tinyMce', 'subjectService', 'queastionBankService', 'errorHandle', '$sce', 'DialogFactory', '$timeout', 'bsLoadingOverlayService'];

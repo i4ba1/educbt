@@ -1,6 +1,6 @@
 'use strict';
 angular
-    .module('app.core')
+    .module('app')
     .controller('QuestionsBankController', function($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, subjectService, teacherService, storageService, errorHandle, $http, $timeout, tinyMce, DialogFactory) {
 
         $scope.currentTeacher;

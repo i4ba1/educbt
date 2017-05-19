@@ -1,6 +1,6 @@
 'use strict';
 angular
-    .module('app.core')
+    .module('app')
     .controller('LogoutController', function($scope, $state, localStorageService, $http, baseUrl, DialogFactory) {
         $scope.user = localStorageService.get("USER");
 

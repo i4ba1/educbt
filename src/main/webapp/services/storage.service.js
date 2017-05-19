@@ -1,9 +1,7 @@
 (function() {
-    'use strict';
 
-    angular
-        .module('app')
-        .factory('storageService', storageService);
+    'use strict';
+    angular.module('app').factory('storageService', storageService);
 
     storageService.$inject = ['$http', 'baseUrl', '$state', 'localStorageService', '$rootScope'];
 

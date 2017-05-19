@@ -1,4 +1,4 @@
-angular.module('app.core')
+angular.module('app')
     .controller('StudentDashboardController', function($scope, $state, taskService, studentService, storageService, errorHandle, schoolProfileService, baseUrl, $sce, tinyMce) {
         var currentStudent;
         var token;

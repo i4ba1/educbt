@@ -1,9 +1,7 @@
 (function() {
-    'use strict';
 
-    angular
-        .module('app')
-        .factory('baseUrl', baseUrl);
+    'use strict';
+    angular.module('app').factory('baseUrl', baseUrl);
 
     baseUrl.$inject = ['$http'];
 

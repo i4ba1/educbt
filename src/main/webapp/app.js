@@ -5,7 +5,6 @@
     angular
         .module('app', [
             'ui.router',
-            'app.core',
             'ngTable',
             'ngSanitize',
             'ngCsvImport',

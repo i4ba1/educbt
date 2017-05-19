@@ -1,4 +1,4 @@
-angular.module('app.core')
+angular.module('app')
     .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
 
         var currentStudent;

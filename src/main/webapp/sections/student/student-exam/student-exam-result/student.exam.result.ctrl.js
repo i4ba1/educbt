@@ -1,4 +1,4 @@
-angular.module('app.core')
+angular.module('app')
     .controller('ExamResultController', function($scope, $stateParams, studentExamResultService, storageService, errorHandle) {
 
         var currentStudent = null;

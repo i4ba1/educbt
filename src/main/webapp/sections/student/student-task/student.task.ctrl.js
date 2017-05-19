@@ -1,4 +1,4 @@
-angular.module('app.core')
+angular.module('app')
     .controller('StudentTaskController', function($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, $window, $timeout, DialogFactory) {
 
         var currentStudent;
