@@ -10,11 +10,12 @@
     function storageService($http, baseUrl, $state, localStorageService, $rootScope) {
         var url = baseUrl.getUrl();
         var dataFactory = {};
+        var loggedIn;
 
         dataFactory.isAuthorization = function(role) {
             var result = false;
             var token = localStorageService.get("TOKEN");
-            var loggedIn = localStorageService.get("USER");
+            loggedIn = localStorageService.get("USER");
             $rootScope.type = localStorageService.get("APP-TYPE");
             if (loggedIn != undefined && (loggedIn.userType.toLowerCase() == role.toLowerCase())) {
                 if (token != undefined) {

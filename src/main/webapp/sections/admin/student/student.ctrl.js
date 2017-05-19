@@ -1,6 +1,11 @@
-angular.module('app.core')
-    .controller('StudentController', function($scope, $filter, ngTableParams,
-        $stateParams, $state, studentService, classService, $timeout, $log, storageService, errorHandle, $uibModal, bsLoadingOverlayService) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('StudentController', StudentController);
+
+    StudentController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'studentService', 'classService', '$timeout', 'storageService', 'errorHandle', '$uibModal', 'bsLoadingOverlayService'];
+
+    function StudentController($scope, $filter, ngTableParams, $stateParams, $state, studentService, classService, $timeout, storageService, errorHandle, $uibModal, bsLoadingOverlayService) {
 
         var token = " ";
         /*
@@ -164,7 +169,6 @@ angular.module('app.core')
                                 errorHandle.setError(errorResponse);
                             });
                     } else {
-                        $log.info($scope.selectedStudent);
                         promise2 = studentService.createStudent(params);
                         promise2.then(
                             function(response) {
@@ -324,4 +328,6 @@ angular.module('app.core')
             });
         };
 
-    });
+    }
+
+})();

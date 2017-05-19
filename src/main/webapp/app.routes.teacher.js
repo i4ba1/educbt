@@ -1,9 +1,10 @@
 (function() {
     'use strict';
 
-    angular.module('app.routes.teacher', ['ui.router'])
+    angular.module('app')
         .config(config);
 
+    // Route Configuration for Teacher
     function config($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
 

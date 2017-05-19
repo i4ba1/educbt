@@ -1,14 +1,11 @@
 (function() {
 
     'use strict';
+    angular.module('app').controller('SchoolProfileController', SchoolProfileController);
 
-    angular
-        .module('app')
-        .controller('SchoolProfileController', SchoolProfileController);
+    SchoolProfileController.$inject = ['$scope', 'schoolProfileService', '$state', 'storageService', 'errorHandle'];
 
-    SchoolProfileController.$inject = ['$scope', 'SchoolProfileService', '$state', 'storageService', 'errorHandle'];
-
-    function SchoolProfileController($scope, SchoolProfileService, $state, storageService, errorHandle) {
+    function SchoolProfileController($scope, schoolProfileService, $state, storageService, errorHandle) {
 
         /*
          * checking authorization

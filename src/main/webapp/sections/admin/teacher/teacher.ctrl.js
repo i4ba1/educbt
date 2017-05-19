@@ -1,7 +1,14 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('TeacherController', function($scope, $filter, ngTableParams, $stateParams, $state, teacherService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+(function() {
+
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('TeacherController', TeacherController);
+
+    TeacherController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'teacherService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+
+    function TeacherController($scope, $filter, ngTableParams, $stateParams, $state, teacherService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
         var token = " ";
         /*
          * checking authorization
@@ -324,4 +331,6 @@ angular
             });
         };
 
-    });
+    }
+
+})();

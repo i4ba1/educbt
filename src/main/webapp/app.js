@@ -5,9 +5,6 @@
     angular
         .module('app', [
             'ui.router',
-            'app.routes',
-            'app.routes.teacher',
-            'app.routes.student',
             'app.core',
             'ngTable',
             'ngSanitize',

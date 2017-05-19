@@ -1,5 +1,11 @@
-angular.module('app.core')
-    .factory('subjectService', ['$http', '$q', 'baseUrl', function($http, $q, baseUrl) {
+(function() {
+
+    'use strict';
+    angular.module('app').factory('subjectService', subjectService);
+
+    subjectService.$inject = ['$http', 'baseUrl'];
+
+    function subjectService($http, baseUrl) {
         var url = baseUrl.getUrl();
         return {
             fetchAllSubject: function(token) {
@@ -41,8 +47,11 @@ angular.module('app.core')
                 return $http.get(url + '/teacher/subMateriMgmt/findTagById/' + token + '/' + chapterId);
             },
             fetchAllChapterByTeachIdAndSubjectId: function(teacherId, token, subjectId) {
-                return $http.get(url + '/teacher/subMateriMgmt/findTagBySubject/' + token + '/' + teacherId+'/' + subjectId);
+                return $http.get(url + '/teacher/subMateriMgmt/findTagBySubject/' + token + '/' + teacherId + '/' + subjectId);
             },
         };
 
-    }]);
+    }
+
+
+})();

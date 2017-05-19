@@ -1,13 +1,11 @@
 (function() {
 
     'use strict';
+    angular.module('app').factory('forgotPassService', forgotPassService);
 
-    angular.module('app')
-        .factory('ForgotPassService', ForgotPassService);
+    forgotPassService.$inject = ['$http', 'baseUrl'];
 
-    ForgotPassService.$inject = ['$http', 'baseUrl'];
-
-    function ForgotPassService($http, baseUrl) {
+    function forgotPassService($http, baseUrl) {
         var url = baseUrl.getUrl();
         return {
             findByNisOrNip: function(token, value) {

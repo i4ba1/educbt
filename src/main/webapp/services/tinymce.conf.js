@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('app.core')
+    angular.module('app')
         .factory('tinyMce', tinyMce);
 
     tinyMce.$inject = ['$sce'];

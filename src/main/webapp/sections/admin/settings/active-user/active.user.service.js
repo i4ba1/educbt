@@ -1,11 +1,11 @@
 (function() {
+
     'use strict';
-    angular.module('app.core')
-        .factory('ActiveUserService', ActiveUserService);
+    angular.module('app').factory('activeUserService', activeUserService);
 
-    ActiveUserService.$inject = ['$http', 'baseUrl'];
+    activeUserService.$inject = ['$http', 'baseUrl'];
 
-    function ActiveUserService($http, baseUrl) {
+    function activeUserService($http, baseUrl) {
         var url = baseUrl.getUrl();
         return {
             fetchAllActiveUser: function(token) {

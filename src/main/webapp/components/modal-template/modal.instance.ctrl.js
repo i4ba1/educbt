@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('ModalInstanceCtrl', function($scope, $uibModalInstance, modalData) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('ModalInstanceCtrl', ModalInstanceCtrl);
+
+    ModalInstanceCtrl.$inject = ['$scope', '$uibModalInstance', 'modalData'];
+
+    function ModalInstanceCtrl($scope, $uibModalInstance, modalData) {
 
         $scope.modalData = modalData;
 
@@ -12,4 +16,6 @@ angular
                 elements[0].parentNode.removeChild(elements[0]);
             }
         };
-    });
+    }
+
+})();

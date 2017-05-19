@@ -1,14 +1,11 @@
 (function() {
 
     'use strict';
+    angular.module('app').controller('ForgotPasswordController', ForgotPasswordController);
 
-    angular
-        .module('app')
-        .controller('ForgotPasswordController', ForgotPasswordController);
+    ForgotPasswordController.$inject = ['$state', '$scope', 'storageService', 'forgotPassService', 'DialogFactory'];
 
-    ForgotPasswordController.$inject = ['$state', '$scope', 'storageService', 'ForgotPassService', 'DialogFactory'];
-
-    function ForgotPasswordController($state, $scope, storageService, ForgotPassService, DialogFactory) {
+    function ForgotPasswordController($state, $scope, storageService, forgotPassService, DialogFactory) {
         $scope.identity = "";
         $scope.result = "";
         $scope.showResult = false;
@@ -22,7 +19,7 @@
         }
 
         $scope.getPasswordByNisOrNip = function() {
-            var promise = ForgotPassService.findByNisOrNip(token, $scope.identity);
+            var promise = forgotPassService.findByNisOrNip(token, $scope.identity);
             promise.then(function(response) {
                     $scope.result = response.data;
                     $scope.showResult = true;

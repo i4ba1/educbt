@@ -1,8 +1,13 @@
-angular
-  .module('app.core')
-  .directive('studentFooter', function() {
-    return {
-      restrict: 'A',
-      templateUrl: 'components/navbar/student.footer.tpl.html'
+(function() {
+
+    'use strict';
+    angular.module('app').directive('studentFooter', studentFooter);
+
+    function studentFooter() {
+        return {
+            restrict: 'A',
+            templateUrl: 'components/navbar/student.footer.tpl.html'
+        }
     }
-  });
+
+})();

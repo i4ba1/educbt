@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app')
-    .controller('DialogMessageCtrl', function($scope, $uibModalInstance, titleText, contentText, $sce) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('DialogMessageCtrl', DialogMessageCtrl);
+
+    DialogMessageCtrl.$inject = ['$scope', '$uibModalInstance', 'titleText', 'contentText', '$sce'];
+
+    function DialogMessageCtrl($scope, $uibModalInstance, titleText, contentText, $sce) {
 
         $scope.titleText = titleText;
         $scope.contentText = contentText;
@@ -14,4 +18,6 @@ angular
         $scope.close = function(value) {
             $uibModalInstance.close(value);
         }
-    });
+    }
+
+})();

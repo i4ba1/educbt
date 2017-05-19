@@ -3,9 +3,10 @@
     'use strict';
 
     angular
-        .module('app.routes', ['ui.router'])
+        .module('app')
         .config(config);
 
+    // Route Configuration for Administrator
     function config($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
 

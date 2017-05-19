@@ -1,31 +1,41 @@
-angular.module('app.core')
-  .factory('teacherService', ['$http', '$q', 'baseUrl', function($http, $q, baseUrl) {
-    var url = baseUrl.getUrl();
-    return {
+(function() {
 
-      fetchAllTeacher: function(token) {
-        return $http.get(url + '/admin/teacher_mgmt/' + token);
-      },
+    'use strict';
 
-      findTeacher: function(nip, token) {
-        return $http.get(url + '/admin/teacher_mgmt/find/' + token + '/' + nip);
-      },
+    angular.module('app')
+        .factory('teacherService', teacherService);
 
-      createTeacher: function(params) {
-        return $http.post(url + '/admin/teacher_mgmt/create/', params);
-      },
+    teacherService.$inject = ['$http', 'baseUrl'];
 
-      importTeacher: function(params) {
-        return $http.post(url + '/admin/teacher_mgmt/import/', params);
-      },
+    function teacherService($http, baseUrl) {
+        var url = baseUrl.getUrl();
+        return {
 
-      updateTeacher: function(params) {
-        return $http.put(url + '/admin/teacher_mgmt/update/', params);
-      },
+            fetchAllTeacher: function(token) {
+                return $http.get(url + '/admin/teacher_mgmt/' + token);
+            },
 
-      deleteTeacher: function(nip, token) {
-        return $http.delete(url + '/admin/teacher_mgmt/delete/' + token + '/' + nip);
-      }
-    };
+            findTeacher: function(nip, token) {
+                return $http.get(url + '/admin/teacher_mgmt/find/' + token + '/' + nip);
+            },
 
-  }]);
+            createTeacher: function(params) {
+                return $http.post(url + '/admin/teacher_mgmt/create/', params);
+            },
+
+            importTeacher: function(params) {
+                return $http.post(url + '/admin/teacher_mgmt/import/', params);
+            },
+
+            updateTeacher: function(params) {
+                return $http.put(url + '/admin/teacher_mgmt/update/', params);
+            },
+
+            deleteTeacher: function(nip, token) {
+                return $http.delete(url + '/admin/teacher_mgmt/delete/' + token + '/' + nip);
+            }
+        };
+
+    }
+
+})();

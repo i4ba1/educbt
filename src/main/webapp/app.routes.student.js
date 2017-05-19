@@ -2,9 +2,11 @@
     'use strict';
 
     angular
-        .module('app.routes.student', ['ui.router'])
+        .module('app')
         .config(config);
 
+
+    // Route configuration for student
     function config($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
 

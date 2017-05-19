@@ -1,13 +1,11 @@
 (function() {
+
     'use strict';
+    angular.module('app').factory('schoolProfileService', schoolProfileService);
 
-    angular
-        .module('app')
-        .factory('SchoolProfileService', SchoolProfileService);
+    schoolProfileService.$inject = ['$http', 'baseUrl'];
 
-    SchoolProfileService.$inject = ['$http', 'baseUrl'];
-
-    function SchoolProfileService($http, baseUrl) {
+    function schoolProfileService($http, baseUrl) {
         var url = baseUrl.getUrl();
         return {
             saveOrUpdateProfile: function(profile, isUpdate, token) {

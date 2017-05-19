@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app.core')
-    .controller('SubjectController', function($scope, $filter, ngTableParams, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('SubjectController', SubjectController);
+
+    SubjectController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'subjectService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+
+    function SubjectController($scope, $filter, ngTableParams, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
 
         /*
          * checking authorization
@@ -267,4 +271,6 @@ angular
             });
         };
 
-    });
+    }
+
+})();

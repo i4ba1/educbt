@@ -1,13 +1,11 @@
 (function() {
+
     'use strict';
+    angular.module('app').controller('LicenseController', LicenseController);
 
-    angular
-        .module('app')
-        .controller('LicenseController', LicenseController);
+    LicenseController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'licenseService', '$timeout', '$uibModal', '$sce', 'DialogFactory'];
 
-    LicenseController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'LicenseService', '$timeout', '$uibModal', '$sce', 'DialogFactory'];
-
-    function LicenseController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, LicenseService, $timeout, $uibModal, $sce, DialogFactory) {
+    function LicenseController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, $sce, DialogFactory) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -33,7 +31,7 @@
 
         $scope.submitActivationKey = function(license) {
             license.licenseStatus = true;
-            var licenseCrud = LicenseService.manualActivation(license, token).then(
+            var licenseCrud = licenseService.manualActivation(license, token).then(
                 function(response) {
                     DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm").then(
                         function() {},
@@ -53,7 +51,7 @@
 
         $scope.saveLicenseOnline = function(license) {
             var isSuccess = false;
-            var promise = LicenseService.register(license).then(
+            var promise = licenseService.register(license).then(
                 function(response) {
                     isSuccess = true;
                 },
@@ -76,7 +74,7 @@
         $scope.dummySave = function(license) {
             var isSuccess = false;
             var result = null;
-            LicenseService.dummySave(license, token).then(
+            licenseService.dummySave(license, token).then(
                 function(response) {
                     isSuccess = true;
                     result = response.data;
@@ -95,7 +93,7 @@
 
         $scope.saveLicense = function(license) {
 
-            var promise = LicenseService.saveLicense(license, token);
+            var promise = licenseService.saveLicense(license, token);
             promise.then(
                 function(response) {
                     var message = "";
@@ -124,7 +122,7 @@
 
         $scope.onlineActivate = function(license) {
             var isSuccess = false;
-            var result = LicenseService.licenseCrud(license);
+            var result = licenseService.licenseCrud(license);
             result.then(function(response) {
                     isSuccess = true;
                     license.activationKey = response.data.activationKey;
@@ -199,7 +197,7 @@
          *This Function used to fetch all teacher data
          */
         function findAllLicense() {
-            var promise = LicenseService.fetchAllLicense(token);
+            var promise = licenseService.fetchAllLicense(token);
             promise.then(
                 function(response) {
                     $scope.licenses = response.data;
@@ -214,7 +212,7 @@
         };
 
         $scope.delete = function() {
-            var promise = LicenseService.deleteLicense($scope.license.id, token);
+            var promise = licenseService.deleteLicense($scope.license.id, token);
             promise.then(
                 function(response) {
                     $scope.showModal = false;

@@ -1,7 +1,9 @@
-'use strict';
+(function() {
 
-angular.module('app.core')
-    .filter('propsFilter', function() {
+    'use strict';
+    angular.module('app').filter('propsFilter', propertyFilters);
+
+    function propertyFilters() {
         return function(items, props) {
             var out = [];
 
@@ -31,4 +33,7 @@ angular.module('app.core')
 
             return out;
         };
-    });
+    }
+
+
+})();
