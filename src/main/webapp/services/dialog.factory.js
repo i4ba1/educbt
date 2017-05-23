@@ -11,7 +11,7 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/dialog.msg.html',
-                    controller: 'DialogMessageCtrl',
+                    controller: dialogMessageController,
                     size: size,
                     backdrop: 'static',
                     resolve: {
@@ -32,7 +32,7 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/confirmation.msg.html',
-                    controller: 'DialogMessageCtrl',
+                    controller: dialogMessageController,
                     size: size,
                     backdrop: 'static',
                     resolve: {
@@ -53,18 +53,7 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/error.html',
-                    controller: function($scope, $uibModalInstance, modalData) {
-
-                        $scope.modalData = modalData;
-
-                        $scope.cancel = function() {
-                            $uibModalInstance.dismiss('cancel');
-                            var elements = document.getElementsByClassName('modal-backdrop');
-                            while (elements.length > 0) {
-                                elements[0].parentNode.removeChild(elements[0]);
-                            }
-                        };
-                    },
+                    controller: errorMessageController,
                     size: 'md',
                     backdrop: 'static',
                     resolve: {
@@ -85,9 +74,6 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/knt-credit.html',
-                    controller: function() {
-
-                    },
                     size: 'md'
                 });
             },
@@ -96,43 +82,7 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/images-gallery.html',
-                    controller: function($scope, $uibModalInstance, queastionBankService, images, token) {
-                        $scope.view = 'list';
-                        $scope.images = images;
-                        $scope.file;
-                        var token = token;
-
-                        $scope.close = function(value) {
-                            $uibModalInstance.dismiss({
-                                images: $scope.images
-                            });
-                        };
-                        $scope.addImage = function(value) {
-                            $scope.view = value;
-                        };
-                        $scope.saveImage = function(file) {
-                            $scope.images.push({
-                                imageName: file.filename,
-                                base64: 'data:' + file.filetype + ';base64,' + file.base64
-                            });
-                            $scope.addImage('list');
-                        };
-
-                        $scope.doubleClick = function(file) {
-                            $uibModalInstance.close({
-                                images: $scope.images,
-                                selectedImage: file
-                            });
-                        };
-
-                        $scope.deleteImage = function(index) {
-                            var imageId = $scope.images[index].id;
-                            if (imageId) {
-                                queastionBankService.deleteImage(token, imageId);
-                            }
-                            $scope.images.splice(index, 1);
-                        }
-                    },
+                    controller: imagesGalleryController,
                     size: 'lg',
                     backdrop: 'static',
                     resolve: {
@@ -156,9 +106,7 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/help.msg.html',
-                    controller: function($scope, helpType) {
-                        $scope.helpType = helpType;
-                    },
+                    controller: helpMessageController,
                     size: 'md',
                     resolve: {
                         helpType: function() {
@@ -172,22 +120,7 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'components/modal-template/dialog.msg.html',
-                    controller: function($scope, $uibModalInstance, titleText, contentText, $sce, $timeout) {
-
-                        $scope.titleText = titleText;
-                        $scope.contentText = contentText;
-                        $scope.trustAsHtml = $sce.trustAsHtml;
-                        $scope.cancel = function() {
-                            $uibModalInstance.dismiss('cancel');
-                        };
-                        $scope.close = function(value) {
-                            $uibModalInstance.close(value);
-                        }
-
-                        var timeout = $timeout(function() {
-                            $scope.close(timeout);
-                        }, 10000);
-                    },
+                    controller: reminderMessageController,
                     size: size,
                     resolve: {
                         titleText: function() {
@@ -218,21 +151,7 @@
                             return eventName;
                         }
                     },
-                    controller: function($scope, eventResultData, $uibModalInstance, eventName) {
-                        $scope.eventResultData = eventResultData;
-                        $scope.eventName = eventName;
-
-                        $scope.close = function() {
-                            $uibModalInstance.close("Close");
-                        }
-
-                        $scope.exportToExcel = function() {
-                            var className = ($scope.eventResultData[0])["KELAS"];
-                            alasql('SELECT * INTO XLSX("' + $scope.eventName + "_" + className + '.xlsx",{headers:true}) FROM ?', [$scope.eventResultData]);
-
-                            $scope.close();
-                        }
-                    }
+                    controller: exportDataToXlsxController
                 });
             },
             licenseActivation: function() {
@@ -241,19 +160,126 @@
                     templateUrl: 'components/modal-template/activation.msg.html',
                     size: 'sm',
                     backdrop: 'static',
-                    controller: function($scope, $uibModalInstance) {
-                        $scope.type = "";
-
-                        $scope.close = function() {
-                            $uibModalInstance.close($scope.type);
-                        }
-                    }
+                    controller: licenseActivationController
                 });
 
                 return modalInstance.result;
             }
 
 
+        };
+    }
+
+    // =============================[DIALOG CONTROLLER]==================================
+
+    function dialogMessageController($scope, $uibModalInstance, titleText, contentText, $sce) {
+
+        $scope.titleText = titleText;
+        $scope.contentText = contentText;
+        $scope.trustAsHtml = $sce.trustAsHtml;
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.close = function(value) {
+            $uibModalInstance.close(value);
+        }
+    }
+
+    function licenseActivationController($scope, $uibModalInstance) {
+        $scope.type = "";
+
+        $scope.close = function() {
+            $uibModalInstance.close($scope.type);
+        }
+    }
+
+    function exportDataToXlsxController($scope, eventResultData, $uibModalInstance, eventName) {
+        $scope.eventResultData = eventResultData;
+        $scope.eventName = eventName;
+
+        $scope.close = function() {
+            $uibModalInstance.close("Close");
+        }
+
+        $scope.exportToExcel = function() {
+            var className = ($scope.eventResultData[0])["KELAS"];
+            alasql('SELECT * INTO XLSX("' + $scope.eventName + "_" + className + '.xlsx",{headers:true}) FROM ?', [$scope.eventResultData]);
+
+            $scope.close();
+        }
+    }
+
+    function reminderMessageController($scope, $uibModalInstance, titleText, contentText, $sce, $timeout) {
+
+        $scope.titleText = titleText;
+        $scope.contentText = contentText;
+        $scope.trustAsHtml = $sce.trustAsHtml;
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+        $scope.close = function(value) {
+            $uibModalInstance.close(value);
+        }
+
+        var timeout = $timeout(function() {
+            $scope.close(timeout);
+        }, 10000);
+    }
+
+    function helpMessageController($scope, helpType) {
+        $scope.helpType = helpType;
+    }
+
+    function imagesGalleryController($scope, $uibModalInstance, queastionBankService, images, token) {
+        $scope.view = 'list';
+        $scope.images = images;
+        $scope.file;
+        var token = token;
+
+        $scope.close = function(value) {
+            $uibModalInstance.dismiss({
+                images: $scope.images
+            });
+        };
+        $scope.addImage = function(value) {
+            $scope.view = value;
+        };
+        $scope.saveImage = function(file) {
+            $scope.images.push({
+                imageName: file.filename,
+                base64: 'data:' + file.filetype + ';base64,' + file.base64
+            });
+            $scope.addImage('list');
+        };
+
+        $scope.doubleClick = function(file) {
+            $uibModalInstance.close({
+                images: $scope.images,
+                selectedImage: file
+            });
+        };
+
+        $scope.deleteImage = function(index) {
+            var imageId = $scope.images[index].id;
+            if (imageId) {
+                queastionBankService.deleteImage(token, imageId);
+            }
+            $scope.images.splice(index, 1);
+        }
+    }
+
+    function errorMessageController($scope, $uibModalInstance, modalData) {
+
+        $scope.modalData = modalData;
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+            var elements = document.getElementsByClassName('modal-backdrop');
+            while (elements.length > 0) {
+                elements[0].parentNode.removeChild(elements[0]);
+            }
         };
     }
 

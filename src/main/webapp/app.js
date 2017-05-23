@@ -27,7 +27,7 @@
         .run(run);
 
     run.$inject = ['bsLoadingOverlayService', 'DialogFactory', '$rootScope'];
-    config.$inject = ['usSpinnerConfigProvider', 'localStorageServiceProvider'];
+    config.$inject = ['usSpinnerConfigProvider', 'localStorageServiceProvider', '$qProvider'];
 
     // ===========[function]======================================================
 
@@ -39,7 +39,7 @@
         $rootScope.openHelp = DialogFactory.openHelpMsg;
     }
 
-    function config(usSpinnerConfigProvider, localStorageServiceProvider) {
+    function config(usSpinnerConfigProvider, localStorageServiceProvider, qProvider) {
         usSpinnerConfigProvider.setTheme('default', {
             color: 'black',
             radius: 20,
@@ -52,6 +52,8 @@
             .setStorageType('localStorage')
             .setNotify(true, true)
             .setStorageCookie(1, '<path>', false);
+
+        qProvider.errorOnUnhandledRejections(false);
     }
 
 })();
