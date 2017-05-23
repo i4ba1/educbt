@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app')
-    .controller('LogoutController', function($scope, $state, localStorageService, $http, baseUrl, DialogFactory) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('LogoutController', LogoutController);
+
+    LogoutController.$inject = ['$scope', '$state', 'localStorageService', '$http', 'baseUrl', 'DialogFactory'];
+
+    function LogoutController($scope, $state, localStorageService, $http, baseUrl, DialogFactory) {
         $scope.user = localStorageService.get("USER");
 
         $scope.loggedOut = function() {
@@ -18,4 +22,5 @@ angular
         }
 
         $scope.openCredit = DialogFactory.openCredit;
-    });
+    }
+})();

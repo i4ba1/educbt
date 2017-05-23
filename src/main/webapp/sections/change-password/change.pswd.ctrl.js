@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app')
-    .controller('ChangePasswordController', function($scope, $stateParams, $timeout, $state, storageService, errorHandle, changePswdService, DialogFactory) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('ChangePasswordController', ChangePasswordController);
+
+    ChangePasswordController.$inject = ['$scope', '$state', 'storageService', 'errorHandle', 'changePswdService', 'DialogFactory'];
+
+    function ChangePasswordController($scope, $state, storageService, errorHandle, changePswdService, DialogFactory) {
 
         var token = "";
         var user = null;
@@ -64,4 +68,6 @@ angular
             checkAuthorization("STUDENT")
         }
 
-    });
+    }
+
+})();

@@ -1,5 +1,11 @@
-angular.module('app')
-    .controller('ExamResultController', function($scope, $stateParams, studentExamResultService, storageService, errorHandle) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('ExamResultController', ExamResultController);
+
+    ExamResultController.$inject = ['$scope', '$stateParams', 'studentExamResultService', 'storageService', 'errorHandle'];
+
+    function ExamResultController($scope, $stateParams, studentExamResultService, storageService, errorHandle) {
 
         var currentStudent = null;
         var token = " ";
@@ -39,4 +45,5 @@ angular.module('app')
                 event.preventDefault();
             }
         });
-    });
+    }
+})();

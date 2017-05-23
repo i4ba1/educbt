@@ -1,5 +1,11 @@
-angular.module('app')
-    .factory('queastionBankService', ['$http', '$q', 'baseUrl', function($http, $q, baseUrl) {
+(function() {
+
+    'use strict';
+    angular.module('app').factory('queastionBankService', queastionBankService);
+
+    queastionBankService.$inject = ['$http', 'baseUrl'];
+
+    function queastionBankService($http, baseUrl) {
         var url = baseUrl.getUrl();
         return {
             fetchAllQuestionBank: function(token, nip) {
@@ -18,7 +24,7 @@ angular.module('app')
                 return $http.get(url + '/teacher/questionMgmt/listQuestionInQP/' + token + '/' + qpId);
             },
 
-            importQuestionBank: function(questionBanks, token) {
+            importQuestionBankTemp: function(questionBanks, token) {
                 var params = [{
                     'authorization': token,
                     'questionBank': questionBanks
@@ -151,11 +157,7 @@ angular.module('app')
                 return result;
             },
             uploadImages: function(token, questionGroupId, qImages) {
-                /*var fd = new FormData();
-                fd.append('token', token);
-                fd.append('questionGroupId', questionGroupId);
-                fd.append('images', qImages);
-                */
+
                 var params = [{
                     'authorization': token,
                     'questionGroupId': questionGroupId,
@@ -170,4 +172,6 @@ angular.module('app')
             }
 
         };
-    }]);
+    }
+
+})();

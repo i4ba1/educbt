@@ -1,8 +1,14 @@
-angular.module('app')
-    .controller('StudentTaskController', function($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, $window, $timeout, DialogFactory) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('StudentTaskController', StudentTaskController);
+
+    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory'];
+
+    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory) {
 
         var currentStudent;
-        var token = " ";
+        var token = "";
 
         /*
          * checking authorization
@@ -187,4 +193,5 @@ angular.module('app')
             });
         }
 
-    });
+    }
+})();

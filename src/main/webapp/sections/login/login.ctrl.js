@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app')
-    .controller('LoginController', function($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory, storageService) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('LoginController', LoginController);
+
+    LoginController.$inject = ['$scope', '$stateParams', '$state', '$timeout', 'loginService', 'localStorageService', '$rootScope', 'DialogFactory', 'storageService'];
+
+    function LoginController($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory, storageService) {
         $scope.showDialog = false;
         $scope.openCredit = DialogFactory.openCredit;
 
@@ -80,4 +84,5 @@ angular
                     });
             }
         };
-    });
+    }
+})();

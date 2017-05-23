@@ -1,9 +1,7 @@
 (function() {
 
     'use strict';
-
-    angular.module('app')
-        .factory('teacherService', teacherService);
+    angular.module('app').factory('teacherService', teacherService);
 
     teacherService.$inject = ['$http', 'baseUrl'];
 

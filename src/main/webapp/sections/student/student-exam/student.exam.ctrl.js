@@ -1,5 +1,11 @@
-angular.module('app')
-    .controller('StudentExamController', function($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('StudentExamController', StudentExamController);
+
+    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window'];
+
+    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
 
         var currentStudent;
         var token = " ";
@@ -352,4 +358,5 @@ angular.module('app')
             );
         }
 
-    });
+    }
+})();

@@ -1,9 +1,7 @@
 (function() {
 
     'use strict';
-    angular
-        .module('app')
-        .controller('TeacherAccountSetting', TeacherAccountSetting);
+    angular.module('app').controller('TeacherAccountSetting', TeacherAccountSetting);
 
     TeacherAccountSetting.$inject = ['$scope', '$state', 'storageService'];
 

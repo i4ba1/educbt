@@ -1,10 +1,7 @@
 (function() {
 
     'use strict';
-
-    angular
-        .module('app')
-        .controller('TeacherController', TeacherController);
+    angular.module('app').controller('TeacherController', TeacherController);
 
     TeacherController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'teacherService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
 

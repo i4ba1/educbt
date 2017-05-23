@@ -1,7 +1,11 @@
-'use strict';
-angular
-    .module('app')
-    .controller('QuestionsBankController', function($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, subjectService, teacherService, storageService, errorHandle, $http, $timeout, tinyMce, DialogFactory) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('QuestionsBankController', QuestionsBankController);
+
+    QuestionsBankController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'queastionBankService', 'subjectService', 'teacherService', 'storageService', 'errorHandle', '$timeout', 'tinyMce', 'DialogFactory'];
+
+    function QuestionsBankController($scope, $filter, ngTableParams, $stateParams, $state, queastionBankService, subjectService, teacherService, storageService, errorHandle, $timeout, tinyMce, DialogFactory) {
 
         $scope.currentTeacher;
         var token = " ";
@@ -165,7 +169,7 @@ angular
          * Import All Question Bank
          */
         $scope.importQuestionBank = function() {
-            var promise = queastionBankService.importQuestionBank($scope.selectedQuestionBank, token);
+            var promise = queastionBankService.importQuestionBankTemp($scope.selectedQuestionBank, token);
             promise.then(
                 function(response) {
                     $state.go('teacher.questionBank');
@@ -372,4 +376,6 @@ angular
             }
 
         }
-    });
+    }
+
+})();

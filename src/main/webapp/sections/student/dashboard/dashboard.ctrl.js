@@ -1,9 +1,12 @@
-angular.module('app')
-    .controller('StudentDashboardController', function($scope, $state, taskService, studentService, storageService, errorHandle, schoolProfileService, baseUrl, $sce, tinyMce) {
+(function() {
+    'use strict';
+    angular.module('app').controller('StudentDashboardController', StudentDashboardController);
+
+    StudentDashboardController.inject = ['$scope', '$state', 'taskService', 'studentService', 'storageService', 'errorHandle', 'schoolProfileService', 'tinyMce'];
+
+    function StudentDashboardController($scope, $state, taskService, studentService, storageService, errorHandle, schoolProfileService, tinyMce) {
         var currentStudent;
         var token;
-        var url = baseUrl.getUrl();
-        url = (url.split("/cbt-backend"))[0];
         $scope.selectedStudent;
         $scope.schoolProfile = {
             "schoolName": "",
@@ -98,4 +101,5 @@ angular.module('app')
                 });
         };
 
-    });
+    }
+})();

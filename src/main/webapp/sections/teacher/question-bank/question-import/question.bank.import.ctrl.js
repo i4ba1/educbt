@@ -1,6 +1,11 @@
-'use strict';
-angular.module('app')
-    .controller('QuestionBankImportController', function($scope, $stateParams, $state, queastionBankService, teacherService, storageService, DialogFactory, errorHandle, bsLoadingOverlayService, $timeout) {
+(function() {
+
+    'use strict';
+    angular.module('app').controller('QuestionBankImportController', QuestionBankImportController);
+
+    QuestionBankImportController.$inject = ['$scope', '$stateParams', '$state', 'queastionBankService', 'teacherService', 'storageService', 'DialogFactory', 'errorHandle', 'bsLoadingOverlayService', '$timeout'];
+
+    function QuestionBankImportController($scope, $stateParams, $state, queastionBankService, teacherService, storageService, DialogFactory, errorHandle, bsLoadingOverlayService, $timeout) {
 
         var currentTeacher;
         var token = '';
@@ -125,4 +130,6 @@ angular.module('app')
         findQuestionById();
 
 
-    });
+    }
+
+})();

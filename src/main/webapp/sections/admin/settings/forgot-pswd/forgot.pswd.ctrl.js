@@ -9,6 +9,7 @@
         $scope.identity = "";
         $scope.result = "";
         $scope.showResult = false;
+        var token;
         /*
          * checking authorization
          */
