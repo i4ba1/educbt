@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('TeacherController', TeacherController);
 
-    TeacherController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'teacherService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+    TeacherController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'teacherService', 'storageService', 'errorHandle', '$timeout', 'DialogFactory', 'bsLoadingOverlayService'];
 
-    function TeacherController($scope, $filter, ngTableParams, $stateParams, $state, teacherService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+    function TeacherController($scope, $filter, ngTableParams, $stateParams, $state, teacherService, storageService, errorHandle, $timeout, DialogFactory, bsLoadingOverlayService) {
         var token = " ";
         /*
          * checking authorization
@@ -309,24 +309,7 @@
             }
         }
 
-        $scope.open = function(title, messages) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'components/modal-template/error.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'md',
-                backdrop: 'static',
-                resolve: {
-                    modalData: function() {
-                        return {
-                            title: title,
-                            messages: messages,
-                            content: ''
-                        };
-                    }
-                }
-            });
-        };
+        $scope.open = DialogFactory.showErrorMsg;
 
     }
 

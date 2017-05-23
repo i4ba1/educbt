@@ -5,9 +5,9 @@
         .module('app')
         .controller('EventManagementController', EventManagementController);
 
-    EventManagementController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'subjectService', 'queastionBankService', 'eventService', 'teacherService', 'storageService', 'errorHandle', '$timeout', 'tinyMce', 'labelFactory', '$uibModal', 'DialogFactory', '$sce', 'SortFactory'];
+    EventManagementController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'subjectService', 'queastionBankService', 'eventService', 'teacherService', 'storageService', 'errorHandle', '$timeout', 'tinyMce', 'labelFactory', 'DialogFactory', '$sce', 'SortFactory'];
 
-    function EventManagementController($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, $uibModal, DialogFactory, $sce, SortFactory) {
+    function EventManagementController($scope, $filter, ngTableParams, $stateParams, $state, classService, subjectService, queastionBankService, eventService, teacherService, storageService, errorHandle, $timeout, tinyMce, labelFactory, DialogFactory, $sce, SortFactory) {
 
         $scope.currentTeacher;
         var token = " ";
@@ -553,29 +553,7 @@
             }
         }
 
-        $scope.open = function(size, type, title, messages, content) {
-            var template = "";
-            if (type == "E") {
-                template = 'components/modal-template/error.html';
-            } else if (type == "S") {
-                template = 'components/modal-template/sucses.html';
-            }
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: template,
-                controller: 'ModalInstanceCtrl',
-                size: size,
-                resolve: {
-                    modalData: function() {
-                        return {
-                            title: title,
-                            messages: messages,
-                            content: content
-                        };
-                    }
-                }
-            });
-        };
+        $scope.open = DialogFactory.showErrorMsg;
 
         // Adding Clear List question when subject change
         $scope.subjectChange = function() {

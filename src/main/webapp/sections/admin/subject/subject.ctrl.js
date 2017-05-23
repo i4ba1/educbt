@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('SubjectController', SubjectController);
 
-    SubjectController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'subjectService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+    SubjectController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'subjectService', 'storageService', 'errorHandle', '$timeout', 'DialogFactory', 'bsLoadingOverlayService'];
 
-    function SubjectController($scope, $filter, ngTableParams, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+    function SubjectController($scope, $filter, ngTableParams, $stateParams, $state, subjectService, storageService, errorHandle, $timeout, DialogFactory, bsLoadingOverlayService) {
 
         /*
          * checking authorization
@@ -252,24 +252,7 @@
             }
         }
 
-        $scope.open = function(title, messages) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'components/modal-template/error.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'md',
-                backdrop: 'static',
-                resolve: {
-                    modalData: function() {
-                        return {
-                            title: title,
-                            messages: messages,
-                            content: ''
-                        };
-                    }
-                }
-            });
-        };
+        $scope.open = DialogFactory.showErrorMsg;
 
     }
 

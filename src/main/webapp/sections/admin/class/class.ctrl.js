@@ -3,9 +3,9 @@
 
     angular.module('app').controller('ClassController', ClassController);
 
-    ClassController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'storageService', 'errorHandle', '$timeout', '$uibModal', 'bsLoadingOverlayService'];
+    ClassController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'classService', 'storageService', 'errorHandle', '$timeout', 'bsLoadingOverlayService', 'DialogFactory'];
 
-    function ClassController($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, $uibModal, bsLoadingOverlayService) {
+    function ClassController($scope, $filter, ngTableParams, $stateParams, $state, classService, storageService, errorHandle, $timeout, bsLoadingOverlayService, DialogFactory) {
 
         var token = "";
 
@@ -248,24 +248,7 @@
             }
         }
 
-        $scope.open = function(title, messages) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'components/modal-template/error.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'md',
-                backdrop: 'static',
-                resolve: {
-                    modalData: function() {
-                        return {
-                            title: title,
-                            messages: messages,
-                            content: ''
-                        };
-                    }
-                }
-            });
-        };
+        $scope.open = DialogFactory.showErrorMsg;
 
     }
 

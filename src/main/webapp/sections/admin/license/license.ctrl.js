@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('LicenseController', LicenseController);
 
-    LicenseController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'licenseService', '$timeout', '$uibModal', '$sce', 'DialogFactory'];
+    LicenseController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'licenseService', '$timeout', '$sce', 'DialogFactory'];
 
-    function LicenseController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $uibModal, $sce, DialogFactory) {
+    function LicenseController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, licenseService, $timeout, $sce, DialogFactory) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
@@ -170,23 +170,7 @@
             }, function() {})
         }
 
-        $scope.open = function(title, messages) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'components/modal-template/error.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'sm',
-                resolve: {
-                    modalData: function() {
-                        return {
-                            title: title,
-                            messages: messages,
-                            content: ''
-                        };
-                    }
-                }
-            });
-        };
+        $scope.open = DialogFactory.showErrorMsg;
 
         $scope.toggleModal = function(license) {
             $scope.license = license;

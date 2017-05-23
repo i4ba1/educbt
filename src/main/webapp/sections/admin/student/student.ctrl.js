@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('StudentController', StudentController);
 
-    StudentController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'studentService', 'classService', '$timeout', 'storageService', 'errorHandle', '$uibModal', 'bsLoadingOverlayService'];
+    StudentController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'studentService', 'classService', '$timeout', 'storageService', 'errorHandle', 'bsLoadingOverlayService', 'DialogFactory'];
 
-    function StudentController($scope, $filter, ngTableParams, $stateParams, $state, studentService, classService, $timeout, storageService, errorHandle, $uibModal, bsLoadingOverlayService) {
+    function StudentController($scope, $filter, ngTableParams, $stateParams, $state, studentService, classService, $timeout, storageService, errorHandle, bsLoadingOverlayService, DialogFactory) {
 
         var token = " ";
         /*
@@ -309,24 +309,7 @@
             }
         }
 
-        $scope.open = function(title, messages) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'components/modal-template/error.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'md',
-                backdrop: 'static',
-                resolve: {
-                    modalData: function() {
-                        return {
-                            title: title,
-                            messages: messages,
-                            content: ''
-                        };
-                    }
-                }
-            });
-        };
+        $scope.open = DialogFactory.showErrorMsg;
 
     }
 

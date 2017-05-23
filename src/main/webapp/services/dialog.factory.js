@@ -49,6 +49,38 @@
                 return modalInstance.result;
             },
 
+            showErrorMsg: function(title, messages) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'components/modal-template/error.html',
+                    controller: function($scope, $uibModalInstance, modalData) {
+
+                        $scope.modalData = modalData;
+
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss('cancel');
+                            var elements = document.getElementsByClassName('modal-backdrop');
+                            while (elements.length > 0) {
+                                elements[0].parentNode.removeChild(elements[0]);
+                            }
+                        };
+                    },
+                    size: 'md',
+                    backdrop: 'static',
+                    resolve: {
+                        modalData: function() {
+                            return {
+                                title: title,
+                                messages: messages,
+                                content: ''
+                            };
+                        }
+                    }
+                });
+
+                return modalInstance.result;
+            },
+
             openCredit: function() {
                 var modalInstance = $uibModal.open({
                     animation: true,
