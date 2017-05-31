@@ -174,7 +174,12 @@
 
         $scope.toggleModal = function(license) {
             $scope.license = license;
-            $scope.showModal = !$scope.showModal;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus kode lisensi?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.delete();
+                    }
+                }, function(dismiss) {});
         }
 
         /*

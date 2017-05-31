@@ -202,8 +202,14 @@
          *This Function for toggle modal to show delete confirmation
          */
         $scope.toggleModal = function(student) {
-            $scope.showModal = !$scope.showModal;
+
             $scope.selectedStudent = student;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus data siswa?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.delete();
+                    }
+                }, function(dismiss) {});
         };
 
         /*

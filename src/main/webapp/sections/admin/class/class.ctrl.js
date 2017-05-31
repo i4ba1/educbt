@@ -127,8 +127,13 @@
          * Toggle modal to show delete confirmation
          */
         $scope.toggleModal = function(kelas) {
-            $scope.showModal = !$scope.showModal;
-            $scope.selectedClass = kelas;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus data kelas?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.selectedClass = kelas;
+                        $scope.delete();
+                    }
+                }, function(dismiss) {});
         }
 
         /*

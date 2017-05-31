@@ -20,7 +20,12 @@
 
         $scope.toggleModal = function(activeUser) {
             $scope.activeUser = activeUser;
-            $scope.showModal = !$scope.showModal;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus data?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.delete();
+                    }
+                }, function(dismiss) {});
         }
 
         /*

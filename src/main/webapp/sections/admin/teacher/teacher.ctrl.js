@@ -207,8 +207,13 @@
          * used for show delete confirmation dialog
          */
         $scope.toggleModal = function(teacher) {
-            $scope.showModal = !$scope.showModal;
             $scope.selectedTeacher = teacher;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus data guru?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.delete();
+                    }
+                }, function(dismiss) {});
         }
 
         /*

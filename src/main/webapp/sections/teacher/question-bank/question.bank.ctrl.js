@@ -205,8 +205,13 @@
          * used for showing delete confirmation selectedQuestionBank
          */
         $scope.toggleModal = function(questionBank) {
-            $scope.showModal = !$scope.showModal;
             $scope.selectedQuestionBank = questionBank;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus bank soal?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.deleteQuestionBank();
+                    }
+                }, function(dismiss) {});
         };
 
         /*
@@ -218,8 +223,13 @@
         };
 
         $scope.toggleModalQuestionGroup = function(qGroup) {
-            $scope.showModal = !$scope.showModal;
             $scope.selectedQuestionGroup = qGroup;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus soal?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.deleteQuestionGroup();
+                    }
+                }, function(dismiss) {});
         };
 
         $scope.deleteQuestionGroup = function() {

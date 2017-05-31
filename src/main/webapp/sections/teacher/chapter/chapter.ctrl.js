@@ -39,9 +39,14 @@
         $scope._index = 0;
 
         $scope.toggleModal = function(index, chapterModel) {
-            $scope.showModal = !$scope.showModal;
             $scope._index = index;
             $scope.selectedChapter = chapterModel;
+            DialogFactory.confDialogMsg('Konfirmasi Hapus Data', 'Apakah anda yakin untuk menghapus sub materi?', 'md')
+                .then(function(response) {
+                    if (response) {
+                        $scope.delete();
+                    }
+                }, function(dismiss) {});
         };
 
         /*
