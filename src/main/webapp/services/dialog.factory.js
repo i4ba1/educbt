@@ -164,6 +164,22 @@
                 });
 
                 return modalInstance.result;
+            },
+
+            showQuestionTypeOption: function(path) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: "components/modal-template/question-type.html",
+                    size: 'sm',
+                    controller: questionTypeOptionController,
+                    resolve: {
+                        path: function() {
+                            return path;
+                        }
+                    }
+                });
+
+                return modalInstance.result;
             }
 
 
@@ -281,6 +297,19 @@
                 elements[0].parentNode.removeChild(elements[0]);
             }
         };
+    }
+
+    function eventQuestionOptions($scope, $uibModalInstance) {
+
+    }
+
+    function questionTypeOptionController($scope, $uibModalInstance, path) {
+        $scope.questionType = null;
+        $scope.path = path === "questionBankDetail";
+
+        $scope.close = function(questionType) {
+            $uibModalInstance.close(questionType);
+        }
     }
 
 })();

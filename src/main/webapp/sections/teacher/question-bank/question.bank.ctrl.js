@@ -232,6 +232,17 @@
                 }, function(dismiss) {});
         };
 
+        $scope.showQuestionTypeOption = function() {
+            DialogFactory.showQuestionTypeOption("questionBankDetail").then(
+                function(response) {
+                    $state.go('teacher.questionBank.qpdetail.qCreateOrUpdate', {
+                        "qType": response,
+                        "subjectId": $scope.selectedQuestionBank.subject.id
+                    });
+                },
+                function(dismiss) {});
+        };
+
         $scope.deleteQuestionGroup = function() {
             var id = $scope.selectedQuestionGroup.id;
             queastionBankService.deleteQuestionGroup(id, token)
@@ -247,20 +258,6 @@
         /*
          * used for showing delete confirmation selectedQuestion
          */
-        $scope.showModalQuestionType = false;
-
-        $scope.submitQuestionType = function(questionType) {
-            $timeout(function() {
-                $scope.showModalQuestionType = false;
-            }, 250);
-            $timeout(function() {
-                $state.go('teacher.questionBank.qpdetail.qCreateOrUpdate', {
-                    "qType": questionType,
-                    "subjectId": $scope.selectedQuestionBank.subject.id
-                });
-            }, 250);
-        };
-
         $scope.editQstGroup = function(qGroup) {
             $state.go('teacher.questionBank.qpdetail.qCreateOrUpdate', {
                 "qType": qGroup.qgType,

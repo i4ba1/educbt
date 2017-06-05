@@ -313,6 +313,25 @@
 
         }
 
+        $scope.showQuestionTypeOption = function() {
+            DialogFactory.showQuestionTypeOption("").then(
+                function(response) {
+                    findAll();
+                    $scope.selectedQuestion = initQst();
+                    $scope.selectedQuestion.typeQuestion = response;
+                    $scope.qPassageType = response;
+
+                    if (response == 'MC') {
+                        $scope.qstOptions = initOptionQst("MC")
+                    } else if (response == 'TF') {
+                        $scope.qstOptions = initOptionQst("TF")
+                    }
+
+                    $scope.showAddQst = true;
+                },
+                function(dismiss) {});
+        };
+
         $scope.addTag = function(tagStr) {
             if (tagStr != '') {
                 var tag = JSON.parse(tagStr);

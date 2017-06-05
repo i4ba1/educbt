@@ -2,7 +2,7 @@
     <img src="assets/images/icon-tpls/bank_soal_1.png" alt=""> {{selectedQuestionBank.questionPoolName}}
     <div class="pull-right">
         <button ui-sref="teacher.questionBank.qpdetail.import" class="btn btn-primary" type="button"><img src="assets/images/icon-tpls/impor_2.png" alt="" class="icon-size" tooltip-placement="top" uib-tooltip="impor soal"></button>
-        <button class="btn btn-primary" type="button" tooltip-placement="top" uib-tooltip="tambah soal" ng-click="showModalQuestionType = true"><i class="fa fa-fw fa-plus fa-lg"></i></button>
+        <button class="btn btn-primary" type="button" tooltip-placement="top" uib-tooltip="tambah soal" ng-click="showQuestionTypeOption()"><i class="fa fa-fw fa-plus fa-lg"></i></button>
     </div>
 </h3>
 
@@ -48,19 +48,3 @@
         </tbody>
     </table>
 </div>
-
-<!--<a class="btn btn-default" ui-sref="^">Kembali</a>-->
-<!-- This Modal is for add question -->
-<modal-dialog title="Pilih Tipe Soal" visible="showModalQuestionType" size="modal-sm">
-    <div>
-        <input type="radio" name="questionType" value="MC" ng-model="questionType"> Soal Pilihan Ganda<br/>
-        <input type="radio" name="questionType" value="TF" ng-model="questionType"> Soal Benar Salah<br/>
-        <input type="radio" name="questionType" value="PASSAGE" ng-model="questionType"> Soal Wacana<br/>
-        <!-- <input type="radio" name="questionType" value="MTCH" ng-model="questionType">
-    Soal Mencocokkan -->
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="submitQuestionType(questionType)" ng-disabled="questionType == null">Pilih</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Batal</button>
-    </div>
-</modal-dialog>
