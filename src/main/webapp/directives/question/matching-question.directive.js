@@ -7,7 +7,7 @@
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'sections/teacher/question-bank/question-type/mtch.qst.html'
+            templateUrl: 'components/question-type-template/matching-question.html'
         }
     }
 

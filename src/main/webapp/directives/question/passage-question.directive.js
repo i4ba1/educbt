@@ -7,7 +7,7 @@
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'sections/teacher/question-bank/question-type/passage.qst.html'
+            templateUrl: 'components/question-type-template/passage-question.html'
         }
     }
 

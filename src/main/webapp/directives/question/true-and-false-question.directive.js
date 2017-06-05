@@ -7,7 +7,7 @@
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'sections/teacher/question-bank/question-type/tf.qst.html'
+            templateUrl: 'components/question-type-template/true-and-false-question.html'
         }
     }
 

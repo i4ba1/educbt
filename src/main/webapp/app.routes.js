@@ -76,7 +76,7 @@
                 url: '/teacher-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/teacher-import/teacher.import.html',
+                        templateUrl: 'sections/admin/teacher/teacher.import.html',
                         controller: 'TeacherController as teacherCtrl'
                     }
                 }
@@ -85,7 +85,7 @@
                 url: '/subject-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/subject-import/subject.import.html',
+                        templateUrl: 'sections/admin/subject/subject.import.html',
                         controller: 'SubjectController as subjectCtrl'
                     }
                 }
@@ -94,7 +94,7 @@
                 url: '/class-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/class-import/class.import.html',
+                        templateUrl: 'sections/admin/class/class.import.html',
                         controller: 'ClassController as classCtrl'
                     }
                 }
@@ -122,7 +122,7 @@
                 url: '/student-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/student-import/student.import.html',
+                        templateUrl: 'sections/admin/student/student.import.html',
                         controller: 'StudentController as studentCtrl'
                     }
                 }

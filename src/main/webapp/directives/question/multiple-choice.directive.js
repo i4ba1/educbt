@@ -7,7 +7,7 @@
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'sections/teacher/question-bank/question-type/mc.qst.html'
+            templateUrl: 'components/question-type-template/multiple-choice-question.html'
         }
     }
 
