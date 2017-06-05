@@ -23,11 +23,11 @@ import id.co.knt.cbt.service.QuestionService;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/upload")
-public class UploadResourcesCtrl {
+public class UploadResourcesController {
 
 	@Value("${path.question.image}")
 	private String Q_IMG_PATH = "";
-	private static final Logger LOG = LoggerFactory.getLogger(UploadResourcesCtrl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UploadResourcesController.class);
 
 	@Autowired
 	private QuestionService questionService;

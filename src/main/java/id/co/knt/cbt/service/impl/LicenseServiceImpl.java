@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import id.co.knt.cbt.model.License;
-import id.co.knt.cbt.repositories.LicenseRepository;
+import id.co.knt.cbt.repositories.LicenseRepo;
 import id.co.knt.cbt.service.LicenseService;
 
 @Service("licenseService")
 public class LicenseServiceImpl implements LicenseService {
 
 	@Autowired
-	private LicenseRepository licenseRepo;
+	private LicenseRepo licenseRepo;
 	
 	@Override
 	public License createNewLicense(License license) {

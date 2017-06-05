@@ -15,7 +15,7 @@ import id.co.knt.cbt.model.QuestionPool;
  *
  */
 @Repository
-public interface QuestionPoolRepository extends JpaRepository<QuestionPool, Long> {
+public interface QuestionPoolRepo extends JpaRepository<QuestionPool, Long> {
 	public final static String FIND_QP_BY_ID = "select qp from QuestionPool qp where qp.id = :id";
 
 	@Query(FIND_QP_BY_ID)

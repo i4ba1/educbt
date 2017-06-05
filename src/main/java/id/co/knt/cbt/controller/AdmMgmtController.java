@@ -19,9 +19,9 @@ import id.co.knt.cbt.util.PasswordUtility;
 @RestController
 @CrossOrigin(origins="http://localhost:8787")
 @RequestMapping(value="/admin/adminMgmt")
-public class AdmMgmtCtrl {
+public class AdmMgmtController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AdmMgmtCtrl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AdmMgmtController.class);
 
 	@Autowired
 	private UserService userService;

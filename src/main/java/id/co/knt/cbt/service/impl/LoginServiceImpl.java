@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import id.co.knt.cbt.model.Login;
 import id.co.knt.cbt.model.User;
-import id.co.knt.cbt.repositories.LoginRepository;
+import id.co.knt.cbt.repositories.LoginRepo;
 import id.co.knt.cbt.service.LoginService;
 
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
 
 	@Autowired
-	private LoginRepository loginRepo;
+	private LoginRepo loginRepo;
 
 	@Override
 	public Login saveLogin(Login login) {

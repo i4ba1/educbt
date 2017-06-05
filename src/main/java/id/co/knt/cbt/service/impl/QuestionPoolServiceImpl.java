@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.co.knt.cbt.model.QuestionPool;
-import id.co.knt.cbt.repositories.QuestionPoolRepository;
+import id.co.knt.cbt.repositories.QuestionPoolRepo;
 import id.co.knt.cbt.service.QuestionPoolService;
 
 /**
@@ -20,13 +20,13 @@ import id.co.knt.cbt.service.QuestionPoolService;
 public class QuestionPoolServiceImpl implements QuestionPoolService{
 
 	@Autowired
-	private QuestionPoolRepository questionPoolRepo;
+	private QuestionPoolRepo questionPoolRepo;
 	
 	public QuestionPoolServiceImpl() {
 		
 	}
 	
-	public QuestionPoolServiceImpl(QuestionPoolRepository poolRepository) {
+	public QuestionPoolServiceImpl(QuestionPoolRepo poolRepository) {
 		questionPoolRepo = poolRepository;
 	}
 	

@@ -23,9 +23,9 @@ import id.co.knt.cbt.util.UserLoginQueue;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/closeHandle")
-public class UserAutoLogoutCtrl {
+public class UserAutoLogoutController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserAutoLogoutCtrl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserAutoLogoutController.class);
 
 	@Autowired
 	private LoginService loginService;

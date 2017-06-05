@@ -189,25 +189,6 @@ public class LoginController {
                 : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
     }
 
-
-    /*private ResponseEntity<List<Map<String, Object>>> reLogin(Login login, Date dt, SecureRandom rand,
-                                                              DateTime dateTime) {
-        login.setLoginDate(dt);
-        login.setToken(new BigInteger(130, rand).toString(50));
-        login.setTokenExpired(dateTime.getMillis());
-
-        Map<String, Object> mapObj = new HashMap<String, Object>();
-        mapObj.put("token", login.getToken());
-        mapObj.put("user", login.getUser());
-        mapObj.put("type", "full-version");
-        List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-        data.add(mapObj);
-
-        return loginService.updateToken(login) != null
-                ? new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK)
-                : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
-    }*/
-
     /**
      * Logged out user
      *

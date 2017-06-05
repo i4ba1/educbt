@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import id.co.knt.cbt.model.School;
-import id.co.knt.cbt.repositories.SchoolRepository;
+import id.co.knt.cbt.repositories.SchoolRepo;
 import id.co.knt.cbt.service.SchoolService;
 
 @Service("schoolService")
 public class SchoolServiceImpl implements SchoolService {
 
 	@Autowired
-	private SchoolRepository schoolRepo;
+	private SchoolRepo schoolRepo;
 
 	@Override
 	public School saveNewSchool(School school) {

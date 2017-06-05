@@ -25,7 +25,7 @@ public class UserAuthorizationAspect {
     @Autowired
     private LoginService loginService;
 
-    @Around("execution(* id.co.knt.cbt.controller.AdmEmployeeCtrl.*(..)) || execution(* id.co.knt.cbt.controller.AdmKelasCtrl.*(..)) || execution(* id.co.knt.cbt.controller.AdmLicenseCtrl.*(..)) || execution(* id.co.knt.cbt.controller.AdmSchoolCtrl.*(..)) || execution(* id.co.knt.cbt.controller.AdmStudentCtrl.*(..)) || execution(* id.co.knt.cbt.controller.AdmSubjectCtrl.*(..)) || execution(* id.co.knt.cbt.controller.AdmActiveUserCtrl.*(..)) || execution(* id.co.knt.cbt.controller.StudentCtrl.*(..)) || execution(* id.co.knt.cbt.controller.TeacherEventManagementCtrl.*(..)) || execution(* id.co.knt.cbt.controller.TeacherQuestionMgmtCtrl.*(..)) || execution(* id.co.knt.cbt.controller.UploadResourcesCtrl.*(..))")
+    @Around("execution(* id.co.knt.cbt.controller.AdmEmployeeController.*(..)) || execution(* id.co.knt.cbt.controller.AdmKelasController.*(..)) || execution(* id.co.knt.cbt.controller.AdmLicenseController.*(..)) || execution(* id.co.knt.cbt.controller.AdmSchoolController.*(..)) || execution(* id.co.knt.cbt.controller.AdmStudentController.*(..)) || execution(* id.co.knt.cbt.controller.AdmSubjectController.*(..)) || execution(* id.co.knt.cbt.controller.AdmActiveUserController.*(..)) || execution(* id.co.knt.cbt.controller.StudentController.*(..)) || execution(* id.co.knt.cbt.controller.TeacherEventManagementController.*(..)) || execution(* id.co.knt.cbt.controller.TeacherQuestionMgmtController.*(..)) || execution(* id.co.knt.cbt.controller.UploadResourcesController.*(..))")
     public Object admTeacher(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] objects = joinPoint.getArgs();
         HttpHeaders headers = new HttpHeaders();

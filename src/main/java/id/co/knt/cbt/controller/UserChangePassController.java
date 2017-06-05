@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/changePass")
-public class UserChangePassCtrl {
+public class UserChangePassController {
 	
 	@Autowired
 	private UserService userService;

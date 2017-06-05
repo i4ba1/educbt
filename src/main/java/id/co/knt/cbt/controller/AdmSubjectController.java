@@ -32,8 +32,8 @@ import id.co.knt.cbt.service.TagService;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/subject_mgmt")
-public class AdmSubjectCtrl {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmSubjectCtrl.class);
+public class AdmSubjectController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdmSubjectController.class);
 
 	@Autowired
 	private SubjectService subjectService;

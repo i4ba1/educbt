@@ -21,7 +21,7 @@ import java.util.Map;
 @CrossOrigin(origins="http://localhost:8080")
 @RestController
 @RequestMapping(value = "/admin/license")
-public class AdmLicenseCtrl {
+public class AdmLicenseController {
 
 	@Autowired
 	private LicenseService licenseService;

@@ -35,7 +35,7 @@ import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.QuestionPool;
 import id.co.knt.cbt.model.Subject;
 import id.co.knt.cbt.repositories.QuestionGroupRepo;
-import id.co.knt.cbt.repositories.QuestionPoolRepository;
+import id.co.knt.cbt.repositories.QuestionPoolRepo;
 import id.co.knt.cbt.service.EmployeeService;
 import id.co.knt.cbt.service.QuestionPoolService;
 import id.co.knt.cbt.service.QuestionService;
@@ -49,9 +49,9 @@ import id.co.knt.cbt.service.SubjectService;
 @CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/questionMgmt")
-public class TeacherQuestionMgmtCtrl {
+public class TeacherQuestionMgmtController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TeacherQuestionMgmtCtrl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TeacherQuestionMgmtController.class);
 
 	@Autowired
 	private QuestionPoolService poolService;
@@ -69,7 +69,7 @@ public class TeacherQuestionMgmtCtrl {
 	private QuestionGroupRepo questionGroupRepo;
 
 	@Autowired
-	private QuestionPoolRepository poolRepo;
+	private QuestionPoolRepo poolRepo;
 
 	/**
 	 * Create new QuestionPool

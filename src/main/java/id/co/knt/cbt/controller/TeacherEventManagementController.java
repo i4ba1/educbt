@@ -27,8 +27,8 @@ import java.util.Map;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/teacher_event_mgmt")
-public class TeacherEventManagementCtrl {
-	private static final Logger LOG = LoggerFactory.getLogger(TeacherEventManagementCtrl.class);
+public class TeacherEventManagementController {
+	private static final Logger LOG = LoggerFactory.getLogger(TeacherEventManagementController.class);
 
 	@Autowired
 	private EventService eventService;

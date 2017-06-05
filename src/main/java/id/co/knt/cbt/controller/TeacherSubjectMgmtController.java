@@ -21,9 +21,9 @@ import id.co.knt.cbt.service.TagService;
 @CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/subMateriMgmt")
-public class TeacherSubjectMgmtCtrl {
+public class TeacherSubjectMgmtController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AdmSubjectCtrl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AdmSubjectController.class);
 
 	@Autowired
 	private TagService tagService;

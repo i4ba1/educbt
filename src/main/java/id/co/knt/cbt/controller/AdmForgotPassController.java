@@ -18,7 +18,7 @@ import id.co.knt.cbt.util.PasswordUtility;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value="/forgotPass")
-public class AdmForgotPassCtrl {
+public class AdmForgotPassController {
 	
 	@Autowired
 	private StudentService studentService;

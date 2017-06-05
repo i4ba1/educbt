@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import id.co.knt.cbt.model.School;
 
-public interface SchoolRepository extends JpaRepository<School, Long>{
+public interface SchoolRepo extends JpaRepository<School, Long>{
 	
 }

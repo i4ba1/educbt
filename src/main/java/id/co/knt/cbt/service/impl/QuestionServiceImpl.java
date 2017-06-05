@@ -22,7 +22,7 @@ import id.co.knt.cbt.model.QuestionTag;
 import id.co.knt.cbt.model.Tag;
 import id.co.knt.cbt.repositories.QuestionGroupImagesRepo;
 import id.co.knt.cbt.repositories.QuestionGroupRepo;
-import id.co.knt.cbt.repositories.QuestionPoolRepository;
+import id.co.knt.cbt.repositories.QuestionPoolRepo;
 import id.co.knt.cbt.repositories.QuestionRepo;
 import id.co.knt.cbt.repositories.QuestionTagRepo;
 import id.co.knt.cbt.repositories.TagRepo;
@@ -36,7 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
 	private QuestionRepo questionRepo;
 
 	@Autowired
-	private QuestionPoolRepository poolRepo;
+	private QuestionPoolRepo poolRepo;
 
 	@Autowired
 	private QuestionGroupRepo groupRepo;

@@ -42,8 +42,8 @@ import id.co.knt.cbt.util.PasswordUtility;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/student_mgmt")
-public class AdmStudentCtrl {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmStudentCtrl.class);
+public class AdmStudentController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdmStudentController.class);
 	private static final String STUDENT_UN_PREF = "student_";
 
 	@Autowired

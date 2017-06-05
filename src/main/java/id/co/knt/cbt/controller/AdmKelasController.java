@@ -29,8 +29,8 @@ import id.co.knt.cbt.service.KelasService;
 @CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/kelas_mgmt")
-public class AdmKelasCtrl {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmKelasCtrl.class);
+public class AdmKelasController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdmKelasController.class);
 
 	@Autowired
 	private KelasService kelasService;

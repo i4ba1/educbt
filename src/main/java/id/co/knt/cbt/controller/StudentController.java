@@ -19,9 +19,9 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/student")
-public class StudentCtrl {
+public class StudentController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(StudentCtrl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StudentController.class);
 
 	@Autowired
 	private EventService eventService;
