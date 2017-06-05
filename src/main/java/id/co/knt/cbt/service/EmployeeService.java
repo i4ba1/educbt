@@ -1,7 +1,8 @@
 package id.co.knt.cbt.service;
 
+import java.util.List;
+
 import id.co.knt.cbt.model.Employee;
-import id.co.knt.cbt.model.Student;
 
 /**
  * 
@@ -11,7 +12,7 @@ import id.co.knt.cbt.model.Student;
 public interface EmployeeService {
 	Iterable<Employee> getAllTeacher();
 
-	Employee save(Employee teacher);
+	int save(List<Object> list);
 
 	String getByNip(String nip);
 
@@ -23,7 +24,7 @@ public interface EmployeeService {
 
 	Boolean isTeacherExist(String nip);
 
-	Employee importTeacher(Employee teacher);
+	int importTeacher(List<Object> list);
 	
 	String createHashPassword(String value);
 	
