@@ -5,7 +5,7 @@ import java.util.List;
 import id.co.knt.cbt.model.Login;
 import id.co.knt.cbt.model.User;
 
-public interface LoginService {
+public interface LoginRepo {
 	Login saveLogin(Login login);
 
 	Boolean validateToken(String token, Long today);

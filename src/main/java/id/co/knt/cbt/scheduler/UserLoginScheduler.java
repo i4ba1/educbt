@@ -7,15 +7,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import id.co.knt.cbt.model.Login;
-import id.co.knt.cbt.service.LoginService;
+import id.co.knt.cbt.service.LoginRepo;
 import id.co.knt.cbt.util.UserLoginQueue;
 
 @Component
 public class UserLoginScheduler {
 
 	@Autowired
-	LoginService loginService;
-
+	LoginRepo loginRepo;
+	
 	@Scheduled(fixedRate=600000)
 	public void removeWhenIdle(){
 		UserLoginQueue loginQueue = UserLoginQueue.getInstance();
@@ -23,9 +23,9 @@ public class UserLoginScheduler {
 		if (loginQueue.getQueue() != null && loginQueue.getQueue().size() > 0) {
 			BlockingQueue<Login> blockingQueue = loginQueue.getQueue();
 			while (blockingQueue.peek() != null) {
-				if(loginService.findById(blockingQueue.peek().getId()) != null &&
-				!loginService.validateToken(blockingQueue.peek().getToken(), System.currentTimeMillis())){
-					loginService.deleteToken(blockingQueue.peek());
+
+				if(loginRepo.findById(blockingQueue.peek().getId()) != null){
+					loginRepo.deleteToken(blockingQueue.peek());
 				}
 
 				blockingQueue.poll();

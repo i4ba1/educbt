@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.knt.cbt.model.Login;
-import id.co.knt.cbt.service.LoginService;
+import id.co.knt.cbt.service.LoginRepo;
 import id.co.knt.cbt.util.UserLoginQueue;
 
 @CrossOrigin(origins="http://localhost:8787")
@@ -28,7 +28,7 @@ public class UserAutoLogoutController {
 	private static final Logger LOG = LoggerFactory.getLogger(UserAutoLogoutController.class);
 
 	@Autowired
-	private LoginService loginService;
+	private LoginRepo loginRepo;
 
 	@RequestMapping(value = "/forcedLogOut/", method = RequestMethod.POST)
 	public ResponseEntity<Void> autoLogout(@RequestBody List<Object> objects) {
@@ -42,7 +42,7 @@ public class UserAutoLogoutController {
 		}
 		
 		String token = array.getJSONObject(0).getString("authorization");
-		Login l = loginService.findByToken(token);
+		Login l = loginRepo.findByToken(token);
 		UserLoginQueue loginQueue = UserLoginQueue.getInstance();
 		
 		if (deleted) {

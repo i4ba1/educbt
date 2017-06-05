@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import id.co.knt.cbt.model.Employee;
-import id.co.knt.cbt.model.Student;
 
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee, Long> {

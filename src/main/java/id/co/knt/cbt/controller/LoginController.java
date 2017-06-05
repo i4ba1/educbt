@@ -5,7 +5,7 @@ import id.co.knt.cbt.model.Login;
 import id.co.knt.cbt.model.User;
 import id.co.knt.cbt.model.User.UserType;
 import id.co.knt.cbt.service.LicenseService;
-import id.co.knt.cbt.service.LoginService;
+import id.co.knt.cbt.service.LoginRepo;
 import id.co.knt.cbt.service.UserService;
 import id.co.knt.cbt.util.MACAddr;
 import id.web.pos.integra.gawl.Gawl;
@@ -38,7 +38,7 @@ public class LoginController {
     private static final Logger LOG = Logger.getLogger(LoginController.class);
 
     @Autowired
-    LoginService loginService;
+    LoginRepo loginRepo;
     @Autowired
     UserService userService;
     @Autowired
@@ -58,7 +58,7 @@ public class LoginController {
         /**
          * Get number of online users
          */
-        List<Login> logins = loginService.listOnlineUser();
+        List<Login> logins = loginRepo.listOnlineUser();
         /**
          * First check if the username and password are valid
          */
@@ -67,7 +67,7 @@ public class LoginController {
         Boolean isValid = user == null ? false : true;
 
         if (isValid) {
-            Login login = loginService.findByUser(user);
+            Login login = loginRepo.findByUser(user);
 
            /* if (licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE) {
                 return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
@@ -184,7 +184,7 @@ public class LoginController {
             LOG.info("successfully create directory");
         }
 
-        return loginService.saveLogin(newLogin) != null
+        return loginRepo.saveLogin(newLogin) != null
                 ? new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK)
                 : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
     }
@@ -201,12 +201,12 @@ public class LoginController {
         JSONObject obj = array.getJSONObject(0);
         HttpHeaders headers = new HttpHeaders();
 
-        Login login = loginService.findByToken(obj.getString("token"));
+        Login login = loginRepo.findByToken(obj.getString("token"));
         if (login == null) {
             return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZED);
         }
 
-        loginService.deleteToken(login);
+        loginRepo.deleteToken(login);
 
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }

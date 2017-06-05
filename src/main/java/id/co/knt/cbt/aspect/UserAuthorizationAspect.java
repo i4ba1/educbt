@@ -1,6 +1,6 @@
 package id.co.knt.cbt.aspect;
 
-import id.co.knt.cbt.service.LoginService;
+import id.co.knt.cbt.service.LoginRepo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,7 +23,7 @@ public class UserAuthorizationAspect {
     private static final Logger LOG = LoggerFactory.getLogger(UserAuthorizationAspect.class);
 
     @Autowired
-    private LoginService loginService;
+    private LoginRepo loginRepo;
 
     @Around("execution(* id.co.knt.cbt.controller.AdmEmployeeController.*(..)) || execution(* id.co.knt.cbt.controller.AdmKelasController.*(..)) || execution(* id.co.knt.cbt.controller.AdmLicenseController.*(..)) || execution(* id.co.knt.cbt.controller.AdmSchoolController.*(..)) || execution(* id.co.knt.cbt.controller.AdmStudentController.*(..)) || execution(* id.co.knt.cbt.controller.AdmSubjectController.*(..)) || execution(* id.co.knt.cbt.controller.AdmActiveUserController.*(..)) || execution(* id.co.knt.cbt.controller.StudentController.*(..)) || execution(* id.co.knt.cbt.controller.TeacherEventManagementController.*(..)) || execution(* id.co.knt.cbt.controller.TeacherQuestionMgmtController.*(..)) || execution(* id.co.knt.cbt.controller.UploadResourcesController.*(..))")
     public Object admTeacher(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -50,19 +50,19 @@ public class UserAuthorizationAspect {
                 token = array.getJSONArray(0).getJSONObject(0).get("authorization").toString();
                 LOG.info("Token: " + token);
 
-                if (token.equals("") || !loginService.validateToken(token, new Date().getTime())) {
+                if (token.equals("") || !loginRepo.validateToken(token, new Date().getTime())) {
                     result = 1;
                 }
             } else {
                 array = new JSONArray(Arrays.asList(obj[0]));
                 token = array.getJSONArray(0).getJSONObject(0).get("authorization").toString();
-                if (token.equals("") || !loginService.validateToken(token, new Date().getTime())) {
+                if (token.equals("") || !loginRepo.validateToken(token, new Date().getTime())) {
                     result = 1;
                 }
             }
         } catch (JSONException e) {
             if (obj.length == 0 || obj[0].equals("")
-                    || !loginService.validateToken(obj[0].toString(), new Date().getTime())) {
+                    || !loginRepo.validateToken(obj[0].toString(), new Date().getTime())) {
                 result = 1;
             }
         }
