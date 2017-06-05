@@ -1,14 +1,15 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.License;
-import id.co.knt.cbt.model.Login;
-import id.co.knt.cbt.model.User;
-import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.LicenseService;
-import id.co.knt.cbt.service.LoginRepo;
-import id.co.knt.cbt.service.UserService;
-import id.co.knt.cbt.util.MACAddr;
-import id.web.pos.integra.gawl.Gawl;
+import java.io.File;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -18,12 +19,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.*;
+import id.co.knt.cbt.model.License;
+import id.co.knt.cbt.model.Login;
+import id.co.knt.cbt.model.User;
+import id.co.knt.cbt.model.User.UserType;
+import id.co.knt.cbt.repositories.LicenseRepo;
+import id.co.knt.cbt.repositories.UserRepo;
+import id.co.knt.cbt.service.LoginRepo;
+import id.co.knt.cbt.util.MACAddr;
+import id.web.pos.integra.gawl.Gawl;
 
 /**
  * @author Muhamad Nizar Iqbal
@@ -39,10 +49,12 @@ public class LoginController {
 
     @Autowired
     LoginRepo loginRepo;
+    
     @Autowired
-    UserService userService;
+    UserRepo userRepo;
+    
     @Autowired
-    LicenseService licenseService;
+    LicenseRepo licenseRepo;
 
     /**
      * Logging In and create new token for user
@@ -62,16 +74,16 @@ public class LoginController {
         /**
          * First check if the username and password are valid
          */
-        User user = userService.validateUser(obj.getString("un"),
+        User user = userRepo.validateUser(obj.getString("un"),
                 Base64.getEncoder().encodeToString(obj.getString("ps").getBytes()));
         Boolean isValid = user == null ? false : true;
 
         if (isValid) {
             Login login = loginRepo.findByUser(user);
-
-           /* if (licenses.size() <= 0 && user.getUserType() != UserType.ADMIN && user.getUserType() != UserType.EMPLOYEE) {
-                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.FORBIDDEN);
-            }*/
+            /**
+             * Get number of licenses in database
+             */
+            List<License> licenses = licenseRepo.findAll();
 
             Date dt = new Date();
             DateTime dateTime = new DateTime(dt);
@@ -83,7 +95,6 @@ public class LoginController {
             /**
              * If licenses is zero it mean DEMO version
              */
-            List<License> licenses = licenseService.licenses();
             if(licenses.size() > 0){
                  /**
                  * Get number of licenses in database
@@ -151,7 +162,7 @@ public class LoginController {
     	int count = 0;
     	for (License license : list) {
 			license.setLicenseStatus(false);
-			License l = licenseService.update(license);
+			License l = licenseRepo.saveAndFlush(license);
 			if(l != null)
 				count++; 
 		}
