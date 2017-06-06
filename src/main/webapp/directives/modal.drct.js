@@ -1,5 +1,8 @@
-angular.module('app')
-    .directive('modalDialog', function() {
+(function() {
+    'use strict';
+    angular.module('app').directive('modalDialog', modalDialog);
+
+    function modalDialog() {
         return {
             template: '<div class="modal fade" role="dialog">' +
                 '<div class="modal-dialog {{size}}">' +
@@ -40,4 +43,6 @@ angular.module('app')
                 });
             }
         };
-    });
+    }
+
+})();

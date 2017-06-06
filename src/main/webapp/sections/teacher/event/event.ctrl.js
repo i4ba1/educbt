@@ -138,7 +138,7 @@
                 var deff = mmEnd - mmStart;
                 $scope.maxTime = deff / 60000;
             } else {
-                $scope.open('md', "E", "Tanggal & waktu tidak valid", ["waktu dimulai harus lebih kecil dari waktu berakhir"], "");
+                $scope.open("Tanggal & waktu tidak valid", ["waktu dimulai harus lebih kecil dari waktu berakhir"]);
             }
             return mmEnd >= mmStart;
         };
@@ -523,7 +523,7 @@
                 }
             } else {
                 //error here please
-                $scope.open('md', "E", "Data tidak valid", invalidMsg, "");
+                $scope.open("Data tidak valid", invalidMsg);
             }
         };
 
@@ -549,7 +549,7 @@
                 var subject = JSON.parse($scope.subjectData.selectedOption);
                 getAllQuestionBySubject(subject.id);
             } else {
-                $scope.open('md', "E", "Bank soal belum dipilih", ["silahkan pilih bank soal terlebih dahulu!"], "");
+                $scope.open("Bank soal belum dipilih", ["silahkan pilih bank soal terlebih dahulu!"]);
             }
         }
 
@@ -558,6 +558,7 @@
         // Adding Clear List question when subject change
         $scope.subjectChange = function() {
             $scope.selectedEvent.questions = [];
+            $scope.questionBySubjectList = [];
             updateDataTable($scope.selectedEvent.questions);
             var subject = JSON.parse($scope.subjectData.selectedOption);
             $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, subject.id);
