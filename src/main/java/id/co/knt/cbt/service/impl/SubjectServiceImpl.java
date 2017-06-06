@@ -1,5 +1,10 @@
 package id.co.knt.cbt.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +23,7 @@ public class SubjectServiceImpl implements SubjectService {
 	public SubjectServiceImpl() {
 
 	}
-
-	public SubjectServiceImpl(SubjectRepo subjectRepo) {
-		this.subjectRepo = subjectRepo;
-	}
-
+	
 	@Override
 	public Iterable<Subject> getAllSubject() {
 		Iterable<Subject> subjects = subjectRepo.fetchSubjectNotDeleted(false);
@@ -30,9 +31,34 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public Subject save(Subject subject) {
-		Subject sbj = subjectRepo.save(subject);
-		return sbj;
+	public int save(List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0).getJSONObject("subject");
+		Subject subject = subjectRepo.findBySubjectName(obj.getString("subjectName"));
+
+		if (subject == null) {
+			Subject sbj = new Subject();
+			sbj.setSubjectName(obj.getString("subjectName"));
+			sbj.setDeleted(false);
+			sbj.setCreatedDate(new Date());
+			if(subjectRepo.save(sbj) == null){
+				return 1;
+			}
+
+			return 0;
+		}else{
+			if (subject.getDeleted()) {
+				subject.setDeleted(false);
+				subject.setCreatedDate(new Date());
+				if(subjectRepo.saveAndFlush(subject) == null){
+					return 1;
+				}
+				
+				return 0;
+			}else{
+				return 2;
+			}
+		}
 	}
 
 	@Override
@@ -65,9 +91,33 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public Subject importSubject(Subject subject) {
-		Subject newSubject = subjectRepo.save(subject);
-		return newSubject;
+	public int importSubject(List<Object> list) {
+		JSONArray array = new JSONArray(list);
+		JSONArray data = array.getJSONObject(0).getJSONArray("subjects");
+		if (list.size() > 0) {
+
+			for (int i = 0; i < data.length(); i++) {
+				JSONObject obj = data.getJSONObject(i);
+				Subject existingSbj = subjectRepo.findBySubjectName(obj.getString("subjectName"));
+				if (!obj.getString("subjectName").equals("") && existingSbj == null) {
+					Subject subject = new Subject();
+					subject.setSubjectName(obj.getString("subjectName"));
+					subject.setCreatedDate(new Date());
+					subject.setDeleted(false);
+					if(subjectRepo.save(subject) == null){
+						return 1;
+					}
+				}else{
+					//If conflict
+					return 2;
+				}
+			}
+			
+			return 0;
+		}
+		
+		//If the size is 0
+		return 1;
 	}
 
 	@Override

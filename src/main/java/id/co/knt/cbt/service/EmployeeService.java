@@ -18,7 +18,7 @@ public interface EmployeeService {
 
 	Employee getTeacherByNip(String nip);
 
-	String updateTeacher(Employee teacher);
+	int updateTeacher(List<Object> objects);
 
 	void delete(Employee teacher);
 

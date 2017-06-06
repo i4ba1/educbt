@@ -1,7 +1,6 @@
 
 package id.co.knt.cbt.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -32,8 +31,8 @@ import id.co.knt.cbt.service.TagService;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/subject_mgmt")
-public class AdmSubjectController {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmSubjectController.class);
+public class AdminSubjectController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdminSubjectController.class);
 
 	@Autowired
 	private SubjectService subjectService;
@@ -102,65 +101,35 @@ public class AdmSubjectController {
 	public ResponseEntity<Void> createSubject(@RequestBody List<Object> objects) {
 		LOG.info("Creating Subject " + objects.size());
 		HttpHeaders headers = new HttpHeaders();
-		JSONArray array = new JSONArray(objects);
-		JSONObject obj = array.getJSONObject(0).getJSONObject("subject");
-		Subject subject = subjectService.findSubjectName(obj.getString("subjectName"));
+		int result = subjectService.save(objects);
 
-		if (subject == null) {
-			Subject sbj = new Subject();
-			sbj.setSubjectName(obj.getString("subjectName"));
-			sbj.setDeleted(false);
-			sbj.setCreatedDate(new Date());
-			subjectService.save(sbj);
-
-			return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		if(result == 1){
+			return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		}else if(result == 2){
+			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
 		}else{
-			if (subject.getDeleted()) {
-				subject.setDeleted(false);
-				subject.setCreatedDate(new Date());
-				subjectService.updateSubject(subject);
-				return new ResponseEntity<Void>(headers, HttpStatus.OK);
-			}else{
-				return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
-			}
+			return new ResponseEntity<Void>(headers, HttpStatus.OK);
 		}
 	}
 
 	/**
 	 * Save import data of subject from csv. With json array format
 	 * 
-	 * @param list
+	 * @param objects
 	 * @return
 	 */
 	@RequestMapping(value = "/import/", method = RequestMethod.POST)
-	public ResponseEntity<Void> importSubject(@RequestBody List<Object> list) {
+	public ResponseEntity<Void> importSubject(@RequestBody List<Object> objects) {
 		HttpHeaders headers = new HttpHeaders();
-		JSONArray array = new JSONArray(list);
-		JSONArray data = array.getJSONObject(0).getJSONArray("subjects");
-		if (list.size() > 0) {
+		int result = subjectService.importSubject(objects);
 
-			for (int i = 0; i < data.length(); i++) {
-				JSONObject obj = data.getJSONObject(i);
-				Subject existingSbj = subjectService.findSubjectName(obj.getString("subjectName"));
-				if (!obj.getString("subjectName").equals("") && existingSbj == null) {
-					Subject subject = new Subject();
-					subject.setSubjectName(obj.getString("subjectName"));
-					subject.setCreatedDate(new Date());
-					subject.setDeleted(false);
-					subjectService.importSubject(subject);
-
-					try {
-						Thread.sleep(1000);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}else{
-					return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
-				}
-			}
+		if(result == 1){
+			return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		}else if(result == 2){
+			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
+		}else{
+			return new ResponseEntity<Void>(headers, HttpStatus.OK);
 		}
-
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	/**

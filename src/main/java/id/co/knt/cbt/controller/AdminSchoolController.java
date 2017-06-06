@@ -23,9 +23,9 @@ import id.co.knt.cbt.service.SchoolService;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/schoolMgmt")
-public class AdmSchoolController {
+public class AdminSchoolController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AdmSchoolController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AdminSchoolController.class);
 
 	@Value("${path.school.image}")
 	private String PATH = "";

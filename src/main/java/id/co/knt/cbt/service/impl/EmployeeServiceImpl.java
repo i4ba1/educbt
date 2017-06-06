@@ -40,10 +40,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeServiceImpl() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public EmployeeServiceImpl(EmployeeRepo teacherRepo) {
-		this.teacherRepo = teacherRepo;
-	}
 
 	@Override
 	public Iterable<Employee> getAllTeacher() {
@@ -66,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		teacher.setBirthPlace(obj.getString("birthPlace"));
 		
 		if(teacherRepo.findByNip(teacher.getNip()) != null){
+			//Teacher already exist
 			result = 1;
 		}
 
@@ -112,7 +109,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		teacher.setEmail(obj.getString("email"));
 		teacher.setUserType(UserType.EMPLOYEE);
 		teacher.setAdmin(false);
-		teacherRepo.save(teacher);
+		if(teacherRepo.save(teacher) == null){
+			//Mean failed to save
+			return 2;
+		}
 
 		return result;
 	}
@@ -124,9 +124,69 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public String updateTeacher(Employee teacher) {
-		Employee result = teacherRepo.saveAndFlush(teacher);
-		return result.getFirstName()+" "+result.getLastName();
+	public int updateTeacher(List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0).getJSONObject("teacher");
+		System.out.println("Updating Teacher " + obj.getString("nip"));
+
+		Employee currentTeacher = teacherRepo.findByNip(obj.getString("nip"));
+		if (currentTeacher == null) {
+			//The current Teacher not found
+			return 1;
+		}
+
+		currentTeacher.setNip(obj.getString("nip"));
+		currentTeacher.setEmail(obj.getString("email"));
+		currentTeacher.setFirstName(obj.getString("firstName"));
+		currentTeacher.setLastName(obj.getString("lastName"));
+		currentTeacher.setAddress(obj.getString("address"));
+		currentTeacher.setBirthPlace(obj.getString("birthPlace"));
+		currentTeacher.setActive(obj.getBoolean("active"));
+
+		Long longBirthDate = obj.getLong("birthDate");
+		Long longJoiningDate = obj.getLong("joiningDate");
+
+		DateFormat gmtFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		TimeZone timeZone = TimeZone.getTimeZone("Asia/Jakarta");
+		Calendar calendar = Calendar.getInstance();
+		gmtFormat.setTimeZone(timeZone);
+
+		Date birthDate = null;
+		Date joiningDate = null;
+
+		long bodTimeMillis = 0;
+		long jodTimeMillis = 0;
+
+		try {
+			calendar.setTimeInMillis(longBirthDate);
+			birthDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
+			bodTimeMillis = birthDate.getTime();
+
+			calendar.setTimeInMillis(longJoiningDate);
+			joiningDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
+			jodTimeMillis = joiningDate.getTime();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		currentTeacher.setBirthDate(bodTimeMillis);
+		currentTeacher.setJoiningDate(jodTimeMillis);
+		currentTeacher.setJobTitle(obj.getString("jobTitle"));
+		currentTeacher.setPhone(obj.getString("phone"));
+		currentTeacher.setMobilePhone(obj.getString("mobilePhone"));
+		currentTeacher.setGender(Sex.valueOf(obj.getString("gender")));
+		currentTeacher.setReligion(Religion.valueOf(obj.getString("religion")));
+		currentTeacher.setMaritalStatus(Marital.valueOf(obj.getString("maritalStatus")));
+		currentTeacher.setEmail(obj.getString("email"));
+
+		if(teacherRepo.saveAndFlush(currentTeacher) == null){
+			//Failed to update
+			return 2;
+		}
+		
+		return 0;
 	}
 
 	@Override
@@ -166,7 +226,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				
 				if(teacherRepo.findByNip(newEmp.getNip()) != null){
 					//Mean it conflict
-					result = 1;
+					result++;
 				}
 
 				SecureRandom random = new SecureRandom();
@@ -214,13 +274,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 				newEmp.setMaritalStatus(Marital.valueOf(obj.getString("maritalStatus")));
 				newEmp.setEmail(obj.getString("email"));
 				newEmp.setUserType(UserType.EMPLOYEE);
-				teacherRepo.save(newEmp);
-
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					result  = 2;
-					e.printStackTrace();
+				if(teacherRepo.save(newEmp) == null){
+					//Failed to update
+					result++;
 				}
 
 			}

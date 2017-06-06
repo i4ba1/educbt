@@ -18,7 +18,7 @@ import id.co.knt.cbt.service.LoginRepo;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value="/admin/activeUser/")
-public class AdmActiveUserController {
+public class AdminActiveUserController {
 	
 	@Autowired
 	private LoginRepo loginRepo;

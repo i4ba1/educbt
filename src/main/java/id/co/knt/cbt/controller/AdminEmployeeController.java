@@ -1,14 +1,7 @@
 package id.co.knt.cbt.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.knt.cbt.model.Employee;
-import id.co.knt.cbt.model.Employee.Marital;
-import id.co.knt.cbt.model.User.Religion;
-import id.co.knt.cbt.model.User.Sex;
 import id.co.knt.cbt.service.EmployeeService;
 
 /**
@@ -37,8 +27,8 @@ import id.co.knt.cbt.service.EmployeeService;
 @CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/teacher_mgmt")
-public class AdmEmployeeController {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmEmployeeController.class);
+public class AdminEmployeeController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdminEmployeeController.class);
 
 	@Autowired
 	private EmployeeService employeeService;
@@ -122,66 +112,17 @@ public class AdmEmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/update/", method = RequestMethod.PUT)
-	public ResponseEntity<Employee> updateTeacher(@RequestBody List<Object> objects) {
-		JSONArray array = new JSONArray(objects);
-		JSONObject obj = array.getJSONObject(0).getJSONObject("teacher");
-		System.out.println("Updating Teacher " + obj.getString("nip"));
-
-		Employee currentTeacher = employeeService.getTeacherByNip(obj.getString("nip"));
-
-		if (currentTeacher == null) {
-			System.out.println("Teacher with nip " + obj.getString("nip") + " not found");
-			return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<Void> updateTeacher(@RequestBody List<Object> objects) {
+		int result = employeeService.updateTeacher(objects);
+		HttpHeaders header = new HttpHeaders();
+		
+		if(result == 1){
+			return new ResponseEntity<Void>(header, HttpStatus.NOT_FOUND);
+		}else if(result == 2){
+			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		currentTeacher.setNip(obj.getString("nip"));
-		currentTeacher.setEmail(obj.getString("email"));
-		currentTeacher.setFirstName(obj.getString("firstName"));
-		currentTeacher.setLastName(obj.getString("lastName"));
-		currentTeacher.setAddress(obj.getString("address"));
-		currentTeacher.setBirthPlace(obj.getString("birthPlace"));
-		currentTeacher.setActive(obj.getBoolean("active"));
-
-		Long longBirthDate = obj.getLong("birthDate");
-		Long longJoiningDate = obj.getLong("joiningDate");
-
-		DateFormat gmtFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-		TimeZone timeZone = TimeZone.getTimeZone("Asia/Jakarta");
-		Calendar calendar = Calendar.getInstance();
-		gmtFormat.setTimeZone(timeZone);
-
-		Date birthDate = null;
-		Date joiningDate = null;
-
-		long bodTimeMillis = 0;
-		long jodTimeMillis = 0;
-
-		try {
-			calendar.setTimeInMillis(longBirthDate);
-			birthDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
-			bodTimeMillis = birthDate.getTime();
-
-			calendar.setTimeInMillis(longJoiningDate);
-			joiningDate = gmtFormat.parse(gmtFormat.format(calendar.getTime()));
-			jodTimeMillis = joiningDate.getTime();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		currentTeacher.setBirthDate(bodTimeMillis);
-		currentTeacher.setJoiningDate(jodTimeMillis);
-		currentTeacher.setJobTitle(obj.getString("jobTitle"));
-		currentTeacher.setPhone(obj.getString("phone"));
-		currentTeacher.setMobilePhone(obj.getString("mobilePhone"));
-		currentTeacher.setGender(Sex.valueOf(obj.getString("gender")));
-		currentTeacher.setReligion(Religion.valueOf(obj.getString("religion")));
-		currentTeacher.setMaritalStatus(Marital.valueOf(obj.getString("maritalStatus")));
-		currentTeacher.setEmail(obj.getString("email"));
-
-		employeeService.updateTeacher(currentTeacher);
-		return new ResponseEntity<Employee>(currentTeacher, HttpStatus.OK);
+		
+		return new ResponseEntity<Void>(header, HttpStatus.OK);
 	}
 
 	/**

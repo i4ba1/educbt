@@ -1,11 +1,13 @@
 package id.co.knt.cbt.service;
 
+import java.util.List;
+
 import id.co.knt.cbt.model.Subject;
 
 public interface SubjectService {
 	Iterable<Subject> getAllSubject();
 
-	Subject save(Subject subject);
+	int save(List<Object> objects);
 
 	String getSubjectById(Integer id);
 
@@ -17,7 +19,7 @@ public interface SubjectService {
 
 	Boolean isSubjectExist(Subject subject);
 
-	Subject importSubject(Subject subject);
+	int importSubject(List<Object> list);
 	
 	Subject findSubjectName(String subjectName);
 	

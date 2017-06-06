@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.knt.cbt.model.Kelas;
-import id.co.knt.cbt.service.KelasService;
+import id.co.knt.cbt.repositories.KelasRepo;
 
 /**
  * 
@@ -29,11 +29,11 @@ import id.co.knt.cbt.service.KelasService;
 @CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/kelas_mgmt")
-public class AdmKelasController {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmKelasController.class);
+public class AdminKelasController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdminKelasController.class);
 
 	@Autowired
-	private KelasService kelasService;
+	private KelasRepo kelasRepo;
 
 	/**
 	 * Get list of kelas
@@ -43,7 +43,7 @@ public class AdmKelasController {
 	 */
 	@RequestMapping(value = { "", "/{token}" }, method = RequestMethod.GET)
 	public ResponseEntity<Iterable<Kelas>> getAllKelas(@PathVariable String token) {
-		Iterable<Kelas> list = kelasService.getAllKelas();
+		Iterable<Kelas> list = kelasRepo.findAllByOrderByClassNameAsc();
 
 		if (list == null) {
 			// You many decide to return HttpStatus.NOT_FOUND
@@ -64,7 +64,7 @@ public class AdmKelasController {
 	@RequestMapping(value = "/find/{token}/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Kelas> getKelas(@PathVariable("token") String token, @PathVariable("id") Integer id) {
 		LOG.info("Fetching Kelas with name " + id);
-		Kelas kls = kelasService.findKelasById(id);
+		Kelas kls = kelasRepo.findOne(id);
 
 		if (kls == null) {
 			LOG.info("Kelas with name " + id + " not found");
@@ -86,7 +86,7 @@ public class AdmKelasController {
 		LOG.info("Creating Kelas " + objects.size());
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("kelas");
-		Kelas currKelas = kelasService.findKelasByName(obj.getString("className"));
+		Kelas currKelas = kelasRepo.findByClassName(obj.getString("className"));
 		HttpHeaders headers = new HttpHeaders();
 
 		if (currKelas != null) {
@@ -97,7 +97,7 @@ public class AdmKelasController {
 					&& !currKelas.getActivated()) {
 				currKelas.setActivated(true);
 				currKelas.setCreatedDate(new Date());
-				kelasService.updateKelas(currKelas);
+				kelasRepo.saveAndFlush(currKelas);
 				return new ResponseEntity<Void>(headers, HttpStatus.OK);
 			}
 		}else{
@@ -105,7 +105,7 @@ public class AdmKelasController {
 			newKelas.setClassName(obj.getString("className"));
 			newKelas.setActivated(true);
 			newKelas.setCreatedDate(new Date());
-			kelasService.save(newKelas);
+			kelasRepo.save(newKelas);
 			return new ResponseEntity<Void>(headers, HttpStatus.OK);
 		}
 
@@ -128,13 +128,13 @@ public class AdmKelasController {
 
 			for (int i = 0; i < data.length(); i++) {
 				JSONObject obj = data.getJSONObject(i);
-				Kelas existingKelas = kelasService.findKelasByName(obj.getString("className"));
+				Kelas existingKelas = kelasRepo.findByClassName(obj.getString("className"));
 				if (!obj.getString("className").equals("") && existingKelas == null) {
 					Kelas k = new Kelas();
 					k.setClassName(obj.getString("className"));
 					k.setCreatedDate(new Date());
 					k.setActivated(true);
-					kelasService.save(k);
+					kelasRepo.save(k);
 
 					try {
 						Thread.sleep(1000);
@@ -164,13 +164,13 @@ public class AdmKelasController {
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("kelas");
 
-		Kelas currentKelas = kelasService.findKelasById(obj.getInt("id"));
+		Kelas currentKelas = kelasRepo.findOne(obj.getInt("id"));
 		if (currentKelas == null) {
 			return new ResponseEntity<Kelas>(HttpStatus.NOT_FOUND);
 		}
 
 		currentKelas.setClassName(obj.getString("className"));
-		kelasService.updateKelas(currentKelas);
+		kelasRepo.saveAndFlush(currentKelas);
 		return new ResponseEntity<Kelas>(currentKelas, HttpStatus.OK);
 	}
 
@@ -185,14 +185,14 @@ public class AdmKelasController {
 	public ResponseEntity<Kelas> deleteKelas(@PathVariable("token") String token, @PathVariable("id") Integer id) {
 		System.out.println("Fetching & Deleting Kelas with id " + id);
 
-		Kelas kls = kelasService.findKelasById(id);
+		Kelas kls = kelasRepo.findOne(id);
 		if (kls == null) {
 			System.out.println("Unable to delete. Kelas with id " + id + " not found");
 			return new ResponseEntity<Kelas>(HttpStatus.NOT_FOUND);
 		}
 
 		kls.setActivated(false);
-		kelasService.updateKelas(kls);
+		kelasRepo.saveAndFlush(kls);
 		return new ResponseEntity<Kelas>(HttpStatus.NO_CONTENT);
 	}
 }

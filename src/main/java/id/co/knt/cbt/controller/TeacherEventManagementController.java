@@ -1,10 +1,9 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.*;
-import id.co.knt.cbt.model.Event.EventStatusType;
-import id.co.knt.cbt.model.Event.EventType;
-import id.co.knt.cbt.model.Event.QuestionTypeStructure;
-import id.co.knt.cbt.service.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -13,11 +12,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import id.co.knt.cbt.model.Employee;
+import id.co.knt.cbt.model.Event;
+import id.co.knt.cbt.model.Event.EventStatusType;
+import id.co.knt.cbt.model.Event.EventType;
+import id.co.knt.cbt.model.Event.QuestionTypeStructure;
+import id.co.knt.cbt.model.EventKelas;
+import id.co.knt.cbt.model.EventQuestion;
+import id.co.knt.cbt.model.EventResult;
+import id.co.knt.cbt.model.Kelas;
+import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.repositories.KelasRepo;
+import id.co.knt.cbt.service.EmployeeService;
+import id.co.knt.cbt.service.EventKelasService;
+import id.co.knt.cbt.service.EventQuestionService;
+import id.co.knt.cbt.service.EventResultService;
+import id.co.knt.cbt.service.EventService;
+import id.co.knt.cbt.service.QuestionService;
 
 /**
  * 
@@ -34,7 +52,7 @@ public class TeacherEventManagementController {
 	private EventService eventService;
 
 	@Autowired
-	private KelasService kelasService;
+	private KelasRepo kelasRepo;
 
 	@Autowired
 	private QuestionService questionService;
@@ -116,7 +134,7 @@ public class TeacherEventManagementController {
 
 			JSONArray arrayKelas = obj.getJSONArray("classes");
 			for (int i = 0; i < arrayKelas.length(); i++) {
-				Kelas k = kelasService.findKelasById(arrayKelas.getInt(i));
+				Kelas k = kelasRepo.findOne(arrayKelas.getInt(i));
 				EventKelas ek = new EventKelas(e, k);
 				eventKelasService.addNew(ek);
 			}
@@ -183,7 +201,7 @@ public class TeacherEventManagementController {
 				}
 
 				for (int i = 0; i < arrayKelas.length(); i++) {
-					Kelas k = kelasService.findKelasById(arrayKelas.getInt(i));
+					Kelas k = kelasRepo.findOne(arrayKelas.getInt(i));
 					EventKelas ek = new EventKelas(e, k);
 					eventKelasService.addNew(ek);
 				}

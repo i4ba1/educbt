@@ -30,8 +30,9 @@ import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.User.Religion;
 import id.co.knt.cbt.model.User.Sex;
 import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.KelasService;
+import id.co.knt.cbt.repositories.KelasRepo;
 import id.co.knt.cbt.service.StudentService;
+import id.co.knt.cbt.util.Constant;
 import id.co.knt.cbt.util.PasswordUtility;
 
 /**
@@ -42,15 +43,14 @@ import id.co.knt.cbt.util.PasswordUtility;
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/student_mgmt")
-public class AdmStudentController {
-	private static final Logger LOG = LoggerFactory.getLogger(AdmStudentController.class);
-	private static final String STUDENT_UN_PREF = "student_";
+public class AdminStudentController {
+	private static final Logger LOG = LoggerFactory.getLogger(AdminStudentController.class);
 
 	@Autowired
 	private StudentService studentService;
 
 	@Autowired
-	private KelasService kelasService;
+	private KelasRepo kelasRepo;
 
 	/**
 	 * Get All list student
@@ -102,7 +102,7 @@ public class AdmStudentController {
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0).getJSONObject("student");
 		JSONObject objKelas = obj.getJSONObject("kelas");
-		Kelas k = kelasService.findKelasById(objKelas.getInt("id"));
+		Kelas k = kelasRepo.findOne(objKelas.getInt("id"));
 
 		Student student = new Student();
 		student.setNis(obj.getString("nis"));
@@ -139,7 +139,7 @@ public class AdmStudentController {
 		}
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		student.setUserName(STUDENT_UN_PREF + student.getNis());
+		student.setUserName(Constant.STUDENT_UN_PREF + student.getNis());
 		student.setPassword(PasswordUtility.generatePass(pass));
 		student.setHashedPassword(PasswordUtility.generateHashPass(pass));
 		student.setSalt(encoder.encode(saltPattr.concat(pass)));
@@ -226,7 +226,7 @@ public class AdmStudentController {
 				}
 
 				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-				newStudent.setUserName(STUDENT_UN_PREF + newStudent.getNis());
+				newStudent.setUserName(Constant.STUDENT_UN_PREF + newStudent.getNis());
 				newStudent.setPassword(PasswordUtility.generatePass(pass));
 				newStudent.setHashedPassword(PasswordUtility.generateHashPass(pass));
 				newStudent.setSalt(encoder.encode(saltPattr.concat(pass)));
@@ -238,10 +238,10 @@ public class AdmStudentController {
 				newStudent.setEmail(obj.getString("email"));
 				newStudent.setUserType(UserType.STUDENT);
 
-				Kelas kelas = kelasService.findKelasByName(obj.getString("kelas"));
+				Kelas kelas = kelasRepo.findByClassName(obj.getString("kelas"));
 				if(kelas == null){
 					kelas = new Kelas(obj.getString("kelas"), new Date());
-					kelas = kelasService.save(kelas);
+					kelas = kelasRepo.save(kelas);
 				}
 				
 				newStudent.setKelas(kelas);
@@ -270,7 +270,7 @@ public class AdmStudentController {
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("student");
 		JSONObject objKelas = obj.getJSONObject("kelas");
-		Kelas k = kelasService.findKelasById(objKelas.getInt("id"));
+		Kelas k = kelasRepo.findOne(objKelas.getInt("id"));
 		
 		System.out.println("Updating Teacher " + obj.getString("nis"));
 		Student currentStudent = studentService.getStudentByNis(obj.getString("nis"));

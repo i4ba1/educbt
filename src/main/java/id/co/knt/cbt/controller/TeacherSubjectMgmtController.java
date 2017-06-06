@@ -23,7 +23,7 @@ import id.co.knt.cbt.service.TagService;
 @RequestMapping(value = "/teacher/subMateriMgmt")
 public class TeacherSubjectMgmtController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AdmSubjectController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AdminSubjectController.class);
 
 	@Autowired
 	private TagService tagService;
