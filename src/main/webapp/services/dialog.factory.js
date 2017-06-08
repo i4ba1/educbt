@@ -10,7 +10,7 @@
             showDialogMsg: function(title, content, size) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'components/modal-template/dialog.msg.html',
+                    templateUrl: 'components/modal-template/dialog.html',
                     controller: dialogMessageController,
                     size: size,
                     backdrop: 'static',
@@ -31,7 +31,7 @@
 
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'components/modal-template/confirmation.msg.html',
+                    templateUrl: 'components/modal-template/confirmation.html',
                     controller: dialogMessageController,
                     size: size,
                     backdrop: 'static',
@@ -105,7 +105,7 @@
             openHelpMsg: function(helpType) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'components/modal-template/help.msg.html',
+                    templateUrl: 'components/modal-template/help.html',
                     controller: helpMessageController,
                     size: 'md',
                     resolve: {
@@ -119,7 +119,7 @@
             showReminderMsg: function(title, content, size) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'components/modal-template/dialog.msg.html',
+                    templateUrl: 'components/modal-template/dialog.html',
                     controller: reminderMessageController,
                     size: size,
                     resolve: {
@@ -157,7 +157,7 @@
             licenseActivation: function() {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'components/modal-template/activation.msg.html',
+                    templateUrl: 'components/modal-template/activation.html',
                     size: 'sm',
                     backdrop: 'static',
                     controller: licenseActivationController

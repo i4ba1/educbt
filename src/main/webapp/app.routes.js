@@ -2,14 +2,11 @@
 
     'use strict';
 
-    angular
-        .module('app')
-        .config(config);
+    angular.module('app').config(config);
 
     // Route Configuration for Administrator
     function config($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
-
 
         $stateProvider
             .state('checkroute', {
@@ -27,7 +24,7 @@
                 url: '/admin',
                 views: {
                     '': {
-                        templateUrl: 'sections/admin/admin.home.html',
+                        templateUrl: 'sections/admin/admin-home.html',
                         controller: 'LogoutController as logoutCtrl'
                     },
                     'content@admin': {
@@ -40,7 +37,7 @@
                 url: '/teacher-management',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/teacher/teacher.list.html',
+                        templateUrl: 'sections/admin/teacher/teacher-list.html',
                         controller: 'TeacherController as teacherCtrl'
                     }
                 }
@@ -49,7 +46,7 @@
                 url: '/teacher-detail/:teacherNip',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/teacher/teacher.detail.html',
+                        templateUrl: 'sections/admin/teacher/teacher-detail.html',
                         controller: 'TeacherController as teacherCtrl'
                     }
                 }
@@ -58,7 +55,7 @@
                 url: '/class-management',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/class/class.list.html',
+                        templateUrl: 'sections/admin/class/class-list.html',
                         controller: 'ClassController as classCtrl'
                     }
                 }
@@ -67,7 +64,7 @@
                 url: '/class-detail/:classId',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/class/class.detail.html',
+                        templateUrl: 'sections/admin/class/class-detail.html',
                         controller: 'ClassController as classCtrl'
                     }
                 }
@@ -76,7 +73,7 @@
                 url: '/teacher-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/teacher/teacher.import.html',
+                        templateUrl: 'sections/admin/teacher/teacher-import.html',
                         controller: 'TeacherController as teacherCtrl'
                     }
                 }
@@ -85,7 +82,7 @@
                 url: '/subject-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/subject/subject.import.html',
+                        templateUrl: 'sections/admin/subject/subject-import.html',
                         controller: 'SubjectController as subjectCtrl'
                     }
                 }
@@ -94,7 +91,7 @@
                 url: '/class-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/class/class.import.html',
+                        templateUrl: 'sections/admin/class/class-import.html',
                         controller: 'ClassController as classCtrl'
                     }
                 }
@@ -103,7 +100,7 @@
                 url: '/student-management',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/student/student.list.html',
+                        templateUrl: 'sections/admin/student/student-list.html',
                         controller: 'StudentController as studentCtrl'
                     }
                 }
@@ -112,7 +109,7 @@
                 url: '/student-detail/:studentNis',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/student/student.detail.html',
+                        templateUrl: 'sections/admin/student/student-detail.html',
                         controller: 'StudentController as studentCtrl'
                     }
                 }
@@ -122,7 +119,7 @@
                 url: '/student-import',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/student/student.import.html',
+                        templateUrl: 'sections/admin/student/student-import.html',
                         controller: 'StudentController as studentCtrl'
                     }
                 }
@@ -131,7 +128,7 @@
                 url: '/profile-setting',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/settings/school-profile/school.profile.setting.html',
+                        templateUrl: 'sections/admin/settings/school-profile/school-profile.html',
                         controller: 'SchoolProfileController as schoolProfileCtrl'
                     }
                 }
@@ -140,7 +137,7 @@
                 url: '/subject-management',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/subject/subject.list.html',
+                        templateUrl: 'sections/admin/subject/subject-list.html',
                         controller: 'SubjectController as subjectCtrl'
                     }
                 }
@@ -149,7 +146,7 @@
                 url: '/subject-detail/:subjectId',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/subject/subject.detail.html',
+                        templateUrl: 'sections/admin/subject/subject-detail.html',
                         controller: 'SubjectController as subjectCtrl'
                     }
                 }
@@ -167,7 +164,7 @@
                 url: '/forgot-paswd',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/settings/forgot-pswd/forgot.paswd.html',
+                        templateUrl: 'sections/admin/settings/forgot-password/forgot-password.html',
                         controller: 'ForgotPasswordController as forgotPswdCtrl'
                     }
                 }
@@ -176,7 +173,7 @@
                 url: '/license-mgmt',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/license/license.list.html',
+                        templateUrl: 'sections/admin/license/license-list.html',
                         controller: 'LicenseController as licenseCtrl'
                     }
                 }
@@ -188,7 +185,7 @@
                 },
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/license/license.add.html',
+                        templateUrl: 'sections/admin/license/license-detail.html',
                         controller: 'LicenseController as licenseCtrl'
                     }
                 }
@@ -197,7 +194,7 @@
                 url: '/active-user',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/admin/settings/active-user/active.user.list.html',
+                        templateUrl: 'sections/admin/settings/active-user/active-user.html',
                         controller: 'ActiveUserController as activeUserCtrl'
                     }
                 }
@@ -206,7 +203,7 @@
                 url: '/change-pswd',
                 views: {
                     'content@admin': {
-                        templateUrl: 'sections/change-password/change.pswd.html',
+                        templateUrl: 'sections/change-password/change-password.html',
                         controller: 'ChangePasswordController as changePswdCtrl'
                     }
                 }

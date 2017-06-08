@@ -13,11 +13,11 @@
                 url: '/teacher',
                 views: {
                     '': {
-                        templateUrl: 'sections/teacher/teacher.home.html',
+                        templateUrl: 'sections/teacher/teacher-home.html',
                         controller: 'LogoutController as logoutCtrl'
                     },
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/dashboard/dashboard.html',
+                        templateUrl: 'sections/teacher/teacher-dashboard/teacher-dashboard.html',
                         controller: 'TeacherDashboardController as teacherDashboardCtrl'
                     }
                 }
@@ -26,7 +26,7 @@
                 url: '/event',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/event/event.html',
+                        templateUrl: 'sections/teacher/event/event-list.html',
                         controller: 'EventManagementController as eventCtrl'
                     }
                 }
@@ -35,7 +35,7 @@
                 url: '/create',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/event/create/event.create.html',
+                        templateUrl: 'sections/teacher/event/event-create.html',
                         controller: 'EventManagementController as eventCtrl'
                     }
                 }
@@ -44,7 +44,7 @@
                 url: '/update/:eventId',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/event/create/event.create.html',
+                        templateUrl: 'sections/teacher/event/event-create.html',
                         controller: 'EventManagementController as eventCtrl'
                     }
                 }
@@ -53,7 +53,7 @@
                 url: '/event-result/:eventId',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/event/result/event.result.html',
+                        templateUrl: 'sections/teacher/event/event-result.html',
                         controller: 'EventManagementController as eventCtrl'
                     }
                 }
@@ -62,7 +62,7 @@
                 url: '/:className',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/event/detail/class-detail/event.detail.class.html',
+                        templateUrl: 'sections/teacher/event/event-detail-class.html',
                         controller: 'EventManagementController as eventCtrl'
                     }
                 }
@@ -71,7 +71,7 @@
                 url: '/question-bank',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/question-bank/question.bank.html',
+                        templateUrl: 'sections/teacher/question-bank/question-bank-list.html',
                         controller: 'QuestionsBankController as qstBankCtrl'
                     }
                 }
@@ -80,7 +80,7 @@
                 url: '/create-or-update/:questionBankId',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/question-bank/question.bank.create.html',
+                        templateUrl: 'sections/teacher/question-bank/question-bank-create.html',
                         controller: 'QuestionsBankController as qstBankCtrl'
                     }
                 }
@@ -89,7 +89,7 @@
                 url: '/import',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/question-bank/question-import/question.bank.import.html',
+                        templateUrl: 'sections/teacher/question-bank-import/question-bank-import.html',
                         controller: 'QuestionBankImportController as importCtrl'
                     }
                 }
@@ -98,7 +98,7 @@
                 url: '/question-pool/:questionBankId',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/question-bank/question.bank.detail.html',
+                        templateUrl: 'sections/teacher/question-bank/question-bank-detail.html',
                         controller: 'QuestionsBankController as qstBankCtrl'
                     }
                 }
@@ -107,7 +107,7 @@
                 url: '/create-or-update/:subjectId/:qType/:qId',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/question-bank/question/question.html',
+                        templateUrl: 'sections/teacher/question/question.html',
                         controller: 'QuestionController as qstCtrl'
                     }
                 }
@@ -116,7 +116,7 @@
                 url: '/account-setting',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/settings/account.setting.html',
+                        templateUrl: 'sections/teacher/teacher-account-setting/teacher-account-setting.html',
                         controller: 'TeacherAccountSetting as accountSettingCtrl'
                     }
                 }
@@ -125,7 +125,7 @@
                 url: '/change-pswd',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/change-password/change.pswd.html',
+                        templateUrl: 'sections/change-password/change-password.html',
                         controller: 'ChangePasswordController as changePswdCtrl'
                     }
                 }
@@ -134,7 +134,7 @@
                 url: '/chapters',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/chapter/chapter.list.html',
+                        templateUrl: 'sections/teacher/sub-subject/sub-subject-list.html',
                         controller: 'ChapterController as chapterCtrl'
                     }
                 }
@@ -143,7 +143,7 @@
                 url: '/create-or-update/:chapterId',
                 views: {
                     'content@teacher': {
-                        templateUrl: 'sections/teacher/chapter/chapter.detail.html',
+                        templateUrl: 'sections/teacher/sub-subject/sub-subject-detail.html',
                         controller: 'ChapterController as chapterCtrl'
                     }
                 }

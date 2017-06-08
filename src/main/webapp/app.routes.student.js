@@ -15,11 +15,11 @@
                 url: '/student',
                 views: {
                     '': {
-                        templateUrl: 'sections/student/student.home.html',
+                        templateUrl: 'sections/student/student-home.html',
                         controller: 'LogoutController as logoutCtrl'
                     },
                     'content@student': {
-                        templateUrl: 'sections/student/dashboard/dashboard.html',
+                        templateUrl: 'sections/student/student-dashboard/student-dashboard.html',
                         controller: 'StudentDashboardController as stdDsbCtrl'
                     }
                 }
@@ -28,7 +28,7 @@
                 url: '/task/:eventType',
                 views: {
                     'content@student': {
-                        templateUrl: 'sections/student/student-task/student.task.html',
+                        templateUrl: 'sections/student/student-task/student-task.html',
                         controller: 'StudentTaskController as taskCtrl'
                     }
                 }
@@ -37,7 +37,7 @@
                 url: '/exam/:eventId',
                 views: {
                     'content@student': {
-                        templateUrl: 'sections/student/student-exam/student.exam.working.html',
+                        templateUrl: 'sections/student/student-exam/student-exam.html',
                         controller: 'StudentExamController as studentExamController'
                     }
                 }
@@ -46,7 +46,7 @@
                 url: '/explanation/:eventId',
                 views: {
                     'content@student': {
-                        templateUrl: 'sections/student/student-exam/student.exam.working.html',
+                        templateUrl: 'sections/student/student-exam/student-exam.html',
                         controller: 'StudentExamController as studentExamController'
                     }
                 }
@@ -55,7 +55,7 @@
                 url: '/result/',
                 views: {
                     'content@student': {
-                        templateUrl: 'sections/student/student-exam/student-exam-result/student.exam.result.html',
+                        templateUrl: 'sections/student/student-exam-result/student-exam-result.html',
                         controller: 'ExamResultController as examResultController'
                     }
                 }
@@ -64,7 +64,7 @@
                 url: '/change-pswd',
                 views: {
                     'content@student': {
-                        templateUrl: 'sections/change-password/change.pswd.html',
+                        templateUrl: 'sections/change-password/change-password.html',
                         controller: 'ChangePasswordController as changePswdCtrl'
                     }
                 }
