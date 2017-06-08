@@ -1,7 +1,9 @@
 package id.co.knt.cbt.service;
 
 import java.util.List;
+import java.util.Map;
 
+import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventResult;
 
 public interface EventResultService {
@@ -16,4 +18,6 @@ public interface EventResultService {
 	List<EventResult> findAll();
 	
 	List<EventResult> findERByClass(Long eventId, Integer classId);
+	
+	List<Map<String, Object>> fetchListEvent(List<EventKelas> eventClasses, String nis);
 }

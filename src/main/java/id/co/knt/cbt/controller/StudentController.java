@@ -47,7 +47,7 @@ import id.co.knt.cbt.service.StudentService;
 @RequestMapping(value = "/student")
 public class StudentController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StudentController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StudentController.class);
 
 	@Autowired
 	private EventService eventService;
@@ -138,9 +138,60 @@ public class StudentController {
 			return new ResponseEntity<List<Map<String, Object>>>(listJsonMap, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<List<Map<String, Object>>>(listJsonMap, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<List<Map<String, Object>>>(HttpStatus.NOT_FOUND);
 	}
-	
+
+	/**
+	 * @param eventId
+	 * @return
+	 */
+	@RequestMapping(value = { "/working_on_question/{token}/{id}" }, method = RequestMethod.GET)
+	public ResponseEntity<Map<String, List<Map<String, Object>>>> workingOnQuestion(@PathVariable("token") String token,
+			@PathVariable("id") Long eventId) {
+		Map<String, List<Map<String, Object>>> values = eventQuestionService.findEventQuestionByEventId(eventId);
+
+		return values != null ? new ResponseEntity<Map<String, List<Map<String, Object>>>>(values, HttpStatus.FOUND)
+				: new ResponseEntity<Map<String, List<Map<String, Object>>>>(values, HttpStatus.NOT_FOUND);
+	}
+
+	/**
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = { "/student_answer/create/" }, method = RequestMethod.POST)
+	public ResponseEntity<Void> saveStudentAnswer(@RequestBody List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0).getJSONObject("studentAnswer");
+
+		List<EventQuestion> list = eventQuestionService.findEQByEventId(obj.getLong("eventId"));
+		Student user = studentService.getStudentByNis(obj.getString("nis"));
+		HttpStatus status = HttpStatus.OK;
+		HttpHeaders header = new HttpHeaders();
+
+		if (studentAnswerService.checkStudentIsWorkingOn(obj.getLong("eventId"), obj.getString("nis")) <= 0) {
+			try {
+
+				for (EventQuestion eventQuestion : list) {
+					studentAnswerService.addNew(new StudentAnswer(user, eventQuestion.getQuestion(),
+							eventQuestion.getEvent(), null, false));
+				}
+
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				status = HttpStatus.CREATED;
+			} catch (Exception e) {
+				status = HttpStatus.EXPECTATION_FAILED;
+			}
+		}
+
+		return new ResponseEntity<Void>(header, status);
+	}
+
 	/**
 	 * Save the result when finish
 	 *
@@ -202,7 +253,8 @@ public class StudentController {
 	}
 
 	/**
-	 * Fetch all recent event that has been PUBLISHED AND RELEASED
+	 * >>>>>>> Not finish refactored EventResult Fetch all recent event that has
+	 * been PUBLISHED AND RELEASED
 	 *
 	 * @param eventType
 	 * @return
@@ -309,7 +361,42 @@ public class StudentController {
 		return school != null ? new ResponseEntity<School>(school, HttpStatus.OK)
 				: new ResponseEntity<School>(school, HttpStatus.NOT_FOUND);
 	}
-	
+
+	/**
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = { "/saveOrUpdateTime/" }, method = RequestMethod.POST)
+	public ResponseEntity<Void> saveTime(@RequestBody List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		boolean hasId = array.getJSONObject(0).has("id");
+
+		// Update time
+		if (hasId) {
+			StudentEventTime currentData = studentEventTimeService.findOne(array.getJSONObject(0).getLong("id"));
+			currentData.setLastUpdatedTime(array.getJSONObject(0).getLong("lastUpdatedTime"));
+
+			return studentEventTimeService.updateTime(currentData) != null ? new ResponseEntity<Void>(HttpStatus.OK)
+					: new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			// insert new time
+			long lastUpdateTime = array.getJSONObject(0).getLong("lastUpdatedTime");
+			Long eventId = array.getJSONObject(0).getLong("eventId");
+			String studentId = array.getJSONObject(0).getString("studentId");
+
+			Event e = eventService.findEventById(eventId);
+			Student s = studentService.findPassByNis(studentId);
+
+			StudentEventTime studentEventTime = new StudentEventTime();
+			studentEventTime.setLastUpdatedTime(lastUpdateTime);
+			studentEventTime.setEvent(e);
+			studentEventTime.setStudent(s);
+
+			return studentEventTimeService.saveTime(studentEventTime) != null ? new ResponseEntity<Void>(HttpStatus.OK)
+					: new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	/**
 	 * @param objects
 	 * @return
@@ -332,151 +419,70 @@ public class StudentController {
 		return studentEventTimeService.updateTime(studentEventTime) != null ? new ResponseEntity<>(HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-    /**
-     * @param eventId
-     * @return
-     */
-    @RequestMapping(value = {"/working_on_question/{token}/{id}"}, method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<Map<String, Object>>>> workingOnQuestion(@PathVariable("token") String token,
-                                                                                    @PathVariable("id") Long eventId) {
-        Map<String, List<Map<String, Object>>> values = eventQuestionService.findEventQuestionByEventId(eventId);
 
-        return values != null ? new ResponseEntity<Map<String, List<Map<String, Object>>>>(values, HttpStatus.FOUND)
-                : new ResponseEntity<Map<String, List<Map<String, Object>>>>(values, HttpStatus.NOT_FOUND);
-    }
+	/**
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = { "/student_answer/update/" }, method = RequestMethod.PUT)
+	public ResponseEntity<Void> updateStudentAnswer(@RequestBody List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0).getJSONObject("studentAnswer");
 
-    /**
-     * @param objects
-     * @return
-     */
-    @RequestMapping(value = {"/student_answer/create/"}, method = RequestMethod.POST)
-    public ResponseEntity<Void> saveStudentAnswer(@RequestBody List<Object> objects) {
-        JSONArray array = new JSONArray(objects);
-        JSONObject obj = array.getJSONObject(0).getJSONObject("studentAnswer");
+		StudentAnswer sa = studentAnswerService.findOneSA(obj.getLong("id"));
+		HttpStatus status;
+		HttpHeaders header = new HttpHeaders();
 
-        List<EventQuestion> list = eventQuestionService.findEQByEventId(obj.getLong("eventId"));
-        Student user = studentService.getStudentByNis(obj.getString("nis"));
-        HttpStatus status = HttpStatus.OK;
-        HttpHeaders header = new HttpHeaders();
+		try {
+			sa.setAnswered(obj.getString("ans"));
+			studentAnswerService.updateSA(sa);
+			status = HttpStatus.CREATED;
+		} catch (Exception e) {
+			status = HttpStatus.EXPECTATION_FAILED;
+		}
 
-        if (studentAnswerService.checkStudentIsWorkingOn(obj.getLong("eventId"), obj.getString("nis")) <= 0) {
-            try {
+		return new ResponseEntity<Void>(header, status);
+	}
 
-                for (EventQuestion eventQuestion : list) {
-                    studentAnswerService.addNew(new StudentAnswer(user, eventQuestion.getQuestion(),
-                            eventQuestion.getEvent(), null, false));
-                }
+	/**
+	 * Fetch all new event that has been COMPLETED
+	 *
+	 * @param eventType
+	 * @return
+	 */
+	@RequestMapping(value = { "/list_recent_event/{token}/{eventType}" }, method = RequestMethod.GET)
+	public ResponseEntity<List<Event>> listRecentEvent(@PathVariable("token") String token,
+			@PathVariable("eventType") String eventType) {
+		if (EventType.TUGAS.equals(eventType)) {
+			return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TUGAS), HttpStatus.FOUND);
+		} else if (EventType.KUIS.equals(eventType)) {
+			return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.KUIS), HttpStatus.FOUND);
+		} else if (EventType.TRYOUT_UTS.equals(eventType)) {
+			return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TRYOUT_UTS),
+					HttpStatus.FOUND);
+		} else if (EventType.TRYOUT_UAS.equals(eventType)) {
+			return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TRYOUT_UAS),
+					HttpStatus.FOUND);
+		} else if (EventType.TRYOUT_UAN.equals(eventType)) {
+			return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TRYOUT_UAN),
+					HttpStatus.FOUND);
+		}
 
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+		return new ResponseEntity<List<Event>>(new ArrayList<Event>(), HttpStatus.NOT_FOUND);
+	}
 
-                status = HttpStatus.CREATED;
-            } catch (Exception e) {
-                status = HttpStatus.EXPECTATION_FAILED;
-            }
-        }
+	/**
+	 * Find the last time working time when student did examination
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = { "/findLastWorkingTime/{token}/{eventId}/{studentId}" }, method = RequestMethod.GET)
+	public ResponseEntity<StudentEventTime> findLastWorkingTime(@PathVariable("token") String token,
+			@PathVariable("eventId") Long eventId, @PathVariable("studentId") String studentId) {
+		StudentEventTime data = studentEventTimeService.findStudentEventTime(eventId, studentId);
 
-        return new ResponseEntity<Void>(header, status);
-    }
+		return data == null ? new ResponseEntity<StudentEventTime>(data, HttpStatus.NOT_FOUND)
+				: new ResponseEntity<StudentEventTime>(data, HttpStatus.OK);
+	}
 
-    /**
-     * @param objects
-     * @return
-     */
-    @RequestMapping(value = {"/student_answer/update/"}, method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateStudentAnswer(@RequestBody List<Object> objects) {
-        JSONArray array = new JSONArray(objects);
-        JSONObject obj = array.getJSONObject(0).getJSONObject("studentAnswer");
-
-        StudentAnswer sa = studentAnswerService.findOneSA(obj.getLong("id"));
-        HttpStatus status;
-        HttpHeaders header = new HttpHeaders();
-
-        try {
-            sa.setAnswered(obj.getString("ans"));
-            studentAnswerService.updateSA(sa);
-            status = HttpStatus.CREATED;
-        } catch (Exception e) {
-            status = HttpStatus.EXPECTATION_FAILED;
-        }
-
-        return new ResponseEntity<Void>(header, status);
-    }
-
-    /**
-     * Fetch all new event that has been COMPLETED
-     *
-     * @param eventType
-     * @return
-     */
-    @RequestMapping(value = {"/list_recent_event/{token}/{eventType}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Event>> listRecentEvent(@PathVariable("token") String token,
-                                                       @PathVariable("eventType") String eventType) {
-        if (EventType.TUGAS.equals(eventType)) {
-            return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TUGAS), HttpStatus.FOUND);
-        } else if (EventType.KUIS.equals(eventType)) {
-            return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.KUIS), HttpStatus.FOUND);
-        } else if (EventType.TRYOUT_UTS.equals(eventType)) {
-            return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TRYOUT_UTS),
-                    HttpStatus.FOUND);
-        } else if (EventType.TRYOUT_UAS.equals(eventType)) {
-            return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TRYOUT_UAS),
-                    HttpStatus.FOUND);
-        } else if (EventType.TRYOUT_UAN.equals(eventType)) {
-            return new ResponseEntity<List<Event>>(eventService.listRecentEvent(EventType.TRYOUT_UAN),
-                    HttpStatus.FOUND);
-        }
-
-        return new ResponseEntity<List<Event>>(new ArrayList<Event>(), HttpStatus.NOT_FOUND);
-    }
-
-    /**
-     * Find the last time working time when student did examination
-     *
-     * @return
-     */
-    @RequestMapping(value = {"/findLastWorkingTime/{token}/{eventId}/{studentId}"}, method = RequestMethod.GET)
-    public ResponseEntity<StudentEventTime> findLastWorkingTime(@PathVariable("token") String token, @PathVariable("eventId") Long eventId, @PathVariable("studentId") String studentId) {
-        StudentEventTime data = studentEventTimeService.findStudentEventTime(eventId, studentId);
-
-        return data == null?  new ResponseEntity<StudentEventTime>(data, HttpStatus.NOT_FOUND):new ResponseEntity<StudentEventTime>(data, HttpStatus.OK);
-    }
-
-    /**
-     * @param objects
-     * @return
-     */
-    @RequestMapping(value = {"/saveOrUpdateTime/"}, method = RequestMethod.POST)
-    public ResponseEntity<Void> saveTime(@RequestBody List<Object> objects) {
-        JSONArray array = new JSONArray(objects);
-        boolean hasId = array.getJSONObject(0).has("id");
-
-        //Update time
-        if (hasId) {
-            StudentEventTime currentData = studentEventTimeService.findOne(array.getJSONObject(0).getLong("id"));
-            currentData.setLastUpdatedTime(array.getJSONObject(0).getLong("lastUpdatedTime"));
-
-            return studentEventTimeService.updateTime(currentData) != null ? new ResponseEntity<Void>(HttpStatus.OK) : new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-        } else {
-            //insert new time
-            long lastUpdateTime = array.getJSONObject(0).getLong("lastUpdatedTime");
-            Long eventId = array.getJSONObject(0).getLong("eventId");
-            String studentId = array.getJSONObject(0).getString("studentId");
-
-            Event e = eventService.findEventById(eventId);
-            Student s = studentService.findPassByNis(studentId);
-
-            StudentEventTime studentEventTime = new StudentEventTime();
-            studentEventTime.setLastUpdatedTime(lastUpdateTime);
-            studentEventTime.setEvent(e);
-            studentEventTime.setStudent(s);
-
-            return studentEventTimeService.saveTime(studentEventTime) != null ? new ResponseEntity<Void>(HttpStatus.OK) : new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

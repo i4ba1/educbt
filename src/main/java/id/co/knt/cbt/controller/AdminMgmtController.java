@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.co.knt.cbt.model.User;
 import id.co.knt.cbt.model.User.UserType;
-import id.co.knt.cbt.service.UserService;
+import id.co.knt.cbt.repositories.UserRepo;
 import id.co.knt.cbt.util.PasswordUtility;
 
 @RestController
@@ -24,12 +24,12 @@ public class AdminMgmtController {
 	private static final Logger LOG = LoggerFactory.getLogger(AdminMgmtController.class);
 
 	@Autowired
-	private UserService userService;
+	private UserRepo userRepo;
 
 	@RequestMapping(value = "/createAdmin/", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> createAdmin() {
 		LOG.info("ResponseEntity<Boolean> createAdmin /createAdmin/");
-		User adminUser = userService.findUserByUsername("admin");
+		User adminUser = userRepo.findUserByUserName("admin");
 		User u = null;
 
 		try {
@@ -45,7 +45,7 @@ public class AdminMgmtController {
 				newUser.setHashedPassword(PasswordUtility.generateHashPass(pass));
 				newUser.setSalt(saltPass);
 				newUser.setAdmin(true);
-				u = userService.addNewUser(newUser);
+				u = userRepo.save(newUser);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

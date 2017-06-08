@@ -53,21 +53,6 @@ public class AdminSchoolController {
 		if (!file.isEmpty()) {
 			try {
 				fileName = file.getOriginalFilename();
-				/*byte[] bytes = file.getBytes();
-				String dir = System.getProperty("user.home") + PATH;
-				File serverDirFile = new File(dir);
-				if(!serverDirFile.exists()){
-					serverDirFile.mkdirs();
-				}
-
-				// Create the file on server
-				String imagePath = System.getProperty("user.home") + PATH + fileName;
-				File serverFile = new File(imagePath);
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-				*/
-
 				newSchool = new School();
 				newSchool.setFileName(fileName);
 				newSchool.setContentType(file.getContentType());
@@ -120,22 +105,6 @@ public class AdminSchoolController {
 		if (!file.isEmpty()) {
 			try {
 				fileName = file.getOriginalFilename();
-
-				/*byte[] bytes = file.getBytes();
-				String dir = System.getProperty("user.home") + PATH;
-				File serverDirFile = new File(dir);
-				if(!serverDirFile.exists()){
-					serverDirFile.mkdirs();
-				}
-
-				// Create the file on server
-				String imagePath = System.getProperty("user.home") + PATH + fileName;
-				File serverFile = new File(imagePath);
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-				*/
-
 				existSchool.setFileName(fileName);
 				existSchool.setContentType(file.getContentType());
 				existSchool.setFileData(file.getBytes());
