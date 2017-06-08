@@ -1,5 +1,8 @@
-angular.module('app')
-    .directive('modalSpinner', function() {
+(function() {
+    'use strict';
+    angular.module('app').directive('modalSpinner', modalSpinner);
+
+    function modalSpinner() {
         return {
             template: '<div class="modal fade" role="dialog">' +
                 '<div class="modal-dialog modal-sm">' +
@@ -42,4 +45,6 @@ angular.module('app')
                 });
             }
         };
-    });
+    }
+
+})();
