@@ -7,6 +7,8 @@ import id.web.pos.integra.gawl.Gawl;
 import id.web.pos.integra.gawl.Gawl.UnknownCharacterException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,11 +24,11 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/admin/license")
 public class AdminLicenseController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AdminLicenseController.class);
 
 	@Autowired
 	private LicenseService licenseService;
-
-	private static final byte TYPE = 3;
 
 	/**
 	 * Find all token
@@ -36,6 +38,7 @@ public class AdminLicenseController {
 	 */
 	@RequestMapping(value = { "", "/{token}" }, method = RequestMethod.GET)
 	public ResponseEntity<List<License>> findAllLicense(@PathVariable("token") String token) {
+		LOG.info("/token findAllLicense");
 		List<License> licenses = licenseService.licenses();
 
 		return licenses.size() > 0 ? new ResponseEntity<List<License>>(licenses, HttpStatus.OK)
@@ -44,55 +47,8 @@ public class AdminLicenseController {
 
 	@RequestMapping(value = "/dummyCreate/", method = RequestMethod.POST)
 	public ResponseEntity<License> dummyCreate(@RequestBody List<Object> objects) {
-		JSONArray arrayJson = new JSONArray(objects);
-		JSONObject obj = arrayJson.getJSONObject(0);
-		String licenseKey = obj.getString("license");
-		String activationKey = obj.getString("activationKey");
-		long registerDate = obj.getLong("registerDate");
-
-		Gawl gawl = new Gawl();
-		License license = null;
-
-		if (licenseService.readLicense(licenseKey)) {
-			if (gawl.validate(licenseKey)) {
-				try {
-					Map<String, Byte> extractResult = gawl.extract(licenseKey);
-					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
-						byte Type = extractResult.get(Gawl.TYPE);
-						byte seed1 = extractResult.get(Gawl.SEED1);
-						byte seed2 = extractResult.get(Gawl.SEED2);
-						String passKey = gawl.pass(seed1, seed2);
-						String xlock = gawl.xlock(licenseKey);
-						byte[] macAddr = MACAddr.getMacAddress();
-
-						if (Type == TYPE) {
-							//get passkey and put into textbox
-							if (extractResult.get(Gawl.SEED1) == seed1) {
-								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, passKey, activationKey, registerDate, xlock,  macAddr, numberOfClient);
-							}else{
-								return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
-							}
-						}else{
-							return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
-						}
-
-					}else{
-						return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
-					}
-				} catch (UnknownCharacterException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				return new ResponseEntity<License>(license, HttpStatus.OK);
-
-			} else {
-				return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
-			}
-		} else {
-			return new ResponseEntity<License>(license, HttpStatus.CONFLICT);
-		}
+		LOG.info("/dummyCreate/ RequestMethod.POST dummyCreate");
+		return licenseService.createDummy(objects);
 	}	
 
 	/**

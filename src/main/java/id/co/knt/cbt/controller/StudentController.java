@@ -205,7 +205,6 @@ public class StudentController {
 
 		Event e = eventService.findEventById(obj.getLong("eventId"));
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
-
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 
 		Map<String, Object> jsonMap = new HashMap<String, Object>();

@@ -1,6 +1,6 @@
 package id.co.knt.cbt.aspect;
 
-import id.co.knt.cbt.service.LoginRepo;
+import id.co.knt.cbt.service.LoginService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,7 +23,7 @@ public class UserAuthorizationAspect {
     private static final Logger LOG = LoggerFactory.getLogger(UserAuthorizationAspect.class);
 
     @Autowired
-    private LoginRepo loginRepo;
+    private LoginService loginRepo;
 
     @Around("execution(* id.co.knt.cbt.controller.AdminEmployeeController.*(..)) || execution(* id.co.knt.cbt.controller.AdminKelasController.*(..)) || execution(* id.co.knt.cbt.controller.AdminLicenseController.*(..)) || execution(* id.co.knt.cbt.controller.AdminSchoolController.*(..)) || execution(* id.co.knt.cbt.controller.AdminStudentController.*(..)) || execution(* id.co.knt.cbt.controller.AdminSubjectController.*(..)) || execution(* id.co.knt.cbt.controller.AdminActiveUserController.*(..)) || execution(* id.co.knt.cbt.controller.StudentController.*(..)) || execution(* id.co.knt.cbt.controller.TeacherEventManagementController.*(..)) || execution(* id.co.knt.cbt.controller.TeacherQuestionMgmtController.*(..)) || execution(* id.co.knt.cbt.controller.UploadResourcesController.*(..))")
     public Object admTeacher(ProceedingJoinPoint joinPoint) throws Throwable {

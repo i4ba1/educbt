@@ -31,7 +31,7 @@ import id.co.knt.cbt.model.User;
 import id.co.knt.cbt.model.User.UserType;
 import id.co.knt.cbt.repositories.LicenseRepo;
 import id.co.knt.cbt.repositories.UserRepo;
-import id.co.knt.cbt.service.LoginRepo;
+import id.co.knt.cbt.service.LoginService;
 import id.co.knt.cbt.util.MACAddr;
 import id.web.pos.integra.gawl.Gawl;
 
@@ -48,7 +48,7 @@ public class LoginController {
     private static final Logger LOG = Logger.getLogger(LoginController.class);
 
     @Autowired
-    LoginRepo loginRepo;
+    LoginService loginRepo;
     
     @Autowired
     UserRepo userRepo;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.knt.cbt.model.Login;
-import id.co.knt.cbt.service.LoginRepo;
+import id.co.knt.cbt.service.LoginService;
 
 @CrossOrigin(origins="http://localhost:8787")
 @RestController
@@ -21,7 +21,7 @@ import id.co.knt.cbt.service.LoginRepo;
 public class AdminActiveUserController {
 	
 	@Autowired
-	private LoginRepo loginRepo;
+	private LoginService loginRepo;
 	
 	/**
 	 * List on active users based on token
