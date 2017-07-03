@@ -8,12 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,24 +28,21 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Autowired
 	private LicenseRepo licenseRepo;
-	
+
 	private RestTemplate helpDeskApi = new RestTemplate();
-	private HttpHeaders headers = new HttpHeaders();
-	private MultiValueMap<String, String> params = null;
 
 	@Override
 	public License createNewLicense(List<Object> objects) {
 		License newLicense = null;
-		headers.setContentType(MediaType.APPLICATION_ATOM_XML);
-		
+
 		try {
 			JSONArray arrayJson = new JSONArray(objects);
 			JSONObject obj = arrayJson.getJSONObject(0);
 			ObjectMapper mapper = new ObjectMapper();
 			License license;
 			license = mapper.readValue(obj.get("license").toString(), License.class);
-			License response = helpDeskApi.postForObject(Constant.REGISTER_URL_API, license, License.class);
-			if(!response.equals(null)){
+			License response = helpDeskApi.postForObject(Constant.REGISTER, license, License.class);
+			if (!response.equals(null)) {
 				newLicense = licenseRepo.save(license);
 			}
 		} catch (JSONException | IOException e) {
@@ -84,9 +78,33 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	public License update(License license) {
-		License updatedLicense = licenseRepo.saveAndFlush(license);
-		return updatedLicense;
+	public ResponseEntity<License> activate(List<Object> objects) {
+		JSONArray arrayJson = new JSONArray(objects);
+		JSONObject obj = arrayJson.getJSONObject(0);
+		ObjectMapper mapper = new ObjectMapper();
+		License license = null;
+
+		try {
+			license = mapper.readValue(obj.get("license").toString(), License.class);
+			Gawl gawl = new Gawl();
+			if (!license.getActivationKey().equals(gawl.activate(license.getPassKey()))) {
+				return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_PHONE, license, License.class);
+		if (response != null) {
+			license = licenseRepo.saveAndFlush(license);
+			if (license == null) {
+				return new ResponseEntity<License>(license, HttpStatus.NO_CONTENT);
+			} else {
+				return new ResponseEntity<License>(license, HttpStatus.OK);
+			}
+		}
+
+		return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 	}
 
 	@Override
@@ -141,5 +159,26 @@ public class LicenseServiceImpl implements LicenseService {
 		} else {
 			return new ResponseEntity<License>(license, HttpStatus.CONFLICT);
 		}
+	}
+
+	@Override
+	public License activateByInternet(List<Object> objects) {
+		JSONArray arrayJson = new JSONArray(objects);
+		JSONObject obj = arrayJson.getJSONObject(0);
+		ObjectMapper mapper = new ObjectMapper();
+		License license = null;
+
+		try {
+			license = mapper.readValue(obj.get("license").toString(), License.class);
+			License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_INTERNET, license, License.class);
+			if (response != null) {
+				license = licenseRepo.saveAndFlush(license);
+			}
+		} catch (JSONException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return license;
 	}
 }

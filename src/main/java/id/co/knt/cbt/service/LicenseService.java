@@ -9,7 +9,9 @@ import id.co.knt.cbt.model.License;
 public interface LicenseService {
 	License createNewLicense(List<Object> objects);
 
-	License update(License license);
+	ResponseEntity<License> activate(List<Object> objects);
+	
+	License activateByInternet(List<Object> objects);
 	
 	License readLicense(Integer id);
 	

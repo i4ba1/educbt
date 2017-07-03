@@ -1,30 +1,28 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.License;
-import id.co.knt.cbt.service.LicenseService;
-import id.co.knt.cbt.util.MACAddr;
-import id.web.pos.integra.gawl.Gawl;
-import id.web.pos.integra.gawl.Gawl.UnknownCharacterException;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import id.co.knt.cbt.model.License;
+import id.co.knt.cbt.service.LicenseService;
 
-import java.util.List;
-import java.util.Map;
-
-@CrossOrigin(origins="http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping(value = "/admin/license")
 public class AdminLicenseController {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(AdminLicenseController.class);
 
 	@Autowired
@@ -49,7 +47,7 @@ public class AdminLicenseController {
 	public ResponseEntity<License> dummyCreate(@RequestBody List<Object> objects) {
 		LOG.info("/dummyCreate/ RequestMethod.POST dummyCreate");
 		return licenseService.createDummy(objects);
-	}	
+	}
 
 	/**
 	 * Create new token
@@ -59,43 +57,44 @@ public class AdminLicenseController {
 	 */
 	@RequestMapping(value = "/create/", method = RequestMethod.POST)
 	public ResponseEntity<Void> addNewLicense(@RequestBody List<Object> objects) throws Exception {
+		LOG.info("/create/ addNewLicense");
 		HttpHeaders headers = new HttpHeaders();
-		JSONArray arrayJson = new JSONArray(objects);
-		JSONObject obj = arrayJson.getJSONObject(0);
-		ObjectMapper mapper = new ObjectMapper();
-		License license = mapper.readValue(obj.get("license").toString(), License.class);
+		License license = licenseService.createNewLicense(objects);
 
-		license = licenseService.createNewLicense(license);
-		if(license == null){
+		if (license == null) {
 			return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Void >(headers, HttpStatus.OK);
+		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
 
+	/**
+	 * Activation by Phone
+	 * 
+	 * @param objects
+	 * @return
+	 */
 	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
-	public ResponseEntity<License> activate(@RequestBody List<Object> objects){
-		JSONArray arrayJson = new JSONArray(objects);
-		JSONObject obj = arrayJson.getJSONObject(0);
-		ObjectMapper mapper = new ObjectMapper();
-		License license = null;
+	public ResponseEntity<License> activate(@RequestBody List<Object> objects) {
+		LOG.info("/activate/ activate");
+		return licenseService.activate(objects);
+	}
 
-		try{
-			license = mapper.readValue(obj.get("license").toString(), License.class);
-			Gawl gawl = new Gawl();
-			if(!license.getActivationKey().equals(gawl.activate(license.getPassKey()))) {
-				return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
+	/**
+	 * Activation by Phone
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = "/activateByInternet/", method = RequestMethod.POST)
+	public ResponseEntity<License> activateByInternet(@RequestBody List<Object> objects) {
+		LOG.info("/activateByInternet/ activateByInternet");
+		License license = licenseService.activateByInternet(objects);
+		if (license != null) {
+			return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<License>(license, HttpStatus.OK);
 		}
-		
-		License updatedLicense = licenseService.update(license);
-		if(updatedLicense == null) {
-			return new ResponseEntity<License>(updatedLicense, HttpStatus.NO_CONTENT);
-		}else{
-			return new ResponseEntity<License>(updatedLicense, HttpStatus.OK) ;
-		} 
 	}
 
 	/**
