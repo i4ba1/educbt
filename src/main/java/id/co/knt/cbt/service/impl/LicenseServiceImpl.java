@@ -41,6 +41,7 @@ public class LicenseServiceImpl implements LicenseService {
 			ObjectMapper mapper = new ObjectMapper();
 			License license;
 			license = mapper.readValue(obj.get("license").toString(), License.class);
+			license.setMacAddr(MACAddr.getMacAddress());
 			License response = helpDeskApi.postForObject(Constant.REGISTER, license, License.class);
 			if (!response.equals(null)) {
 				newLicense = licenseRepo.save(license);

@@ -1,0 +1,50 @@
+<h3 class="page-header">
+    <img src="assets/images/icon-tpls/bank_soal_1.png" alt=""> {{selectedQuestionBank.questionPoolName}}
+    <div class="pull-right">
+        <button ui-sref="teacher.questionBank.qpdetail.import" class="btn btn-primary" type="button"><img src="assets/images/icon-tpls/impor_2.png" alt="" class="icon-size" tooltip-placement="top" uib-tooltip="impor soal"></button>
+        <button class="btn btn-primary" type="button" tooltip-placement="top" uib-tooltip="tambah soal" ng-click="showQuestionTypeOption()"><i class="fa fa-fw fa-plus fa-lg"></i></button>
+    </div>
+</h3>
+
+<div ng-switch="questionBanks.length">
+    <table ng-switch-default ng-table="questionBankTable" class="table table-responsive table-striped table-bordered">
+        <tr ng-repeat="group in data">
+            <td data-title="'No'" class="centerText" style="width:50px">
+                {{$index+1}}
+            </td>
+            <td data-title="'Nama Soal'">
+                {{(group.questionGroupName?group.questionGroupName:"---")}}
+            </td>
+            <td data-title="'Tanggal dibuat'">
+                {{group.createdDate | date:"dd/MM/yyyy HH:mm:ss "}}
+            </td>
+            <td data-title="'Jenis Soal'">
+                <p ng-bind="getQGType(group.qgType)"></p>
+            </td>
+            <td class="centerText" style="width:100px">
+                <a ui-sref="teacher.questionBank.qpdetail.qCreateOrUpdate({qType:group.qgType,qId:group.id,subjectId: selectedQuestionBank.subject.id})" class="col-md-3 col-lg-3" title="ubah">
+                    <i class="fa fa-fw fa-pencil fa-lg"></i>
+                </a>
+                <span ng-click="toggleModalQuestionGroup(group)" class="col-md-3 col-lg-3 span-click-able" title="hapus" style="margin-left:5px">
+          <i class="fa fa-fw fa-trash-o fa-lg"></i>
+        </span>
+            </td>
+        </tr>
+    </table>
+
+    <table ng-switch-when="0" class="table table-responsive table-striped table-bordered">
+        <thead>
+            <tr>
+                <th width="50">No</th>
+                <th style="text-align:center">Pertanyaan</th>
+                <th style="text-align:center;width:100px">Kesulitan</th>
+                <th width="100"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="5" align="center">soal belum ditambahkan</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

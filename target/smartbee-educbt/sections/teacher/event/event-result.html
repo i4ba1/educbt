@@ -1,0 +1,103 @@
+<div class="row-fluid col-xs-12">
+    <h3 class="page-header">
+        <a title="Kembali" ui-sref="^">
+            <img src="assets/images/icon-tpls/kelola_ujian_1.png" alt="">
+        </a>
+        Detail Ujian</h3>
+
+    <div class="form-group">
+        <label class="control-label col-xs-4" for="event_name">Nama Ujian</label>
+        <div class="col-xs-6">
+            <label id="event_name">:
+        {{selectedEvent.eventName}}</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-4" for="subject">Jenis Ujian</label>
+        <div class="col-xs-6">
+            <label id="subject">:
+        {{selectedEvent.eventType}}</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-4" for="start_date">Tanggal Mulai</label>
+        <div class="col-xs-6">
+            <label id="start_date">:
+        {{selectedEvent.startDate | date:'dd MMMM yyyy'}}
+      </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-4" for="start_date">Waktu Mulai</label>
+        <div class="col-xs-6">
+            <label id="start_date">:
+        {{selectedEvent.startDate | date:'HH : mm'}}
+      </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-4" for="end_date">Tanggal Selesai</label>
+        <div class="col-xs-6">
+            <label id="end_date">:
+        {{selectedEvent.endDate | date:'dd MMMM yyyy'}}
+      </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-4" for="end_date">Waktu Selesai</label>
+        <div class="col-xs-6">
+            <label id="end_date">:
+        {{selectedEvent.endDate | date:'HH : mm'}}
+      </label>
+        </div>
+    </div>
+</div>
+<div class="row-fluid col-xs-12">
+    <h3><span class="pull-left">Pilih Kelas :</span>
+        <span class="col-xs-8">
+            <select name="kelas" id="kelas" ng-model="classData.selectedOption" class="form-control" place-holder="pilih kelas">
+            <option ng-repeat="option in classData.availableOptions" value="{{option.id}}">{{option.className}}</option>
+            </select>
+        </span>
+        <button type="button" role="button" class="btn btn-primary" ng-click="fetchEventResult()" tooltip-placement="top" uib-tooltip="Perbarui Tabel" style="width: 100px;"><i class="fa fa-refresh fa-lg"></i></button>
+        <button type="button" role="button" class="btn btn-info" ng-click="exportDataToXlsx()" tooltip-placement="top" uib-tooltip="Ekspor Hasil Ujian " ng-hide="(eventResult.length == 0)" ng-show="(eventResult.length >0)" style="width: 100px;"><i class="fa fa-download fa-lg" aria-hidden="true"></i></button>
+    </h3>
+</div>
+<div class="row-fluid col-xs-12" ng-hide="eventResult.length == 0">
+    <table class="table table-responsive table-striped table-bordered">
+        <tr>
+            <th class="centerText" width="100">No</th>
+            <th>NIS</th>
+            <th>Nama Siswa</th>
+            <th class="centerText">Jumlah Benar</th>
+            <th class="centerText">Jumlah Salah</th>
+            <th class="centerText" width="100">Nilai</th>
+        </tr>
+        <tr ng-repeat="data in eventResult">
+            <td class="centerText ">
+                {{$index+1}}
+            </td>
+            <td>
+                {{data["NIS"]}}
+            </td>
+            <td>
+                {{data["NAMA SISWA"]}}
+            </td>
+
+            <td class="centerText">
+                {{data["JUMLAH BENAR"]}}
+            </td>
+            <td class="centerText">
+                {{data["JUMLAH SALAH"]}}
+            </td>
+            <td class="centerText">
+                {{data["NILAI"] | number:2}}
+            </td>
+        </tr>
+    </table>
+</div>

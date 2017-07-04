@@ -1,0 +1,152 @@
+<div class="container-fluid">
+
+    <div class="row-fluid col-xs-12">
+        <h2 class="page-header">
+            <img src="assets/images/icon-tpls/kelola_data_master_1.png" alt=""> {{isUpdate?"Detil ":"Tambah "}} Guru
+        </h2>
+
+        <form name="teacherForm" class="form-horizontal" role="form" ng-submit="saveOrUpdate()" style="width:80%" novalidate>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="nip">NIP *</label>
+                <div class="col-xs-6" ng-class="{'has-error': teacherForm.nipInput.$invalid && !teacherForm.nipInput.$pristine}">
+                    <input name="nipInput" class="form-control" id="nip" ng-disabled="isUpdate" ng-model="selectedTeacher.nip" placeholder="masukan nip" type="text" ng-required="true" />
+                </div>
+                <p ng-show="teacherForm.nipInput.$invalid && !teacherForm.nipInput.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="nip harus diisi"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="name">Nama lengkap *</label>
+                <div class="col-xs-6 row">
+                    <span class="col-xs-6 padding-right-less">
+            <input name="firstName" class="form-control" id="name" ng-model="selectedTeacher.firstName" placeholder="nama depan" type="text"/>
+          </span>
+                    <span class="col-xs-6 padding-right-less">
+            <input name="lastName" class="form-control" id="name" ng-model="selectedTeacher.lastName" placeholder="nama belakang" type="text"/>
+          </span>
+                    <p ng-show="(teacherForm.firstName.$invalid && !teacherForm.firstName.$pristine) || (teacherForm.lastName.$invalid && !teacherForm.lastName.$pristine)" class="help-block">
+                        <i class="fa fa-times click-able" style="color:red; margin-left:35px" title="nama harus diisi lengkap"></i>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="alamat">Alamat *</label>
+                <div class="col-xs-6" ng-class="{'has-error' : teacherForm.addressInput.$invalid && !teacherForm.addressInput.$pristine }">
+                    <textarea name="addressInput" class="form-control" id="alamat" ng-model="selectedTeacher.address" placeholder="masukan alamat" rows="3" ng-required="true"></textarea>
+                </div>
+                <p ng-show="teacherForm.addressInput.$invalid && !teacherForm.addressInput.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="alamat harus diisi"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="pob">Tempat Lahir *</label>
+                <div class="col-xs-6" ng-class="{'has-error' : teacherForm.pobInput.$invalid && !teacherForm.pobInput.$pristine }">
+                    <input name="pobInput" class="form-control" id="pob" ng-model="selectedTeacher.birthPlace" placeholder="masukan tempat" type="text" ng-required="true" />
+                </div>
+                <p ng-show="teacherForm.pobInput.$invalid && !teacherForm.pobInput.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="tempat lahir harus diisi"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="dob">Tanggal Lahir *</label>
+                <div class="col-xs-6">
+                    <start-date-directive name="dob" id="dob" dt="selectedTeacher.birthDate"></start-date-directive>
+                </div>
+                <p ng-show="teacherForm.dob.$invalid && !teacherForm.dob.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="tanggal lahir tidak valid"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="gender">Jenis Kelamin *</label>
+                <div class="col-xs-6">
+                    <select name="genderInput" class="form-control" ng-model="selectedTeacher.gender" ng-required="true">
+            <option value="MALE">Laki-laki</option>
+            <option value="FEMALE">Perempuan</option>
+          </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="status">Status *</label>
+                <div class="col-xs-6">
+                    <select name="maritalInput" class="form-control" ng-model="selectedTeacher.maritalStatus" ng-required="true">
+            <option value="SINGLE">BELUM MENIKAH</option>
+            <option value="MARRIED">MENIKAH</option>
+            <option value="DIVORCE">CERAI</option>
+          </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="religion">Agama *</label>
+                <div class="col-xs-6">
+                    <religion-option religion-var="selectedTeacher.religion"></religion-option>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="joining_date">Tanggal Join *</label>
+                <div class="col-xs-6">
+                    <start-date-directive name="join" id="joining_date" dt="selectedTeacher.joiningDate"></start-date-directive>
+                </div>
+                <p ng-show="teacherForm.join.$invalid && !teacherForm.join.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="tanggal join bekerja tidak valid"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="job_title">Pekerjaan *</label>
+                <div class="col-xs-6">
+                    <input name="jobInput" class="form-control" id="job_title" ng-model="selectedTeacher.jobTitle" placeholder="masukan nama Pekerjaan" type="text" ng-required="true" />
+                </div>
+                <p ng-show="teacherForm.jobInput.$invalid && !teacherForm.jobInput.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="nama pekerjaan harus di pilih"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="is_active">Aktif</label>
+                <div class="col-xs-6">
+                    <input id="is_active" ng-model="selectedTeacher.active" type="checkbox" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="email">Email *</label>
+                <div class="col-xs-6" ng-class="{'has-error':teacherForm.email.$invalid && !teacherForm.email.$pristine}">
+                    <input name="email" class="form-control" id="email" ng-model="selectedTeacher.email" placeholder="masukan email" type="email" ng-required="true" />
+                </div>
+                <p ng-show="teacherForm.email.$invalid && !teacherForm.email.$pristine" class="help-block">
+                    <i class="fa fa-times click-able" style="color:red;" title="email yg anda inputkan tidak valid"></i>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="phone">Telpon*</label>
+                <div class="col-xs-6">
+                    <input class="form-control" id="phone" ng-model="selectedTeacher.phone" placeholder="masukan phone" type="text" ng-required="true" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="mobile_phone">Telpon Genggam *</label>
+                <div class="col-xs-6">
+                    <input class="form-control" id="mobile_phone" ng-model="selectedTeacher.mobilePhone" placeholder="masukan mobile number" type="text" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-offset-3 col-xs-6">
+                    <button class="btn btn-primary" type="submit" ng-disabled="teacherForm.$invalid">{{isUpdate?"Ubah":"Simpan"}}</button>
+                    <a ui-sref="^" class="btn btn-default">Batal</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

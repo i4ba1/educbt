@@ -14,7 +14,7 @@ import id.co.knt.cbt.util.UserLoginQueue;
 public class UserLoginScheduler {
 
 	@Autowired
-	LoginService loginRepo;
+	LoginService loginService;
 	
 	@Scheduled(fixedRate=600000)
 	public void removeWhenIdle(){
@@ -24,8 +24,8 @@ public class UserLoginScheduler {
 			BlockingQueue<Login> blockingQueue = loginQueue.getQueue();
 			while (blockingQueue.peek() != null) {
 
-				if(loginRepo.findById(blockingQueue.peek().getId()) != null){
-					loginRepo.deleteToken(blockingQueue.peek());
+				if(loginService.findById(blockingQueue.peek().getId()) != null){
+					loginService.deleteToken(blockingQueue.peek());
 				}
 
 				blockingQueue.poll();

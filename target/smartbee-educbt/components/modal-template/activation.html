@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <span class="dialog-title">Aktifasi Serial Number</span>
+</div>
+<div class="modal-body">
+    <div class="row-fluid">
+        <form name="activationForm" ng-submit="close(type)" ng-init="type='internet'">
+            <div class="radio">
+                <label><input type="radio" name="activationType" ng-model="type" value="internet" />Internet</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="activationType" ng-model="type"value="manual"/>Manual</label>
+            </div>
+            <div style="border-top:1px solid rgba(0,0,0,0.5);padding-top:10px;height:50px">
+                <button class="btn btn-primary pull-right" type="submit">OK</button>
+            </div>
+
+        </form>
+    </div>
+</div>
