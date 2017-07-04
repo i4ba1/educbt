@@ -34,21 +34,49 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public License createNewLicense(List<Object> objects) {
 		License newLicense = null;
+		JSONArray arrayJson = new JSONArray(objects);
+		JSONObject obj = arrayJson.getJSONObject(0);
+		String licenseKey = obj.get("license").toString();
 
-		try {
-			JSONArray arrayJson = new JSONArray(objects);
-			JSONObject obj = arrayJson.getJSONObject(0);
-			ObjectMapper mapper = new ObjectMapper();
-			License license;
-			license = mapper.readValue(obj.get("license").toString(), License.class);
-			license.setMacAddr(MACAddr.getMacAddress());
-			License response = helpDeskApi.postForObject(Constant.REGISTER, license, License.class);
-			if (!response.equals(null)) {
-				newLicense = licenseRepo.save(license);
+		Gawl gawl = new Gawl();
+		License license = null;
+
+		if (licenseRepo.findLicenseByLicenseKey(licenseKey) == null) {
+			if (gawl.validate(licenseKey)) {
+				try {
+					Map<String, Byte> extractResult = gawl.extract(licenseKey);
+					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
+						byte Type = extractResult.get(Gawl.TYPE);
+						byte seed1 = extractResult.get(Gawl.SEED1);
+						byte seed2 = extractResult.get(Gawl.SEED2);
+						String passKey = gawl.pass(seed1, seed2);
+						String xlock = gawl.xlock(licenseKey);
+						byte[] macAddr = MACAddr.getMacAddress();
+
+						if (Type == Constant.TYPE) {
+							// get passkey and put into textbox
+							if (extractResult.get(Gawl.SEED1) == seed1) {
+								int numberOfClient = extractResult.get(Gawl.MODULE);
+								License response = helpDeskApi.postForObject(Constant.REGISTER, license, License.class);
+								if (!response.equals(null)) {
+									license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
+											macAddr, numberOfClient);
+									newLicense = licenseRepo.save(license);
+								}
+
+							} else {
+								return null;
+							}
+						} else {
+							return null;
+						}
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
-		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		return newLicense;
@@ -69,7 +97,6 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public void deleteLicense(Integer id) {
 		licenseRepo.delete(id);
-		;
 	}
 
 	@Override
@@ -179,7 +206,7 @@ public class LicenseServiceImpl implements LicenseService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return license;
 	}
 }
