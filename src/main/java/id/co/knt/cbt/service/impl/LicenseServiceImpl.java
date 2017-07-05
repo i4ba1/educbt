@@ -118,18 +118,15 @@ public class LicenseServiceImpl implements LicenseService {
 			if (!license.getActivationKey().equals(gawl.activate(license.getPassKey()))) {
 				return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_PHONE, license, License.class);
-		if (response != null) {
+			
 			license = licenseRepo.saveAndFlush(license);
 			if (license == null) {
 				return new ResponseEntity<License>(license, HttpStatus.NO_CONTENT);
 			} else {
 				return new ResponseEntity<License>(license, HttpStatus.OK);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);

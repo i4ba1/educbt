@@ -45,7 +45,7 @@ public class License implements Serializable {
 	private Integer numberOfClient;
 
 	@Column(name = "licenseStatus")
-	private boolean licenseStatus = true;
+	private boolean licenseStatus;
 
 	public License() {
 		// TODO Auto-generated constructor stub
