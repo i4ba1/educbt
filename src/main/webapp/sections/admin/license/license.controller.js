@@ -83,27 +83,19 @@
             var result = licenseService.activateByInternet(license, token);
             result.then(function(response) {
                     isSuccess = true;
-                    license.activationKey = response.data.activationKey;
-                    DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm");
+                    license = response.data;
                 },
                 function(errorResponse) {
-                    var message = "";
-                    if (errorResponse.status == 404) {
-                        message = "Lisensi yang anda masukan salah";
-                    } else if (errorResponse.status == 409) {
-                        message = "lisensi sudah pernah digunakan";
-                    } else if (errorResponse.status == 417) {
-                        message = "lisensi tidak valid";
-                    } else {
-                        errorHandle.setError(errorResponse);
-                    }
-                    $scope.open('Gagal Simpan', [message]);
+                    var message = "Aktivasi dengan internet gagal, harap periksa kembali koneksi internet anda";
+
+                    $scope.open('Aktivasi Gagal', [message]);
                 }
             ).then(
                 function() {
-                    // if (isSuccess) {
-                    //     $scope.submitActivationKey(license);
-                    // }
+                    if (isSuccess) {
+                        DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm");
+                        findAllLicense();
+                    }
                 }
             );
         };

@@ -196,7 +196,7 @@ public class LicenseServiceImpl implements LicenseService {
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
 			License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_INTERNET, license, License.class);
-			if (response != null)
+			if (response != null){
 				license.setActivationKey(response.getActivationKey());
 				license.setLicenseStatus(true);
 				license = licenseRepo.saveAndFlush(license);
