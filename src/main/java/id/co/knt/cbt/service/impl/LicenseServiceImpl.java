@@ -198,6 +198,7 @@ public class LicenseServiceImpl implements LicenseService {
 			License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_INTERNET, license, License.class);
 			if (response != null)
 				license.setActivationKey(response.getActivationKey());
+				license.setLicenseStatus(true);
 				license = licenseRepo.saveAndFlush(license);
 			}
 		} catch (JSONException | IOException e) {
