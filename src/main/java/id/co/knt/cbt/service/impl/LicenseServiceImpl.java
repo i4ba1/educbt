@@ -57,10 +57,10 @@ public class LicenseServiceImpl implements LicenseService {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
+								license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
+										macAddr, numberOfClient);
 								License response = helpDeskApi.postForObject(Constant.REGISTER, license, License.class);
 								if (!response.equals(null)) {
-									license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
-											macAddr, numberOfClient);
 									newLicense = licenseRepo.save(license);
 								}
 
