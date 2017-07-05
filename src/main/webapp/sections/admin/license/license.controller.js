@@ -49,48 +49,6 @@
             );
         }
 
-        $scope.saveLicenseOnline = function(license) {
-            var isSuccess = false;
-            var promise = licenseService.register(license).then(
-                function(response) {
-                    isSuccess = true;
-                },
-                function(errorResponse) {
-                    console.log(errorResponse);
-                    if (errorResponse.status <= 0) {
-                        DialogFactory.showDialogMsg('Koneksi Internet Bermasalah', "Harap periksa kembali koneksi internet Anda, agar dapat mendaftarkan serial number ini...!", "md");
-                    } else if (errorResponse.status === 404) {
-                        DialogFactory.showDialogMsg('Registrasi Gagal', "Serial Number ini sudah diaftarkan untuk server lain...", "md");
-                    }
-                }
-            ).then(function() {
-                if (isSuccess) {
-                    $scope.saveLicense(license);
-                }
-            });
-
-        };
-
-        $scope.dummySave = function(license) {
-            var isSuccess = false;
-            var result = null;
-            licenseService.dummySave(license, token).then(
-                function(response) {
-                    isSuccess = true;
-                    result = response.data;
-                },
-                function(errorResponse) {
-                    console.log(errorResponse);
-                    DialogFactory.showDialogMsg('Registrasi Gagal', "Serial Number ini tidak valid", "sm");
-                }
-            ).then(function() {
-                if (isSuccess) {
-                    $scope.saveLicenseOnline(result);
-                }
-            });
-
-        };
-
         $scope.saveLicense = function(license) {
 
             var promise = licenseService.saveLicense(license, token);
@@ -122,10 +80,11 @@
 
         $scope.onlineActivate = function(license) {
             var isSuccess = false;
-            var result = licenseService.licenseCrud(license);
+            var result = licenseService.activateByInternet(license, token);
             result.then(function(response) {
                     isSuccess = true;
                     license.activationKey = response.data.activationKey;
+                    DialogFactory.showDialogMsg('Aktivasi Sukses', "serial number telah berhasil diaktifasi", "sm");
                 },
                 function(errorResponse) {
                     var message = "";
@@ -142,9 +101,9 @@
                 }
             ).then(
                 function() {
-                    if (isSuccess) {
-                        $scope.submitActivationKey(license);
-                    }
+                    // if (isSuccess) {
+                    //     $scope.submitActivationKey(license);
+                    // }
                 }
             );
         };
