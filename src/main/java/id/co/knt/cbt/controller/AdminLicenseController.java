@@ -70,7 +70,7 @@ public class AdminLicenseController {
 
 	/**
 	 * Activation by Phone
-	 * 
+	 *
 	 * @param objects
 	 * @return
 	 */
@@ -82,7 +82,7 @@ public class AdminLicenseController {
 
 	/**
 	 * Activation by Phone
-	 * 
+	 *
 	 * @param objects
 	 * @return
 	 */
@@ -90,7 +90,7 @@ public class AdminLicenseController {
 	public ResponseEntity<License> activateByInternet(@RequestBody List<Object> objects) {
 		LOG.info("/activateByInternet/ activateByInternet");
 		License license = licenseService.activateByInternet(objects);
-		if (license != null) {
+		if (license == null) {
 			return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<License>(license, HttpStatus.OK);
