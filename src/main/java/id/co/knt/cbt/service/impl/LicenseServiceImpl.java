@@ -118,7 +118,7 @@ public class LicenseServiceImpl implements LicenseService {
 			if (!license.getActivationKey().equals(gawl.activate(license.getPassKey()))) {
 				return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 			}
-			
+
 			license = licenseRepo.saveAndFlush(license);
 			if (license == null) {
 				return new ResponseEntity<License>(license, HttpStatus.NO_CONTENT);
@@ -196,7 +196,8 @@ public class LicenseServiceImpl implements LicenseService {
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
 			License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_INTERNET, license, License.class);
-			if (response != null) {
+			if (response != null)
+				license.setActivationKey(response.getActivationKey());
 				license = licenseRepo.saveAndFlush(license);
 			}
 		} catch (JSONException | IOException e) {
