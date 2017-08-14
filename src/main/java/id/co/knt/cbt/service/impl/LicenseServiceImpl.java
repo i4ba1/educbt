@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,8 @@ public class LicenseServiceImpl implements LicenseService {
 	private LicenseRepo licenseRepo;
 
 	private RestTemplate helpDeskApi = new RestTemplate();
+	
+	private BasicHttpClientConnectionManager connection = new BasicHttpClientConnectionManager();
 
 	@Override
 	public License createNewLicense(List<Object> objects) {

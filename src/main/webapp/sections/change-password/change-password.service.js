@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('app').factory('changePswdService', );
+    angular.module('app').factory('changePswdService');
 
     changePswdService.$inject = ['$http', 'baseUrl'];
 

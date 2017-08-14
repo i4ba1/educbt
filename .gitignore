@@ -20,3 +20,7 @@
 /bin/**
 /effective.pom
 .settings/org.eclipse.wst.common.component
+.classpath
+.settings/org.eclipse.wst.common.component
+.settings/org.eclipse.wst.common.project.facet.core.xml
+

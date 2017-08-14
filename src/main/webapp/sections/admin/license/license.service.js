@@ -5,7 +5,7 @@
 
     licenseService.$inject = ['$http', 'baseUrl'];
 
-    function licenseService($http, baseUrl, ) {
+    function licenseService($http, baseUrl) {
         var url = baseUrl.getUrl();
         var remoteUrl = baseUrl.getRemote();
         return {

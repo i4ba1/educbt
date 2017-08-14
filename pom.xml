@@ -299,6 +299,10 @@
 			<version>3.4.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>smartbee-educbt</finalName>
