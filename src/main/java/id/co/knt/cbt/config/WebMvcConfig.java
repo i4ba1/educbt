@@ -1,6 +1,7 @@
 package id.co.knt.cbt.config;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -89,7 +91,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		ObjectMapper mapper = new ObjectMapper();
 		// Registering Hibernate4Module to support lazy objects
 		mapper.registerModule(new Hibernate4Module());
-
+		List<MediaType> supportedMediaTypes = new ArrayList<>();
+		supportedMediaTypes.add(new MediaType("application/json"));
+		
+		messageConverter.setSupportedMediaTypes(supportedMediaTypes);
 		messageConverter.setObjectMapper(mapper);
 		return messageConverter;
 

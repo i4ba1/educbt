@@ -1,19 +1,24 @@
 package id.co.knt.cbt.service.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import id.co.knt.cbt.model.License;
@@ -30,9 +35,10 @@ public class LicenseServiceImpl implements LicenseService {
 	@Autowired
 	private LicenseRepo licenseRepo;
 
-	private RestTemplate helpDeskApi = new RestTemplate();
+	private RestTemplate helpDeskApi = new RestTemplate(getClientHttpRequestFactory());
 	
-	private BasicHttpClientConnectionManager connection = new BasicHttpClientConnectionManager();
+	@Value("${helpdesk.url}")
+	String baseUrl;
 
 	@Override
 	public License createNewLicense(List<Object> objects) {
@@ -62,7 +68,10 @@ public class LicenseServiceImpl implements LicenseService {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
 										macAddr, numberOfClient);
-								License response = helpDeskApi.postForObject(Constant.REGISTER, license, License.class);
+								
+								String mapper = serializeLicenseObject(license);
+
+								Object response = helpDeskApi.postForObject(baseUrl+Constant.REGISTER, mapper, Object.class);
 								if (!response.equals(null)) {
 									newLicense = licenseRepo.save(license);
 								}
@@ -109,7 +118,7 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	public ResponseEntity<License> activate(List<Object> objects) {
+	public ResponseEntity<License> activateByPhone(List<Object> objects) {
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0);
 		ObjectMapper mapper = new ObjectMapper();
@@ -190,7 +199,7 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	public License activateByInternet(List<Object> objects) {
+	public Object activateByInternet(List<Object> objects) {
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0);
 		ObjectMapper mapper = new ObjectMapper();
@@ -198,11 +207,31 @@ public class LicenseServiceImpl implements LicenseService {
 
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
-			License response = helpDeskApi.postForObject(Constant.ACTIVATE_BY_INTERNET, license, License.class);
-			if (response != null){
+			int count = 0;
+			License response = null;
+
+			/**
+			 * To hit the helpdesk api activationByInternet 3 times, and if failed it will
+			 * hit again until raise of the limit
+			 */
+			while (count <= 3) {
+				try {
+					String licenseMapper = serializeLicenseObject(license);
+					response = helpDeskApi.postForObject(baseUrl+Constant.ACTIVATE_BY_INTERNET, licenseMapper, License.class);
+				} catch (RestClientException e) {
+					count++;
+				}
+
+				if (count == 0)
+					break;
+			}
+
+			if (response != null) {
 				license.setActivationKey(response.getActivationKey());
 				license.setLicenseStatus(true);
 				license = licenseRepo.saveAndFlush(license);
+			}else {
+				return 1;
 			}
 		} catch (JSONException | IOException e) {
 			// TODO Auto-generated catch block
@@ -210,5 +239,39 @@ public class LicenseServiceImpl implements LicenseService {
 		}
 
 		return license;
+	}
+
+	private ClientHttpRequestFactory getClientHttpRequestFactory() {
+		int timeout = 7000;
+		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+		clientHttpRequestFactory.setConnectionRequestTimeout(timeout);
+		clientHttpRequestFactory.setReadTimeout(timeout);
+
+		return clientHttpRequestFactory;
+	}
+	
+	private String serializeLicenseObject(License license) {
+		Map<String, Object> nodeLicense = new HashMap<>();
+		nodeLicense.put("id", null);
+		nodeLicense.put("license", license.getLicense());
+		nodeLicense.put("passkey", license.getPassKey());
+		nodeLicense.put("activationKey", null);
+		nodeLicense.put("activationLimit", 3);
+		nodeLicense.put("numberOfActivation", 0);
+		nodeLicense.put("createdDate", license.getCreatedDate());
+		nodeLicense.put("xlock", license.getXLock());
+		nodeLicense.put("numberOfClient", license.getNumberOfClient());
+		nodeLicense.put("schoolName", null);
+		nodeLicense.put("product", null);
+		ObjectMapper mapper = new ObjectMapper();
+		String result = "";
+		try {
+			result = mapper.writeValueAsString(nodeLicense);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

@@ -77,7 +77,7 @@ public class AdminLicenseController {
 	@RequestMapping(value = "/activate/", method = RequestMethod.POST)
 	public ResponseEntity<License> activate(@RequestBody List<Object> objects) {
 		LOG.info("/activate/ activate");
-		return licenseService.activate(objects);
+		return licenseService.activateByPhone(objects);
 	}
 
 	/**
@@ -89,7 +89,14 @@ public class AdminLicenseController {
 	@RequestMapping(value = "/activateByInternet/", method = RequestMethod.POST)
 	public ResponseEntity<License> activateByInternet(@RequestBody List<Object> objects) {
 		LOG.info("/activateByInternet/ activateByInternet");
-		License license = licenseService.activateByInternet(objects);
+		Object obj = licenseService.activateByInternet(objects);
+		License license = null;
+		if(obj instanceof Integer) {
+			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
+		}else {
+			license = (License)obj; 
+		}
+		
 		if (license == null) {
 			return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 		} else {
