@@ -71,8 +71,8 @@ public class LicenseServiceImpl implements LicenseService {
 								
 								String mapper = serializeLicenseObject(license);
 
-								Object response = helpDeskApi.postForObject(baseUrl+Constant.REGISTER, mapper, Object.class);
-								if (!response.equals(null)) {
+								int response = helpDeskApi.postForObject(baseUrl+Constant.REGISTER, mapper, Integer.class);
+								if (response <= 0) {
 									newLicense = licenseRepo.save(license);
 								}
 
