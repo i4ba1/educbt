@@ -17,8 +17,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import id.co.knt.cbt.model.License;
@@ -69,9 +67,9 @@ public class LicenseServiceImpl implements LicenseService {
 								license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
 										macAddr, numberOfClient);
 								
-								String mapper = serializeLicenseObject(license);
+								Map<String, Object> objLicense = serializeLicenseObject(license);
 
-								int response = helpDeskApi.postForObject(baseUrl+Constant.REGISTER, mapper, Integer.class);
+								int response = helpDeskApi.postForObject(baseUrl+Constant.REGISTER, objLicense, Integer.class);
 								if (response <= 0) {
 									newLicense = licenseRepo.save(license);
 								}
@@ -216,8 +214,8 @@ public class LicenseServiceImpl implements LicenseService {
 			 */
 			while (count <= 3) {
 				try {
-					String licenseMapper = serializeLicenseObject(license);
-					response = helpDeskApi.postForObject(baseUrl+Constant.ACTIVATE_BY_INTERNET, licenseMapper, License.class);
+					Map<String, Object> objLicense = serializeLicenseObject(license);
+					response = helpDeskApi.postForObject(baseUrl+Constant.ACTIVATE_BY_INTERNET, objLicense, License.class);
 				} catch (RestClientException e) {
 					count++;
 				}
@@ -250,11 +248,21 @@ public class LicenseServiceImpl implements LicenseService {
 		return clientHttpRequestFactory;
 	}
 	
-	private String serializeLicenseObject(License license) {
+	private Map<String, Object> serializeLicenseObject(License license) {
+		Map<String, Object> nodeProduct = new HashMap<>();
+		nodeProduct.put("id", null);
+		nodeProduct.put("productName", null);
+		nodeProduct.put("productCode", 3);
+		nodeProduct.put("createdDate", null);
+		nodeProduct.put("description", null);
+		nodeProduct.put("subModuleType", null);
+		nodeProduct.put("subModuleLable", null);
+		nodeProduct.put("deleted", false);
+		
 		Map<String, Object> nodeLicense = new HashMap<>();
 		nodeLicense.put("id", null);
 		nodeLicense.put("license", license.getLicense());
-		nodeLicense.put("passkey", license.getPassKey());
+		nodeLicense.put("passKey", license.getPassKey());
 		nodeLicense.put("activationKey", null);
 		nodeLicense.put("activationLimit", 3);
 		nodeLicense.put("numberOfActivation", 0);
@@ -262,16 +270,8 @@ public class LicenseServiceImpl implements LicenseService {
 		nodeLicense.put("xlock", license.getXLock());
 		nodeLicense.put("numberOfClient", license.getNumberOfClient());
 		nodeLicense.put("schoolName", null);
-		nodeLicense.put("product", null);
-		ObjectMapper mapper = new ObjectMapper();
-		String result = "";
-		try {
-			result = mapper.writeValueAsString(nodeLicense);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		nodeLicense.put("product", nodeProduct);
 		
-		return result;
+		return nodeLicense;
 	}
 }

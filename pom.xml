@@ -246,7 +246,7 @@
 
 		<!-- Gawl -->
 		<dependency>
-			<groupId>id.web.post.integra.gawl</groupId>
+			<groupId>id.web.pos.integra.gawl</groupId>
 			<artifactId>gawl12</artifactId>
 			<version>1.2</version>
 		</dependency>
