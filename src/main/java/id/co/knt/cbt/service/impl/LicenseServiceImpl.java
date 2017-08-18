@@ -34,7 +34,7 @@ public class LicenseServiceImpl implements LicenseService {
 	private LicenseRepo licenseRepo;
 
 	private RestTemplate helpDeskApi = new RestTemplate(getClientHttpRequestFactory());
-	
+
 	@Value("${helpdesk.url}")
 	String baseUrl;
 
@@ -66,10 +66,11 @@ public class LicenseServiceImpl implements LicenseService {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
 										macAddr, numberOfClient);
-								
+
 								Map<String, Object> objLicense = serializeLicenseObject(license);
 
-								int response = helpDeskApi.postForObject(baseUrl+Constant.REGISTER, objLicense, Integer.class);
+								int response = helpDeskApi.postForObject(baseUrl + Constant.REGISTER, objLicense,
+										Integer.class);
 								if (response <= 0) {
 									newLicense = licenseRepo.save(license);
 								}
@@ -197,16 +198,16 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	public Object activateByInternet(List<Object> objects) {
+	public ResponseEntity<License> activateByInternet(List<Object> objects) {
 		JSONArray arrayJson = new JSONArray(objects);
 		JSONObject obj = arrayJson.getJSONObject(0);
 		ObjectMapper mapper = new ObjectMapper();
 		License license = null;
+		ResponseEntity<License> response = null;
 
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
 			int count = 0;
-			License response = null;
 
 			/**
 			 * To hit the helpdesk api activationByInternet 3 times, and if failed it will
@@ -215,7 +216,8 @@ public class LicenseServiceImpl implements LicenseService {
 			while (count <= 3) {
 				try {
 					Map<String, Object> objLicense = serializeLicenseObject(license);
-					response = helpDeskApi.postForObject(baseUrl+Constant.ACTIVATE_BY_INTERNET, objLicense, License.class);
+					response = helpDeskApi.postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
+							License.class);
 				} catch (RestClientException e) {
 					count++;
 				}
@@ -224,19 +226,16 @@ public class LicenseServiceImpl implements LicenseService {
 					break;
 			}
 
-			if (response != null) {
-				license.setActivationKey(response.getActivationKey());
-				license.setLicenseStatus(true);
-				license = licenseRepo.saveAndFlush(license);
-			}else {
-				return 1;
-			}
 		} catch (JSONException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return license;
+		license.setActivationKey(response.getBody().getActivationKey());
+		license.setLicenseStatus(true);
+		license = licenseRepo.saveAndFlush(license);
+
+		return response;
 	}
 
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
@@ -247,7 +246,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 		return clientHttpRequestFactory;
 	}
-	
+
 	private Map<String, Object> serializeLicenseObject(License license) {
 		Map<String, Object> nodeProduct = new HashMap<>();
 		nodeProduct.put("id", null);
@@ -258,7 +257,7 @@ public class LicenseServiceImpl implements LicenseService {
 		nodeProduct.put("subModuleType", null);
 		nodeProduct.put("subModuleLable", null);
 		nodeProduct.put("deleted", false);
-		
+
 		Map<String, Object> nodeLicense = new HashMap<>();
 		nodeLicense.put("id", null);
 		nodeLicense.put("license", license.getLicense());
@@ -271,7 +270,7 @@ public class LicenseServiceImpl implements LicenseService {
 		nodeLicense.put("numberOfClient", license.getNumberOfClient());
 		nodeLicense.put("schoolName", null);
 		nodeLicense.put("product", nodeProduct);
-		
+
 		return nodeLicense;
 	}
 }

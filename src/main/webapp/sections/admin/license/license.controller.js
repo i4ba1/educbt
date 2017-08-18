@@ -81,12 +81,18 @@
         $scope.onlineActivate = function(license) {
             var isSuccess = false;
             var result = licenseService.activateByInternet(license, token);
+            console.log("response======> ", result);
             result.then(function(response) {
                     isSuccess = true;
                     license = response.data;
                 },
                 function(errorResponse) {
-                    var message = "Aktivasi dengan internet gagal, harap periksa kembali koneksi internet anda";
+                    var message = "";
+                    if (errorResponse.status === 417) {
+                        message = "Aktivasi dengan internet gagal, harap periksa kembali koneksi internet anda";
+                    } else if (errorResponse.status === 403) {
+                        message = "Anda telah melewati batas aktivasi, harap lakukan aktivasi manual";
+                    }
 
                     $scope.open('Aktivasi Gagal', [message]);
                 }

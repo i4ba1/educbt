@@ -89,19 +89,9 @@ public class AdminLicenseController {
 	@RequestMapping(value = "/activateByInternet/", method = RequestMethod.POST)
 	public ResponseEntity<License> activateByInternet(@RequestBody List<Object> objects) {
 		LOG.info("/activateByInternet/ activateByInternet");
-		Object obj = licenseService.activateByInternet(objects);
-		License license = null;
-		if(obj instanceof Integer) {
-			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
-		}else {
-			license = (License)obj; 
-		}
-		
-		if (license == null) {
-			return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<License>(license, HttpStatus.OK);
-		}
+		ResponseEntity<License> license = licenseService.activateByInternet(objects);
+
+		return license;
 	}
 
 	/**
