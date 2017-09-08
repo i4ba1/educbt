@@ -252,9 +252,6 @@ public class StudentController {
 	}
 
 	/**
-	 * >>>>>>> Not finish refactored EventResult Fetch all recent event that has
-	 * been PUBLISHED AND RELEASED
-	 *
 	 * @param eventType
 	 * @return
 	 */

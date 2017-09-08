@@ -12,7 +12,7 @@
 	<version>1.22.51</version>
 	<name>smartbee-educbt Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<!-- Generic properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +43,7 @@
 		<aspectj.version>1.8.9</aspectj.version>
 		<apache.popi.version>3.15</apache.popi.version>
 	</properties>
-	
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
@@ -255,7 +255,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			</dependency>
+		</dependency>
 
 		<dependency>
 			<groupId>com.hazelcast</groupId>
@@ -299,6 +299,12 @@
 			<version>3.4.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
