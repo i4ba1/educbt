@@ -4,7 +4,6 @@ import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +75,7 @@ public class LoginController {
          * First check if the username and password are valid
          */
         User user = userRepo.validateUser(obj.getString("un"),
-                Base64.getEncoder().encodeToString(obj.getString("ps").getBytes()));
+                Base64Utils.encodeToString(obj.getString("ps").getBytes()));
         Boolean isValid = user == null ? false : true;
 
         if (isValid) {
@@ -102,7 +102,7 @@ public class LoginController {
             
                 if(MACAddr.getMacAddress().length != licenses.get(0).getMacAddr().length){
                     if(updateLicenseStatus(licenses) > 0){
-                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.METHOD_NOT_ALLOWED);
+                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.METHOD_NOT_ALLOWED);
                     }
                 }
                 
@@ -132,30 +132,30 @@ public class LoginController {
                     if (login == null) {
                         return firstLogin(dt, rand, dateTime, user);
                     } else {
-                    	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+                    	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.FORBIDDEN);
                     }
                 } else {
                     if (logins.size() < numberOfUser) {
                         if (login == null) {
                             return firstLogin(dt, rand, dateTime, user);
                         } else {
-                        	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+                        	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.FORBIDDEN);
                         }
                     } else {
-                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.FORBIDDEN);
                     }
                 }
             } else {
                 if (login == null) {
                     return firstLogin(dt, rand, dateTime, user);
                 } else {
-                	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(),
+                	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
                     HttpStatus.EXPECTATION_FAILED);
                 }
             }
         }
 
-        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<>(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.NOT_FOUND);
     }
     
     private int updateLicenseStatus(List<License> list){

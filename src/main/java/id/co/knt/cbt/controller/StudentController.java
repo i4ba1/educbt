@@ -336,10 +336,9 @@ public class StudentController {
 		List<EventKelas> eventClasses = eventKelasService.findEventByClassId(classId);
 		List<Event> events = new ArrayList<Event>();
 
-		eventClasses.forEach(ec -> {
+		for (EventKelas ec : eventClasses) {
 			events.add(ec.getEvent());
-		});
-
+		}
 		return events.size() > 0 ? new ResponseEntity<List<Event>>(events, HttpStatus.OK)
 				: new ResponseEntity<List<Event>>(events, HttpStatus.NOT_FOUND);
 	}
@@ -412,8 +411,8 @@ public class StudentController {
 		studentEventTime.setEvent(e);
 		studentEventTime.setStudent(s);
 
-		return studentEventTimeService.updateTime(studentEventTime) != null ? new ResponseEntity<>(HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return studentEventTimeService.updateTime(studentEventTime) != null ? new ResponseEntity<Void>(HttpStatus.OK)
+				: new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	/**

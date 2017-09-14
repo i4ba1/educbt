@@ -329,12 +329,12 @@ public class TeacherQuestionMgmtController {
 			if (success > 0) {
 				return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
 			} else {
-				return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+				return new ResponseEntity<List<Question>>(new ArrayList<Question>(), HttpStatus.FORBIDDEN);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Question>>(new ArrayList<>(), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<List<Question>>(new ArrayList<Question>(), HttpStatus.FORBIDDEN);
 		}
 	}
 

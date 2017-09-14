@@ -4,7 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+
+import org.springframework.util.Base64Utils;
 
 public class PasswordUtility {
 
@@ -12,7 +13,7 @@ public class PasswordUtility {
 
 		String base64encodedString = null;
 		try {
-			base64encodedString = Base64.getEncoder().encodeToString(pass.getBytes("utf-8"));
+			base64encodedString = Base64Utils.encodeToString(pass.getBytes("utf-8"));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -25,7 +26,7 @@ public class PasswordUtility {
 
 		String base64encodedString = null;
 		try {
-			byte[] bs = Base64.getDecoder().decode(pass);
+			byte[] bs = Base64Utils.decode(pass.getBytes());
 			base64encodedString = new String(bs, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

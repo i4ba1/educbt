@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -218,7 +217,7 @@ public class LicenseServiceImpl implements LicenseService {
 					Map<String, Object> objLicense = serializeLicenseObject(license);
 					response = helpDeskApi.postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
 							License.class);
-				} catch (RestClientException e) {
+				} catch (Exception e) {
 					count++;
 				}
 
@@ -239,7 +238,7 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
-		int timeout = 7000;
+		int timeout = 5000;
 		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 		clientHttpRequestFactory.setConnectionRequestTimeout(timeout);
 		clientHttpRequestFactory.setReadTimeout(timeout);
