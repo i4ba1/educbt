@@ -1,8 +1,6 @@
 package id.co.knt.cbt.service;
 
 import java.util.List;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import id.co.knt.cbt.model.License;
@@ -23,4 +21,6 @@ public interface LicenseService {
 	void deleteLicense(Integer id);
 	
 	public ResponseEntity<License> createDummy(List<Object> objects);
+	
+	License removeActivationKey(Integer id);
 }

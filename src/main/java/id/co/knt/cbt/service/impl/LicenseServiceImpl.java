@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import id.co.knt.cbt.model.License;
@@ -23,6 +20,7 @@ import id.co.knt.cbt.repositories.LicenseRepo;
 import id.co.knt.cbt.service.LicenseService;
 import id.co.knt.cbt.util.Constant;
 import id.co.knt.cbt.util.MACAddr;
+import id.co.knt.cbt.util.RestTemplateUtility;
 import id.web.pos.integra.gawl.Gawl;
 import id.web.pos.integra.gawl.Gawl.UnknownCharacterException;
 
@@ -32,7 +30,7 @@ public class LicenseServiceImpl implements LicenseService {
 	@Autowired
 	private LicenseRepo licenseRepo;
 
-	private RestTemplate helpDeskApi = new RestTemplate(getClientHttpRequestFactory());
+	private RestTemplateUtility rest = new RestTemplateUtility();
 
 	@Value("${helpdesk.url}")
 	String baseUrl;
@@ -68,7 +66,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 								Map<String, Object> objLicense = serializeLicenseObject(license);
 
-								int response = helpDeskApi.postForObject(baseUrl + Constant.REGISTER, objLicense,
+								int response = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER, objLicense,
 										Integer.class);
 								if (response <= 0) {
 									newLicense = licenseRepo.save(license);
@@ -215,7 +213,7 @@ public class LicenseServiceImpl implements LicenseService {
 			while (count <= 3) {
 				try {
 					Map<String, Object> objLicense = serializeLicenseObject(license);
-					response = helpDeskApi.postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
+					response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
 							License.class);
 				} catch (Exception e) {
 					count++;
@@ -235,15 +233,6 @@ public class LicenseServiceImpl implements LicenseService {
 		license = licenseRepo.saveAndFlush(license);
 
 		return response;
-	}
-
-	private ClientHttpRequestFactory getClientHttpRequestFactory() {
-		int timeout = 5000;
-		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-		clientHttpRequestFactory.setConnectionRequestTimeout(timeout);
-		clientHttpRequestFactory.setReadTimeout(timeout);
-
-		return clientHttpRequestFactory;
 	}
 
 	private Map<String, Object> serializeLicenseObject(License license) {
@@ -271,5 +260,14 @@ public class LicenseServiceImpl implements LicenseService {
 		nodeLicense.put("product", nodeProduct);
 
 		return nodeLicense;
+	}
+
+	@Override
+	public License removeActivationKey(Integer id) {
+		License currentLicense = licenseRepo.findOne(id);
+		currentLicense.setActivationKey(null);
+		licenseRepo.saveAndFlush(currentLicense);
+		
+		return null;
 	}
 }
