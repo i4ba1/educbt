@@ -10,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import id.co.knt.cbt.controller.AdminLicenseController;
 import id.co.knt.cbt.model.License;
@@ -34,28 +36,33 @@ public class CheckActivationKeyScheduler {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AdminLicenseController.class);
 
-	@Scheduled(fixedRate=3000)
+	/*
+	 * second, minute, hour, day, month, weekday
+	 */
+	@Scheduled(cron="* 1 * * * *")
 	public void checkActivationKey() {
 		RestTemplateUtility restTemplateUtility = new RestTemplateUtility();
 		List<License> list = licenseRepo.findAll();
-		LOG.info("license size==========> ",list.size());
+		LOG.info("license size==========> "+list.size());
 
 		if (list.size() > 0) {
 			for (License license : list) {
 				Map<String, Object> objLicense = restTemplateUtility.serializeLicenseObject(license);
-				int response = restTemplateUtility.helpDeskAPI()
-						.postForObject(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY, objLicense, Integer.class);
-
-
-				LOG.info("response==========> ",response);
-				/**
-				 * If the response is -1, it mean the activationKey is not same on the helpdesk
-				 * cloud, so we delete the activation key, then user must be reactivate
-				 */
-				if (response < 0) {
-					license.setActivationKey(null);
-					licenseRepo.saveAndFlush(license);
-				}
+				
+				LOG.info("objLicense=====> "+objLicense);
+				LOG.info("url validateActivationKey=====> "+(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY));
+				
+				try {
+	                restTemplateUtility.helpDeskAPI()
+	                        .postForObject(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY, objLicense, Integer.class);
+	            } catch (HttpClientErrorException e) {
+	                int statusCode = e.getStatusCode().value();
+	                if (statusCode == HttpStatus.NOT_ACCEPTABLE.value()) {
+	                	license.setLicenseStatus(false);
+						license.setActivationKey(null);
+						licenseRepo.saveAndFlush(license);
+	                }
+	            }
 			}
 		}
 		

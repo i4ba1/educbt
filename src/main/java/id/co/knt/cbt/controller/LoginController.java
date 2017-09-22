@@ -32,7 +32,6 @@ import id.co.knt.cbt.model.User.UserType;
 import id.co.knt.cbt.repositories.LicenseRepo;
 import id.co.knt.cbt.repositories.UserRepo;
 import id.co.knt.cbt.service.LoginService;
-import id.co.knt.cbt.util.MACAddr;
 import id.web.pos.integra.gawl.Gawl;
 
 /**
@@ -43,182 +42,171 @@ import id.web.pos.integra.gawl.Gawl;
 @RequestMapping(value = "/user/authorization")
 public class LoginController {
 
-    @Value("${path.question.image}")
-    private static final String QUESTION_IMAGE_DIRECTORY = "";
-    private static final Logger LOG = Logger.getLogger(LoginController.class);
+	@Value("${path.question.image}")
+	private static final String QUESTION_IMAGE_DIRECTORY = "";
+	private static final Logger LOG = Logger.getLogger(LoginController.class);
 
-    @Autowired
-    LoginService loginRepo;
-    
-    @Autowired
-    UserRepo userRepo;
-    
-    @Autowired
-    LicenseRepo licenseRepo;
+	@Autowired
+	LoginService loginRepo;
 
-    /**
-     * Logging In and create new token for user
-     *
-     * @param objects
-     * @return
-     */
-    @RequestMapping(value = "/loggingIn/", method = RequestMethod.POST)
-    public ResponseEntity<List<Map<String, Object>>> login(@RequestBody List<Object> objects) {
-        JSONArray array = new JSONArray(objects);
-        JSONObject obj = array.getJSONObject(0);
+	@Autowired
+	UserRepo userRepo;
 
-        /**
-         * Get number of online users
-         */
-        List<Login> logins = loginRepo.listOnlineUser();
-        /**
-         * First check if the username and password are valid
-         */
-        User user = userRepo.validateUser(obj.getString("un"),
-                Base64Utils.encodeToString(obj.getString("ps").getBytes()));
-        Boolean isValid = user == null ? false : true;
+	@Autowired
+	LicenseRepo licenseRepo;
 
-        if (isValid) {
-            Login login = loginRepo.findByUser(user);
-            /**
-             * Get number of licenses in database
-             */
-            List<License> licenses = licenseRepo.findAll();
+	/**
+	 * Logging In and create new token for user
+	 *
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = "/loggingIn/", method = RequestMethod.POST)
+	public ResponseEntity<List<Map<String, Object>>> login(@RequestBody List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0);
 
-            Date dt = new Date();
-            DateTime dateTime = new DateTime(dt);
-            dateTime = dateTime.plusHours(3);
-            SecureRandom rand = new SecureRandom();
+		/**
+		 * Get number of online users
+		 */
+		List<Login> logins = loginRepo.listOnlineUser();
+		/**
+		 * First check if the username and password are valid
+		 */
+		User user = userRepo.validateUser(obj.getString("un"),
+				Base64Utils.encodeToString(obj.getString("ps").getBytes()));
+		Boolean isValid = user == null ? false : true;
+		Login login = loginRepo.findByUser(user);
 
-            int numberOfUser = 0;
+		if (isValid) {
 
-            /**
-             * If licenses is zero it mean DEMO version
-             */
-            if(licenses.size() > 0){
-                 /**
-                 * Get number of licenses in database
-                 */
-            
-                if(MACAddr.getMacAddress().length != licenses.get(0).getMacAddr().length){
-                    if(updateLicenseStatus(licenses) > 0){
-                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.METHOD_NOT_ALLOWED);
-                    }
-                }
-                
-                for (License value : licenses) {
-                    Gawl gawl = new Gawl();
-                    try {
-                        Map<String, Byte> map = gawl.extract(value.getLicense());
-                        int module = map.get(Gawl.MODULE);
-                        numberOfUser += module;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+			/**
+			 * Get number of licenses in database
+			 */
+			List<License> licenses = licenseRepo.findAll();
 
-            /**
-             * Check if the userType is STUDENT or 1
-             */
-            if (user.getUserType() == UserType.STUDENT) {
-                /**
-                 * One license is represent the number of user
-                 * Check if the student has slot to get logging in. It check the
-                 * login student size <= number of user
-                 * @If Number of user is below equal 1 and the login size is below equal 1 then only one student can login
-                 */
-                if (numberOfUser <= 1 && logins.size() < 1) {
-                    if (login == null) {
-                        return firstLogin(dt, rand, dateTime, user);
-                    } else {
-                    	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.FORBIDDEN);
-                    }
-                } else {
-                    if (logins.size() < numberOfUser) {
-                        if (login == null) {
-                            return firstLogin(dt, rand, dateTime, user);
-                        } else {
-                        	return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.FORBIDDEN);
-                        }
-                    } else {
-                        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.FORBIDDEN);
-                    }
-                }
-            } else {
-                if (login == null) {
-                    return firstLogin(dt, rand, dateTime, user);
-                } else {
-                	 return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
-                    HttpStatus.EXPECTATION_FAILED);
-                }
-            }
-        }
+			Date dt = new Date();
+			DateTime dateTime = new DateTime(dt);
+			dateTime = dateTime.plusHours(3);
+			SecureRandom rand = new SecureRandom();
 
-        return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(), HttpStatus.NOT_FOUND);
-    }
-    
-    private int updateLicenseStatus(List<License> list){
-    	int count = 0;
-    	for (License license : list) {
-			license.setLicenseStatus(false);
-			License l = licenseRepo.saveAndFlush(license);
-			if(l != null)
-				count++; 
+			int numberOfUser = 0;
+
+			/**
+			 * If licenses is zero it mean DEMO version
+			 */
+			if (licenses.size() > 0) {
+				for (License sn : licenses) {
+					Gawl gawl = new Gawl();
+
+					if (sn.getActivationKey() != null) {
+						if (sn.getActivationKey().length() > 0 && !sn.getActivationKey().equals(null)) {
+							try {
+								Map<String, Byte> map = gawl.extract(sn.getLicense());
+								int module = map.get(Gawl.MODULE);
+								numberOfUser += module;
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+
+			/**
+			 * Check if the userType is STUDENT or 1
+			 */
+			if (user.getUserType() == UserType.STUDENT) {
+				/**
+				 * One license is represent the number of user Check if the student has slot to
+				 * get logging in. It check the login student size <= number of user
+				 * 
+				 * @If Number of user is below equal 1 and the login size is below equal 1 then
+				 *     only one student can login
+				 */
+				if (numberOfUser <= 1 && logins.size() < 1) {
+					if (login == null) {
+						return firstLogin(dt, rand, dateTime, user);
+					} else {
+						return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
+								HttpStatus.FORBIDDEN);
+					}
+				} else {
+					if (logins.size() < numberOfUser) {
+						if (login == null) {
+							return firstLogin(dt, rand, dateTime, user);
+						} else {
+							return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
+									HttpStatus.FORBIDDEN);
+						}
+					} else {
+						return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
+								HttpStatus.FORBIDDEN);
+					}
+				}
+			} else {
+				if (login == null) {
+					return firstLogin(dt, rand, dateTime, user);
+				} else {
+					return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
+							HttpStatus.EXPECTATION_FAILED);
+				}
+			}
 		}
-    	
-    	return count;
-    }
 
-    private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
-                                                                 User user) {
-        Login newLogin = new Login();
-        newLogin.setLoginDate(dt);
-        newLogin.setToken(new BigInteger(130, rand).toString(50));
-        newLogin.setTokenExpired(dateTime.getMillis());
-        newLogin.setUser(user);
+		return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
+				HttpStatus.NOT_FOUND);
+	}
 
-        Map<String, Object> mapObj = new HashMap<String, Object>();
-        mapObj.put("token", newLogin.getToken());
-        mapObj.put("user", user);
-        mapObj.put("type", "full-version");
-        List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-        data.add(mapObj);
+	private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
+			User user) {
+		Login newLogin = new Login();
+		newLogin.setLoginDate(dt);
+		newLogin.setToken(new BigInteger(130, rand).toString(50));
+		newLogin.setTokenExpired(dateTime.getMillis());
+		newLogin.setUser(user);
 
-        File dir = new File(LoginController.QUESTION_IMAGE_DIRECTORY);
-        boolean successfully = false;
-        if (!dir.exists()) {
-            successfully = dir.mkdir();
-        }
+		Map<String, Object> mapObj = new HashMap<String, Object>();
+		mapObj.put("token", newLogin.getToken());
+		mapObj.put("user", user);
+		mapObj.put("type", "full-version");
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		data.add(mapObj);
 
-        if (successfully) {
-            LOG.info("successfully create directory");
-        }
+		File dir = new File(LoginController.QUESTION_IMAGE_DIRECTORY);
+		boolean successfully = false;
+		if (!dir.exists()) {
+			successfully = dir.mkdir();
+		}
 
-        return loginRepo.saveLogin(newLogin) != null
-                ? new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK)
-                : new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
-    }
+		if (successfully) {
+			LOG.info("successfully create directory");
+		}
 
-    /**
-     * Logged out user
-     *
-     * @param objects
-     * @return
-     */
-    @RequestMapping(value = "/loggedOut/", method = RequestMethod.POST)
-    public ResponseEntity<Void> logout(@RequestBody List<Object> objects) {
-        JSONArray array = new JSONArray(objects);
-        JSONObject obj = array.getJSONObject(0);
-        HttpHeaders headers = new HttpHeaders();
+		return loginRepo.saveLogin(newLogin) != null
+				? new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK)
+				: new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
+	}
 
-        Login login = loginRepo.findByToken(obj.getString("token"));
-        if (login == null) {
-            return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZED);
-        }
+	/**
+	 * Logged out user
+	 *
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = "/loggedOut/", method = RequestMethod.POST)
+	public ResponseEntity<Void> logout(@RequestBody List<Object> objects) {
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0);
+		HttpHeaders headers = new HttpHeaders();
 
-        loginRepo.deleteToken(login);
+		Login login = loginRepo.findByToken(obj.getString("token"));
+		if (login == null) {
+			return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZED);
+		}
 
-        return new ResponseEntity<>(headers, HttpStatus.OK);
-    }
+		loginRepo.deleteToken(login);
+
+		return new ResponseEntity<>(headers, HttpStatus.OK);
+	}
 }

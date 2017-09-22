@@ -38,7 +38,7 @@ private RestTemplate helpDeskApi;
 		nodeLicense.put("id", null);
 		nodeLicense.put("license", license.getLicense());
 		nodeLicense.put("passKey", license.getPassKey());
-		nodeLicense.put("activationKey", null);
+		nodeLicense.put("activationKey", license.getActivationKey());
 		nodeLicense.put("activationLimit", 3);
 		nodeLicense.put("numberOfActivation", 0);
 		nodeLicense.put("createdDate", license.getCreatedDate());

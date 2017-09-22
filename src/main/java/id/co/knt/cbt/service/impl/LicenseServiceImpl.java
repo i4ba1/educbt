@@ -1,7 +1,6 @@
 package id.co.knt.cbt.service.impl;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import id.co.knt.cbt.model.License;
@@ -45,26 +46,26 @@ public class LicenseServiceImpl implements LicenseService {
 		Gawl gawl = new Gawl();
 		License license = null;
 
-		if (licenseRepo.findLicenseByLicenseKey(licenseKey) == null) {
-			if (gawl.validate(licenseKey)) {
+		if (licenseRepo.findLicenseByLicenseKey(licenseKey.toLowerCase()) == null) {
+			if (gawl.validate(licenseKey.toLowerCase())) {
 				try {
-					Map<String, Byte> extractResult = gawl.extract(licenseKey);
+					Map<String, Byte> extractResult = gawl.extract(licenseKey.toLowerCase());
 					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
 						byte Type = extractResult.get(Gawl.TYPE);
-						byte seed1 = extractResult.get(Gawl.SEED1);
-						byte seed2 = extractResult.get(Gawl.SEED2);
+						Byte seed1 = extractResult.get(Gawl.SEED1);
+						Byte seed2 = extractResult.get(Gawl.SEED2);
 						String passKey = gawl.pass(seed1, seed2);
-						String xlock = gawl.xlock(licenseKey);
+						String xlock = gawl.xlock(licenseKey.toLowerCase());
 						byte[] macAddr = MACAddr.getMacAddress();
 
 						if (Type == Constant.TYPE) {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, passKey, "", System.currentTimeMillis(), xlock,
+								license = new License(licenseKey.toLowerCase(), passKey, "", System.currentTimeMillis(), xlock,
 										macAddr, numberOfClient);
 
-								Map<String, Object> objLicense = serializeLicenseObject(license);
+								Map<String, Object> objLicense = rest.serializeLicenseObject(license);
 
 								int response = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER, objLicense,
 										Integer.class);
@@ -109,7 +110,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	public boolean readLicense(String licenseKey) {
-		License l = licenseRepo.findLicenseByLicenseKey(licenseKey);
+		License l = licenseRepo.findLicenseByLicenseKey(licenseKey.toLowerCase());
 		return l == null ? true : false;
 	}
 
@@ -151,23 +152,23 @@ public class LicenseServiceImpl implements LicenseService {
 		Gawl gawl = new Gawl();
 		License license = null;
 
-		if (licenseRepo.findLicenseByLicenseKey(licenseKey) == null) {
-			if (gawl.validate(licenseKey)) {
+		if (licenseRepo.findLicenseByLicenseKey(licenseKey.toLowerCase()) == null) {
+			if (gawl.validate(licenseKey.toLowerCase())) {
 				try {
-					Map<String, Byte> extractResult = gawl.extract(licenseKey);
+					Map<String, Byte> extractResult = gawl.extract(licenseKey.toLowerCase());
 					if (extractResult.containsKey(Gawl.TYPE) && extractResult.containsKey(Gawl.MODULE)) {
 						byte Type = extractResult.get(Gawl.TYPE);
 						byte seed1 = extractResult.get(Gawl.SEED1);
 						byte seed2 = extractResult.get(Gawl.SEED2);
 						String passKey = gawl.pass(seed1, seed2);
-						String xlock = gawl.xlock(licenseKey);
+						String xlock = gawl.xlock(licenseKey.toLowerCase());
 						byte[] macAddr = MACAddr.getMacAddress();
 
 						if (Type == Constant.TYPE) {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey, passKey, activationKey, registerDate, xlock, macAddr,
+								license = new License(licenseKey.toLowerCase(), passKey, activationKey, registerDate, xlock, macAddr,
 										numberOfClient);
 							} else {
 								return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
@@ -204,23 +205,19 @@ public class LicenseServiceImpl implements LicenseService {
 
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
-			int count = 0;
 
-			/**
-			 * To hit the helpdesk api activationByInternet 3 times, and if failed it will
-			 * hit again until raise of the limit
-			 */
-			while (count <= 3) {
-				try {
-					Map<String, Object> objLicense = serializeLicenseObject(license);
-					response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
-							License.class);
-				} catch (Exception e) {
-					count++;
+			try {
+				Map<String, Object> objLicense = rest.serializeLicenseObject(license);
+				response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
+						License.class);
+			} catch (HttpStatusCodeException e) {
+				int statusCode = e.getStatusCode().value();
+				if (statusCode == HttpStatus.EXPECTATION_FAILED.value()) {
+					return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
+				} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+					return new ResponseEntity<License>(license, HttpStatus.FORBIDDEN);
 				}
-
-				if (count == 0)
-					break;
+				// e.printStackTrace();
 			}
 
 		} catch (JSONException | IOException e) {
@@ -228,38 +225,15 @@ public class LicenseServiceImpl implements LicenseService {
 			e.printStackTrace();
 		}
 
-		license.setActivationKey(response.getBody().getActivationKey());
-		license.setLicenseStatus(true);
-		license = licenseRepo.saveAndFlush(license);
+		if (response != null) {
+			if (response.getStatusCode() == HttpStatus.OK) {
+				license.setActivationKey(response.getBody().getActivationKey());
+				license.setLicenseStatus(true);
+				license = licenseRepo.saveAndFlush(license);
+			}
+		}
 
 		return response;
-	}
-
-	private Map<String, Object> serializeLicenseObject(License license) {
-		Map<String, Object> nodeProduct = new HashMap<>();
-		nodeProduct.put("id", null);
-		nodeProduct.put("productName", null);
-		nodeProduct.put("productCode", 3);
-		nodeProduct.put("createdDate", null);
-		nodeProduct.put("description", null);
-		nodeProduct.put("subModuleType", null);
-		nodeProduct.put("subModuleLable", null);
-		nodeProduct.put("deleted", false);
-
-		Map<String, Object> nodeLicense = new HashMap<>();
-		nodeLicense.put("id", null);
-		nodeLicense.put("license", license.getLicense());
-		nodeLicense.put("passKey", license.getPassKey());
-		nodeLicense.put("activationKey", null);
-		nodeLicense.put("activationLimit", 3);
-		nodeLicense.put("numberOfActivation", 0);
-		nodeLicense.put("createdDate", license.getCreatedDate());
-		nodeLicense.put("xlock", license.getXLock());
-		nodeLicense.put("numberOfClient", license.getNumberOfClient());
-		nodeLicense.put("schoolName", null);
-		nodeLicense.put("product", nodeProduct);
-
-		return nodeLicense;
 	}
 
 	@Override
@@ -267,7 +241,7 @@ public class LicenseServiceImpl implements LicenseService {
 		License currentLicense = licenseRepo.findOne(id);
 		currentLicense.setActivationKey(null);
 		licenseRepo.saveAndFlush(currentLicense);
-		
+
 		return null;
 	}
 }
