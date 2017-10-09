@@ -1,0 +1,73 @@
+<div bs-loading-overlay bs-loading-overlay-reference-id="loading">
+    <div class="row-fluid col-xs-12">
+        <h3 class="page-header">
+            <img src="images/icon-tpls/import_data_1.png" alt=""> Impor Data Siswa
+            <span class="pull-right">
+              <a class="btn btn-primary" target="_self" href="data/student.template.csv" download="student.template.csv"  tooltip-placement="top" uib-tooltip="Unduh Templet CSV Impor Siswa"><i class="fa fa-download"></i></a>
+              <a class="btn btn-primary" tooltip-placement="top" uib-tooltip="Bantuan" ng-click="openHelp('import-student')">
+                <i class="fa fa-question"></i>
+              </a>
+            </span>
+        </h3>
+        <form name="importForm" id="importForm">
+            <table class="col-xs-12" ng-show="!data" ng-hide="data">
+                <tr class="thumbnail">
+                    <td class="col-xs-4">Unggah CSV</td>
+                    <td class="col-xs-6 form-control">
+                        <ng-csv-import content="csv.content" header="csv.header" separator="csv.separator" result="csv.result" encoding="csv.encoding"></ng-csv-import>
+                    </td>
+                    <td class="col-xs-3">
+                        <div class="btn btn-primary" ng-click="updateData()" ng-disabled="!csv.result">Unggah</div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="row-fluid col-xs-12 " ng-show="data" ng-hide="!data">
+        <div class="pull-right">
+            <button class="btn btn-primary" type="button" ng-click="reupload()">Impor Ulang</button>
+        </div>
+        <table ng-table="studentTable" class="table table-responsive table-striped ">
+            <tr ng-repeat="student in data">
+                <td data-title="'No'">
+                    {{$index+1+(studentTable.count()*(studentTable.page()-1))}}
+                </td>
+                <td data-title="'NIS'">
+                    {{student.nis}}
+                </td>
+                <td data-title="'Nama'">
+                    {{student.firstName+" "+student.lastName}}
+                </td>
+                <td data-title="'Tanggal Lahir'">
+                    {{student.birthPlace+", "+student.birthDate}}
+                </td>
+                <td data-title="'Alamat'">
+                    {{student.address}}
+                </td>
+                <td data-title="'Kelas'">
+                    {{student.kelas}}
+                </td>
+                <td data-title="'Telpon'">
+                    {{student.phone}}
+                </td>
+                <td data-title="'Telpon Genggam'">
+                    {{student.mobilePhone}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row-fluid col-xs-12" ng-show="data" ng-hide="!data">
+        <form role="form" ng-submit="importStudent()">
+            <div class="form-group">
+                <div>
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                    <a ui-sref="admin" class="btn btn-default">Batal</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<!--<modal-spinner title="Proses Simpan" visible="showModalLoading"></modal-spinner>-->

@@ -220,9 +220,9 @@ public class LicenseServiceImpl implements LicenseService {
 				// e.printStackTrace();
 			}
 
-		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (JSONException | IOException jec) {
+			//ce.printStackTrace();
+			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 		}
 
 		if (response != null) {

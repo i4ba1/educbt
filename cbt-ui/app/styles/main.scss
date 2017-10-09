@@ -1,0 +1,55 @@
+/* =====[MAIN CSS]====  */
+
+#login-body {
+    width: 100%;
+    height: 100%;
+    /*background-image: url('../images/login.png');
+  background-position: center;
+  background-size: cover;*/
+    padding-top: 10%;
+    margin-bottom: -20px;
+}
+
+.shadow {
+    box-shadow: 4px 4px 6px #888888;
+}
+
+.title-login {
+    color: #337ab7;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.notif_container {
+    position: relative;
+    /* This is crucial for the absolutely positioned element */
+}
+
+.notif_bubble {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    /* This breaks the div from the normal HTML document. */
+    top: -10px;
+    right: 0px;
+    text-align: center;
+    padding-top: 5px;
+    background: rgba(35, 65, 103, 1);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    border: 2px solid white;
+    /* The following is CSS3, but isn't crucial for this technique to work. */
+    /* Keep in mind that if a browser doesn't support CSS3, it's fine! They just won't have rounded borders and won't have a box shadow effect. */
+    /* You can always use a background image to produce the same effect if you want to, and you can use both together so browsers without CSS3 still have the rounded/shadow look. */
+    border-radius: 30px;
+    box-shadow: 2px 2px 2px gray;
+}
+
+.portfolio-item {
+    margin-bottom: 25px;
+}
+
+footer {
+    margin: 50px 0;
+}

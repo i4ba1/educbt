@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Smart Bee - EDU CBT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="images/ico/cbt_ico.ico" />
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="bower_components/angular-ui-select/dist/select.min.css" rel="stylesheet" />
+    <link href="bower_components/ng-table/dist/ng-table.css" rel="stylesheet" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/student_style.css" />
+    <link rel="stylesheet" href="styles/admin_style.css" />
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+
+<body ng-app="app" oncontextmenu="return false;">
+
+    <ui-view></ui-view>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/angular-timer/dist/angular-timer.min.js"></script>
+    <script src="bower_components/humanize-duration/humanize-duration.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.js"></script>
+    <script src="bower_components/thread/thread.js"></script>
+    <script src="bower_components/angular-thread/angular-thread.js"></script>
+    <script src="bower_components/checklist-model/checklist-model.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
+    <script src="bower_components/tinymce/tinymce.min.js"></script>
+    <script src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+    <script src="bower_components/spin.js/spin.min.js"></script>
+    <script src="bower_components/angular-spinner/angular-spinner.min.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.min.js"></script>
+    <script src="bower_components/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+    <script src="bower_components/angular-loading-overlay/dist/angular-loading-overlay.js"></script>
+    <script src="bower_components/js-xlsx/dist/xlsx.core.min.js"></script>
+    <script src="bower_components/alasql/dist/alasql.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- ==============APP_CORE============== -->
+    <!-- build:js({.tmp,app}) scripts/core.js -->
+    <script src="scripts/plugins/angular-csv-import.js"></script>
+    <script src="scripts/plugins/bootstrap-filestyle.min.js"></script>
+    <script src="scripts/app.js "></script>
+    <script src="scripts/app.routes.teacher.js"></script>
+    <script src="scripts/app.routes.student.js"></script>
+    <script src="scripts/app.routes.js"></script>
+    <!-- endbuild -->
+
+    <!-- ==============FACTORIES=============== -->
+    <!-- build:js({.tmp,app}) scripts/facory.js -->
+    <script src="scripts/factories/base-url.factory.js"></script>
+    <script src="scripts/factories/storage.factory.js"></script>
+    <script src="scripts/factories/error-handling.factory.js"></script>
+    <script src="scripts/factories/tinymce-configuration.factory.js"></script>
+    <script src="scripts/factories/label.factory.js"></script>
+    <script src="scripts/factories/dialog.factory.js"></script>
+    <script src="scripts/factories/sort.factory.js"></script>
+    <!-- endbuild -->
+
+    <!-- ==============FILTERS================= -->
+    <!-- build:js({.tmp,app}) scripts/filter.js -->
+    <script src="scripts/filters/properties.filter.js"></script>
+    <script src="scripts/filters/pagination.filter.js"></script>
+    <!-- endbuild -->
+
+    <!-- ================DIRECTIVES=============== -->
+    <!-- build:js({.tmp,app}) scripts/directive.js -->
+    <script src="scripts/directives/admin-navbar.directive.js"></script>
+    <script src="scripts/directives/teacher-navbar.directive.js"></script>
+    <script src="scripts/directives/student-navbar.directive.js"></script>
+    <script src="scripts/directives/student-footer.directive.js"></script>
+    <script src="scripts/directives/modal-dialog.directive.js"></script>
+    <script src="scripts/directives/modal-spinner.directive.js"></script>
+    <script src="scripts/directives/start-date.directive.js"></script>
+    <script src="scripts/directives/end-date.directive.js"></script>
+    <script src="scripts/directives/religion-option.directive.js"></script>
+    <script src="scripts/directives/class-option.directive.js"></script>
+    <script src="scripts/directives/file-model.directive.js"></script>
+    <script src="scripts/directives/upload.directive.js"></script>
+    <script src="scripts/directives/empty-table.directive.js"></script>
+    <script src="scripts/directives/true-and-false-question.directive.js"></script>
+    <script src="scripts/directives/multiple-choice.directive.js"></script>
+    <script src="scripts/directives/matching-question.directive.js"></script>
+    <script src="scripts/directives/passage-question.directive.js"></script>
+    <!-- endbuild -->
+
+    <!-- ================CONTROLLERS=============== -->
+    <!-- build:js({.tmp,app}) scripts/controller.js -->
+    <script src="scripts/controllers/teacher.controller.js"></script>
+    <script src="scripts/controllers/student.controller.js"></script>
+    <script src="scripts/controllers/class.controller.js"></script>
+    <script src="scripts/controllers/subject.controller.js"></script>
+    <script src="scripts/controllers/dashboard.controller.js"></script>
+    <script src="scripts/controllers/school-profile.controller.js"></script>
+    <script src="scripts/controllers/forgot-password.controller.js"></script>
+    <script src="scripts/controllers/license.controller.js"></script>
+    <script src="scripts/controllers/active-user.controller.js"></script>
+
+    <script src="scripts/controllers/teacher-dashboard.controller.js"></script>
+    <script src="scripts/controllers/event.controller.js"></script>
+    <script src="scripts/controllers/question-bank.controller.js"></script>
+    <script src="scripts/controllers/question.controller.js"></script>
+    <script src="scripts/controllers/teacher-account-setting.controller.js"></script>
+    <script src="scripts/controllers/sub-subject.controller.js"></script>
+    <script src="scripts/controllers/question-bank-import.controller.js"></script>
+
+    <script src="scripts/controllers/student-dashboard.controller.js"></script>
+    <script src="scripts/controllers/student-task.controller.js"></script>
+    <script src="scripts/controllers/student-exam.controller.js"></script>
+    <script src="scripts/controllers/student-exam-result.controller.js"></script>
+
+    <script src="scripts/controllers/login.controller.js"></script>
+    <script src="scripts/controllers/logout.controller.js"></script>
+    <script src="scripts/controllers/change-password.controller.js"></script>
+    <!-- endbuild -->
+
+    <!-- ===================SERVICES============ -->
+    <!-- build:js({.tmp,app}) scripts/service.js -->
+    <script src="scripts/services/class.service.js"></script>
+    <script src="scripts/services/teacher.service.js"></script>
+    <script src="scripts/services/student.service.js"></script>
+    <script src="scripts/services/subject.service.js"></script>
+    <script src="scripts/services/school-profile.service.js"></script>
+    <script src="scripts/services/license.service.js"></script>
+    <script src="scripts/services/active-user.service.js"></script>
+    <script src="scripts/services/forgot-password.service.js"></script>
+    <script src="scripts/services/event.service.js"></script>
+    <script src="scripts/services/question-bank.service.js"></script>
+    <script src="scripts/services/student-task.service.js"></script>
+    <script src="scripts/services/student-exam.service.js"></script>
+    <script src="scripts/services/student-exam-result.service.js"></script>
+    <script src="scripts/services/login.service.js"></script>
+    <script src="scripts/services/change-password.service.js"></script>
+    <!-- endbuild -->
+
+
+</body>
+
+</html>

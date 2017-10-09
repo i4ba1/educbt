@@ -1,0 +1,6 @@
+NIP,NAMA_DEPAN,NAMA_BELAKANG,ALAMAT,TEMPAT_LAHIR,TANGGAL_LAHIR,TELEPON,NO_HP,JENIS_KELAMIN,AGAMA,EMAIL,TANGGAL_MASUK,MASIH_AKTIF_BEKERJA,NAMA_PEKERJAAN,STATUS_PERNIKAHAN
+1234567890,Tedy,Heryansah,Banyumas,Banyumas,22/11/1991,212947591,83807175999,L,islam,tedy@gmail.com,22/11/2015,ya,Guru Pemrograman Java,menikah
+1234567891,Andry,Erviansah,Semarang,Semarang,22/11/1992,212947592,83807176000,L,kristen,andry@gmail.com,22/11/2015,tidak,Guru Bahasa Inggris,belum
+1234567892,Wilsan,San,Jakarta,Jakarta,22/11/1993,212947593,83807176001,L,budha,wilsan@gmail.com,22/11/2016,ya,Guru Bahasa Indonesia,menikah
+1234567893,Wenda,Nurmalita,Cilacap,Cilacap,22/11/1994,212947594,83807176002,P,katolik,wenda@gmail.com,22/11/2016,tidak,Guru Matematika,menikah
+1234567894,Erni,Apriani,Yogyakarta,Yogyakarta,22/11/1995,212947595,83807176003,P,hindu,apriani@gmail.com,22/11/2017,ya,Guru IPA,cerai

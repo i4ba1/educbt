@@ -1,0 +1,262 @@
+<div>
+
+    <form name="passage" class="form" role="form" ng-submit="saveQuestion()" style="width:100%" ng-show="!showAddQst" novalidate>
+        <div class="form-group">
+            <label class="control-label col-xs-12" style="margin-top:20px">Nama Soal* :</label>
+            <div class="col-xs-12">
+                <input type="text" required class="form-control" name="group-name" id="group-name" ng-model="questionGroup.questionGroupName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12">
+                <label class="control-label">Wacana * :</label>
+            </div>
+            <div class="col-xs-12">
+                <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('questionGroup.globalValue')">
+                    <i class="fa fa-picture-o"></i> Galeri
+                </div>
+                <textarea ui-tinymce="tinymceQuestion" ng-model="questionGroup.globalValue" ng-required="true"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-top:20px">
+                <label class="control-label" for="qPassageType">Daftar Soal :</label>
+                <label class="btn  btn-default pull-right" ng-click="showQuestionTypeOption()" title="tambaha soal" style="margin-bottom:5px">
+          <i class="fa fa-plus-square" aria-hidden="true"></i> Tambah Soal
+        </label>
+            </div>
+
+            <div class="col-xs-12">
+                <div ng-switch="passageQuestions.length">
+                    <table class="table table-bordered" ng-switch-default>
+                        <thead>
+                            <tr>
+                                <th width="50">No</th>
+                                <th>Pertanyaan</th>
+                                <th width="100">Kesukaran</th>
+                                <th width="100"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="question in passageQuestions">
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    <p ng-bind-html="trustAsHtml(question.question)"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind-html="trustAsHtml(question.difficulty)"></p>
+                                </td>
+                                <td>
+                                    <label class="btn btn-default" ng-click="passageQuestionEdit(question, $index)">
+                    <i class="fa fa-fw fa-pencil fa-lg"></i>
+                  </label>
+                                    <!-- <label class="btn btn-default" ng-click="passageQuestionRemove($index)">
+                    <i class="fa fa-fw fa-trash fa-lg"></i>
+                  </label> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered" ng-switch-when="0">
+                        <thead>
+                            <tr>
+                                <th width="50">Index</th>
+                                <th>Pertanyaan</th>
+                                <th width="100">Kesukaran</th>
+                                <th width="100"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" align="center">daftar soal masih kosong</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-bottom:10px">
+                <hr/>
+                <a ui-sref="^" class="btn btn-default pull-right" role="button" style="margin-left:5px">Batal</a>
+                <button class="btn btn-primary pull-right" role="button" type="submit" ng-disabled="eventForm.$invalid">{{questionUpdate?"Ubah":"Simpan"}}</button>
+            </div>
+        </div>
+    </form>
+
+    <form name="addQst" class="form" role="form" ng-show="showAddQst" ng-switch="qPassageType">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <label class="control-label"> Sub Materi * :</label>
+                <!--Select tag names Filter-->
+                <ui-select multiple ng-model="selectedQuestion.tagNames" theme="bootstrap" sortable="true" close-on-select="true" style="width: 100%; height: 50px;">
+                    <ui-select-match placeholder="pilih sub materi...">{{$item.tagName}}</ui-select-match>
+                    <ui-select-choices repeat="tag in tags.availableOption | propsFilter: {tagName: $select.search}">
+                        <div ng-bind-html="tag.tagName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-top:20px">
+                <label class="control-label">Pertanyaan * :</label>
+            </div>
+            <div class="col-xs-12">
+                <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.question')">
+                    <i class="fa fa-picture-o"></i> Galeri
+                </div>
+                <textarea ui-tinymce="tinymceQuestion" ng-model="selectedQuestion.question"></textarea>
+            </div>
+        </div>
+
+        <div ng-switch-when="MC">
+            <!-- Instance tinyMCE For Option A  -->
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-top:20px">
+                    <label class="control-label">Pilihan A* :</label>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionA')">
+                        <i class="fa fa-picture-o"></i> Galeri
+                    </div>
+                    <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionA"></textarea>
+                </div>
+            </div>
+
+            <!-- Instance tinyMCE For Option B  -->
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-top:20px">
+                    <label class="control-label">Pilihan B* :</label>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionB')">
+                        <i class="fa fa-picture-o"></i> Galeri
+                    </div>
+                    <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionB"></textarea>
+                </div>
+            </div>
+
+            <!-- Instance tinyMCE For Option C  -->
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-top:20px">
+                    <label class="control-label">Pilihan C*:</label>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionC')">
+                        <i class="fa fa-picture-o"></i> Galeri
+                    </div>
+                    <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionC"></textarea>
+                </div>
+            </div>
+
+            <!-- Instance tinyMCE For Option D  -->
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-top:20px">
+                    <label class="control-label">Pilihan D:</label>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionD')">
+                        <i class="fa fa-picture-o"></i> Galeri
+                    </div>
+                    <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionD"></textarea>
+                </div>
+            </div>
+
+            <!-- Instance tinyMCE For Option E  -->
+            <div class="form-group">
+                <div class="col-xs-12" style="margin-top:20px">
+                    <label class="control-label">Pilihan E:</label>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.optionE')">
+                        <i class="fa fa-picture-o"></i> Galeri
+                    </div>
+                    <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.optionE"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12" style="margin-top:20px">Kunci Jawab* :</label>
+                <div class="col-xs-12">
+                    <select name="key_1" class="form-control" ng-model="selectedQuestion.key" ng-required="true">
+                <option value="" ng-disabled="true">
+                  <i style="color:grey">-- pilih kunci jawaban --</i>
+                </option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+              </select>
+                </div>
+            </div>
+        </div>
+
+        <div ng-switch-when="TF">
+            <div class="form-group">
+                <label class="control-label col-xs-12" style="margin-top:20px">Kunci Jawab* :</label>
+                <div class="col-xs-12">
+                    <select name="key_1" class="form-control" ng-model="selectedQuestion.key" ng-required="true">
+                <option value="" ng-disabled="true">
+                  <i style="color:grey">-- pilih kunci jawaban --</i>
+                </option>
+                 <option value="true">Benar</option>
+                 <option value="false">Salah</option>
+              </select>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="control-label col-xs-12" for="difficulty" style="margin-top:20px">Taraf Kesukaran* :</label>
+            <div class="col-xs-12">
+                <select name="difficulty" class="form-control" ng-model="selectedQuestion.difficulty" ng-required="true">
+                    <option value="" ng-selected="true" ng-disabled="true">
+                        <i style="color:grey">-- pilih taraf kesukaran soal --</i>
+                    </option>
+                    <option value="EASY">MUDAH</option>
+                    <option value="MEDIUM">SEDANG</option>
+                    <option value="HARD">SUKAR</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-top:20px">
+                <label class="control-label">Pembahasan* :</label>
+            </div>
+            <div class="col-xs-12">
+                <div class="btn btn-default tinymce-add-image" ng-click="showImagesPanel('selectedQuestion.explanation')">
+                    <i class="fa fa-picture-o"></i> Galeri
+                </div>
+                <textarea ui-tinymce="tinymceOptions" ng-model="selectedQuestion.explanation" ng-required="true"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-top:20px">
+                <hr/>
+                <button class="btn btn-default pull-right" role="button" type="button" ng-click="showPanel(false,'')" style="margin-left:5px">Batal</button>
+                <button class="btn btn-primary pull-right" role="button" type="button" ng-click="passageQuestionAdd(selectedQuestion)">{{"Simpan"}}</button>
+            </div>
+        </div>
+    </form>
+
+    <modal-dialog title="Pilih Tipe Soal" visible="showModalPassage" size="modal-sm">
+        <div>
+            <input type="radio" name="qType" value="MC" ng-model="qPassageType"> Soal Pilihan Ganda<br/>
+            <input type="radio" name="qType" value="TF" ng-model="qPassageType"> Soal Benar Salah<br/>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="showPanel(true,qPassageType);" ng-disabled="qPassageType == ''">Pilih</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Batal</button>
+        </div>
+    </modal-dialog>
+</div>

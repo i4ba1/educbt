@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <span class="dialog-title">{{titleText}}</span>
+    <div class="pull-right">
+        <div ng-click="cancel()" class="dialog-close"><i class="fa fa-times" aria-hidden="true"></i></div>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="dialog-msg">
+        <div ng-bind-html="trustAsHtml(contentText)"></div>
+    </div>
+</div>

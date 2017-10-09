@@ -51,7 +51,7 @@ private RestTemplate helpDeskApi;
     }
 	
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
-        int timeout = 7000;
+        int timeout = 15000;
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         clientHttpRequestFactory.setConnectTimeout(timeout);
         clientHttpRequestFactory.setReadTimeout(timeout);

@@ -1,0 +1,34 @@
+<div class="container-fluid" id="login-body">
+
+    <div class="row-fluid">
+        <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
+            <div class="panel panel-default shadow panel-custome">
+                <div class="panel-heading">
+                    <div class="row panel-title">
+                        <img src="images/logo_large.png" class="img-responsive-2" />
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <form name="loginForm" role="form" ng-submit="loginSubmit()">
+                        <fieldset>
+                            <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
+                                <input name="username" class="form-control" placeholder="Nama Pengguna" type="text" ng-model="user.un" ng-required="true">
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
+                                <input name="password" class="form-control" placeholder="Kata Sandi" type="password" ng-model="user.ps" ng-required="true">
+                            </div>
+
+                            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Masuk" ng-disabled="loginForm.$invalid">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-12 centerText" style="margin-top:20px;color:grey;">
+                <p>Copyright &copy; 2016, <span class="knt-credit" ng-click="openCredit()">PT. Kharisma Nusantara Teknologi</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<modal-spinner title="Pengaturan Awal" visible="showDialog"></modal-spinner>

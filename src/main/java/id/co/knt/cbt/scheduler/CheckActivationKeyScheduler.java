@@ -6,8 +6,6 @@ package id.co.knt.cbt.scheduler;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,6 @@ public class CheckActivationKeyScheduler {
 	/*
 	 * second, minute, hour, day, month, weekday
 	 */
-	@PostConstruct
 	@Scheduled(fixedDelay=5000000)
 	public void checkActivationKey() {
 		RestTemplateUtility restTemplateUtility = new RestTemplateUtility();
@@ -64,6 +61,8 @@ public class CheckActivationKeyScheduler {
 	                	license.setLicenseStatus(false);
 						license.setActivationKey(null);
 						licenseRepo.saveAndFlush(license);
+	                }else {
+	                	LOG.info("another error=====> "+ statusCode);
 	                }
 	            }
 			}
