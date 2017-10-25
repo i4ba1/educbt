@@ -1,6 +1,7 @@
 package id.co.knt.cbt.service.impl;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.List;
 import java.util.Map;
 
@@ -220,7 +221,7 @@ public class LicenseServiceImpl implements LicenseService {
 				// e.printStackTrace();
 			}
 
-		} catch (JSONException | IOException jec) {
+		} catch (Exception ce) {
 			//ce.printStackTrace();
 			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 		}

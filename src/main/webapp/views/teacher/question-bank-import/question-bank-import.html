@@ -1,0 +1,96 @@
+<div bs-loading-overlay bs-loading-overlay-reference-id="loading">
+    <div ng-switch="resultVisible">
+        <div ng-switch-default>
+            <h3 class="page-header">
+                <img src="images/icon-tpls/bank_soal_1.png" alt=""> Impor Bank Soal
+                <span class="pull-right">
+                     <a class="btn btn-primary" tooltip-placement="top" uib-tooltip="Bantuan" ng-click="openHelp('import-question')">
+                        <i class="fa fa-question"></i>
+                    </a>
+                </span>
+            </h3>
+
+            <div class="col-md-12">
+                <form class="form-horizontal" name="importForm" id="importForm" style="width: 600px;" ng-submit="saveImportData()" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">Bank Soal</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="importModel.questionBankName" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">Tipe Soal Wacana ?</label>
+                        <div class="col-md-8">
+                            <input type="checkbox" ng-model="isPassage" ng-change="isPassageChange(isPassage)" name="optradio">
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="isPassage" ng-hide="!isPassage">
+                        <label for="" class="control-label col-md-4">Teks Wacana</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" ng-model="importModel.passage" rows="6"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">Unggah File XLS</label>
+                        <div class="col-md-8">
+                            <div class="col-md-5" ng-switch="">
+                                <a class="btn btn-default" target="_self" href="data/question.bank.template_final.xls" download="question.bank.template.xls" title="Unduh Templet CSV Impor Bank Soal" style="color: black">
+                                    <i class="fa fa-download fa-fw fa-lg"></i> XLS Template
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="file" id="xlsFile" class="filestyle" data-input="false" required accept="application/vnd.ms-excel">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Simpan</button>
+                        <a class="btn btn-default" ui-sref="^">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div ng-switch-when="1">
+            <h3 class="page-header">
+                <i class="fa fa-newspaper-o fa-lg"></i> Hasil Import Data
+                <span class="pull-right"></span>
+            </h3>
+            <div class="col-md-12 col-sm-12" style="overflow-x: scroll; min-height:300px;">
+                <table class="table table-striped table-bordered" style="width: 1200px;">
+                    <thead>
+                        <tr>
+                            <td>No.</td>
+                            <td>Pertanyaan</td>
+                            <td>Pilihan A</td>
+                            <td>Pilihan B</td>
+                            <td>Pilihan C</td>
+                            <td>Pilihan D</td>
+                            <td>Jawaban</td>
+                            <td>Kesulitan</td>
+                            <td>Penjelasaan</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in questions track by $index">
+                            <td>{{$index+1}}</td>
+                            <td>{{row.question}}</td>
+                            <td>{{row.optionA}}</td>
+                            <td>{{row.optionB}}</td>
+                            <td>{{row.optionC}}</td>
+                            <td>{{row.optionD}}</td>
+                            <td>{{checkKey(row.key)}}</td>
+                            <td>{{checkDiff(row.difficulty)}}</td>
+                            <td>{{row.explanation}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <a class="btn btn-primary" ui-sref="^">Kembali ke Detail Bank Soal</a>
+            </div>
+        </div>
+    </div>
+</div>

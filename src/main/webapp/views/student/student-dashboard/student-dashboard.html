@@ -1,0 +1,53 @@
+<!-- Heading Row -->
+<div class="row">
+    <!-- /.col-md-4 -->
+    <div class="col-xs-12">
+        <div class=" panel panel-default">
+            <div class="panel-heading">
+                <b>{{schoolProfile.schoolName}}</b>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-8 font-responsive">
+                    <p ng-bind-html="trustAsHtml(schoolProfile.schoolDescription)"></p>
+                </div>
+                <div class="col-xs-4 pull-right" style="margin-right:-15px">
+                    <img class="img-responsive img-rounded pull-right" src="{{schoolProfile.content}}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.col-md-8 -->
+</div>
+<!-- /.row -->
+<!-- Content Row -->
+<div class="row">
+    <!-- TUGAS -->
+    <div class="col-md-3 col-xs-3 notif_container">
+        <a class="span-click-able" ui-sref="student.task({eventType:'tugas'})">
+            <img class="img-responsive" src="images/student-tpl/student_tugas_1.png" alt="" onmouseover="this.src='images/student-tpl/student_tugas_2.png'" onmouseout="this.src='images/student-tpl/student_tugas_1.png'">
+        </a>
+        <div class="notif_bubble" ng-show="notification[0].visible">{{notification[0].count}}</div>
+    </div>
+    <!-- KUIS -->
+    <div class="col-md-3 col-xs-3 notif_container">
+        <a class="span-click-able" ui-sref="student.task({eventType:'kuis'})">
+            <img class="img-responsive" src="images/student-tpl/student_kuis_1.png" alt="" onmouseover="this.src='images/student-tpl/student_kuis_2.png'" onmouseout="this.src='images/student-tpl/student_kuis_1.png'">
+        </a>
+        <div class="notif_bubble" ng-show="notification[1].visible">{{notification[1].count}}</div>
+    </div>
+    <!-- TRYOUT UAS -->
+    <div class="col-md-3 col-xs-3 notif_container">
+        <a class="span-click-able" ui-sref="student.task({eventType:'tryout_uas'})">
+            <img class="img-responsive" src="images/student-tpl/student_uas_1.png" alt="" onmouseover="this.src='images/student-tpl/student_uas_2.png'" onmouseout="this.src='images/student-tpl/student_uas_1.png'">
+        </a>
+        <div class="notif_bubble" ng-show="notification[2].visible">{{notification[2].count}}</div>
+    </div>
+    <!-- TYROUT UNAS -->
+    <div class="col-md-3 col-xs-3 notif_container">
+        <a class="span-click-able" ui-sref="student.task({eventType:'tryout_uan'})">
+            <img class="img-responsive" src="images/student-tpl/student_uan_1.png" alt="" onmouseover="this.src='images/student-tpl/student_uan_2.png'" onmouseout="this.src='images/student-tpl/student_uan_1.png'">
+        </a>
+        <div class="notif_bubble" ng-show="notification[3].visible">{{notification[3].count}}</div>
+    </div>
+</div>

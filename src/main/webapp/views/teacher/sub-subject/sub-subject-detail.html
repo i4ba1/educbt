@@ -1,0 +1,33 @@
+<div class="row col-xs-12">
+    <h3 class="page-header">
+        <img src="images/icon-tpls/kelola_sub_materi_1.png" alt=""> {{isUpdate?"Detil ":"Tambah "}} Sub Materi
+    </h3>
+
+    <form name="subjectForm" class="form-horizontal" role="form" ng-submit="saveOrUpdate()" style="width:100%" novalidate>
+
+        <div class="form-group">
+            <label class="control-label col-sm-3">Mata Pelajaran *</label>
+            <div class="col-sm-6" ng-switch="isUpdate">
+                <label class="form-control" ng-switch-when="true">{{selectedChapter.subject.subjectName}}</label>
+                <select name="event_type" class="form-control" ng-model="selectedChapter.subject" ng-required="true" ng-switch-default>
+          <option value="" ng-selected="true" ng-disabled="true"><i style="color:grey">-- pilih mata pelajaran --</i></option>
+          <option ng-repeat="option in subjects" value="{{option}}">{{option.subjectName}}</option>
+        </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label  col-sm-3">Nama Sub Materi *</label>
+            <div class="col-sm-6">
+                <input name="themeModel" class="form-control" maxlength="50" ng-model="selectedChapter.tagName" placeholder="sub materi" type="text" ng-required="true" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button class="btn btn-primary" type="submit" ng-disabled="subjectForm.$invalid">{{isUpdate?"Ubah":"Simpan"}}</button>
+                <a ui-sref="^" class="btn btn-default">Batal</a>
+            </div>
+        </div>
+    </form>
+</div>

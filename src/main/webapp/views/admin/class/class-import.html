@@ -1,0 +1,59 @@
+<div bs-loading-overlay bs-loading-overlay-reference-id="loading">
+
+    <div class="col-xs-12">
+        <h3 class="page-header">
+            <img src="images/icon-tpls/import_data_1.png" alt=""> Impor Data Kelas
+            <span class="pull-right">
+                <a class="btn btn-primary" target="_self" href="data/grade.template.csv" download="grade.template.csv" tooltip-placement="top" uib-tooltip="Unduh Templet CSV Impor Kelas">
+                    <i class="fa fa-download"></i>
+                </a>
+                <a class="btn btn-primary" tooltip-placement="top" uib-tooltip="Bantuan" ng-click="openHelp('import-class')">
+                    <i class="fa fa-question"></i>
+                </a>
+            </span>
+        </h3>
+        <form name="importForm" id="importForm">
+            <table class="col-xs-12" ng-show="!data" ng-hide="data">
+                <tr class="thumbnail">
+                    <td class="col-xs-4">Unggah CSV</td>
+                    <td class="col-xs-6 form-control">
+                        <ng-csv-import content="csv.content" header="csv.header" separator="csv.separator" result="csv.result" encoding="csv.encoding"></ng-csv-import>
+                    </td>
+                    <td class="col-xs-3">
+                        <button type="button" class="btn btn-primary" ng-click="updateData()" ng-disabled="!csv.result">Unggah</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <br>
+
+    <div class="col-xs-12 col-md-12 " ng-show="data" ng-hide="!data">
+        <div class="pull-right">
+            <button class="btn btn-primary" type="button" ng-click="reupload()">Impor Ulang</button>
+        </div>
+        <table ng-table="classTable" class="table table-responsive table-striped ">
+            <tr ng-repeat="grade in data">
+                <td data-title="'No'" style="text-align:center;width: 100px;">
+                    {{$index+1+(classTable.count()*(classTable.page()-1))}}
+                </td>
+                <td data-title="'Nama Kelas'" style="text-align: center;">
+                    {{grade.className}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-xs-12" ng-show="data" ng-hide="!data">
+        <form role="form" ng-submit="importClass()">
+            <div class="form-group">
+                <div>
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                    <a ui-sref="^" class="btn btn-default">Batal</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,125 @@
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+        <a class="navbar-brand outlineless" style="margin:0px 30px 0px 35px; padding-top:5px"><img src="images/logo.png" alt="" /></a>
+        <img src="images/divider.png" style="margin-top:7px;" alt="" class="img-hiden" />
+    </div>
+
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav side-nav">
+            <li>
+                <a ui-sref="admin">
+                    <i class="fa fa-home fa-lg"></i> Beranda
+                </a>
+            </li>
+
+            <li>
+                <a data-target="#data_master" data-toggle="collapse" href="javascript:;">
+                    <img class="icon-size" src="images/icon-tpls/kelola_data_master_2.png" alt=""> Kelola Data Master
+                    <i class="fa fa-fw fa-caret-down fa-lg"></i>
+                </a>
+                <ul class="collapse" id="data_master">
+                    <li>
+                        <a ui-sref="admin.teacherMgmt"> <i class="fa fa-circle"></i> Kelola Data Guru</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.studentMgmt"> <i class="fa fa-circle"></i> Kelola Data Siswa</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.classMgmt"> <i class="fa fa-circle"></i> Kelola Data Kelas</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.subjectMgmt"> <i class="fa fa-circle"></i> Kelola Mata Pelajaran</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a data-target="#import_data" data-toggle="collapse" href="javascript:;">
+                    <img class="icon-size" src="images/icon-tpls/import_data_2.png" alt=""> Impor Data CSV
+                    <i class="fa fa-fw fa-caret-down fa-lg"></i>
+                </a>
+                <ul class="collapse" id="import_data">
+                    <li>
+                        <a ui-sref="admin.teacherImport">
+                            <i class="fa fa-circle"></i> Impor Data Guru</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.studentImport">
+                            <i class="fa fa-circle"></i> Impor Data Siswa</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.classImport">
+                            <i class="fa fa-circle"></i> Impor Data Kelas</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.subjectImport">
+                            <i class="fa fa-circle"></i> Impor Mata Pelajaran</a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-hide="false">
+                <a data-target="#settings" data-toggle="collapse" href="javascript:;">
+                    <i class="fa fa-cogs fa-lg"></i> Pengaturan
+                    <i class="fa fa-fw fa-caret-down fa-lg"></i>
+                </a>
+                <ul class="collapse" id="settings">
+                    <li>
+                        <a ui-sref="admin.setting">
+                            <i class="fa fa-circle"></i> Profil Sekolah</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.forgotPswd">
+                            <i class="fa fa-circle"></i> Lupa Kata Sandi</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.licenseMgmt">
+                            <i class="fa fa-circle"></i> Manajemen Lisensi </a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.activeUser">
+                            <i class="fa fa-circle"></i> Pengguna Aktif</a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-show="(type ==='demo')">
+                <div class="demo-label">
+                    Demo Version
+                </div>
+            </li>
+        </ul>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-nav navbar-right top-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle click-able" data-toggle="dropdown">
+                    <i class="fa fa-fw fa-bars fa-lg"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a>
+                            <b style="color:#205081">Administrator</b>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a ui-sref="admin.changePswd">
+                            <i class="fa fa-fw fa-lock"></i>Ganti Password</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="click-able" ng-click="loggedOut()">
+                            <i class="fa fa-fw fa-power-off"></i>Keluar</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>

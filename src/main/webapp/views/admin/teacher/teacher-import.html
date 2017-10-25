@@ -1,0 +1,68 @@
+<div bs-loading-overlay bs-loading-overlay-reference-id="loading">
+
+    <div class="row-fluid col-xs-12">
+        <h3 class="page-header">
+            <img src="images/icon-tpls/import_data_1.png" alt=""> Impor Data Guru
+            <span class="pull-right">
+                <a target="_self" href="data/teacher.template.csv" download="teacher.template.csv" class="btn btn-primary" tooltip-placement="top" uib-tooltip="Unduh Templet CSV Impor Guru">
+                    <i class="fa fa-download"></i>
+                </a>
+                <a class="btn btn-primary" tooltip-placement="top" uib-tooltip="Bantuan" ng-click="openHelp('import-teacher')">
+                    <i class="fa fa-question"></i>
+                </a>
+            </span>
+        </h3>
+        <form name="importForm" id="importForm">
+            <table class="col-xs-12" ng-show="!data" ng-hide="data">
+                <tr class="thumbnail">
+                    <td class="col-xs-4">Unggah CSV</td>
+                    <td class="col-xs-6 form-control">
+                        <ng-csv-import content="csv.content" header="csv.header" separator="csv.separator" result="csv.result" encoding="csv.encoding"></ng-csv-import>
+                    </td>
+                    <td class="col-xs-3">
+                        <div class="btn btn-primary" ng-click="updateData()" ng-disabled="!csv.result">Unggah</div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="row-fluid col-xs-12 " ng-show="data" ng-hide="!data">
+        <div class="pull-right">
+            <button class="btn btn-primary" type="button" ng-click="reupload()">Impor Ulang</button>
+        </div>
+        <table ng-table="teachersTable" class="table table-responsive table-striped ">
+            <tr ng-repeat="teacher in data">
+                <td data-title="'No'">
+                    {{$index+1+(teachersTable.count()*(teachersTable.page()-1))}}
+                </td>
+                <td data-title="'NIP'">
+                    {{teacher.nip}}
+                </td>
+                <td data-title="'Nama'">
+                    {{teacher.firstName+" "+teacher.lastName}}
+                </td>
+                <td data-title="'Tanggal Lahir'">
+                    {{teacher.birthPlace+", "+teacher.birthDate}}
+                </td>
+                <td data-title="'Alamat'">
+                    {{teacher.address}}
+                </td>
+                <td data-title="'Telpon'">
+                    {{teacher.phone}}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="row-fluid col-xs-12" ng-show="data" ng-hide="!data">
+        <div class="form-group">
+            <div>
+                <form role="form" ng-submit="importTeacher()">
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                    <a ui-sref="admin" class="btn btn-default">Batal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
