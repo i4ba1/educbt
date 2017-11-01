@@ -411,7 +411,7 @@
             showQuestionTypeOption: function(path) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: "components/modal-template/question-type.html",
+                    templateUrl: "views/components/modal-template/question-type.html",
                     size: 'sm',
                     controller: questionTypeOptionController,
                     resolve: {

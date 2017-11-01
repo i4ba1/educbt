@@ -176,13 +176,16 @@ gulp.task('client:build', ['html', 'styles'], function() {
 });
 
 gulp.task('copy:plugins', function() {
-    gulp.src(yeoman.app + '/bower_components/tinymce/plugins/**/*')
-        .pipe(gulp.dest(yeoman.dist + '/scripts/plugins'));
-    gulp.src(yeoman.app + '/bower_components/tinymce/themes/**/*')
-        .pipe(gulp.dest(yeoman.dist + '/scripts/themes'));
-    gulp.src(yeoman.app + '/bower_components/tinymce/skins/**/*')
-        .pipe(gulp.dest(yeoman.dist + '/scripts/skins'));
-    return 0;
+    setTimeout(function() {
+        console.log("Enter Here====");
+        gulp.src('./bower_components/tinymce/plugins/**/*')
+            .pipe(gulp.dest(yeoman.dist + '/scripts/plugins'));
+        gulp.src('./bower_components/tinymce/themes/**/*')
+            .pipe(gulp.dest(yeoman.dist + '/scripts/themes'));
+        gulp.src('./bower_components/tinymce/skins/**/*')
+            .pipe(gulp.dest(yeoman.dist + '/scripts/skins'));
+    }, 1000);
+    return 1;
 });
 
 gulp.task('template-data', function() {
