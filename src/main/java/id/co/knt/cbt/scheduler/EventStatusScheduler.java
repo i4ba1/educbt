@@ -10,13 +10,13 @@ import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.service.EventService;
 
-//@Component
+@Component
 public class EventStatusScheduler {
 
 	@Autowired
 	private EventService eventService;
 
-	//@Scheduled(cron = "* 0/3 * * * *")
+	@Scheduled(cron = "* 15 * * * *")
 	public void updateEvent() {
 		List<Event> publishedEvent = eventService.fetchPublishedEvent();
 
