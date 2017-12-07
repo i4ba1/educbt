@@ -1,12 +1,9 @@
 package id.co.knt.cbt.service.impl;
 
-import java.io.IOException;
-import java.net.ConnectException;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,16 +60,22 @@ public class LicenseServiceImpl implements LicenseService {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey.toLowerCase(), passKey, "", System.currentTimeMillis(), xlock,
-										macAddr, numberOfClient);
+								license = new License(licenseKey.toLowerCase(), passKey, "", System.currentTimeMillis(),
+										xlock, macAddr, numberOfClient);
 
 								Map<String, Object> objLicense = rest.serializeLicenseObject(license);
 
-								int response = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER, objLicense,
-										Integer.class);
-								if (response <= 0) {
+								if (rest.isInternet()) {
+									int response = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER,
+											objLicense, Integer.class);
+									if (response <= 0) {
+										newLicense = licenseRepo.save(license);
+									}
+								}else {// this mean no Internet connection so we save to the local DB
 									newLicense = licenseRepo.save(license);
 								}
+								
+								
 
 							} else {
 								return null;
@@ -169,8 +172,8 @@ public class LicenseServiceImpl implements LicenseService {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
-								license = new License(licenseKey.toLowerCase(), passKey, activationKey, registerDate, xlock, macAddr,
-										numberOfClient);
+								license = new License(licenseKey.toLowerCase(), passKey, activationKey, registerDate,
+										xlock, macAddr, numberOfClient);
 							} else {
 								return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 							}
@@ -209,20 +212,28 @@ public class LicenseServiceImpl implements LicenseService {
 
 			try {
 				Map<String, Object> objLicense = rest.serializeLicenseObject(license);
-				response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
-						License.class);
+				
+				if (rest.isInternet()) {
+					response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
+							License.class);
+				} else {
+					return new ResponseEntity<License>(HttpStatus.SERVICE_UNAVAILABLE);
+				}
+				
 			} catch (HttpStatusCodeException e) {
 				int statusCode = e.getStatusCode().value();
 				if (statusCode == HttpStatus.EXPECTATION_FAILED.value()) {
 					return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 				} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 					return new ResponseEntity<License>(license, HttpStatus.FORBIDDEN);
+				} else if (statusCode == HttpStatus.NOT_ACCEPTABLE.value()) {
+					return new ResponseEntity<License>(HttpStatus.NOT_ACCEPTABLE);
 				}
-				// e.printStackTrace();
+				
 			}
 
 		} catch (Exception ce) {
-			//ce.printStackTrace();
+			ce.printStackTrace();
 			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 		}
 

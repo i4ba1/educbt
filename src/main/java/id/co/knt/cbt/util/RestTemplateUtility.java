@@ -3,6 +3,8 @@
  */
 package id.co.knt.cbt.util;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +19,9 @@ import id.co.knt.cbt.model.License;
  *
  */
 public class RestTemplateUtility {
-private RestTemplate helpDeskApi;
+	private RestTemplate helpDeskApi;
+	
+	private static final String CONNECT_URL = "http://192.168.5.188:8080/helpdesk/api/productManagement/";
 	
 	public RestTemplateUtility() {
 		helpDeskApi = new RestTemplate(getClientHttpRequestFactory());
@@ -49,6 +53,36 @@ private RestTemplate helpDeskApi;
 		
 		return nodeLicense;
     }
+	
+	public boolean isInternet() {
+		int failed = 0;
+		boolean reachable = false;
+
+		while (failed < 3) {
+			try {
+
+				URL url = new URL(CONNECT_URL);
+				System.out.println(url.getHost());
+				HttpURLConnection con = (HttpURLConnection) url.openConnection();
+				con.connect();
+				System.out.println("Response code====> "+con.getResponseCode());
+						
+				if (con.getResponseCode() == 200) {
+					System.out.println("Connection established!!");
+					reachable = true;
+					break;
+				}
+
+			} catch (Exception e) {
+				failed++;
+				e.printStackTrace();
+			}
+
+		}
+
+		return reachable;
+
+	}
 	
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
         int timeout = 15000;

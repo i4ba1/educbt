@@ -53,8 +53,11 @@ public class CheckActivationKeyScheduler {
 				LOG.info("url validateActivationKey=====> "+(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY));
 				
 				try {
-	                restTemplateUtility.helpDeskAPI()
-	                        .postForObject(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY, objLicense, Integer.class);
+					if (restTemplateUtility.isInternet()) {
+						restTemplateUtility.helpDeskAPI()
+                        	.postForObject(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY, objLicense, Integer.class);
+					}
+	                
 	            } catch (HttpClientErrorException e) {
 	                int statusCode = e.getStatusCode().value();
 	                if (statusCode == HttpStatus.NOT_ACCEPTABLE.value()) {

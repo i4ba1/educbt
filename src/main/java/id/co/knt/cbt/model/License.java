@@ -46,12 +46,15 @@ public class License implements Serializable {
 
 	@Column(name = "licenseStatus")
 	private boolean licenseStatus;
+	
+	@Column(name = "register_status", columnDefinition="smallint")
+	private Integer registerStatus;
 
 	public License() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public License(String license, String passKey, String activationKey, Long createdDate, String xlock,  byte[] macAddr, Integer numberOfLicense) {
+	public License(String license, String passKey, String activationKey, Long createdDate, String xlock,  byte[] macAddr, Integer numberOfLicense, Integer registerStatus) {
 		super();
 		this.license = license;
 		this.createdDate = createdDate;
@@ -60,6 +63,7 @@ public class License implements Serializable {
 		this.xlock = xlock;
 		this.macAddr = macAddr;
 		this.numberOfClient = numberOfLicense;
+		this.registerStatus = registerStatus;
 	}
 
 	public String getLicense() {
