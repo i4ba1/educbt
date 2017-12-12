@@ -133,4 +133,14 @@ public class License implements Serializable {
 	public void setLicenseStatus(boolean licenseStatus) {
 		this.licenseStatus = licenseStatus;
 	}
+
+	public Integer getRegisterStatus() {
+		return registerStatus;
+	}
+
+	public void setRegisterStatus(Integer registerStatus) {
+		this.registerStatus = registerStatus;
+	}
+	
+	
 }

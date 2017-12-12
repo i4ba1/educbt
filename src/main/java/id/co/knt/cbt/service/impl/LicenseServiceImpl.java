@@ -61,21 +61,22 @@ public class LicenseServiceImpl implements LicenseService {
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey.toLowerCase(), passKey, "", System.currentTimeMillis(),
-										xlock, macAddr, numberOfClient);
+										xlock, macAddr, numberOfClient, 0);
 
 								Map<String, Object> objLicense = rest.serializeLicenseObject(license);
 
 								if (rest.isInternet()) {
+									license.setRegisterStatus(1);
 									int response = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER,
 											objLicense, Integer.class);
+
 									if (response <= 0) {
 										newLicense = licenseRepo.save(license);
 									}
-								}else {// this mean no Internet connection so we save to the local DB
+								} else {// this mean no Internet connection so we save to the local DB
+									license.setRegisterStatus(2);
 									newLicense = licenseRepo.save(license);
 								}
-								
-								
 
 							} else {
 								return null;
@@ -173,7 +174,7 @@ public class LicenseServiceImpl implements LicenseService {
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey.toLowerCase(), passKey, activationKey, registerDate,
-										xlock, macAddr, numberOfClient);
+										xlock, macAddr, numberOfClient, 0);
 							} else {
 								return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 							}
@@ -206,20 +207,43 @@ public class LicenseServiceImpl implements LicenseService {
 		ObjectMapper mapper = new ObjectMapper();
 		License license = null;
 		ResponseEntity<License> response = null;
+		int registerResponse = 0;
 
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
+			License currentLicense = licenseRepo.findOne(license.getId());
 
 			try {
 				Map<String, Object> objLicense = rest.serializeLicenseObject(license);
-				
+
 				if (rest.isInternet()) {
-					response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense,
-							License.class);
+
+					/**
+					 * If the SN registered by internet than do activation online, If status is
+					 * offline than do registration online
+					 */
+					if (currentLicense.getRegisterStatus() == 1) {
+						response = rest.helpDeskAPI().postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET,
+								objLicense, License.class);
+
+					} else {
+						registerResponse = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER, objLicense,
+								Integer.class);
+
+						if (registerResponse <= 0) {
+							response = rest.helpDeskAPI()
+									.postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense, License.class);
+							
+							if (response != null) {
+								currentLicense.setRegisterStatus(1);
+								licenseRepo.saveAndFlush(currentLicense);
+							}
+						}
+					}
 				} else {
 					return new ResponseEntity<License>(HttpStatus.SERVICE_UNAVAILABLE);
 				}
-				
+
 			} catch (HttpStatusCodeException e) {
 				int statusCode = e.getStatusCode().value();
 				if (statusCode == HttpStatus.EXPECTATION_FAILED.value()) {
@@ -229,20 +253,12 @@ public class LicenseServiceImpl implements LicenseService {
 				} else if (statusCode == HttpStatus.NOT_ACCEPTABLE.value()) {
 					return new ResponseEntity<License>(HttpStatus.NOT_ACCEPTABLE);
 				}
-				
+
 			}
 
 		} catch (Exception ce) {
 			ce.printStackTrace();
 			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
-		}
-
-		if (response != null) {
-			if (response.getStatusCode() == HttpStatus.OK) {
-				license.setActivationKey(response.getBody().getActivationKey());
-				license.setLicenseStatus(true);
-				license = licenseRepo.saveAndFlush(license);
-			}
 		}
 
 		return response;
