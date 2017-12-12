@@ -1480,9 +1480,19 @@
                         message = "Aktivasi dengan internet gagal, harap periksa kembali koneksi internet anda";
                     } else if (errorResponse.status === 403) {
                         message = "Anda telah melewati batas aktivasi, harap lakukan aktivasi manual";
+                    } else if (errorResponse.status === 503) {
+                        message = "Tidak dapat melakukan koneksi dengan HELPDESK service, Anda harus terhubung dengan internet atau lakukan <a ng-click='gotoManual()'><b>Aktivasi Manual</b></a>";
                     }
 
-                    $scope.open('Aktivasi Gagal', [message]);
+                    $scope.open('Aktivasi Gagal', [message]).then(
+                        function(close) {
+                            $state.go("admin.licenseMgmt.create", {
+                                paramUrl: "activation",
+                                license: license
+                            })
+                        },
+                        function(dismiss) {}
+                    );
                 }
             ).then(
                 function() {

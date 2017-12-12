@@ -236,7 +236,7 @@
 
     'use strict';
     dialogMessageController.$inject = ["$scope", "$uibModalInstance", "titleText", "contentText", "$sce"];
-    errorMessageController.$inject = ["$scope", "$uibModalInstance", "modalData"];
+    errorMessageController.$inject = ["$scope", "$uibModalInstance", "modalData", "$sce"];
     imagesGalleryController.$inject = ["$scope", "$uibModalInstance", "queastionBankService", "images", "token"];
     helpMessageController.$inject = ["$scope", "helpType"];
     reminderMessageController.$inject = ["$scope", "$uibModalInstance", "titleText", "contentText", "$sce", "$timeout"];
@@ -528,9 +528,10 @@
         }
     }
 
-    function errorMessageController($scope, $uibModalInstance, modalData) {
+    function errorMessageController($scope, $uibModalInstance, modalData, $sce) {
 
         $scope.modalData = modalData;
+        $scope.trustAsHtml = $sce.trustAsHtml;
 
         $scope.cancel = function() {
             $uibModalInstance.dismiss('cancel');
@@ -539,6 +540,10 @@
                 elements[0].parentNode.removeChild(elements[0]);
             }
         };
+
+        $scope.gotoManual = function() {
+            $uibModalInstance.close('gotomanual');
+        }
     }
 
     function eventQuestionOptions($scope, $uibModalInstance) {

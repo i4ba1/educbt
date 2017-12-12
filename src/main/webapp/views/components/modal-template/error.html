@@ -1,13 +1,13 @@
 <div class="modal-header">
-  <h3 class="modal-title">{{modalData.title}}</h3>
+    <h3 class="modal-title">{{modalData.title}}</h3>
 </div>
 <div class="modal-body">
-  <ul>
-    <li ng-repeat="msg in modalData.messages">
-      {{msg}}
-    </li>
-  </ul>
+    <ul>
+        <li ng-repeat="msg in modalData.messages">
+            <span ng-bind-html="trustAsHtml(msg)" compile-template></span>
+        </li>
+    </ul>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="cancel()">tutup</button>
+    <button class="btn btn-primary" type="button" ng-click="cancel()">tutup</button>
 </div>

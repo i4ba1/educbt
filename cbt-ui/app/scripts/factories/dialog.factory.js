@@ -286,9 +286,10 @@
         }
     }
 
-    function errorMessageController($scope, $uibModalInstance, modalData) {
+    function errorMessageController($scope, $uibModalInstance, modalData, $sce) {
 
         $scope.modalData = modalData;
+        $scope.trustAsHtml = $sce.trustAsHtml;
 
         $scope.cancel = function() {
             $uibModalInstance.dismiss('cancel');
@@ -297,6 +298,10 @@
                 elements[0].parentNode.removeChild(elements[0]);
             }
         };
+
+        $scope.gotoManual = function() {
+            $uibModalInstance.close('gotomanual');
+        }
     }
 
     function eventQuestionOptions($scope, $uibModalInstance) {
