@@ -72,6 +72,8 @@ public class RestTemplateUtility {
 					reachable = true;
 					break;
 				}
+				
+				failed++;
 
 			} catch (Exception e) {
 				failed++;

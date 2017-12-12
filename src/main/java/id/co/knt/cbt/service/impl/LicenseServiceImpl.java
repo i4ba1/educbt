@@ -236,6 +236,7 @@ public class LicenseServiceImpl implements LicenseService {
 							
 							if (response != null) {
 								currentLicense.setRegisterStatus(1);
+								currentLicense.setActivationKey(response.getBody().getActivationKey());
 								licenseRepo.saveAndFlush(currentLicense);
 							}
 						}
