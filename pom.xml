@@ -248,8 +248,10 @@
 		<!-- Gawl -->
 		<dependency>
 			<groupId>id.web.pos.integra</groupId>
-			<artifactId>gawl121</artifactId>
+			<artifactId>gawl</artifactId>
 			<version>1.2.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/gawl-1.2.1.jar</systemPath>
 		</dependency>
 
 		<!-- GSON -->
