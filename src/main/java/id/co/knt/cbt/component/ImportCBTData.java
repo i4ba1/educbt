@@ -3,7 +3,8 @@ package id.co.knt.cbt.component;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
@@ -14,7 +15,7 @@ import id.co.knt.cbt.repositories.UserRepo;
 @Component
 public class ImportCBTData {
 
-	private static final Logger LOG = Logger.getLogger(ImportCBTData.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ImportCBTData.class);
 	
 	@Autowired
 	private UserRepo userRepo;

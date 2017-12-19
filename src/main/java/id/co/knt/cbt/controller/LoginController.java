@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,7 +45,7 @@ public class LoginController {
 
 	@Value("${path.question.image}")
 	private static final String QUESTION_IMAGE_DIRECTORY = "";
-	private static final Logger LOG = Logger.getLogger(LoginController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
 	LoginService loginRepo;
