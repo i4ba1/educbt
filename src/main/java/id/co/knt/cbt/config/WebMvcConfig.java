@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 
 import id.co.knt.cbt.scheduler.UserLoginScheduler;
 
@@ -88,7 +88,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 		ObjectMapper mapper = new ObjectMapper();
 		// Registering Hibernate4Module to support lazy objects
-		mapper.registerModule(new Hibernate4Module());
+		mapper.registerModule(new Hibernate5Module());
 		
 		/*List<MediaType> supportedMediaTypes = new ArrayList<>();
 		supportedMediaTypes.add(new MediaType("application/json"));		
