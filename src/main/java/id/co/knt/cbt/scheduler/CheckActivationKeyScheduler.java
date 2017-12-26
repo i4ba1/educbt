@@ -52,8 +52,9 @@ public class CheckActivationKeyScheduler {
 				LOG.info("objLicense=====> "+objLicense);
 				LOG.info("url validateActivationKey=====> "+(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY));
 				
+				String connectUrl = baseUrl + "/productManagement/";
 				try {
-					if (restTemplateUtility.isInternet()) {
+					if (restTemplateUtility.isInternet(connectUrl)) {
 						restTemplateUtility.helpDeskAPI()
                         	.postForObject(baseUrl + Constant.HELPDESK_API_VALIDATE_ACTIVATION_KEY, objLicense, Integer.class);
 					}

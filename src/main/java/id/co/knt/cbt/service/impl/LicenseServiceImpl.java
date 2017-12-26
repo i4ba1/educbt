@@ -43,6 +43,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 		Gawl gawl = new Gawl();
 		License license = null;
+		String connectUrl = baseUrl + "/productManagement/";
 
 		if (licenseRepo.findLicenseByLicenseKey(licenseKey.toLowerCase()) == null) {
 			if (gawl.validate(licenseKey.toLowerCase())) {
@@ -65,7 +66,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 								Map<String, Object> objLicense = rest.serializeLicenseObject(license);
 
-								if (rest.isInternet()) {
+								if (rest.isInternet(connectUrl)) {
 									license.setRegisterStatus(1);
 									int response = rest.helpDeskAPI().postForObject(baseUrl + Constant.REGISTER,
 											objLicense, Integer.class);
@@ -208,6 +209,7 @@ public class LicenseServiceImpl implements LicenseService {
 		License license = null;
 		ResponseEntity<License> response = null;
 		int registerResponse = 0;
+		String connectUrl = baseUrl + "/productManagement/";
 
 		try {
 			license = mapper.readValue(obj.get("license").toString(), License.class);
@@ -216,7 +218,7 @@ public class LicenseServiceImpl implements LicenseService {
 			try {
 				Map<String, Object> objLicense = rest.serializeLicenseObject(license);
 
-				if (rest.isInternet()) {
+				if (rest.isInternet(connectUrl)) {
 
 					/**
 					 * If the SN registered by internet than do activation online, If status is

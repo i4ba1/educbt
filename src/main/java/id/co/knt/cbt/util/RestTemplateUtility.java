@@ -21,8 +21,6 @@ import id.co.knt.cbt.model.License;
 public class RestTemplateUtility {
 	private RestTemplate helpDeskApi;
 	
-	private static final String CONNECT_URL = "http://192.168.5.188:8080/helpdesk/api/productManagement/";
-	
 	public RestTemplateUtility() {
 		helpDeskApi = new RestTemplate(getClientHttpRequestFactory());
 	}
@@ -54,14 +52,14 @@ public class RestTemplateUtility {
 		return nodeLicense;
     }
 	
-	public boolean isInternet() {
+	public boolean isInternet(String connectURL) {
 		int failed = 0;
 		boolean reachable = false;
 
 		while (failed < 3) {
 			try {
 
-				URL url = new URL(CONNECT_URL);
+				URL url = new URL(connectURL);
 				System.out.println(url.getHost());
 				HttpURLConnection con = (HttpURLConnection) url.openConnection();
 				con.connect();
