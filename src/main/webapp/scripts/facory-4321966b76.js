@@ -118,6 +118,7 @@
     angular.module('app').factory('tinyMce', tinyMce);
 
     tinyMce.$inject = ['$sce'];
+    tinymce.PluginManager.load("tiny_mce_wiris", "../scripts/plugins/tiny_mce_wiris/plugin.js");
 
     function tinyMce($sce) {
         var tinyMce = {};
@@ -160,12 +161,12 @@
             'advlist autolink lists link image charmap print preview hr anchor pagebreak',
             'searchreplace wordcount visualblocks visualchars code fullscreen',
             'insertdatetime media nonbreaking save table contextmenu directionality',
-            'emoticons template paste textcolor colorpicker textpattern imagetools'
+            'emoticons template paste textcolor colorpicker textpattern imagetools tiny_mce_wiris'
         ];
         // var menubar = 'file edit insert format table';
         var menubar = '';
         var toolbar = 'undo redo |  bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ';
-        var toolbar2 = 'fontselect fontsizeselect | forecolor backcolor | table charmap link';
+        var toolbar2 = 'fontselect fontsizeselect | forecolor backcolor | table charmap link | tiny_mce_wiris_formulaEditor';
 
         tinyMce.config = function(height) {
             return {
