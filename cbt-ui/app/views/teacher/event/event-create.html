@@ -41,23 +41,6 @@
             </div>
         </div>
 
-        <!--<div class="form-group">
-            <label class="control-label col-xs-4" for="classSelect">Kelas*</label>
-            <div class="col-xs-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <input type="checkbox" ng-model="classData.isSelectAll" ng-change="classChange()" ng-disabled="!isPrepared"> Pilih Semua Kelas
-                    </div>
-                    <div class="panel-body" style="height:75px; overflow-y: auto;overflow-x: hidden;">
-                        <label ng-repeat="class in classData.availableOptions" class="col-xs-6">
-              <input type="checkbox" checklist-model="selectedEvent.classes" checklist-value="class.id" ng-disabled="!isPrepared">
-              {{class.className}}
-            </label>
-                    </div>
-                </div>
-            </div>
-        </div>-->
-
         <div class="form-group">
             <label class="control-label col-xs-4" for="classSelect">Kelas*</label>
             <div class="col-xs-6">
@@ -120,31 +103,6 @@
             </div>
         </div>
 
-        <!-- <div class="form-group">
-      <label class="control-label col-xs-4" for="question-structure">Struktur Soal*</label>
-      <div class="col-xs-6">
-        <select name="qStructure" id="qStructure" class="form-control" ng-model="selectedEvent.questionStructure" ng-disabled="!isPrepared" ng-required="true">
-          <option value="" ng-selected="true" ng-disabled="true">
-            <i style="color:grey">pilih struktur soal ujian</i>
-          </option>
-          <option value="FIXED">Tetap</option>
-          <option value="RANDOM">Acak</option>
-        </select>
-      </div>
-    </div> -->
-
-        <!--<div class="form-group">
-            <label class="control-label col-xs-4" for="status">Status*</label>
-            <div class="col-xs-6">
-                <select name="status" class="form-control" ng-model="selectedEvent.status" ng-disabled="(!isUpdate || isCompleted)">
-                    <option value="PREPARED" ng-disabled="eventStatusVal > 0">PREPARED</option>
-                    <option value="PUBLISHED" ng-disabled="eventStatusVal > 1">PUBLISHED</option>
-                    <option value="RELEASED" ng-disabled="eventStatusVal > 2">RELEASED</option>
-                    <option value="COMPLETED" ng-disabled="eventStatusVal > 3">COMPLETED</option>
-                </select>
-            </div>
-        </div>-->
-
         <div class="form-group">
             <label class="control-label col-xs-4" for="endTime">Bank Soal*</label>
             <div class="col-xs-6">
@@ -169,20 +127,36 @@
         </h3>
 
         <table ng-table="eventTable" show-filter="false" class="table table-responsive table-bordered table-striped ">
-            <tr ng-repeat="question in data">
+            <tr ng-repeat="questionWeight in data">
                 <td data-title="'No'">
                     {{$index+1}}
                 </td>
                 <td data-title="'Pertanyaan'" class="col-xs-6">
-                    <p ng-bind-html="trustAsHtml(question.question)"></p>
+                    <div class="tbl-qst-container">
+                        <p ng-bind-html="trustAsHtml(questionWeight.question.question)"></p>
+
+                    </div>
                 </td>
                 <td data-title="'Kesulitan'">
-                    {{convertLabel(question.difficulty)}}
+                    {{convertLabel(questionWeight.question.difficulty)}}
                 </td>
                 <td data-title="'Sub Materi'">
-                    <div ng-bind-html="convertTagNames(question)"></div>
+                    <div ng-bind-html="convertTagNames(questionWeight.question)"></div>
+                </td>
+                <td data-title="'Bobot'" width="100">
+                    <input class="form-control" type="number" required="required" min="0" max="100" ng-model="eventQuestionWeight[$index].weight" ng-change="calculateWeight()">
                 </td>
             </tr>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <div class="question-weight-label">Total Bobot</div>
+                    </td>
+                    <td>
+                        <div class="question-weight-value">{{ totalWeight > 0 ? totalWeight:0}}</div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
 
         <div class="form-group">
@@ -215,13 +189,15 @@
     </div>
     <div ng-switch="questionBySubjectList.length">
         <div ng-switch-default>
-            <table ng-table="questionTable" class="table table-responsive table-striped table-bordered">
-                <tr ng-repeat="question in questionData">
+            <table ng-table="questionTable" class="table table-responsive table-bordered table-hover">
+                <tr ng-repeat="question in questionData" class="row-pointer" ng-click="checklistHandle(question)">
                     <td>
                         <input type="checkbox" checklist-model="selectedEvent.questions" checklist-value="question">
                     </td>
                     <td data-title="'Pertanyaan'" class="col-xs-8">
-                        <p ng-bind-html="trustAsHtml(question.question)"></p>
+                        <div class="tbl-qst-container">
+                            <p ng-bind-html="trustAsHtml(question.question)"></p>
+                        </div>
                     </td>
                     <td data-title="'Kesulitan'">
                         {{convertLabel(question.difficulty)}}
@@ -252,8 +228,6 @@
             </table>
         </div>
     </div>
-
-
 
     <button type="button" class="btn btn-primary" ng-click="uploadQuestion()" style="margin-top:50px">Pilih</button>
 </modal-dialog>

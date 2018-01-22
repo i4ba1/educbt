@@ -62,3 +62,30 @@ footer {
     margin-bottom: 15px;
     font-weight: bold;
 }
+
+.row-pointer {
+    &:hover {
+        cursor: pointer;
+        cursor: hand;
+    }
+    &:active {
+        background: rgba(90, 158, 247, 0.5)!important;
+    }
+}
+
+.tbl-qst-container {
+    max-height: 125px;
+    overflow-y: auto;
+}
+
+.question-weight {
+    &-label,
+    &-value {
+        font-size: 20px;
+        font-weight: bold;
+        color: #fb1101;
+    }
+    &-value {
+        text-align: center;
+    }
+}

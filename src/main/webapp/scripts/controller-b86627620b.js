@@ -1797,6 +1797,8 @@
         self.tagFilter = null;
         $scope.subjectTagNames = [];
         $scope.ismeridian = false;
+        $scope.eventQuestionWeight = [];
+        $scope.totalWeight = 0;
 
         $scope.dateShow = {
             start: false,
@@ -2013,7 +2015,10 @@
                     })
                 .then(
                     function() {
-                        updateDataTable($scope.selectedEvent.questions);
+                        $scope.selectedEvent.questions.forEach(function(element) {
+                            $scope.eventQuestionWeight.push({ "question": element, "weight": 0 })
+                        });
+                        updateDataTable($scope.eventQuestionWeight);
                     }
                 );
         }
@@ -2108,7 +2113,11 @@
          */
         $scope.uploadQuestion = function() {
             $scope.showModal = false;
-            updateDataTable($scope.selectedEvent.questions);
+            $scope.selectedEvent.questions.forEach(function(element) {
+                $scope.eventQuestionWeight.push({ "question": element, "weight": 0 })
+            });
+
+            updateDataTable($scope.eventQuestionWeight);
         }
 
         /*
@@ -2373,7 +2382,26 @@
             }
         };
 
+        // for handling change in checklist model
+        $scope.checklistHandle = function(question) {
+            var index = $scope.selectedEvent.questions.findIndex(function(q) {
+                return q.id === question.id;
+            });
 
+            if (index == -1) {
+                $scope.selectedEvent.questions.push(question);
+            } else {
+                $scope.selectedEvent.questions.splice(index, 1);
+            }
+        }
+
+        // calculate weight
+        $scope.calculateWeight = function() {
+            $scope.totalWeight = 0;
+            $scope.eventQuestionWeight.forEach(function(element) {
+                $scope.totalWeight += parseInt(element.weight);
+            });
+        }
 
 
         if ($state.is('teacher.eventManagement')) {
