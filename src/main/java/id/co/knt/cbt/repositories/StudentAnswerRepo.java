@@ -16,4 +16,18 @@ public interface StudentAnswerRepo extends JpaRepository<StudentAnswer, Long> {
 
 	@Query("select count(sa) from StudentAnswer sa where sa.event.id= :eventId and sa.student.nis= :nis")
 	Integer checkStudentIsWorkingOn(@Param("eventId") Long eventId, @Param("nis") String nis);
+
+	/* from Preference p where p in 
+  (select pd.preference from PreferenceDateETL pd
+  where pd.corporation.id=:corporationId
+  and pd.deleted=false
+  and pd.dateETL.localDate>=:startDM
+  and pd.dateETL.localDate<=:endDM)
+and p.employee.deleted=false
+and p.deleted=false
+and p.approvalStatus != :approvalStatus
+order by p.dateCreated
+ */
+	@Query("from s.name, s.nis Student s where s in (select sa.student from StudentAnswer sa where sa.event.id= :eventId) order by s.name")
+	List<Object> findStudentAttendToEvent(@Param("eventId") Long eventId);
 }
