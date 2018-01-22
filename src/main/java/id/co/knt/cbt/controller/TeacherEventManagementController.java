@@ -126,8 +126,9 @@ public class TeacherEventManagementController {
 
 			JSONArray arrayQuestion = obj.getJSONArray("questions");
 			for (int i = 0; i < arrayQuestion.length(); i++) {
-				Question q = questionService.findQuestionById(arrayQuestion.getLong(i));
-				EventQuestion eq = new EventQuestion(e, q);
+				JSONObject objEQ = arrayQuestion.getJSONObject(i);
+				Question q = questionService.findQuestionById(objEQ.getLong("id"));
+				EventQuestion eq = new EventQuestion(e, q, objEQ.getInt("weight"));
 				eventQuestionService.addNew(eq);
 			}
 			// e.setEventQuestions(listEQ);
@@ -186,8 +187,9 @@ public class TeacherEventManagementController {
 				}
 
 				for (int i = 0; i < arrayQuestion.length(); i++) {
-					Question q = questionService.findQuestionById(arrayQuestion.getLong(i));
-					EventQuestion eq = new EventQuestion(e, q);
+					JSONObject objEQ = arrayQuestion.getJSONObject(i);
+					Question q = questionService.findQuestionById(objEQ.getLong("id"));
+					EventQuestion eq = new EventQuestion(e, q, objEQ.getInt("weight"));
 					eventQuestionService.addNew(eq);
 				}
 
