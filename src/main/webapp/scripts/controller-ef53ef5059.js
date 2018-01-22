@@ -2917,6 +2917,8 @@
                 $scope.title = "Mencocokkan";
             } else if (type === "PASSAGE") {
                 $scope.title = "Wacana";
+            } else if (type === "ESSAY") {
+                $scope.title = "Essay";
             }
         };
 
@@ -3147,7 +3149,11 @@
         // Saving Question 
         $scope.saveQuestion = function() {
             var result = {};
-            if (type === "MC" || type === "TF") {
+            if (type === "PASSAGE") {
+                $scope.questionGroup.questions = $scope.passageQuestions;
+                result = validatingPassageQuestion($scope.questionGroup);
+
+            } else {
                 result = validatingNormalQuestion($scope.selectedQuestion, 0);
                 if (result.isValid) {
                     if ($scope.questionUpdate) {
@@ -3157,11 +3163,8 @@
                     }
                 }
 
-            } else if (type === "PASSAGE") {
-                $scope.questionGroup.questions = $scope.passageQuestions;
-                result = validatingPassageQuestion($scope.questionGroup);
-
             }
+
             bsLoadingOverlayService.start({
                 referenceId: 'loading'
             });
@@ -3251,7 +3254,7 @@
                 isValid = false;
             }
 
-            if (!q.key) {
+            if (!q.key && (q.typeQuestion === "MC" || q.typeQuestion === "TF")) {
                 ec++;
                 messageBuilder = messageBuilder.concat(ec + " . Kunci Jawab tidak boleh kosong <br/>");
                 isValid = false;
@@ -3281,11 +3284,13 @@
                 }
 
             }
+
             if (!q.difficulty) {
                 ec++;
                 messageBuilder = messageBuilder.concat(ec + " . Taraf Kesukaran tidak boleh kosong <br/>");
                 isValid = false;
             }
+
             messageBuilder = messageBuilder.concat('</p>');
             return {
                 isValid: isValid,

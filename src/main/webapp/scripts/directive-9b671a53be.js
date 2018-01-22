@@ -511,36 +511,14 @@
 (function() {
 
     'use strict';
-    angular.module('app').directive('tfQst', trueFalseQuestion);
+    angular.module('app')
+        .directive('tfQst', trueFalseQuestion)
+        .directive('passageQst', PassageQuestion)
+        .directive('mcQst', multipleChoiceQuestion)
+        .directive('mtchQst', matchQuestion)
+        .directive('essayQst', essayQuestion);
 
-    function trueFalseQuestion() {
-        return {
-            restrict: 'EA',
-            replace: true,
-            templateUrl: 'views/components/question-type-template/true-and-false-question.html'
-        }
-    }
-
-})();
-(function() {
-
-    'use strict';
-    angular.module('app').directive('mcQst', multipleChoiceQuestion);
-
-    function multipleChoiceQuestion() {
-        return {
-            restrict: 'EA',
-            replace: true,
-            templateUrl: 'views/components/question-type-template/multiple-choice-question.html'
-        }
-    }
-
-})();
-(function() {
-
-    'use strict';
-    angular.module('app').directive('mtchQst', matchQuestion);
-
+    // match
     function matchQuestion() {
         return {
             restrict: 'EA',
@@ -549,12 +527,34 @@
         }
     }
 
-})();
-(function() {
+    // essay
+    function essayQuestion() {
+        return {
+            restrict: 'EA',
+            replace: true,
+            templateUrl: 'views/components/question-type-template/essay-question.html'
+        }
+    }
 
-    'use strict';
-    angular.module('app').directive('passageQst', PassageQuestion);
+    // multiple choice
+    function multipleChoiceQuestion() {
+        return {
+            restrict: 'EA',
+            replace: true,
+            templateUrl: 'views/components/question-type-template/multiple-choice-question.html'
+        }
+    }
 
+    // true false
+    function trueFalseQuestion() {
+        return {
+            restrict: 'EA',
+            replace: true,
+            templateUrl: 'views/components/question-type-template/true-and-false-question.html'
+        }
+    }
+
+    // passage
     function PassageQuestion() {
         return {
             restrict: 'EA',
