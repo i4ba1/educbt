@@ -119,6 +119,7 @@ body {
     text-align: center;
     color: white;
     border: 1px solid rgba($main-color, .5);
+    border-radius: 5px;
     &:hover {
         box-shadow: 3px 3px 3px rgba(gray, .5);
         transform: scale(1.05, 1.05);
