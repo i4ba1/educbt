@@ -16,4 +16,7 @@ public interface EventQuestionRepo extends JpaRepository<EventQuestion, Long> {
 
 	@Query("select eq from EventQuestion eq where eq.id = :eventId")
 	EventQuestion findOneEQ(@Param("eventId") Long eventId);
+
+	@Query("from EventQuestion eq inner join fetch eq.question q inner join fetch q.questionGroup qg where eq.question.id =:questionId")
+	EventQuestion findQuestion(@Param("questionId") Long questionId);
 }

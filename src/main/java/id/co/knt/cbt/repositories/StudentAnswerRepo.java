@@ -17,6 +17,8 @@ public interface StudentAnswerRepo extends JpaRepository<StudentAnswer, Long> {
 	@Query("select count(sa) from StudentAnswer sa where sa.event.id= :eventId and sa.student.nis= :nis")
 	Integer checkStudentIsWorkingOn(@Param("eventId") Long eventId, @Param("nis") String nis);
 
+	@Query("from StudentAnswer sa inner join fetch sa.student s inner join fetch sa.event inner join fetch sa.question q where sa.event.id =:eventId and sa.student.nis =:nis")
+	List<StudentAnswer> fetchDetailStudentAnswer(@Param("eventId") Long eventId, @Param("nis") String nis);
 	/* from Preference p where p in 
   (select pd.preference from PreferenceDateETL pd
   where pd.corporation.id=:corporationId

@@ -2,7 +2,6 @@ package id.co.knt.cbt.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
-import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
-import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.School;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.StudentAnswer;
@@ -211,12 +209,11 @@ public class StudentController {
 		for (StudentAnswer sa : list) {
 			if (sa.getAnswered() != null) {
 				if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
-					
+					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
+						sa.setCorrect(true);
+						studentAnswerService.updateSA(sa);
+					}	
 				}
-				if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
-					sa.setCorrect(true);
-					studentAnswerService.updateSA(sa);
-				} 
 			}
 		}
 
