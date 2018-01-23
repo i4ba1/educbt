@@ -4011,6 +4011,7 @@
         $scope.studentEventTime = { id: null };
         $scope.redirect = false;
         $scope.lastTimeout;
+        $scope.examProgress = getProgress();
 
         $scope.trustAsHtml = tinyMce.trustAsHtml;
         $scope.currentQuestion = {
@@ -4054,6 +4055,7 @@
                             d.question.key = d.question.key.split("#")[1];
                             $scope.studentAnswers.push(d);
                         });
+
                     },
                     function(errorResponse) {
                         errorHandle.setError(errorResponse);
@@ -4061,6 +4063,7 @@
                 .then(function() {
                     updateQuestion();
                     $scope.max = $scope.studentAnswers.length - 1;
+                    $scope.examProgress = getProgress();
                 });
         };
 
@@ -4091,16 +4094,30 @@
                         updateQuestion();
                         $scope.max = $scope.studentAnswers.length - 1;
                         countPoint($scope.studentAnswers);
+                        $scope.examProgress = getProgress();
                     }
                 );
         };
+
+        function getProgress() {
+            var answerCount = 0;
+            $scope.studentAnswers.forEach(function(element) {
+                if (element.answered) {
+                    answerCount++;
+                }
+            });
+            return answerCount + "/" + $scope.studentAnswers.length;
+        }
 
 
         $scope.updateAnswer = function(param) {
             if ($state.is('student.task.exam')) {
 
                 if (param) {
+
                     $scope.currentQuestion.answered = param;
+
+                    $scope.examProgress = getProgress();
                 }
                 if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
                     var params = [{

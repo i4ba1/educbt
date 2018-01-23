@@ -181,7 +181,7 @@
     </div>
     <div class="col-sm-2 col-xs-12">
         <div class="row panel-custom">
-            <h5 class="page-header margin-header">JAWABAN</h5>
+            <h5 class="page-header margin-header">Progres <span class="pull-right">{{examProgress}}</span> </h5>
             <div id="std-answer" ng-class="{'is-exam':isExam}">
                 <div class="qst-sortcut" ng-repeat="studentAnswer in studentAnswers" ng-class="{'done': studentAnswer.answered?true:false}" ng-click="currentSlide($index+1)">{{$index+1}}
                 </div>
