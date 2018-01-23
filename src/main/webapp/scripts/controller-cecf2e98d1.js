@@ -4096,21 +4096,27 @@
         };
 
 
-        $scope.updateAnswer = function() {
-            if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
-                var params = [{
-                    'authorization': token,
-                    'studentAnswer': {
-                        'id': $scope.currentQuestion.id,
-                        'ans': $scope.currentQuestion.answered
-                    }
-                }];
-                var promise = studentExamService.updateStudentAnswer(params);
-                promise.then(function(response) {
-                    saveLastWorkingTime({ "message": "reloadEvent", "type": "update", "id": $scope.studentEventTime.id });
-                }, function(errorResponse) {
+        $scope.updateAnswer = function(param) {
+            if ($state.is('student.task.exam')) {
 
-                });
+                if (param) {
+                    $scope.currentQuestion.answered = param;
+                }
+                if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
+                    var params = [{
+                        'authorization': token,
+                        'studentAnswer': {
+                            'id': $scope.currentQuestion.id,
+                            'ans': $scope.currentQuestion.answered
+                        }
+                    }];
+                    var promise = studentExamService.updateStudentAnswer(params);
+                    promise.then(function(response) {
+                        saveLastWorkingTime({ "message": "reloadEvent", "type": "update", "id": $scope.studentEventTime.id });
+                    }, function(errorResponse) {
+
+                    });
+                }
             }
         };
 
@@ -4367,27 +4373,27 @@
             token = storageService.getToken();
         }
 
-        $scope.result = [];
+        // $scope.result = [];
 
-        function fetchStudentResult(eventId, nis) {
-            var params = [{
-                'authorization': token,
-                'studentResult': {
-                    'eventId': eventId,
-                    'nis': nis
-                }
-            }];
-            var promise = studentExamResultService.fetchStudentResult(params);
-            promise.then(
-                function(response) {
-                    $scope.result = response.data
-                },
-                function(errorResponse) {
-                    errorHandle.setError(errorResponse);
-                });
-        };
+        // function fetchStudentResult(eventId, nis) {
+        //     var params = [{
+        //         'authorization': token,
+        //         'studentResult': {
+        //             'eventId': eventId,
+        //             'nis': nis
+        //         }
+        //     }];
+        //     var promise = studentExamResultService.fetchStudentResult(params);
+        //     promise.then(
+        //         function(response) {
+        //             $scope.result = response.data
+        //         },
+        //         function(errorResponse) {
+        //             errorHandle.setError(errorResponse);
+        //         });
+        // };
 
-        fetchStudentResult($stateParams.eventId, currentStudent.nis);
+        // fetchStudentResult($stateParams.eventId, currentStudent.nis);
         $scope.$on('$stateChangeStart', function(event, next, current) {
             if (next.name === "student.task.exam") {
                 event.preventDefault();

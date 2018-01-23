@@ -110,21 +110,27 @@
         };
 
 
-        $scope.updateAnswer = function() {
-            if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
-                var params = [{
-                    'authorization': token,
-                    'studentAnswer': {
-                        'id': $scope.currentQuestion.id,
-                        'ans': $scope.currentQuestion.answered
-                    }
-                }];
-                var promise = studentExamService.updateStudentAnswer(params);
-                promise.then(function(response) {
-                    saveLastWorkingTime({ "message": "reloadEvent", "type": "update", "id": $scope.studentEventTime.id });
-                }, function(errorResponse) {
+        $scope.updateAnswer = function(param) {
+            if ($state.is('student.task.exam')) {
 
-                });
+                if (param) {
+                    $scope.currentQuestion.answered = param;
+                }
+                if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
+                    var params = [{
+                        'authorization': token,
+                        'studentAnswer': {
+                            'id': $scope.currentQuestion.id,
+                            'ans': $scope.currentQuestion.answered
+                        }
+                    }];
+                    var promise = studentExamService.updateStudentAnswer(params);
+                    promise.then(function(response) {
+                        saveLastWorkingTime({ "message": "reloadEvent", "type": "update", "id": $scope.studentEventTime.id });
+                    }, function(errorResponse) {
+
+                    });
+                }
             }
         };
 

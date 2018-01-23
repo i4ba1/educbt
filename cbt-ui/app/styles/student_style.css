@@ -147,9 +147,7 @@ body {
     height: 94%;
     overflow-y: auto;
     margin-top: -20px;
-    border: 1px solid grey;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px 2px;
 }
 
 .margin-header {

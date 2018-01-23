@@ -4,15 +4,6 @@
         <h3 class="page-header">
             <img ng-src="{{'images/icon-tpls/'+titleData.selectedOption.ico}}" alt=""> {{titleData.selectedOption.title}}
             <div class="btn-group pull-right">
-
-                <!-- <button class="btn btn-default" role="button" style="display: block;">
-          {{titleData.selectedOption.title}}
-          Aktif
-        </button>
-        <button class="btn btn-default" role="button" style="display: block;">
-          Histori
-          {{titleData.selectedOption.title}}
-        </button> -->
                 <button class="btn btn-primary" role="button" style="display:block;" ng-click="refreshTask(titleData.selectedOption.value)" title="{{'Segarkan Daftar '+titleData.selectedOption.title}}">
           <i class="fa fa-refresh"></i>
         </button>
@@ -21,47 +12,51 @@
     </div>
 
     <!-- Content -->
-    <div class="col-lg-3 col-md-3 col-xs-4" ng-repeat="task in tasks | offset:(pageConfig.currentPage-1)*pageConfig.itemPage | limitTo:pageConfig.itemPage">
-        <div class="thumbnail" ng-mouseover="task.img_ext = '_2.png'" ng-mouseleave="task.img_ext = '_1.png'">
-            <img ng-src="{{task.img_path+task.data.eventImgName+task.img_ext}}" alt="">
-            <div class="row" style="height:140px">
-                <table>
-                    <tr>
-                        <td colspan="2">
-                            <h4 class="row-centered-std">
-                                <b>{{task.data.eventName}}</b>
-                            </h4>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-3">Mulai</td>
-                        <td class="col-xs-8">: {{task.data.startDate | date:"d MMM yyyy HH:mm:dd" }}</td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-3">Selesai</td>
-                        <td class="col-xs-8">: {{task.data.endDate | date:"d MMM yyyy HH:mm:dd" }}</td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-3">Waktu</td>
-                        <td class="col-xs-8">: {{task.data.workingTime}} Menit
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="row">
-                <table style="width:100%">
-                    <tr>
-                        <td class="col-xs-12" colspan="2">
-                            <div class="btn-group" style="width:100%">
-                                <button class="btn btn-primary" role="button" ng-disabled="disableKerjakan(task.data)" ng-click="kerjakan(task.data.id)" style="display: block; width: 50%;">Kerjakan</button>
-                                <button class="btn btn-primary" role="button" ng-disabled="disablePembahasan(task.data)" ng-click="pembahasan(task.data)" style="display: block; width: 50%;">Pembahasan</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 task-container">
+        <div class="col-lg-3 col-md-3 col-xs-4" ng-repeat="task in tasks | offset:(pageConfig.currentPage-1)*pageConfig.itemPage | limitTo:pageConfig.itemPage">
+            <div class="thumbnail" ng-mouseover="task.img_ext = '_2.png'" ng-mouseleave="task.img_ext = '_1.png'">
+                <img ng-src="{{task.img_path+task.data.eventImgName+task.img_ext}}" alt="">
+                <div class="row" style="height:140px">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <h4 class="row-centered-std">
+                                    <b>{{task.data.eventName}}</b>
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-3">Mulai</td>
+                            <td class="col-xs-8">: {{task.data.startDate | date:"d MMM yyyy HH:mm:dd" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-3">Selesai</td>
+                            <td class="col-xs-8">: {{task.data.endDate | date:"d MMM yyyy HH:mm:dd" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-3">Waktu</td>
+                            <td class="col-xs-8">: {{task.data.workingTime}} Menit
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <table style="width:100%">
+                        <tr>
+                            <td class="col-xs-12" colspan="2">
+                                <div class="btn-group" style="width:100%">
+                                    <button class="btn btn-primary" role="button" ng-disabled="disableKerjakan(task.data)" ng-click="kerjakan(task.data.id)" style="display: block; width: 50%;">Kerjakan</button>
+                                    <button class="btn btn-primary" role="button" ng-disabled="disablePembahasan(task.data)" ng-click="pembahasan(task.data)" style="display: block; width: 50%;">Pembahasan</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
 <div class="row" ng-show="paginationVisible">
