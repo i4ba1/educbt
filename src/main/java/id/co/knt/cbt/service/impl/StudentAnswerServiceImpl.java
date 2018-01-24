@@ -165,7 +165,8 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 				Essay essay = new Essay(eq.getQuestion().getQuestion(), eq.getQuestion().getExplanation(), sa.getAnswered(), eq.getQuestionWeight());
 				listEssay.add(essay);
 			}else{
-				MultipleChoice mc = new MultipleChoice(sa.getAnswered(), eq.getQuestion().getTypeQuestion(), sa.getCorrect(), eq.getQuestion().getKey(), eq.getQuestionWeight())
+				MultipleChoice mc = new MultipleChoice(sa.getAnswered(), eq.getQuestion().getTypeQuestion(), sa.getCorrect(), eq.getQuestion().getKey(), eq.getQuestionWeight());
+				listMC.add(mc);
 			}
 		}
 

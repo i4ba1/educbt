@@ -24,14 +24,13 @@ import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.model.Event.QuestionTypeStructure;
-import id.co.knt.cbt.model.dto.DetailStudentExamine;
-import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Kelas;
 import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.model.StudentAnswer;
+import id.co.knt.cbt.model.dto.DetailStudentExamine;
+import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.KelasRepo;
 import id.co.knt.cbt.service.EmployeeService;
 import id.co.knt.cbt.service.EventKelasService;
@@ -131,6 +130,9 @@ public class TeacherEventManagementController {
 			e.setEmp(emp);
 			newEvent = eventService.addNewEvent(e);
 
+			/**
+			 * In this loop I add weight of question
+			 */
 			JSONArray arrayQuestion = obj.getJSONArray("questions");
 			for (int i = 0; i < arrayQuestion.length(); i++) {
 				JSONObject objEQ = arrayQuestion.getJSONObject(i);
