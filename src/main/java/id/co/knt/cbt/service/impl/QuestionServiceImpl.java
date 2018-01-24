@@ -150,6 +150,17 @@ public class QuestionServiceImpl implements QuestionService {
 			}
 
 			success++;
+		} else if(QG_TYPE.ESSAY.name().equals(qgType)) {
+			objQuestion = arrQuestions.getJSONObject(0);
+			newQuestion = new Question();
+			newQuestion.setQuestionGroup(group);
+			newQuestion.setQuestion(objQuestion.getString("question"));
+			newQuestion.setDifficulty(Difficulty.valueOf(objQuestion.getString("difficulty")));
+			newQuestion.setDisabled(false);
+			newQuestion.setExplanation(objQuestion.getString("explanation"));
+			newQuestion.setTypeQuestion(QG_TYPE.ESSAY.name());
+			questionRepo.save(newQuestion);
+			listNewQ.add(newQuestion);
 		}
 
 		Long id;
