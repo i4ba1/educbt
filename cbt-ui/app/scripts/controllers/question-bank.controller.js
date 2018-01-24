@@ -63,6 +63,8 @@
                 return "Soal Tunggal - Benar Salah";
             } else if (qgType === "PASSAGE") {
                 return "Soal Wacana";
+            } else if (qgType === "ESSAY") {
+                return "Soal Tunggal - Essay"
             }
         };
 
