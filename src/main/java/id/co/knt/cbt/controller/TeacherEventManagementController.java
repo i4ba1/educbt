@@ -29,6 +29,7 @@ import id.co.knt.cbt.model.EventQuestion;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Kelas;
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.dto.DetailStudentExamine;
 import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.KelasRepo;
@@ -39,6 +40,7 @@ import id.co.knt.cbt.service.EventResultService;
 import id.co.knt.cbt.service.EventService;
 import id.co.knt.cbt.service.QuestionService;
 import id.co.knt.cbt.service.StudentAnswerService;
+import id.co.knt.cbt.service.StudentService;
 
 /**
  * 
@@ -74,6 +76,9 @@ public class TeacherEventManagementController {
 
 	@Autowired
 	private StudentAnswerService studentAnswerService;
+	
+	@Autowired
+	private StudentService studentService;
 
 	/**
 	 * Get list all event
@@ -281,6 +286,12 @@ public class TeacherEventManagementController {
 		return new ResponseEntity<List<EventStudent>>(eStudents, HttpStatus.OK);
 	}
 
+	/**
+	 * 
+	 * @param eventId
+	 * @param nis
+	 * @return
+	 */
 	@RequestMapping(value = { "/getDetailStudentExamineScore/{token}/{eventId}/{nis}" }, method = RequestMethod.GET)
 	public ResponseEntity<DetailStudentExamine> getDetailStudentExamine(@PathVariable("eventId") Long eventId, @PathVariable("nis") String nis){
 		DetailStudentExamine detailStudentExamine = studentAnswerService.getDetailStudentExamines(eventId, nis);
@@ -290,6 +301,23 @@ public class TeacherEventManagementController {
 		}
 
 		return new ResponseEntity<DetailStudentExamine>(detailStudentExamine, HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = { "/complete/"}, method=RequestMethod.POST)
+	public ResponseEntity<Void> saveEventResult(@RequestBody List<Object> objects){
+		JSONArray array = new JSONArray(objects);
+		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
+		
+		Event e = eventService.findEventById(obj.getLong("eventId"));
+		Student user = studentService.getStudentByNis(obj.getString("nis"));
+		JSONArray listEssay = obj.getJSONArray(obj.getString("listEssay"));
+		
+		return null;
 	}
 
 	/**
