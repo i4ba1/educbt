@@ -43,7 +43,4 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 
 	@Query("select e from Event as e where e.emp.nip= :nip and e.deleted=false")
 	List<Event> findByDeleted();
-	
-	@Query("from Event e inner join fetch e.eventQuestions where e.id =:eventId")
-	Event fetchEventWithEventQuestion(@Param("eventId") Long eventId);
 }

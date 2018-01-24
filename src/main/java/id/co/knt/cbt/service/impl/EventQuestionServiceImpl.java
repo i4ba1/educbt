@@ -75,6 +75,7 @@ public class EventQuestionServiceImpl implements EventQuestionService{
 
 			qp = eventQuestion.getQuestion().getQuestionGroup().getQuestionPool();
 			mapQ.put("tagNames", objTag);
+			mapQ.put("weight", eventQuestion.getQuestionWeight());
 			objQuestion.add(mapQ);
 		}
 		
