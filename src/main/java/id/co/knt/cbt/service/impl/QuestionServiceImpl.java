@@ -161,6 +161,8 @@ public class QuestionServiceImpl implements QuestionService {
 			newQuestion.setTypeQuestion(QG_TYPE.ESSAY.name());
 			questionRepo.save(newQuestion);
 			listNewQ.add(newQuestion);
+			
+			success++;
 		}
 
 		Long id;
