@@ -81,7 +81,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Event detailEvent(Long id) {
-		return eventRepo.findOne(id);
+		return eventRepo.fetchEventWithEventQuestion(id);
 	}
 
 	@Override
