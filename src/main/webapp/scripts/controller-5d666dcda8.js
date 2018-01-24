@@ -2186,9 +2186,9 @@
                 events.classes = [].concat(temArr);
             }
             events.empId = $scope.currentTeacher.id;
-            angular.forEach($scope.selectedEvent.questions, function(data) {
+            angular.forEach($scope.eventQuestionWeight, function(data) {
                 if (data !== undefined) {
-                    questionsID.push(data.id);
+                    questionsID.push({ "id": data.question.id, "weight": data.weight });
                 }
             });
             events.questions = questionsID;
