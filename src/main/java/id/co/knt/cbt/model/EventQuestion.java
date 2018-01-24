@@ -35,14 +35,18 @@ public class EventQuestion implements Serializable {
 	@JoinColumn(name="question_id", referencedColumnName="id")
 	private Question question;
 	
+	@Column(name="question_weight", columnDefinition="smallint")
+	private Integer questionWeight;
+	
 	public EventQuestion() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public EventQuestion(Event event, Question question) {
+	public EventQuestion(Event event, Question question, Integer questionWeight) {
 		super();
 		this.event = event;
 		this.question = question;
+		this.questionWeight = questionWeight;
 	}
 
 	public Event getEvent() {
@@ -59,6 +63,14 @@ public class EventQuestion implements Serializable {
 
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+	
+	public Integer getQuestionWeight() {
+		return questionWeight;
+	}
+
+	public void setQuestionWeight(Integer questionWeight) {
+		this.questionWeight = questionWeight;
 	}
 
 	public Long getId() {

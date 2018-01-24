@@ -43,7 +43,7 @@ public class Event implements Serializable {
 	}
 	
 	public enum EventStatusType {
-		PREPARED, PUBLISHED, RELEASED, COMPLETED, UNPUBLISHED
+		PREPARED, PUBLISHED, RELEASED, COMPLETED, UNPUBLISHED, CORRECTED
 	}
 
 	@Id

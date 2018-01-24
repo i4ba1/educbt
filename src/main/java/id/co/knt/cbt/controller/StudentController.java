@@ -2,7 +2,6 @@ package id.co.knt.cbt.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +26,8 @@ import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
-import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.School;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.StudentAnswer;
@@ -199,7 +198,7 @@ public class StudentController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/finish/" }, method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> saveResult(@RequestBody List<Object> objects) {
+	public ResponseEntity<Void> saveResult(@RequestBody List<Object> objects) {
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
 
@@ -207,48 +206,18 @@ public class StudentController {
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		double correct = 0;
-		double incorrect = 0;
-		double total = 0.0;
-
 		for (StudentAnswer sa : list) {
 			if (sa.getAnswered() != null) {
-				if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
-					sa.setCorrect(true);
-					studentAnswerService.updateSA(sa);
-					correct++;
-				} else {
-					incorrect++;
+				if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
+					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
+						sa.setCorrect(true);
+						studentAnswerService.updateSA(sa);
+					}	
 				}
-			} else {
-				incorrect++;
 			}
 		}
 
-		total = ((correct * 100) / list.size());
-		Date createdDate = new Date();
-		jsonMap.put("name", user.getFirstName().concat(" ").concat(user.getLastName()));
-		jsonMap.put("nis", user.getNis());
-		jsonMap.put("date", createdDate);
-		jsonMap.put("correct", correct);
-		jsonMap.put("incorrect", incorrect);
-		jsonMap.put("point", total);
-
-		if (eventResultService.findERByEventStudent(e.getId(), user.getNis()) == null) {
-			EventResult er = new EventResult();
-			er.setEvent(e);
-			er.setStudent(user);
-			er.setCreatedDate(createdDate);
-			er.setCorrect(correct);
-			er.setIncorrect(incorrect);
-			er.setTotal(total);
-			eventResultService.addNew(er);
-
-			return new ResponseEntity<Map<String, Object>>(jsonMap, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Map<String, Object>>(jsonMap, HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	/**

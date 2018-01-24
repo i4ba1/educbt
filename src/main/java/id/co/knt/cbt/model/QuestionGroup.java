@@ -30,7 +30,7 @@ public class QuestionGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum QG_TYPE {
-		MC, TF, MTCH, PASSAGE
+		MC, TF, MTCH, PASSAGE, ESSAY
 	}
 
 	@Id

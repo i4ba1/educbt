@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import id.co.knt.cbt.model.StudentAnswer;
+import id.co.knt.cbt.model.dto.DetailStudentExamine;
+import id.co.knt.cbt.model.dto.EventStudent;
 
 public interface StudentAnswerService {
 	StudentAnswer addNew(StudentAnswer sa);
@@ -19,6 +21,10 @@ public interface StudentAnswerService {
 	List<StudentAnswer> findSAByEvent(Long eventId, String nis);
 	
 	List<Map<String, Object>> resultEvent(Long eventId, String nis);
+
+	List<EventStudent> eventStudents(Long eventId);
 	
 	Integer checkStudentIsWorkingOn(Long eventId, String nis);
+
+	DetailStudentExamine getDetailStudentExamines(Long eventId, String nis);
 }

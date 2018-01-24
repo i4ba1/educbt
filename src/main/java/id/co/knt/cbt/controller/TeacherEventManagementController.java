@@ -24,11 +24,14 @@ import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.model.Event.QuestionTypeStructure;
+import id.co.knt.cbt.model.dto.DetailStudentExamine;
+import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Kelas;
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.StudentAnswer;
 import id.co.knt.cbt.repositories.KelasRepo;
 import id.co.knt.cbt.service.EmployeeService;
 import id.co.knt.cbt.service.EventKelasService;
@@ -36,6 +39,7 @@ import id.co.knt.cbt.service.EventQuestionService;
 import id.co.knt.cbt.service.EventResultService;
 import id.co.knt.cbt.service.EventService;
 import id.co.knt.cbt.service.QuestionService;
+import id.co.knt.cbt.service.StudentAnswerService;
 
 /**
  * 
@@ -68,6 +72,9 @@ public class TeacherEventManagementController {
 
 	@Autowired
 	private EventResultService eventResultService;
+
+	@Autowired
+	private StudentAnswerService studentAnswerService;
 
 	/**
 	 * Get list all event
@@ -126,8 +133,9 @@ public class TeacherEventManagementController {
 
 			JSONArray arrayQuestion = obj.getJSONArray("questions");
 			for (int i = 0; i < arrayQuestion.length(); i++) {
-				Question q = questionService.findQuestionById(arrayQuestion.getLong(i));
-				EventQuestion eq = new EventQuestion(e, q);
+				JSONObject objEQ = arrayQuestion.getJSONObject(i);
+				Question q = questionService.findQuestionById(objEQ.getLong("id"));
+				EventQuestion eq = new EventQuestion(e, q, objEQ.getInt("weight"));
 				eventQuestionService.addNew(eq);
 			}
 			// e.setEventQuestions(listEQ);
@@ -186,8 +194,9 @@ public class TeacherEventManagementController {
 				}
 
 				for (int i = 0; i < arrayQuestion.length(); i++) {
-					Question q = questionService.findQuestionById(arrayQuestion.getLong(i));
-					EventQuestion eq = new EventQuestion(e, q);
+					JSONObject objEQ = arrayQuestion.getJSONObject(i);
+					Question q = questionService.findQuestionById(objEQ.getLong("id"));
+					EventQuestion eq = new EventQuestion(e, q, objEQ.getInt("weight"));
 					eventQuestionService.addNew(eq);
 				}
 
@@ -252,6 +261,33 @@ public class TeacherEventManagementController {
 		}
 
 		return new ResponseEntity<Event>(currentEvent, HttpStatus.OK);
+	}
+
+	/**
+	 * @param id is the event id
+	 * @return ResponseEntity<List<EventStudent>>
+	 */
+	@RequestMapping(value = { "/getStudentEvent/{token}/{id}" }, method = RequestMethod.GET)
+	public ResponseEntity<List<EventStudent>> getStudentEvent(@PathVariable("token") String token, @PathVariable("id") Long id) {
+		List<EventStudent> eStudents = studentAnswerService.eventStudents(id);
+
+		if (eStudents.isEmpty() || eStudents.size() == 0) {
+			// You many decide to return HttpStatus.NOT_FOUND
+			return new ResponseEntity<List<EventStudent>>(eStudents, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<EventStudent>>(eStudents, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = { "/getDetailStudentExamineScore/{token}/{eventId}/{nis}" }, method = RequestMethod.GET)
+	public ResponseEntity<DetailStudentExamine> getDetailStudentExamine(@PathVariable("eventId") Long eventId, @PathVariable("nis") String nis){
+		DetailStudentExamine detailStudentExamine = studentAnswerService.getDetailStudentExamines(eventId, nis);
+
+		if (detailStudentExamine == null) {
+			return new ResponseEntity<DetailStudentExamine>(detailStudentExamine, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<DetailStudentExamine>(detailStudentExamine, HttpStatus.OK);
 	}
 
 	/**

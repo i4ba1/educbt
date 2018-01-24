@@ -1,6 +1,8 @@
 package id.co.knt.cbt.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +12,17 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.co.knt.cbt.model.EventQuestion;
+import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.StudentAnswer;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
+import id.co.knt.cbt.model.dto.DetailStudentExamine;
+import id.co.knt.cbt.model.dto.Essay;
+import id.co.knt.cbt.model.dto.EventStudent;
+import id.co.knt.cbt.model.dto.MultipleChoice;
+import id.co.knt.cbt.repositories.EventQuestionRepo;
+import id.co.knt.cbt.repositories.EventResultRepo;
 import id.co.knt.cbt.repositories.StudentAnswerRepo;
 import id.co.knt.cbt.service.StudentAnswerService;
 
@@ -21,6 +32,12 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 
 	@Autowired
 	private StudentAnswerRepo studentAnswerRepo;
+
+	@Autowired
+	private EventResultRepo eventResultRepo;
+
+	@Autowired
+	private EventQuestionRepo eventQuestionRepo;
 	
 	public StudentAnswerServiceImpl() {
 		
@@ -110,5 +127,59 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 		}
 		
 		return listData;
+	}
+
+	@Override
+	public List<EventStudent> eventStudents(Long eventId){
+		List<Object> objects = studentAnswerRepo.findStudentAttendToEvent(eventId);
+		List<EventStudent> eStudents = new ArrayList<>();
+		EventStudent eventStudent = null;
+		boolean isCorrected = true;
+
+		for (Object obj : objects) {
+			String studentName = (String)obj;
+			String studentNis = (String)obj;
+
+			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentNis);
+			if(eventResult == null){
+				isCorrected = false;
+			}
+
+			eventStudent = new EventStudent(studentName, studentNis, isCorrected);
+			eStudents.add(eventStudent);
+		}
+
+		return eStudents;
+	}
+
+	@Override
+	public DetailStudentExamine getDetailStudentExamines(Long eventId, String nis){
+		List<StudentAnswer> studentAnswers = studentAnswerRepo.fetchDetailStudentAnswer(eventId, nis);
+		ArrayList<MultipleChoice> listMC = new ArrayList<>();
+		ArrayList<Essay> listEssay = new ArrayList<>();
+
+		int i = 0;
+		for (StudentAnswer sa:studentAnswers) {
+			EventQuestion eq = eventQuestionRepo.findQuestion(sa.getQuestion().getId());
+			if (eq.getQuestion().getQuestionGroup().getQgType() == QG_TYPE.ESSAY) {
+				Essay essay = new Essay(eq.getQuestion().getQuestion(), eq.getQuestion().getExplanation(), sa.getAnswered(), eq.getQuestionWeight());
+				listEssay.add(essay);
+			}else{
+				MultipleChoice mc = new MultipleChoice(sa.getAnswered(), eq.getQuestion().getTypeQuestion(), sa.getCorrect(), eq.getQuestion().getKey(), eq.getQuestionWeight())
+			}
+		}
+
+		String dateString = null;
+		StudentAnswer studentAnswer = studentAnswers.get(i);
+		SimpleDateFormat sdfr = new SimpleDateFormat("dd-MM-yyyy");
+		Date eventDate = new Date(studentAnswer.getEvent().getStartDate());
+		dateString = sdfr.format(eventDate);
+		String studentName = studentAnswer.getStudent().getFirstName()+" "+studentAnswer.getStudent().getLastName();
+		String studentNis = studentAnswer.getStudent().getNis();
+		String eventName = studentAnswer.getEvent().getEventName();
+
+		DetailStudentExamine detailStudentExamine = new DetailStudentExamine(studentName, studentNis, eventName, dateString, listMC, listEssay);
+
+		return detailStudentExamine;
 	}
 }
