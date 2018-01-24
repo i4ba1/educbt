@@ -161,6 +161,8 @@ public class QuestionServiceImpl implements QuestionService {
 			newQuestion.setTypeQuestion(QG_TYPE.ESSAY.name());
 			questionRepo.save(newQuestion);
 			listNewQ.add(newQuestion);
+			
+			success++;
 		}
 
 		Long id;
@@ -263,6 +265,20 @@ public class QuestionServiceImpl implements QuestionService {
 			question.setDifficulty(Difficulty.valueOf(objQ.getString("difficulty")));
 			question.setExplanation(objQ.getString("explanation"));
 
+			JSONArray arrQT = objQ.getJSONArray("tagNames");
+			processUpdateQuestionTag(arrQT, questionTags, question);
+			updatedQuestion = questionRepo.saveAndFlush(question);
+		} else if(objQG.getString("qgType").compareTo(QG_TYPE.ESSAY.name()) == 0) {
+			objQ = arrayQ.getJSONObject(0);
+			Question question = questionRepo.findOne(objQ.getLong("id"));
+			List<QuestionTag> questionTags = questionTagRepo.findQT(question.getId());
+			
+			question.setQuestion(objQ.getString("question"));
+			question.setDifficulty(Difficulty.valueOf(objQ.getString("difficulty")));
+			question.setDisabled(false);
+			question.setExplanation(objQ.getString("explanation"));
+			question.setTypeQuestion(QG_TYPE.ESSAY.name());
+			
 			JSONArray arrQT = objQ.getJSONArray("tagNames");
 			processUpdateQuestionTag(arrQT, questionTags, question);
 			updatedQuestion = questionRepo.saveAndFlush(question);
