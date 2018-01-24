@@ -309,7 +309,7 @@ public class TeacherEventManagementController {
 	 * @param objects
 	 * @return
 	 */
-	@RequestMapping(value = { "/complete/"}, method=RequestMethod.POST)
+	@RequestMapping(value = { "/saveEventResult/"}, method=RequestMethod.POST)
 	public ResponseEntity<Void> saveEventResult(@RequestBody List<Object> objects){
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
@@ -363,6 +363,21 @@ public class TeacherEventManagementController {
 		if (er.equals(null)) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = { "/completedEvent/{eventId}"}, method=RequestMethod.PUT)
+	public ResponseEntity<Void> completedEvent(@PathVariable Long eventId){
+		Event currentEvent = eventService.findEventById(eventId);
+		currentEvent.setStatus(EventStatusType.CORRECTED);
+		eventService.updateEvent(currentEvent);
+		
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
