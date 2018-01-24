@@ -53,7 +53,7 @@
         <div class="panel-custom" style="margin:0px -14px 0px -14px;">
             <form id="frmQuestion" name="theform" method="post" class="form_test" action="#" enctype="multipart/form-data">
                 <input name="start_soal" id="start_soal" value="1448860821" type="hidden">
-                <div style="height: 320px; position: relative; overflow-y:auto ">
+                <div style="height: 320px; position: relative; overflow-y:scroll; padding:15px 10px; ">
                     <table class="col-xs-12">
                         <tbody>
                             <tr>
@@ -154,6 +154,16 @@
                                     Salah
                                 </td>
 
+                            </tr>
+                            <tr ng-show="questionType === 'ESSAY'" class="border-top">
+                                <td colspan="3">
+                                    <span>Jawab Soal:</span>
+                                </td>
+                            </tr>
+                            <tr ng-show="questionType === 'ESSAY'">
+                                <td colspan="3">
+                                    <textarea ui-tinymce="configuration" ng-model="currentQuestion.answered" ng-required="true"></textarea>
+                                </td>
                             </tr>
 
                             <tr ng-hide="isExam">

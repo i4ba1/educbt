@@ -275,6 +275,7 @@
          */
         function getQuestionByEventId(eventId) {
             var promise = queastionBankService.fetchQuestionByEventId(eventId, token);
+            $scope.totalWeight = 0;
             promise.then(
                     function(response) {
                         var subject = response.data.QP[0].questionPool.subject;
@@ -288,6 +289,8 @@
                                 tagNames: q.tagNames
                             };
                             $scope.selectedEvent.questions.push(question);
+                            $scope.eventQuestionWeight.push({ "question": question, "weight": q.weight })
+                            $scope.totalWeight += q.weight;
                         });
                         $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, subject.id);
                     },
@@ -296,9 +299,6 @@
                     })
                 .then(
                     function() {
-                        $scope.selectedEvent.questions.forEach(function(element) {
-                            $scope.eventQuestionWeight.push({ "question": element, "weight": 0 })
-                        });
                         updateDataTable($scope.eventQuestionWeight);
                     }
                 );

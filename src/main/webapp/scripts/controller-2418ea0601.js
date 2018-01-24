@@ -1994,6 +1994,7 @@
          */
         function getQuestionByEventId(eventId) {
             var promise = queastionBankService.fetchQuestionByEventId(eventId, token);
+            $scope.totalWeight = 0;
             promise.then(
                     function(response) {
                         var subject = response.data.QP[0].questionPool.subject;
@@ -2007,6 +2008,8 @@
                                 tagNames: q.tagNames
                             };
                             $scope.selectedEvent.questions.push(question);
+                            $scope.eventQuestionWeight.push({ "question": question, "weight": q.weight })
+                            $scope.totalWeight += q.weight;
                         });
                         $scope.fetchAllChapterByTeachIdAndSubjectId($scope.currentTeacher.id, subject.id);
                     },
@@ -2015,9 +2018,6 @@
                     })
                 .then(
                     function() {
-                        $scope.selectedEvent.questions.forEach(function(element) {
-                            $scope.eventQuestionWeight.push({ "question": element, "weight": 0 })
-                        });
                         updateDataTable($scope.eventQuestionWeight);
                     }
                 );
@@ -4000,6 +4000,35 @@
         $scope.selectedStudent = "";
         $scope.selectedEvent = {};
         $scope.eventQuestions = [];
+        $scope.configuration = {
+            selector: 'textarea',
+            height: 200,
+            menubar: '',
+            plugins: [
+                'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen',
+                'insertdatetime media nonbreaking save table contextmenu directionality',
+                'emoticons template paste textcolor colorpicker textpattern imagetools tiny_mce_wiris'
+            ],
+            toolbar1: 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | tiny_mce_wiris_formulaEditor',
+            image_advtab: true,
+            resize: false,
+            setup: function(e) {
+                e.on('blur', function() {
+
+                    // Get the raw contents of the currently active editor
+                    var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
+                    console.log(content);
+
+
+                });
+
+            },
+            statusbar: false,
+            images_dataimg_filter: function(img) {
+                return img.hasAttribute('internal-blob');
+            }
+        };
 
         $scope.listAnswer = [];
         $scope.selectedAns = [];

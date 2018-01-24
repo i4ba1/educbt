@@ -66,7 +66,10 @@
                 image_advtab: true,
                 font_formats: themeAdvancedFonts,
                 fontsize_formats: themeFontSize,
-                resize: false
+                resize: false,
+                images_dataimg_filter: function(img) {
+                    return img.hasAttribute('internal-blob');
+                }
             };
         };
 
