@@ -203,6 +203,12 @@ public class StudentController {
 		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
 
 		Event e = eventService.findEventById(obj.getLong("eventId"));
+		/**
+		 * When finish exam the status must be set to COMPLETED
+		 */
+		e.setStatus(EventStatusType.COMPLETED);
+		e = eventService.updateEvent(e);
+		
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 

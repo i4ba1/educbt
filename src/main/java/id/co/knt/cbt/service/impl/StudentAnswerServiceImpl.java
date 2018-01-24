@@ -160,7 +160,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 
 		int i = 0;
 		for (StudentAnswer sa:studentAnswers) {
-			EventQuestion eq = eventQuestionRepo.findQuestion(sa.getQuestion().getId());
+			EventQuestion eq = eventQuestionRepo.findQuestion(sa.getQuestion().getId(), eventId);
 			if (eq.getQuestion().getQuestionGroup().getQgType() == QG_TYPE.ESSAY) {
 				Essay essay = new Essay(eq.getQuestion().getQuestion(), eq.getQuestion().getExplanation(), sa.getAnswered(), eq.getQuestionWeight());
 				listEssay.add(essay);
