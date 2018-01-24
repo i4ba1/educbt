@@ -19,27 +19,27 @@
             token = storageService.getToken();
         }
 
-        $scope.result = [];
+        // $scope.result = [];
 
-        function fetchStudentResult(eventId, nis) {
-            var params = [{
-                'authorization': token,
-                'studentResult': {
-                    'eventId': eventId,
-                    'nis': nis
-                }
-            }];
-            var promise = studentExamResultService.fetchStudentResult(params);
-            promise.then(
-                function(response) {
-                    $scope.result = response.data
-                },
-                function(errorResponse) {
-                    errorHandle.setError(errorResponse);
-                });
-        };
+        // function fetchStudentResult(eventId, nis) {
+        //     var params = [{
+        //         'authorization': token,
+        //         'studentResult': {
+        //             'eventId': eventId,
+        //             'nis': nis
+        //         }
+        //     }];
+        //     var promise = studentExamResultService.fetchStudentResult(params);
+        //     promise.then(
+        //         function(response) {
+        //             $scope.result = response.data
+        //         },
+        //         function(errorResponse) {
+        //             errorHandle.setError(errorResponse);
+        //         });
+        // };
 
-        fetchStudentResult($stateParams.eventId, currentStudent.nis);
+        // fetchStudentResult($stateParams.eventId, currentStudent.nis);
         $scope.$on('$stateChangeStart', function(event, next, current) {
             if (next.name === "student.task.exam") {
                 event.preventDefault();

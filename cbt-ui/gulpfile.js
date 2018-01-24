@@ -184,6 +184,8 @@ gulp.task('copy:plugins', function() {
             .pipe(gulp.dest(yeoman.dist + '/scripts/themes'));
         gulp.src('./bower_components/tinymce/skins/**/*')
             .pipe(gulp.dest(yeoman.dist + '/scripts/skins'));
+        gulp.src('./app/scripts/plugins/tiny_mce_wiris/**/*')
+            .pipe(gulp.dest(yeoman.dist + '/scripts/plugins/tiny_mce_wiris'));
     }, 1000);
     return 1;
 });

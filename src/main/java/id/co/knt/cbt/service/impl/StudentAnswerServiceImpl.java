@@ -102,7 +102,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 			mapQuestion.put("key", System.currentTimeMillis()+"#"+q.getKey()+"#"+System.nanoTime());
 			mapQuestion.put("explanation", q.getExplanation());
 			mapQuestion.put("typeQuestion", q.getTypeQuestion());
-			mapQuestion.put("questioGroup", q.getQuestionGroup());
+			mapQuestion.put("questionGroup", q.getQuestionGroup());
 			
 			mapSA.put("question", mapQuestion);
 			mapSA.put("studentId", sa.getStudent().getId());
