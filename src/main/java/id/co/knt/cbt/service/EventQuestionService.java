@@ -15,4 +15,6 @@ public interface EventQuestionService {
 	EventQuestion addNew(EventQuestion eq);
 	
 	EventQuestion findOneByEventId(Long eventId);
+	
+	EventQuestion findByEventIdAndQuestionId(Long eventId, Long questionId);
 }

@@ -21,4 +21,30 @@ public class DetailStudentExamine{
         this.listMC = listMC;
         this.listEssay = listEssay;
     }
+
+	public String getStudentName() {
+		return studentName;
+	}
+
+	public String getStudentNis() {
+		return studentNis;
+	}
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public String getEventDate() {
+		return eventDate;
+	}
+
+	public ArrayList<MultipleChoice> getListMC() {
+		return listMC;
+	}
+
+	public ArrayList<Essay> getListEssay() {
+		return listEssay;
+	}
+    
+    
 }

@@ -14,4 +14,25 @@ public class MultipleChoice{
         this.key = key;
         this.questionWeight = questionWeight;
     }
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public String getKindaQuestion() {
+		return kindaQuestion;
+	}
+
+	public Boolean getIsCorrect() {
+		return isCorrect;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public Integer getQuestionWeight() {
+		return questionWeight;
+	}
+    
 }
