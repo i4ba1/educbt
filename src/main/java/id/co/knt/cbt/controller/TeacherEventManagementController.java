@@ -30,6 +30,7 @@ import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Kelas;
 import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.Student;
+import id.co.knt.cbt.model.StudentAnswer;
 import id.co.knt.cbt.model.dto.DetailStudentExamine;
 import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.KelasRepo;
@@ -308,7 +309,7 @@ public class TeacherEventManagementController {
 	 * @param objects
 	 * @return
 	 */
-	@RequestMapping(value = { "/complete/"}, method=RequestMethod.POST)
+	@RequestMapping(value = { "/saveEventResult/"}, method=RequestMethod.POST)
 	public ResponseEntity<Void> saveEventResult(@RequestBody List<Object> objects){
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
@@ -316,8 +317,64 @@ public class TeacherEventManagementController {
 		Event e = eventService.findEventById(obj.getLong("eventId"));
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
 		JSONArray listEssay = obj.getJSONArray(obj.getString("listEssay"));
+		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 		
-		return null;
+		Double totalScore = 0.0; 
+		Double totalWeight = 0.0;
+		Double correct = 0.0;
+		Double incorrect = 0.0;
+		Double weight = 0.0;
+		/**
+		 * Calculate only MC, TF and WACANA
+		 */
+		for (StudentAnswer sa : list) {
+			if(sa.getCorrect()) {
+				weight = (Double)(eventQuestionService.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId()).getQuestionWeight()).doubleValue();
+				totalWeight += weight;
+				correct += weight;
+			}else {
+				incorrect++;
+			}
+		}
+		
+		/**
+		 * Calculate essay
+		 */
+		for (int i = 0; i < listEssay.length(); i++) {
+			weight = listEssay.getJSONObject(i).getDouble("questionWeight");
+			totalWeight += weight;
+			correct += weight;
+		}
+		
+		totalScore = (correct/totalWeight) * 100;
+		EventResult er = null;
+		if((er = eventResultService.findERByEventStudent(e.getId(), user.getNis())) != null) {
+			er.setCorrect(correct);
+			er.setIncorrect(incorrect);
+			er.setTotal(totalScore);
+			er = eventResultService.updateER(er);
+		}
+		
+		if (er.equals(null)) {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	@RequestMapping(value = { "/completedEvent/{eventId}"}, method=RequestMethod.PUT)
+	public ResponseEntity<Void> completedEvent(@PathVariable Long eventId){
+		Event currentEvent = eventService.findEventById(eventId);
+		currentEvent.setStatus(EventStatusType.CORRECTED);
+		eventService.updateEvent(currentEvent);
+		
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	/**

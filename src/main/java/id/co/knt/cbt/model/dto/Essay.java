@@ -12,4 +12,21 @@ public class Essay{
         this.answer = answer;
         this.questionWeight = questionWeight;
     }
+
+	public String getQuestion() {
+		return question;
+	}
+
+	public String getExplanation() {
+		return explanation;
+	}
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public Integer getQuestionWeight() {
+		return questionWeight;
+	}
+    
 }

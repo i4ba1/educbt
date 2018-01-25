@@ -106,4 +106,10 @@ public class EventQuestionServiceImpl implements EventQuestionService{
 	public EventQuestion findOneByEventId(Long eventId) {
 		return eventQuestionRepo.findOne(eventId);
 	}
+
+	@Override
+	public EventQuestion findByEventIdAndQuestionId(Long eventId, Long questionId) {
+		EventQuestion eq =eventQuestionRepo.findQuestion(questionId, eventId);
+		return eq;
+	}
 }
