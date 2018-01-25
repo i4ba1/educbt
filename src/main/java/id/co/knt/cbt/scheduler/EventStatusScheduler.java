@@ -16,7 +16,7 @@ public class EventStatusScheduler {
 	@Autowired
 	private EventService eventService;
 
-	//@Scheduled(cron = "* 15 * * * *")
+	@Scheduled(cron = "* 15 * * * *")
 	public void updateEvent() {
 		List<Event> publishedEvent = eventService.fetchPublishedEvent();
 
@@ -25,7 +25,7 @@ public class EventStatusScheduler {
 		if (!publishedEvent.isEmpty() || publishedEvent.size() > 0) {
 			for (Event event : publishedEvent) {
 				if (currentTime >= event.getEndDate()) {
-					event.setStatus(EventStatusType.COMPLETED);
+					event.setStatus(EventStatusType.CORRECTED);
 				}
 
 				eventService.updateEvent(event);

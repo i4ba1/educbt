@@ -376,7 +376,7 @@ public class TeacherEventManagementController {
 	@RequestMapping(value = { "/completedEvent/{eventId}"}, method=RequestMethod.PUT)
 	public ResponseEntity<Void> completedEvent(@PathVariable Long eventId){
 		Event currentEvent = eventService.findEventById(eventId);
-		currentEvent.setStatus(EventStatusType.CORRECTED);
+		currentEvent.setStatus(EventStatusType.COMPLETED);
 		eventService.updateEvent(currentEvent);
 		
 		
