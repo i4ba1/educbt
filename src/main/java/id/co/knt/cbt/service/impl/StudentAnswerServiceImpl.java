@@ -141,7 +141,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 			String studentNis = (String)obj[2];
 
 			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentNis);
-			if(eventResult == null){
+			if(eventResult.getTotal() == null){
 				isCorrected = false;
 			}
 
