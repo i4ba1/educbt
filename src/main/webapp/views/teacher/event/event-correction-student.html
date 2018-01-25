@@ -25,4 +25,33 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th width="50" class="text-center">#</th>
+                <th>Jawaban</th>
+                <th>Jenis Soal</th>
+                <th class="text-center">Hasil</th>
+                <th>Kunci Jawab</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="question in detailStudentExamine.listMC track by $index">
+                <td class="text-center">{{$index+1}}</td>
+                <td>{{question.answer}}</td>
+                <td>{{question.questionType}}</td>
+                <td class="text-center">
+                    <span class="corrected" ng-if="question.isCorrect">
+                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                    </span>
+                    <span class="uncorrected" ng-if="!question.isCorrect">
+                        <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                    </span>
+                </td>
+                <td>
+                    {{question.key}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

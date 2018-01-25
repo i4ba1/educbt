@@ -32,6 +32,13 @@
     <table class="table table-hover table-striped">
         <thead>
             <tr>
+                <td colspan="5">
+                    Jawaba Soal Pilihan Ganda / Soal Benar Salah
+                </td>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
                 <th width="50" class="text-center">#</th>
                 <th>Nama Lengkap</th>
                 <th>NIS</th>
@@ -44,12 +51,11 @@
                 <td class="text-center">{{$index+1}}</td>
                 <td>{{student.studentName}}</td>
                 <td>{{student.studentNis}}</td>
-                <td ng-switch="student.correctionStatus" class="text-center">
-                    <span class="corrected" ng-switch-when="true">
+                <td class="text-center">
+                    <span class="corrected" ng-if="student.correctionStatus">
                             <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-
                     </span>
-                    <span class="uncorrected" ng-switch-default>
+                    <span class="uncorrected" ng-if="!student.correctionStatus">
                             <i class="fa fa-times-circle-o" aria-hidden="true"></i>
                     </span>
                 </td>
