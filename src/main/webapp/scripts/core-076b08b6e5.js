@@ -236,6 +236,15 @@ csvImport.directive('ngCsvImport', function() {
                     }
                 }
             })
+            .state('teacher.eventManagement.correction', {
+                url: '/event-correction/:eventId',
+                views: {
+                    'content@teacher': {
+                        templateUrl: 'views/teacher/event/event-corection.html',
+                        controller: 'EventManagementController as eventCtrl'
+                    }
+                }
+            })
             .state('teacher.eventManagement.detail.classDetail', {
                 url: '/:className',
                 views: {

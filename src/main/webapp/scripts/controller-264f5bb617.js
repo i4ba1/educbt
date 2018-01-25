@@ -2403,6 +2403,21 @@
             });
         }
 
+        // Correction Handle
+        $scope.eventStudent = [];
+
+        function fetchEventStudents() {
+            eventService.fetchEventStudents(token, $stateParams.eventId).then(
+                function(data) {
+                    $scope.eventStudent = data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        }
+        // ==================
+
 
         if ($state.is('teacher.eventManagement')) {
             if ($scope.currentTeacher != null) {
@@ -2432,6 +2447,8 @@
                     DialogFactory.exportDataToXlsx($scope.eventResult, $scope.selectedEvent.eventName);
                 }
             }
+        } else if ($state.is('teacher.eventManagement.correction')) {
+            fetchEventStudents();
         }
     }
 

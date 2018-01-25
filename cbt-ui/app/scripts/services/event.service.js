@@ -32,6 +32,18 @@
             },
             fetchEventResult: function(eventId, classId, token) {
                 return $http.get(url + '/teacher/teacher_event_mgmt/list_event_result/' + token + '/' + eventId + '/' + classId);
+            },
+            fetchEventStudents: function(token, eventId) {
+                return $http.get(url + '/teacher/teacher_event_mgmt/getStudentEvent/' + token + '/' + eventId);
+            },
+            fetchDetailEventStudent: function(token, eventId, nis) {
+                return $http.get(url + '/teacher/teacher_event_mgmt/getStudentEvent/' + token + '/' + eventId + '/' + nis);
+            },
+            saveEventResult: function(token) {
+                var params = [{
+                    'authorization': token,
+                    'event': selectedEvent
+                }];
             }
         };
     }
