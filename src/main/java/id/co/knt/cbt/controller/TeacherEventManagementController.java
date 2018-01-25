@@ -24,6 +24,7 @@ import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.model.Event.QuestionTypeStructure;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
 import id.co.knt.cbt.model.EventResult;
@@ -328,12 +329,17 @@ public class TeacherEventManagementController {
 		 * Calculate only MC, TF and WACANA
 		 */
 		for (StudentAnswer sa : list) {
-			if(sa.getCorrect()) {
-				weight = (Double)(eventQuestionService.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId()).getQuestionWeight()).doubleValue();
-				totalWeight += weight;
-				correct += weight;
-			}else {
-				incorrect++;
+			if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
+				if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
+					sa.setCorrect(true);
+					studentAnswerService.updateSA(sa);
+					
+					weight = (Double)(eventQuestionService.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId()).getQuestionWeight()).doubleValue();
+					totalWeight += weight;
+					correct += weight;
+				}else {
+					incorrect++;
+				}
 			}
 		}
 		
