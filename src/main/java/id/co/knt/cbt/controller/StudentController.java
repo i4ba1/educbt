@@ -29,7 +29,6 @@ import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.School;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.StudentAnswer;
@@ -206,7 +205,7 @@ public class StudentController {
 
 		Event e = eventService.findEventById(obj.getLong("eventId"));
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
-		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
+		/*List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 
 		for (StudentAnswer sa : list) {
 			if (sa.getAnswered() != null) {
@@ -217,7 +216,7 @@ public class StudentController {
 					}	
 				}
 			}
-		}
+		}*/
 		
 		EventResult er = null;
 		if(eventResultService.findERByEventStudent(e.getId(), user.getNis()) == null) {
