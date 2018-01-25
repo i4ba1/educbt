@@ -5,4 +5,57 @@
         </a>
         Koreksi Hasil Ujian
     </h3>
+    <table>
+        <tbody>
+            <tr>
+                <td width="300"> Nama Ujian</td>
+                <td width="10">:</td>
+                <td width="300">{{selectedEvent.eventName}}</td>
+            </tr>
+            <tr>
+                <td>Jenis Ujian</td>
+                <td>:</td>
+                <td>{{selectedEvent.eventType}}</td>
+            </tr>
+            <tr>
+                <td>Ujian dimulai </td>
+                <td>:</td>
+                <td>{{selectedEvent.startDate| date:"dd MMMM yyyy HH:mm" }} </td>
+            </tr>
+            <tr>
+                <td>Ujian berakhir</td>
+                <td>:</td>
+                <td> {{selectedEvent.endDate|date:"dd MMMM yyyy HH:mm"}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nama Lengkap</th>
+                <th>NIS</th>
+                <th>Status</th>
+                <th width="50"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="student in eventStudents track by studentNis">
+                <td>{{student.studentName}}</td>
+                <td>{{student.studentNis}}</td>
+                <td ng-switch="student.correctionStatus">
+                    <span class="corrected">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </span>
+                    <span class="uncorrected">
+                         <i class="fa fa-times" aria-hidden="true"></i>
+                    </span>
+                </td>
+                <td>
+                    <img class="correction-head" src="images/koreksi.png" alt="">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
+{{eventStudents}}

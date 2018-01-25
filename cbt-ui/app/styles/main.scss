@@ -203,3 +203,13 @@ body {
         width: auto;
     }
 }
+
+.corrected {
+    font-size: 14px;
+    color: green;
+}
+
+.ucorrected {
+    @extend .corrected;
+    color: #fb1101;
+}

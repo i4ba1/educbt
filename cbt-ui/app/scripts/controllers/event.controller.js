@@ -685,12 +685,12 @@
         }
 
         // Correction Handle
-        $scope.eventStudent = [];
+        $scope.eventStudents = [];
 
         function fetchEventStudents() {
             eventService.fetchEventStudents(token, $stateParams.eventId).then(
-                function(data) {
-                    $scope.eventStudent = data;
+                function(success) {
+                    $scope.eventStudents = success.data;
                 },
                 function(error) {
                     console.log(error);
@@ -730,6 +730,7 @@
             }
         } else if ($state.is('teacher.eventManagement.correction')) {
             fetchEventStudents();
+            getEventById($stateParams.eventId);
         }
     }
 
