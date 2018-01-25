@@ -295,7 +295,7 @@ public class TeacherEventManagementController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/getDetailStudentExamineScore/{token}/{eventId}/{nis}" }, method = RequestMethod.GET)
-	public ResponseEntity<DetailStudentExamine> getDetailStudentExamine(@PathVariable("eventId") Long eventId, @PathVariable("nis") String nis){
+	public ResponseEntity<DetailStudentExamine> getDetailStudentExamine(@PathVariable("token") String token, @PathVariable("eventId") Long eventId, @PathVariable("nis") String nis){
 		DetailStudentExamine detailStudentExamine = studentAnswerService.getDetailStudentExamines(eventId, nis);
 
 		if (detailStudentExamine == null) {
