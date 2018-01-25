@@ -131,14 +131,14 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 
 	@Override
 	public List<EventStudent> eventStudents(Long eventId){
-		List<Object> objects = studentAnswerRepo.findStudentAttendToEvent(eventId);
+		List<Object[]> objects = studentAnswerRepo.findStudentAttendToEvent(eventId);
 		List<EventStudent> eStudents = new ArrayList<>();
 		EventStudent eventStudent = null;
 		boolean isCorrected = true;
 
-		for (Object obj : objects) {
-			String studentName = (String)obj;
-			String studentNis = (String)obj;
+		for (Object[] obj : objects) {
+			String studentName = (String)obj[0]+" "+(String)obj[1];
+			String studentNis = (String)obj[2];
 
 			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentNis);
 			if(eventResult == null){

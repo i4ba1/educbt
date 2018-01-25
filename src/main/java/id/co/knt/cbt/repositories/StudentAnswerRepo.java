@@ -31,5 +31,5 @@ and p.approvalStatus != :approvalStatus
 order by p.dateCreated
  */
 	@Query("select s.firstName, s.lastName, s.nis from Student s where s in (select sa.student from StudentAnswer sa where sa.event.id= :eventId) order by s.firstName")
-	List<Object> findStudentAttendToEvent(@Param("eventId") Long eventId);
+	List<Object[]> findStudentAttendToEvent(@Param("eventId") Long eventId);
 }
