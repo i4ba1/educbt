@@ -2416,7 +2416,19 @@
                 }
             );
         }
-        // ==================
+        // correction student exam
+        $scope.detailStudentExamine;
+
+        function fetchDetailStudentExamine() {
+            eventService.fetchDetailStudentExamine(token, $stateParams.eventId, $stateParams.studentNis).then(
+                function(response) {
+                    $scope.detailStudentExamine = response.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        }
 
 
         if ($state.is('teacher.eventManagement')) {
@@ -2450,6 +2462,8 @@
         } else if ($state.is('teacher.eventManagement.correction')) {
             fetchEventStudents();
             getEventById($stateParams.eventId);
+        } else if ($state.is('teacher.eventManagement.correction.studentResult')) {
+            fetchDetailStudentExamine();
         }
     }
 

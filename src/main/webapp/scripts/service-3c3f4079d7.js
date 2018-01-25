@@ -341,8 +341,8 @@
             fetchEventStudents: function(token, eventId) {
                 return $http.get(url + '/teacher/teacher_event_mgmt/getStudentEvent/' + token + '/' + eventId);
             },
-            fetchDetailEventStudent: function(token, eventId, nis) {
-                return $http.get(url + '/teacher/teacher_event_mgmt/getStudentEvent/' + token + '/' + eventId + '/' + nis);
+            fetchDetailStudentExamine: function(token, eventId, nis) {
+                return $http.get(url + '/teacher/teacher_event_mgmt/getDetailStudentExamineScore/' + token + '/' + eventId + '/' + nis);
             },
             saveEventResult: function(token) {
                 var params = [{

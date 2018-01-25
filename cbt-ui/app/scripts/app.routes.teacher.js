@@ -66,6 +66,14 @@
                         controller: 'EventManagementController as eventCtrl'
                     }
                 }
+            }).state('teacher.eventManagement.correction.studentResult', {
+                url: '/student-correction/:studentNis',
+                views: {
+                    'content@teacher': {
+                        templateUrl: 'views/teacher/event/event-correction-student.html',
+                        controller: 'EventManagementController as eventCtrl'
+                    }
+                }
             })
             .state('teacher.eventManagement.detail.classDetail', {
                 url: '/:className',

@@ -205,11 +205,26 @@ body {
 }
 
 .corrected {
-    font-size: 14px;
+    font-size: 14pt;
     color: green;
 }
 
-.ucorrected {
+.uncorrected {
     @extend .corrected;
     color: #fb1101;
+}
+
+.studentTable {
+    min-height: 50vh;
+}
+
+.click-able {
+    cursor: pointer;
+    cursor: hand;
+    &:hover {
+        transform: scale(1.1, 1.1);
+    }
+    &:active {
+        transform: scale(.9, .9);
+    }
 }
