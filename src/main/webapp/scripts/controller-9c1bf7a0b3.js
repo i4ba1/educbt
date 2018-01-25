@@ -4015,12 +4015,9 @@
             resize: false,
             setup: function(e) {
                 e.on('blur', function() {
-
                     // Get the raw contents of the currently active editor
                     var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
-                    console.log(content);
-
-
+                    $scope.updateAnswer(content);
                 });
 
             },
