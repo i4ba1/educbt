@@ -19,7 +19,7 @@ public class MultipleChoice{
 		return answer;
 	}
 
-	public String getKindaQuestion() {
+	public String getQuestionType() {
 		return questionType;
 	}
 
