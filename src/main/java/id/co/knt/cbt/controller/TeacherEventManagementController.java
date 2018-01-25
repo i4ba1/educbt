@@ -347,17 +347,12 @@ public class TeacherEventManagementController {
 		}
 		
 		totalScore = (correct/totalWeight) * 100;
-		Date createdDate = new Date();
 		EventResult er = null;
-		if(eventResultService.findERByEventStudent(e.getId(), user.getNis()) == null) {
-			er = new EventResult();
-			er.setEvent(e);
-			er.setStudent(user);
-			er.setCreatedDate(createdDate);
+		if((er = eventResultService.findERByEventStudent(e.getId(), user.getNis())) != null) {
 			er.setCorrect(correct);
 			er.setIncorrect(incorrect);
 			er.setTotal(totalScore);
-			er = eventResultService.addNew(er);
+			er = eventResultService.updateER(er);
 		}
 		
 		if (er.equals(null)) {

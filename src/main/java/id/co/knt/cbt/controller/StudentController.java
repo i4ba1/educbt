@@ -2,6 +2,7 @@ package id.co.knt.cbt.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
+import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.School;
@@ -198,17 +200,11 @@ public class StudentController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/finish/" }, method = RequestMethod.POST)
-	public ResponseEntity<Void> saveResult(@RequestBody List<Object> objects) {
+	public ResponseEntity<EventResult> saveResult(@RequestBody List<Object> objects) {
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
 
 		Event e = eventService.findEventById(obj.getLong("eventId"));
-		/**
-		 * When finish exam the status must be set to COMPLETED
-		 */
-		e.setStatus(EventStatusType.COMPLETED);
-		e = eventService.updateEvent(e);
-		
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 
@@ -222,8 +218,17 @@ public class StudentController {
 				}
 			}
 		}
-
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		
+		EventResult er = null;
+		if(eventResultService.findERByEventStudent(e.getId(), user.getNis()) == null) {
+			er = new EventResult();
+			er.setEvent(e);
+			er.setStudent(user);
+			er.setCreatedDate(new Date());
+			er = eventResultService.addNew(er);
+		}
+		
+		return new ResponseEntity<EventResult>(er, HttpStatus.OK);
 	}
 
 	/**
