@@ -2,14 +2,14 @@ package id.co.knt.cbt.model.dto;
 
 public class MultipleChoice{
     private String answer;
-    private String kindaQuestion;
+    private String questionType;
     private Boolean isCorrect;
     private String key;
     private Integer questionWeight;
 
-    public MultipleChoice(String answer,String kindaQuestion,Boolean isCorrect,String key,Integer questionWeight){
+    public MultipleChoice(String answer,String questionType,Boolean isCorrect,String key,Integer questionWeight){
         this.answer = answer;
-        this.kindaQuestion = kindaQuestion;
+        this.questionType = questionType;
         this.isCorrect = isCorrect;
         this.key = key;
         this.questionWeight = questionWeight;
@@ -20,7 +20,7 @@ public class MultipleChoice{
 	}
 
 	public String getKindaQuestion() {
-		return kindaQuestion;
+		return questionType;
 	}
 
 	public Boolean getIsCorrect() {
