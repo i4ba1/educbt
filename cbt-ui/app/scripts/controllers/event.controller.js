@@ -718,6 +718,18 @@
             );
         }
 
+        $scope.saveEventResult = function() {
+            eventService.saveEventResult(token, $stateParams.eventId, $stateParams.studentNis, $scope.detailStudentExamine.listEssay).then(
+                function(response) {
+                    $state.go("^");
+                },
+                function(error) {
+                    console.log(error);
+                }
+
+            );
+        }
+
 
         if ($state.is('teacher.eventManagement')) {
             if ($scope.currentTeacher != null) {

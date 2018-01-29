@@ -72,8 +72,8 @@
                         <th>Soal</th>
                         <th>Pembahasan</th>
                         <th>Jawaban Siswa</th>
-                        <th>Nilai</th>
-                        <th>Bobot</th>
+                        <th class="text-center">Nilai</th>
+                        <th class="text-center">Bobot</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,7 +89,7 @@
                             <div ng-bind-html="trustAsHtml(question.answer)"></div>
                         </td>
                         <td>
-                            <div><input type="number" name="$index" id="$index" style="text-align:center" max="{{question.questionWeight}}" min="0"></div>
+                            <div><input type="number" name="$index" id="$index" style="text-align:center" max="{{question.questionWeight}}" min="0" class="form-control" ng-model="question.score"></div>
                         </td>
                         <td>{{question.questionWeight}}</td>
                     </tr>

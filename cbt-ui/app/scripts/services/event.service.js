@@ -39,11 +39,17 @@
             fetchDetailStudentExamine: function(token, eventId, nis) {
                 return $http.get(url + '/teacher/teacher_event_mgmt/getDetailStudentExamineScore/' + token + '/' + eventId + '/' + nis);
             },
-            saveEventResult: function(token) {
+            saveEventResult: function(token, eventId, nis, listEssay) {
                 var params = [{
                     'authorization': token,
-                    'event': selectedEvent
+                    'studentResult': {
+                        'eventId': eventId,
+                        'nis': nis,
+                        'listEssay': listEssay
+                    }
                 }];
+
+                $http.post(url + '/teacher/teacher_event_mgmt/saveEventResult/', params)
             }
         };
     }
