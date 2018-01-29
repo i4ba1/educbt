@@ -41,6 +41,9 @@ public class StudentAnswer implements Serializable {
 	@Column(name="answer")
 	private String answered;
 	
+	@Column(name="score")
+	private Integer score;
+	
 	@Column(name="is_correct")
 	private Boolean correct;
 	
@@ -48,11 +51,12 @@ public class StudentAnswer implements Serializable {
 		super();
 	}
 
-	public StudentAnswer(Student student, Question question, Event e, String answered, Boolean correct) {
+	public StudentAnswer(Student student, Question question, String answered, Integer score, Boolean correct, Event e) {
 		super();
 		this.student = student;
 		this.question = question;
 		this.answered = answered;
+		this.score = score;
 		this.correct = correct;
 		this.event = e;
 	}
@@ -91,6 +95,14 @@ public class StudentAnswer implements Serializable {
 
 	public void setAnswered(String answered) {
 		this.answered = answered;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 
 	public Boolean getCorrect() {

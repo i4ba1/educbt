@@ -24,12 +24,12 @@ import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.Event.EventType;
 import id.co.knt.cbt.model.Event.QuestionTypeStructure;
-import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventQuestion;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Kelas;
 import id.co.knt.cbt.model.Question;
+import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.StudentAnswer;
 import id.co.knt.cbt.model.dto.DetailStudentExamine;
@@ -317,7 +317,7 @@ public class TeacherEventManagementController {
 		
 		Event e = eventService.findEventById(obj.getLong("eventId"));
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
-		JSONArray listEssay = obj.getJSONArray(obj.getString("listEssay"));
+		JSONArray listEssay = obj.getJSONArray("listEssay");
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
 		
 		Double totalScore = 0.0; 
@@ -325,6 +325,7 @@ public class TeacherEventManagementController {
 		Double correct = 0.0;
 		Double incorrect = 0.0;
 		Double weight = 0.0;
+		
 		/**
 		 * Calculate only MC, TF and WACANA
 		 */
@@ -350,6 +351,9 @@ public class TeacherEventManagementController {
 			weight = listEssay.getJSONObject(i).getDouble("questionWeight");
 			totalWeight += weight;
 			correct += weight;
+			StudentAnswer sa = studentAnswerService.findOneSA(listEssay.getJSONObject(i).getLong("answerId"));
+			sa.setScore(listEssay.getJSONObject(i).getInt("score"));
+			studentAnswerService.updateSA(sa);
 		}
 		
 		totalScore = (correct/totalWeight) * 100;
