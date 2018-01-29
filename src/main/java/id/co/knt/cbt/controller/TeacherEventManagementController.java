@@ -378,8 +378,10 @@ public class TeacherEventManagementController {
 	 * @param objects
 	 * @return
 	 */
-	@RequestMapping(value = { "/completedEvent/{eventId}"}, method=RequestMethod.PUT)
-	public ResponseEntity<Void> completedEvent(@PathVariable Long eventId){
+	@RequestMapping(value = { "/completedEvent/"}, method=RequestMethod.POST)
+	public ResponseEntity<Void> completedEvent(@RequestBody List<Object> objects){
+		JSONArray array = new JSONArray(objects);
+		Long eventId = array.getJSONObject(0).getLong("eventId");
 		Event currentEvent = eventService.findEventById(eventId);
 		currentEvent.setStatus(EventStatusType.COMPLETED);
 		eventService.updateEvent(currentEvent);
