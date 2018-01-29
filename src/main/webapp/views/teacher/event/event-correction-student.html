@@ -5,6 +5,7 @@
         </a>
         Koreksi Ujian Siswa
     </h3>
+
     <table class="table">
         <tbody>
             <tr>
@@ -25,33 +26,83 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th width="50" class="text-center">#</th>
-                <th>Jawaban</th>
-                <th>Jenis Soal</th>
-                <th class="text-center">Hasil</th>
-                <th>Kunci Jawab</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="question in detailStudentExamine.listMC track by $index">
-                <td class="text-center">{{$index+1}}</td>
-                <td>{{question.answer}}</td>
-                <td>{{question.questionType}}</td>
-                <td class="text-center">
-                    <span class="corrected" ng-if="question.isCorrect">
-                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                    </span>
-                    <span class="uncorrected" ng-if="!question.isCorrect">
-                        <i class="fa fa-times-circle-o" aria-hidden="true"></i>
-                    </span>
-                </td>
-                <td>
-                    {{question.key}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <uib-accordion close-others="oneAtATime">
+        <div uib-accordion-group class="panel-primary custom-acordion" is-open="mcIsOpen">
+            <uib-accordion-heading>
+                Jawaban Soal Pilihan Ganda / Soal Benar Salah
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': mcIsOpen, 'glyphicon-chevron-right': !mcIsOpen}"></i>
+            </uib-accordion-heading>
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th width="50" class="text-center">No.</th>
+                        <th>Jawaban</th>
+                        <th>Jenis Soal</th>
+                        <th class="text-center">Hasil</th>
+                        <th>Kunci Jawab</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="question in detailStudentExamine.listMC track by $index">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{question.answer}}</td>
+                        <td>{{question.questionType ==="MC"?"Pilihan Ganda":"Benar/Salah"}}</td>
+                        <td class="text-center">
+                            <span class="corrected" ng-if="question.isCorrect"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                            <span class="uncorrected" ng-if="!question.isCorrect"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+                        </td>
+                        <td>
+                            {{question.key}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div uib-accordion-group class="panel-primary custom-acordion" is-open="essayIsOpen" is-disabled="essayIsDisabled">
+            <uib-accordion-heading>
+                Jawaban Soal Essay
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': essayIsOpen, 'glyphicon-chevron-right': !essayIsOpen}"></i>
+            </uib-accordion-heading>
+            <table class="table table-hover table-striped">
+
+                <thead>
+                    <tr>
+                        <th width="50" class="text-center">No.</th>
+                        <th>Soal</th>
+                        <th>Pembahasan</th>
+                        <th>Jawaban Siswa</th>
+                        <th>Nilai</th>
+                        <th>Bobot</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="question in detailStudentExamine.listEssay track by $index">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>
+                            <div ng-bind-html="trustAsHtml(question.question)"></div>
+                        </td>
+                        <td>
+                            <div ng-bind-html="trustAsHtml(question.explanation)"></div>
+                        </td>
+                        <td>
+                            <div ng-bind-html="trustAsHtml(question.answer)"></div>
+                        </td>
+                        <td>
+                            <div><input type="number" name="$index" id="$index" style="text-align:center" max="{{question.questionWeight}}" min="0"></div>
+                        </td>
+                        <td>{{question.questionWeight}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </uib-accordion>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-tb">
+        <button type="button" class="btn btn-primary" ng-click="saveEventResult()">Simpan</button>
+        <a title="Kembali" ui-sref="^"><button type="button" class="btn btn-default">Kembali</button></a>
+    </div>
+
 </div>

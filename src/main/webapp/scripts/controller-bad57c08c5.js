@@ -2418,11 +2418,18 @@
         }
         // correction student exam
         $scope.detailStudentExamine;
+        $scope.essayIsOpen = false;
+        $scope.essayIsDisabled = false;
+        $scope.mcIsOpen = false;
 
         function fetchDetailStudentExamine() {
             eventService.fetchDetailStudentExamine(token, $stateParams.eventId, $stateParams.studentNis).then(
                 function(response) {
                     $scope.detailStudentExamine = response.data;
+                    $scope.essayIsOpen = $scope.detailStudentExamine.listEssay.length > 0;
+                    $scope.essayIsDisabled = !$scope.essayIsOpen;
+                    $scope.mcIsOpen = $scope.essayIsOpen ? false : true;
+
                 },
                 function(error) {
                     console.log(error);
@@ -2464,6 +2471,9 @@
             getEventById($stateParams.eventId);
         } else if ($state.is('teacher.eventManagement.correction.studentResult')) {
             fetchDetailStudentExamine();
+            $scope.oneAtATime = false;
+
+
         }
     }
 

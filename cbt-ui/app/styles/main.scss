@@ -228,3 +228,17 @@ body {
         transform: scale(.9, .9);
     }
 }
+
+.custom-acordion {
+    &>.panel-heading {
+        background: #215080 !important;
+        color: white;
+    }
+    &>.collapse>.panel-body {
+        padding: 0px;
+    }
+}
+
+.margin-tb {
+    margin: 15px 0px;
+}
