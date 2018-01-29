@@ -350,7 +350,8 @@ public class TeacherEventManagementController {
 		for (int i = 0; i < listEssay.length(); i++) {
 			weight = listEssay.getJSONObject(i).getDouble("questionWeight");
 			totalWeight += weight;
-			correct += weight;
+			correct += listEssay.getJSONObject(i).getInt("score");
+			
 			StudentAnswer sa = studentAnswerService.findOneSA(listEssay.getJSONObject(i).getLong("answerId"));
 			sa.setScore(listEssay.getJSONObject(i).getInt("score"));
 			studentAnswerService.updateSA(sa);
