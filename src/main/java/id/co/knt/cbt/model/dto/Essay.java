@@ -6,13 +6,15 @@ public class Essay{
     private String answer;
     private Integer questionWeight;
     private Long answerId;
+    private Integer score;
 
-    public Essay(String question,String explanation,String answer,Integer questionWeight, Long answerId){
+    public Essay(String question,String explanation,String answer,Integer questionWeight, Long answerId, Integer score){
         this.question = question;
         this.explanation = explanation;
         this.answer = answer;
         this.questionWeight = questionWeight;
         this.answerId = answerId;
+        this.score = score;
     }
 
 	public String getQuestion() {
@@ -34,6 +36,8 @@ public class Essay{
 	public Long getAnswerId() {
 		return answerId;
 	}
-    
-	
+
+	public Integer getScore() {
+		return score;
+	}
 }
