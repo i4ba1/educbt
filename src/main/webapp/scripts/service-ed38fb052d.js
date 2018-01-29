@@ -354,7 +354,7 @@
                     }
                 }];
 
-                $http.post(url + '/teacher/teacher_event_mgmt/saveEventResult/', params)
+                return $http.post(url + '/teacher/teacher_event_mgmt/saveEventResult/', params)
             }
         };
     }

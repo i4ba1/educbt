@@ -41,6 +41,7 @@
                         <th>Jenis Soal</th>
                         <th class="text-center">Hasil</th>
                         <th>Kunci Jawab</th>
+                        <th class="text-center" width="50">Bobot</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +56,7 @@
                         <td>
                             {{question.key}}
                         </td>
+                        <td class="text-center">{{question.questionWeight}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -91,7 +93,7 @@
                         <td>
                             <div><input type="number" name="$index" id="$index" style="text-align:center" max="{{question.questionWeight}}" min="0" class="form-control" ng-model="question.score"></div>
                         </td>
-                        <td>{{question.questionWeight}}</td>
+                        <td class="text-center" width="50">{{question.questionWeight}}</td>
                     </tr>
                 </tbody>
             </table>
