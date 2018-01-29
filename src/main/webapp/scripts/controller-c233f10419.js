@@ -2405,11 +2405,21 @@
 
         // Correction Handle
         $scope.eventStudents = [];
+        $scope.isAllCorrected = false;
 
         function fetchEventStudents() {
             eventService.fetchEventStudents(token, $stateParams.eventId).then(
                 function(success) {
                     $scope.eventStudents = success.data;
+                    var correctionCount = 0;
+                    success.data.forEach(function(el) {
+                        if (el.correctionStatus) {
+                            correctionCount++;
+                        }
+                    });
+                    if (correctionCount === success.data.length) {
+                        $scope.isAllCorrected = true;
+                    }
                 },
                 function(error) {
                     console.log(error);
