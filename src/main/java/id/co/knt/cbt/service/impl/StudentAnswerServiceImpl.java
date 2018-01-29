@@ -162,7 +162,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 		for (StudentAnswer sa:studentAnswers) {
 			EventQuestion eq = eventQuestionRepo.findQuestion(sa.getQuestion().getId(), eventId);
 			if (eq.getQuestion().getQuestionGroup().getQgType() == QG_TYPE.ESSAY) {
-				Essay essay = new Essay(eq.getQuestion().getQuestion(), eq.getQuestion().getExplanation(), sa.getAnswered(), eq.getQuestionWeight(), sa.getId(), 0);
+				Essay essay = new Essay(eq.getQuestion().getQuestion(), eq.getQuestion().getExplanation(), sa.getAnswered(), eq.getQuestionWeight(), sa.getId(), sa.getScore());
 				listEssay.add(essay);
 			}else{
 				MultipleChoice mc = new MultipleChoice(sa.getAnswered(), eq.getQuestion().getTypeQuestion(), sa.getCorrect(), eq.getQuestion().getKey(), eq.getQuestionWeight());
