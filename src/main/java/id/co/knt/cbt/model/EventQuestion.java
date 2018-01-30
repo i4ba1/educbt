@@ -73,14 +73,6 @@ public class EventQuestion implements Serializable {
 		this.questionWeight = questionWeight;
 	}
 
-	public Integer getQuestionWeight() {
-		return questionWeight;
-	}
-
-	public void setQuestionWeight(Integer questionWeight) {
-		this.questionWeight = questionWeight;
-	}
-
 	public Long getId() {
 		return id;
 	}
