@@ -37,6 +37,10 @@
         });
 
         $rootScope.openHelp = DialogFactory.openHelpMsg;
+        $rootScope.$watch(function() {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            return true;
+        });
     }
 
     function config(usSpinnerConfigProvider, localStorageServiceProvider) {
