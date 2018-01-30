@@ -740,6 +740,17 @@
             );
         }
 
+        $scope.setEventComplete = function() {
+            eventService.setEventComplete(token, $stateParams.eventId).then(
+                function(response) {
+                    $state.go("^");
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        }
+
 
         if ($state.is('teacher.eventManagement')) {
             if ($scope.currentTeacher != null) {
