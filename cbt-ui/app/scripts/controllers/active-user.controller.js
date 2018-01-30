@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('ActiveUserController', ActiveUserController);
 
-    ActiveUserController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'activeUserService']
+    ActiveUserController.$inject = ['$scope', '$filter', 'ngTableParams', '$stateParams', '$state', 'storageService', 'errorHandle', 'activeUserService', 'DialogFactory']
 
-    function ActiveUserController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, activeUserService) {
+    function ActiveUserController($scope, $filter, ngTableParams, $stateParams, $state, storageService, errorHandle, activeUserService, DialogFactory) {
 
         var token = "";
         if (!storageService.isAuthorization("ADMIN")) {
