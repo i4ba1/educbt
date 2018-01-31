@@ -242,3 +242,48 @@ body {
 .margin-tb {
     margin: 15px 0px;
 }
+
+.active-cstm {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+        color: #fff;
+        background-color: #474a4c;
+        border-color: #215080;
+    }
+}
+
+.color-blue {
+    color: #215080;
+}
+
+.img-size {
+    height: 35px;
+    width: auto;
+}
+
+tr.rounded {
+    border-top: 3px solid white;
+    &>td {
+        padding: 2px !important;
+    }
+    &:hover>td>div>div>img {
+        border: 2px solid $blue;
+    }
+}
+
+.padding-none {
+    padding: 0px;
+}
+
+.lh-30 {
+    line-height: 30px;
+}
+
+.row-style {
+    padding: 5px 0px;
+    border: 2px solid $blue;
+    border-radius: 7px;
+    margin: auto;
+}
