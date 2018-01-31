@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventResult;
+import id.co.knt.cbt.model.Student;
+import id.co.knt.cbt.model.dto.CompletedEvent;
 import id.co.knt.cbt.repositories.EventResultRepo;
 import id.co.knt.cbt.service.EventResultService;
 
@@ -61,10 +63,17 @@ public class EventResultServiceImpl implements EventResultService {
 	}
 
 	@Override
-	public List<EventResult> findERByClass(Long eventId, Integer classId) {
-		List<EventResult> list = eventResultRepo.findEventResultByClass(eventId, classId);
+	public List<CompletedEvent> fetchStudentOnCompletedEvent(Long eventId) {
+		List<EventResult> list = eventResultRepo.fetchStudentByEventId(eventId);
+		ArrayList<CompletedEvent> completedEvents = new ArrayList<>();
+		
+		for (EventResult er : list) {
+			Student s = er.getStudent();
+			CompletedEvent ce = new CompletedEvent(s.getFirstName()+" "+s.getLastName(), s.getNis(), er.getTotal(), s.getKelas().getClassName());
+			completedEvents.add(ce);
+		}
 
-		return list;
+		return completedEvents;
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import id.co.knt.cbt.model.Question;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.StudentAnswer;
+import id.co.knt.cbt.model.dto.CompletedEvent;
 import id.co.knt.cbt.model.dto.DetailStudentExamine;
 import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.KelasRepo;
@@ -49,7 +50,7 @@ import id.co.knt.cbt.service.StudentService;
  * @author MNI
  *
  */
-@CrossOrigin(origins="http://localhost:8787")
+@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/teacher_event_mgmt")
 public class TeacherEventManagementController {
@@ -78,7 +79,7 @@ public class TeacherEventManagementController {
 
 	@Autowired
 	private StudentAnswerService studentAnswerService;
-	
+
 	@Autowired
 	private StudentService studentService;
 
@@ -125,7 +126,7 @@ public class TeacherEventManagementController {
 
 			Long longSD = obj.getLong("startDate");
 			Long longED = obj.getLong("endDate");
-			
+
 			e.setStartDate(longSD);
 			e.setEndDate(longED);
 
@@ -180,12 +181,12 @@ public class TeacherEventManagementController {
 
 			Long longSD = obj.getLong("startDate");
 			Long longED = obj.getLong("endDate");
-			
+
 			e.setStartDate(longSD);
 			e.setEndDate(longED);
 
-			if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PREPARED) ||
-				EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PUBLISHED)) {
+			if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PREPARED)
+					|| EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.PUBLISHED)) {
 
 				e.setWorkingTime(obj.getInt("workingTime"));
 				e.setDeleted(false);
@@ -227,7 +228,7 @@ public class TeacherEventManagementController {
 				return eventService.updateEvent(e) == null ? new ResponseEntity<Event>(e, HttpStatus.EXPECTATION_FAILED)
 						: new ResponseEntity<Event>(e, HttpStatus.OK);
 
-			} else if(EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.UNPUBLISHED)){
+			} else if (EventStatusType.valueOf(obj.getString("status")).equals(EventStatusType.UNPUBLISHED)) {
 				e.setStatus(EventStatusType.PREPARED);
 				return eventService.updateEvent(e) == null ? new ResponseEntity<Event>(e, HttpStatus.EXPECTATION_FAILED)
 						: new ResponseEntity<Event>(e, HttpStatus.OK);
@@ -237,12 +238,12 @@ public class TeacherEventManagementController {
 		return null;
 	}
 
-    /**
-     *
-     * @param token
-     * @param id
-     * @return
-     */
+	/**
+	 *
+	 * @param token
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = { "/delete/{token}/{id}" }, method = RequestMethod.PUT)
 	public ResponseEntity<Event> deleteEvent(@PathVariable("token") String token, @PathVariable("id") Long id) {
 		LOG.info("createEvent================> ");
@@ -257,7 +258,9 @@ public class TeacherEventManagementController {
 
 	/**
 	 * View detail completed event
-	 * @param id is equal event id
+	 * 
+	 * @param id
+	 *            is equal event id
 	 * @return
 	 */
 	@RequestMapping(value = { "/detail/{token}/{id}" }, method = RequestMethod.GET)
@@ -273,11 +276,13 @@ public class TeacherEventManagementController {
 	}
 
 	/**
-	 * @param id is the event id
+	 * @param id
+	 *            is the event id
 	 * @return ResponseEntity<List<EventStudent>>
 	 */
 	@RequestMapping(value = { "/getStudentEvent/{token}/{id}" }, method = RequestMethod.GET)
-	public ResponseEntity<List<EventStudent>> getStudentEvent(@PathVariable("token") String token, @PathVariable("id") Long id) {
+	public ResponseEntity<List<EventStudent>> getStudentEvent(@PathVariable("token") String token,
+			@PathVariable("id") Long id) {
 		List<EventStudent> eStudents = studentAnswerService.eventStudents(id);
 
 		if (eStudents.isEmpty() || eStudents.size() == 0) {
@@ -295,7 +300,8 @@ public class TeacherEventManagementController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/getDetailStudentExamineScore/{token}/{eventId}/{nis}" }, method = RequestMethod.GET)
-	public ResponseEntity<DetailStudentExamine> getDetailStudentExamine(@PathVariable("token") String token, @PathVariable("eventId") Long eventId, @PathVariable("nis") String nis){
+	public ResponseEntity<DetailStudentExamine> getDetailStudentExamine(@PathVariable("token") String token,
+			@PathVariable("eventId") Long eventId, @PathVariable("nis") String nis) {
 		DetailStudentExamine detailStudentExamine = studentAnswerService.getDetailStudentExamines(eventId, nis);
 
 		if (detailStudentExamine == null) {
@@ -304,46 +310,50 @@ public class TeacherEventManagementController {
 
 		return new ResponseEntity<DetailStudentExamine>(detailStudentExamine, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 
 	 * @param objects
 	 * @return
 	 */
-	@RequestMapping(value = { "/saveEventResult/"}, method=RequestMethod.POST)
-	public ResponseEntity<Void> saveEventResult(@RequestBody List<Object> objects){
+	@RequestMapping(value = { "/saveEventResult/" }, method = RequestMethod.POST)
+	public ResponseEntity<Void> saveEventResult(@RequestBody List<Object> objects) {
 		JSONArray array = new JSONArray(objects);
 		JSONObject obj = array.getJSONObject(0).getJSONObject("studentResult");
-		
+
 		Event e = eventService.findEventById(obj.getLong("eventId"));
 		Student user = studentService.getStudentByNis(obj.getString("nis"));
 		JSONArray listEssay = obj.getJSONArray("listEssay");
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(e.getId(), user.getNis());
-		
-		Double totalScore = 0.0; 
+
+		Double totalScore = 0.0;
 		Double totalWeight = 0.0;
 		Double correct = 0.0;
 		Double incorrect = 0.0;
 		Double weight = 0.0;
-		
+
 		/**
 		 * Calculate only MC, TF and WACANA
 		 */
 		for (StudentAnswer sa : list) {
-			if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
-				if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
-					sa.setCorrect(true);
-					studentAnswerService.updateSA(sa);
-					
-					weight = (Double)(eventQuestionService.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId()).getQuestionWeight()).doubleValue();
-					totalWeight += weight;
-					correct += weight;
-				}else {
-					incorrect++;
+			if (sa.getQuestion() != null) {
+				if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
+					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
+						sa.setCorrect(true);
+						studentAnswerService.updateSA(sa);
+
+						weight = (Double) (eventQuestionService
+								.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId())
+								.getQuestionWeight()).doubleValue();
+						totalWeight += weight;
+						correct += weight;
+					} else {
+						incorrect++;
+					}
 				}
 			}
 		}
-		
+
 		/**
 		 * Calculate essay
 		 */
@@ -351,47 +361,47 @@ public class TeacherEventManagementController {
 			weight = listEssay.getJSONObject(i).getDouble("questionWeight");
 			totalWeight += weight;
 			correct += listEssay.getJSONObject(i).getInt("score");
-			
+
 			StudentAnswer sa = studentAnswerService.findOneSA(listEssay.getJSONObject(i).getLong("answerId"));
 			sa.setScore(listEssay.getJSONObject(i).getInt("score"));
 			studentAnswerService.updateSA(sa);
 		}
-		
-		totalScore = (correct/totalWeight) * 100;
+
+		totalScore = (correct / totalWeight) * 100;
 		EventResult er = null;
-		if((er = eventResultService.findERByEventStudent(e.getId(), user.getNis())) != null) {
+		if ((er = eventResultService.findERByEventStudent(e.getId(), user.getNis())) != null) {
 			er.setCorrect(correct);
 			er.setIncorrect(incorrect);
 			er.setTotal(totalScore);
 			er = eventResultService.updateER(er);
 		}
-		
+
 		if (er.equals(null)) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 
 	 * @param objects
 	 * @return
 	 */
-	@RequestMapping(value = { "/completedEvent/"}, method=RequestMethod.POST)
-	public ResponseEntity<Void> completedEvent(@RequestBody List<Object> objects){
+	@RequestMapping(value = { "/completedEvent/" }, method = RequestMethod.POST)
+	public ResponseEntity<Void> completedEvent(@RequestBody List<Object> objects) {
 		JSONArray array = new JSONArray(objects);
 		Long eventId = array.getJSONObject(0).getLong("eventId");
 		Event currentEvent = eventService.findEventById(eventId);
 		currentEvent.setStatus(EventStatusType.COMPLETED);
 		eventService.updateEvent(currentEvent);
-		
-		
+
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	/**
 	 * Get kelas when teacher view detail the created event
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -410,12 +420,14 @@ public class TeacherEventManagementController {
 
 	/**
 	 * Get list of question when view detail of selected event
-	 * @param id is equal event id
+	 * 
+	 * @param id
+	 *            is equal event id
 	 * @return
 	 */
 	@RequestMapping(value = { "/findQuestionByEventId/{token}/{id}" }, method = RequestMethod.GET)
-	public ResponseEntity<Map<String, List<Map<String, Object>>>> findQuestionByEventId(@PathVariable("token") String token,
-			@PathVariable("id") Long id) {
+	public ResponseEntity<Map<String, List<Map<String, Object>>>> findQuestionByEventId(
+			@PathVariable("token") String token, @PathVariable("id") Long id) {
 		Map<String, List<Map<String, Object>>> values = eventQuestionService.findEventQuestionByEventId(id);
 		HttpHeaders headers = new HttpHeaders();
 
@@ -434,11 +446,11 @@ public class TeacherEventManagementController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/list_event_result/{token}/{eventId}/{classId}" }, method = RequestMethod.GET)
-	public ResponseEntity<List<EventResult>> listEventResult(@PathVariable("token") String token,
-			@PathVariable("eventId") Long eventId, @PathVariable("classId") Integer classId) {
-		List<EventResult> eventResults = eventResultService.findERByClass(eventId, classId);
+	public ResponseEntity<List<CompletedEvent>> listEventResult(@PathVariable("token") String token,
+			@PathVariable("eventId") Long eventId) {
+		List<CompletedEvent> eventResults = eventResultService.fetchStudentOnCompletedEvent(eventId);
 
-		return eventResults.size() > 0 ? new ResponseEntity<List<EventResult>>(eventResults, HttpStatus.OK)
-				: new ResponseEntity<List<EventResult>>(eventResults, HttpStatus.NOT_FOUND);
+		return eventResults.size() > 0 ? new ResponseEntity<List<CompletedEvent>>(eventResults, HttpStatus.OK)
+				: new ResponseEntity<List<CompletedEvent>>(eventResults, HttpStatus.NOT_FOUND);
 	}
 }
