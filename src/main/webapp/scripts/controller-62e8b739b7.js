@@ -4099,7 +4099,8 @@
             statusbar: false,
             images_dataimg_filter: function(img) {
                 return img.hasAttribute('internal-blob');
-            }
+            },
+            readonly: $state.is("student.task.exam") ? 0 : 1
         };
 
         $scope.listAnswer = [];
