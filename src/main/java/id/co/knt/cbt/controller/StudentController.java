@@ -173,7 +173,7 @@ public class StudentController {
 
 				for (EventQuestion eventQuestion : list) {
 					studentAnswerService.addNew(new StudentAnswer(user, eventQuestion.getQuestion(),
-							null, eventQuestion.getQuestionWeight(), false, eventQuestion.getEvent()));
+							"", eventQuestion.getQuestionWeight(), false, eventQuestion.getEvent()));
 				}
 
 				try {
