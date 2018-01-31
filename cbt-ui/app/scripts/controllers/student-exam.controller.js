@@ -22,7 +22,7 @@
                 'insertdatetime media nonbreaking save table contextmenu directionality',
                 'emoticons template paste textcolor colorpicker textpattern imagetools tiny_mce_wiris'
             ],
-            toolbar1: 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | tiny_mce_wiris_formulaEditor',
+            toolbar: $state.is("student.task.exam") ? 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | tiny_mce_wiris_formulaEditor' : false,
             image_advtab: true,
             resize: false,
             setup: function(e) {
