@@ -224,6 +224,9 @@ public class StudentController {
 			er.setEvent(e);
 			er.setStudent(user);
 			er.setCreatedDate(new Date());
+			er.setCorrect(0.0);
+			er.setIncorrect(0.0);
+			er.setTotal(0.0);
 			er = eventResultService.addNew(er);
 		}
 		
