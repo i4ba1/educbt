@@ -58,14 +58,12 @@
     </div>
 </div>
 <div class="row-fluid col-xs-12">
-    <h3><span class="pull-left">Pilih Kelas :</span>
-        <span class="col-xs-8">
-            <select name="kelas" id="kelas" ng-model="classData.selectedOption" class="form-control" place-holder="pilih kelas">
-            <option ng-repeat="option in classData.availableOptions" value="{{option.id}}">{{option.className}}</option>
-            </select>
+    <h3>
+        <span>Daftar Siswa</span>
+        <span class="pull-right">
+        <button type="button" role="button" class="btn btn-default" ng-click="exportDataToXlsx()" tooltip-placement="top" uib-tooltip="Ekspor Hasil Ujian " ng-hide="(eventResult.length == 0)" ng-show="(eventResult.length >0)"><i class="fa fa-download fa-lg" aria-hidden="true"></i></button>
         </span>
-        <button type="button" role="button" class="btn btn-primary" ng-click="fetchEventResult()" tooltip-placement="top" uib-tooltip="Perbarui Tabel" style="width: 100px;"><i class="fa fa-refresh fa-lg"></i></button>
-        <button type="button" role="button" class="btn btn-info" ng-click="exportDataToXlsx()" tooltip-placement="top" uib-tooltip="Ekspor Hasil Ujian " ng-hide="(eventResult.length == 0)" ng-show="(eventResult.length >0)" style="width: 100px;"><i class="fa fa-download fa-lg" aria-hidden="true"></i></button>
+
     </h3>
 </div>
 <div class="row-fluid col-xs-12" ng-hide="eventResult.length == 0">
@@ -74,8 +72,7 @@
             <th class="centerText" width="100">No</th>
             <th>NIS</th>
             <th>Nama Siswa</th>
-            <th class="centerText">Jumlah Benar</th>
-            <th class="centerText">Jumlah Salah</th>
+            <th>Kelas</th>
             <th class="centerText" width="100">Nilai</th>
         </tr>
         <tr ng-repeat="data in eventResult">
@@ -88,12 +85,8 @@
             <td>
                 {{data["NAMA SISWA"]}}
             </td>
-
-            <td class="centerText">
-                {{data["JUMLAH BENAR"]}}
-            </td>
-            <td class="centerText">
-                {{data["JUMLAH SALAH"]}}
+            <td>
+                {{data["KELAS"]}}
             </td>
             <td class="centerText">
                 {{data["NILAI"] | number:2}}

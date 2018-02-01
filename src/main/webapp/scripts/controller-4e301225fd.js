@@ -1914,19 +1914,16 @@
          */
         $scope.fetchEventResult = function() {
             $scope.eventResult = [];
-            var cId = parseInt($scope.classData.selectedOption);
-            var promise = eventService.fetchEventResult($stateParams.eventId, cId, token);
+            var promise = eventService.fetchEventResult($stateParams.eventId, token);
             promise.then(
                 function(response) {
                     $scope.eventResult = [];
                     response.data.forEach(function(data) {
                         $scope.eventResult.push({
-                            "KELAS": data.student.kelas.className,
-                            "NIS": data.student.nis,
-                            "NAMA SISWA": data.student.firstName + " " + data.student.lastName,
-                            "JUMLAH BENAR": data.correct,
-                            "JUMLAH SALAH": data.incorrect,
-                            "NILAI": data.total
+                            "KELAS": data.className,
+                            "NIS": data.nis,
+                            "NAMA SISWA": data.studentName,
+                            "NILAI": data.score
                         })
                     });
 
@@ -2491,9 +2488,7 @@
         } else if ($state.is('teacher.eventManagement.result')) {
             if ($stateParams.eventId != null && $stateParams.eventId != undefined && $stateParams.eventId != "") {
                 getEventById($stateParams.eventId);
-                $timeout(function() {
-                    getClassByEventId($stateParams.eventId);
-                }, 500)
+                $scope.fetchEventResult();
 
                 $scope.exportDataToXlsx = function() {
                     DialogFactory.exportDataToXlsx($scope.eventResult, $scope.selectedEvent.eventName);

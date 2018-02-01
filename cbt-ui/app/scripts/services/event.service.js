@@ -30,8 +30,8 @@
             findEvent: function(eventId, token) {
                 return $http.get(url + '/teacher/teacher_event_mgmt/detail/' + token + '/' + eventId);
             },
-            fetchEventResult: function(eventId, classId, token) {
-                return $http.get(url + '/teacher/teacher_event_mgmt/list_event_result/' + token + '/' + eventId + '/' + classId);
+            fetchEventResult: function(eventId, token) {
+                return $http.get(url + '/teacher/teacher_event_mgmt/list_event_result/' + token + '/' + eventId + '/' + 0);
             },
             fetchEventStudents: function(token, eventId) {
                 return $http.get(url + '/teacher/teacher_event_mgmt/getStudentEvent/' + token + '/' + eventId);

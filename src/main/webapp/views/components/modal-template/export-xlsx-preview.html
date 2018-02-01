@@ -7,8 +7,7 @@
             <th class="centerText" width="100">No</th>
             <th>NIS</th>
             <th>Nama Siswa</th>
-            <th class="centerText">Jumlah Benar</th>
-            <th class="centerText">Jumlah Salah</th>
+            <th>Kelas</th>
             <th class="centerText" width="100">Nilai</th>
         </tr>
         <tr ng-repeat="data in eventResultData">
@@ -22,11 +21,8 @@
                 {{data["NAMA SISWA"]}}
             </td>
 
-            <td class="centerText">
-                {{data["JUMLAH BENAR"]}}
-            </td>
-            <td class="centerText">
-                {{data["JUMLAH SALAH"]}}
+            <td>
+                {{data["KELAS"]}}
             </td>
             <td class="centerText">
                 {{data["NILAI"] | number:2}}
