@@ -3869,9 +3869,9 @@
     'use strict';
     angular.module('app').controller('StudentTaskController', StudentTaskController);
 
-    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory'];
+    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory', 'localStorageService'];
 
-    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory) {
+    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory, localStorageService) {
 
         var currentStudent;
         var token = "";
@@ -3910,16 +3910,27 @@
             }],
             selectedOption: null
         };
-
+        $scope.displayMode = localStorageService.get("DISPLAY_MODE") ? localStorageService.get("DISPLAY_MODE") : "grid";
         $scope.paginationVisible = false;
         $scope.tasks = [];
         $scope.pageConfig = {
             currentPage: 1,
             maxSize: 5,
-            itemPage: 4,
+            itemPage: $scope.displayMode === "grid" ? 4 : 10,
             totalItem: 0,
             boundaryLink: true,
             rotate: false
+        };
+
+        $scope.changeDisplayMode = function(param) {
+            $scope.displayMode = param;
+            localStorageService.set("DISPLAY_MODE", param);
+            if (param === 'grid') {
+                $scope.pageConfig.itemPage = 4;
+            } else {
+                $scope.pageConfig.itemPage = 10;
+            }
+            $scope.pageConfig.currentPage = 1;
         };
 
         $scope.kerjakan = function(eventId) {
@@ -4085,7 +4096,7 @@
                 'insertdatetime media nonbreaking save table contextmenu directionality',
                 'emoticons template paste textcolor colorpicker textpattern imagetools tiny_mce_wiris'
             ],
-            toolbar1: 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | tiny_mce_wiris_formulaEditor',
+            toolbar: $state.is("student.task.exam") ? 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | tiny_mce_wiris_formulaEditor' : false,
             image_advtab: true,
             resize: false,
             setup: function(e) {
@@ -4099,7 +4110,8 @@
             statusbar: false,
             images_dataimg_filter: function(img) {
                 return img.hasAttribute('internal-blob');
-            }
+            },
+            readonly: $state.is("student.task.exam") ? 0 : 1
         };
 
         $scope.listAnswer = [];

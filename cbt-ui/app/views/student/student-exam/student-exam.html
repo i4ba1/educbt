@@ -157,7 +157,7 @@
                             </tr>
                             <tr ng-show="questionType === 'ESSAY'" class="border-top">
                                 <td colspan="3">
-                                    <span>Jawab Soal:</span>
+                                    <span>{{isExam?'Jawab soal disini!':'Jawaban'}}</span>
                                 </td>
                             </tr>
                             <tr ng-show="questionType === 'ESSAY'">
@@ -166,13 +166,17 @@
                                 </td>
                             </tr>
 
+                            <tr ng-hide="(isExam || questionType === 'ESSAY')">
+                                <td colspan="3">
+                                    <div style="padding:15px 0px;">
+                                        <b>Kunci Jawaban: {{currentQuestion.question.key}} </b>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr ng-hide="isExam">
                                 <td colspan="3">
-                                    <div style="padding:20px;">
-                                        <b>Kunci Jawaban: {{currentQuestion.question.key}} </b>
-                                        <br/>
+                                    <div style="padding-top:10px;">
                                         <b>Penjelasan:</b>
-                                        <br>
                                         <p ng-bind-html="trustAsHtml(currentQuestion.question.explanation)"></p>
                                     </div>
                                 </td>

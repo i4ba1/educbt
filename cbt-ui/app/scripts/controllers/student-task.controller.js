@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('StudentTaskController', StudentTaskController);
 
-    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory'];
+    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory', 'localStorageService'];
 
-    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory) {
+    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory, localStorageService) {
 
         var currentStudent;
         var token = "";
@@ -44,16 +44,27 @@
             }],
             selectedOption: null
         };
-
+        $scope.displayMode = localStorageService.get("DISPLAY_MODE") ? localStorageService.get("DISPLAY_MODE") : "grid";
         $scope.paginationVisible = false;
         $scope.tasks = [];
         $scope.pageConfig = {
             currentPage: 1,
             maxSize: 5,
-            itemPage: 4,
+            itemPage: $scope.displayMode === "grid" ? 4 : 10,
             totalItem: 0,
             boundaryLink: true,
             rotate: false
+        };
+
+        $scope.changeDisplayMode = function(param) {
+            $scope.displayMode = param;
+            localStorageService.set("DISPLAY_MODE", param);
+            if (param === 'grid') {
+                $scope.pageConfig.itemPage = 4;
+            } else {
+                $scope.pageConfig.itemPage = 10;
+            }
+            $scope.pageConfig.currentPage = 1;
         };
 
         $scope.kerjakan = function(eventId) {
