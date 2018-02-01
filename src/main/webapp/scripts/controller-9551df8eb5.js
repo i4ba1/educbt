@@ -3795,7 +3795,7 @@
             count: 0,
             visible: false
         }, {
-            type: 'TRYOUT_UTS|TRYOUT_UAS',
+            type: 'TRYOUT_UTS_TRYOUT_UAS',
             count: 0,
             visible: false
         }, {
@@ -3897,7 +3897,7 @@
             }, {
                 'title': 'Tryout UTS/UAS',
                 'ico': 'uas_1.png',
-                'value': 'TRYOUT_UTS|TRYOUT_UAS'
+                'value': 'TRYOUT_UTS_TRYOUT_UAS'
             }, {
                 'title': 'Tryout UAN',
                 'ico': 'uan_1.png',

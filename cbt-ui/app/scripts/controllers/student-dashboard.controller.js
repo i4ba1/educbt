@@ -39,7 +39,7 @@
             count: 0,
             visible: false
         }, {
-            type: 'TRYOUT_UTS|TRYOUT_UAS',
+            type: 'TRYOUT_UTS_TRYOUT_UAS',
             count: 0,
             visible: false
         }, {

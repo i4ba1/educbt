@@ -1,40 +1,40 @@
 <div class="row-fluid col-xs-12">
-  <h3 class="page-header">
-    <i class="fa fa-cog fa-lg"></i>
-    Profil Sekolah</h3>
+    <h3 class="page-header">
+        <i class="fa fa-cog fa-lg"></i> Profil Sekolah</h3>
 
-  <form name="profileForm" class="form-horizontal" ng-submit="submit()" method="post" id="fromFileUpload" enctype="multipart/form-data" style="width:100%" novalidate>
-    <div class="form-group">
-      <label class="control-label col-xs-3" for="school_name">Nama Sekolah *</label>
-      <div class="col-xs-7" ng-class="{ 'has-error' : profileForm.schoolName.$invalid && !profileForm.schoolName.$pristine }">
-        <input name="schoolName" class="form-control" id="school_name" ng-model="profile.schoolName" placeholder="masukan nama sekolah" type="text" ng-required="true"/>
-      </div>
-    </div>
+    <form name="profileForm" class="form-horizontal" ng-submit="submit()" method="post" id="fromFileUpload" enctype="multipart/form-data" style="width:100%" novalidate>
+        <div class="form-group">
+            <label class="control-label col-xs-3" for="school_name">Nama Sekolah *</label>
+            <div class="col-xs-7" ng-class="{ 'has-error' : profileForm.schoolName.$invalid && !profileForm.schoolName.$pristine }">
+                <input name="schoolName" class="form-control" id="school_name" ng-model="profile.schoolName" placeholder="masukan nama sekolah" type="text" ng-required="true" />
+            </div>
+        </div>
 
-    <div class="form-group">
-      <label class="control-label col-xs-3" for="name">Deskripsi *</label>
-      <div class="col-xs-7">
-        <textarea ui-tinymce="tinyMceConfig" ng-model="profile.schoolDescription"></textarea>
-      </div>
-    </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3" for="name">Deskripsi *</label>
+            <div class="col-xs-7">
+                <textarea ui-tinymce="tinyMceConfig" ng-model="profile.schoolDescription"></textarea>
+            </div>
+        </div>
 
-    <div class="form-group">
-      <label class="control-label col-xs-3" for="name">Pilih Gambar</label>
-      <div class="col-xs-7">
-        <input class="inline-block" type="file" name="file" file-model="file" data-rule-required="true" id="file" accept="image/*" upload-handle ng-required="true">
-      </div>
-    </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3" for="name">Pilih Gambar</label>
+            <div class="col-xs-7">
+                <input class="inline-block" type="file" name="file" file-model="file" data-rule-required="true" id="file" accept="image/*" upload-handle ng-required="true">
+            </div>
+        </div>
 
-    <div class="form-group">
-      <div class="col-xs-offset-3 col-xs-7">
-        <img class="img-responsive" src="{{image}}" />
-      </div>
-    </div>
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-7">
+                <img class="img-responsive" src="{{image}}" />
+            </div>
+        </div>
 
-    <div class="form-group">
-      <div class="col-xs-offset-3 col-xs-7">
-        <button class="btn btn-primary" type="submit" ng-disabled="profileForm.$invalid">Simpan</button>
-        <a class="btn btn-default" ui-sref="^" type="button">Batal</a>
-      </div>
-    </div>
-  </form>
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-7">
+                <button class="btn btn-primary" type="submit" ng-disabled="profileForm.$invalid">Simpan</button>
+                <a class="btn btn-default" ui-sref="^" type="button">Batal</a>
+            </div>
+        </div>
+    </form>
+</div>
