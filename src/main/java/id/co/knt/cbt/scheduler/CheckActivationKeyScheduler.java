@@ -39,7 +39,7 @@ public class CheckActivationKeyScheduler {
 	/*
 	 * second, minute, hour, day, month, weekday
 	 */
-	@Scheduled(fixedDelay=5000000)
+	@Scheduled(fixedDelay=60000)
 	public void checkActivationKey() {
 		RestTemplateUtility restTemplateUtility = new RestTemplateUtility();
 		List<License> list = licenseRepo.findAll();

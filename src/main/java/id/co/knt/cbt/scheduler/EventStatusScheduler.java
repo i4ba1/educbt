@@ -16,7 +16,7 @@ public class EventStatusScheduler {
 	@Autowired
 	private EventService eventService;
 
-	@Scheduled(cron = "* 15 * * * *")
+	@Scheduled(cron = "*/30 * * * * *")
 	public void updateEvent() {
 		List<Event> publishedEvent = eventService.fetchPublishedEvent();
 

@@ -10,13 +10,13 @@ import id.co.knt.cbt.model.Login;
 import id.co.knt.cbt.service.LoginService;
 import id.co.knt.cbt.util.UserLoginQueue;
 
-//@Component
+@Component
 public class UserLoginScheduler {
 
 	@Autowired
 	LoginService loginService;
 	
-	//@Scheduled(fixedRate=600000)
+	@Scheduled(fixedRate=3600000)
 	public void removeWhenIdle(){
 		UserLoginQueue loginQueue = UserLoginQueue.getInstance();
 

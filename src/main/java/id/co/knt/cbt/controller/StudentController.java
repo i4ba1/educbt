@@ -297,13 +297,17 @@ public class StudentController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/event_explanation/{token}/{eventId}/{nis}" }, method = RequestMethod.GET)
-	public ResponseEntity<List<StudentAnswer>> eventExplanation(@PathVariable("token") String token,
+	public ResponseEntity<Map<String, Object>> eventExplanation(@PathVariable("token") String token,
 			@PathVariable("eventId") Long eventId, @PathVariable("nis") String nis) {
 
 		List<StudentAnswer> list = studentAnswerService.findSAByEvent(eventId, nis);
+		EventResult eventResult = eventResultService.findERByEventStudent(eventId, nis);
+		Map<String, Object> data = new HashMap<>();
+		data.put("listStudentAnswer", list);
+		data.put("eventResult", eventResult);
 
-		return list.size() > 0 ? new ResponseEntity<List<StudentAnswer>>(list, HttpStatus.OK)
-				: new ResponseEntity<List<StudentAnswer>>(list, HttpStatus.NOT_FOUND);
+		return data.size() > 0 ? new ResponseEntity<List<StudentAnswer>>(data, HttpStatus.OK)
+				: new ResponseEntity<List<StudentAnswer>>(data, HttpStatus.NOT_FOUND);
 	}
 
 	/**
