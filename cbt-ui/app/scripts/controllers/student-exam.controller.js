@@ -108,15 +108,15 @@
                 });
         };
 
-        function countPoint(data) {
-            var counter = 0;
-            angular.forEach(data, function(d) {
-                if (d.correct) {
-                    counter = counter + 1;
-                }
-            });
-            $scope.point = (counter * 100 / data.length);
-        }
+        // function countPoint(data) {
+        //     var counter = 0;
+        //     angular.forEach(data, function(d) {
+        //         if (d.correct) {
+        //             counter = counter + 1;
+        //         }
+        //     });
+        //     $scope.point = (counter * 100 / data.length);
+        // }
 
         /*
          *
@@ -125,7 +125,8 @@
             var promise = studentExamService.fetchStudentExplanation(eventId, nis, token);
             promise.then(
                     function(response) {
-                        $scope.studentAnswers = response.data;
+                        $scope.studentAnswers = response.data.listStudentAnswer;
+                        $scope.point = response.data.eventResult.total;
                     },
                     function(errorResponse) {
                         errorHandle.setError(errorResponse);
@@ -134,7 +135,6 @@
                     function() {
                         updateQuestion();
                         $scope.max = $scope.studentAnswers.length - 1;
-                        countPoint($scope.studentAnswers);
                         $scope.examProgress = getProgress();
                     }
                 );

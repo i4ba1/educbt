@@ -306,8 +306,8 @@ public class StudentController {
 		data.put("listStudentAnswer", list);
 		data.put("eventResult", eventResult);
 
-		return data.size() > 0 ? new ResponseEntity<List<StudentAnswer>>(data, HttpStatus.OK)
-				: new ResponseEntity<List<StudentAnswer>>(data, HttpStatus.NOT_FOUND);
+		return data.size() > 0 ? new ResponseEntity<Map<String, Object>>(data, HttpStatus.OK)
+				: new ResponseEntity<Map<String, Object>>(data, HttpStatus.NOT_FOUND);
 	}
 
 	/**
