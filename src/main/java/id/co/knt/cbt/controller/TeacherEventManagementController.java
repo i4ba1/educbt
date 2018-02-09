@@ -339,17 +339,18 @@ public class TeacherEventManagementController {
 			if (sa.getQuestion() != null) {
 				if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
 					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
-						sa.setCorrect(true);
-						studentAnswerService.updateSA(sa);
+						//sa.setCorrect(true);
+						//studentAnswerService.updateSA(sa);
 
 						weight = (Double) (eventQuestionService
 								.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId())
 								.getQuestionWeight()).doubleValue();
-						totalWeight += weight;
 						correct += weight;
 					} else {
 						incorrect++;
 					}
+					
+					totalWeight += weight;
 				}
 			}
 		}
