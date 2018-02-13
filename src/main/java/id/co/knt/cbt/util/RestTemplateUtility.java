@@ -77,7 +77,6 @@ public class RestTemplateUtility {
 				failed++;
 				e.printStackTrace();
 			}
-
 		}
 
 		return reachable;
@@ -85,7 +84,7 @@ public class RestTemplateUtility {
 	}
 	
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
-        int timeout = 15000;
+        int timeout = 60000;
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         clientHttpRequestFactory.setConnectTimeout(timeout);
         clientHttpRequestFactory.setReadTimeout(timeout);
