@@ -265,7 +265,7 @@ public class LicenseServiceImpl implements LicenseService {
 			return new ResponseEntity<License>(license, HttpStatus.EXPECTATION_FAILED);
 		}
 
-		return response;
+		return new ResponseEntity<License>(license, HttpStatus.OK);
 	}
 
 	@Override
