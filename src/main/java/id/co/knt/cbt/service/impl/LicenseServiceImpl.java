@@ -18,7 +18,6 @@ import id.co.knt.cbt.model.License;
 import id.co.knt.cbt.repositories.LicenseRepo;
 import id.co.knt.cbt.service.LicenseService;
 import id.co.knt.cbt.util.Constant;
-import id.co.knt.cbt.util.MACAddr;
 import id.co.knt.cbt.util.RestTemplateUtility;
 import id.web.pos.integra.gawl.Gawl;
 import id.web.pos.integra.gawl.Gawl.UnknownCharacterException;
@@ -55,14 +54,13 @@ public class LicenseServiceImpl implements LicenseService {
 						Byte seed2 = extractResult.get(Gawl.SEED2);
 						String passKey = gawl.pass(seed1, seed2);
 						String xlock = gawl.xlock(licenseKey.toLowerCase());
-						byte[] macAddr = MACAddr.getMacAddress();
 
 						if (Type == Constant.TYPE) {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey.toLowerCase(), passKey, "", System.currentTimeMillis(),
-										xlock, macAddr, numberOfClient, 0);
+										xlock, numberOfClient, 0);
 
 								Map<String, Object> objLicense = rest.serializeLicenseObject(license);
 
@@ -168,14 +166,13 @@ public class LicenseServiceImpl implements LicenseService {
 						byte seed2 = extractResult.get(Gawl.SEED2);
 						String passKey = gawl.pass(seed1, seed2);
 						String xlock = gawl.xlock(licenseKey.toLowerCase());
-						byte[] macAddr = MACAddr.getMacAddress();
 
 						if (Type == Constant.TYPE) {
 							// get passkey and put into textbox
 							if (extractResult.get(Gawl.SEED1) == seed1) {
 								int numberOfClient = extractResult.get(Gawl.MODULE);
 								license = new License(licenseKey.toLowerCase(), passKey, activationKey, registerDate,
-										xlock, macAddr, numberOfClient, 0);
+										xlock, numberOfClient, 0);
 							} else {
 								return new ResponseEntity<License>(license, HttpStatus.NOT_FOUND);
 							}

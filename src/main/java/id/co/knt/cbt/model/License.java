@@ -38,9 +38,6 @@ public class License implements Serializable {
 	@Column(name = "xlock")
 	private String xlock;
 
-	@Column(name = "mac_addr")
-	private byte[] macAddr;
-
 	@Column(name="number_of_license")
 	private Integer numberOfClient;
 
@@ -54,14 +51,13 @@ public class License implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public License(String license, String passKey, String activationKey, Long createdDate, String xlock,  byte[] macAddr, Integer numberOfLicense, Integer registerStatus) {
+	public License(String license, String passKey, String activationKey, Long createdDate, String xlock, Integer numberOfLicense, Integer registerStatus) {
 		super();
 		this.license = license;
 		this.createdDate = createdDate;
 		this.passKey = passKey;
 		this.activationKey = activationKey;
 		this.xlock = xlock;
-		this.macAddr = macAddr;
 		this.numberOfClient = numberOfLicense;
 		this.registerStatus = registerStatus;
 	}
@@ -98,14 +94,6 @@ public class License implements Serializable {
 		return xlock;
 	}
 
-	public byte[] getMacAddr() {
-		return macAddr;
-	}
-
-	public void setMacAddr(byte[] macAddr) {
-		this.macAddr = macAddr;
-	}
-	
 	public Long getCreatedDate() {
 		return createdDate;
 	}
