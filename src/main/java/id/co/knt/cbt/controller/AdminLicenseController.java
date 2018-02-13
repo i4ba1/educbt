@@ -89,9 +89,8 @@ public class AdminLicenseController {
 	@RequestMapping(value = "/activateByInternet/", method = RequestMethod.POST)
 	public ResponseEntity<License> activateByInternet(@RequestBody List<Object> objects) {
 		LOG.info("/activateByInternet/ activateByInternet");
-		ResponseEntity<License> license = licenseService.activateByInternet(objects);
-
-		return license;
+		
+		return licenseService.activateByInternet(objects);
 	}
 
 	/**
