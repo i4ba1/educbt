@@ -25,7 +25,7 @@ import id.co.knt.cbt.util.RestTemplateUtility;
  * @author muhamad
  *
  */
-@Component
+//@Component
 public class CheckActivationKeyScheduler {
 
 	@Autowired
@@ -38,8 +38,9 @@ public class CheckActivationKeyScheduler {
 
 	/*
 	 * second, minute, hour, day, month, weekday
-	 */
-	@Scheduled(fixedDelay=60000)
+	 *
+	*/
+	//@Scheduled(fixedDelay=60000)
 	public void checkActivationKey() {
 		RestTemplateUtility restTemplateUtility = new RestTemplateUtility();
 		List<License> list = licenseRepo.findAll();
