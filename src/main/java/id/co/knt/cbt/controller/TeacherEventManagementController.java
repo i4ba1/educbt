@@ -368,7 +368,12 @@ public class TeacherEventManagementController {
 			studentAnswerService.updateSA(sa);
 		}
 
-		totalScore = (correct / totalWeight) * 100;
+		if(correct > 0) {
+			totalScore = (correct / totalWeight) * 100;
+		}else {
+			totalScore = 0.0;
+		}
+		
 		EventResult er = null;
 		if ((er = eventResultService.findERByEventStudent(e.getId(), user.getNis())) != null) {
 			er.setCorrect(correct);
