@@ -391,6 +391,7 @@
          */
         $scope.uploadQuestion = function() {
             $scope.showModal = false;
+            $scope.eventQuestionWeight = [];
             $scope.selectedEvent.questions.forEach(function(element) {
                 $scope.eventQuestionWeight.push({ "question": element, "weight": 0 })
             });
@@ -564,6 +565,7 @@
         // Adding Clear List question when subject change
         $scope.subjectChange = function() {
             $scope.selectedEvent.questions = [];
+            $scope.eventQuestionWeight = [];
             $scope.questionBySubjectList = [];
             updateDataTable($scope.selectedEvent.questions);
             var subject = JSON.parse($scope.subjectData.selectedOption);
