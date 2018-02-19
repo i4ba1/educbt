@@ -10,7 +10,7 @@
     <table ng-switch-default ng-table="questionBankTable" class="table table-responsive table-striped table-bordered">
         <tr ng-repeat="group in data">
             <td data-title="'No'" class="centerText" style="width:50px">
-                {{$index+1}}
+                {{(questionBankTable.page()-1) * questionBankTable.count() + ($index+1)}}
             </td>
             <td data-title="'Nama Soal'">
                 {{(group.questionGroupName?group.questionGroupName:"---")}}
