@@ -129,7 +129,7 @@
         <table ng-table="eventTable" show-filter="false" class="table table-responsive table-bordered table-striped ">
             <tr ng-repeat="questionWeight in data">
                 <td data-title="'No'">
-                    {{$index+1}}
+                    {{(eventTable.page()-1) * eventTable.count() + $index+1}}
                 </td>
                 <td data-title="'Pertanyaan'" class="col-xs-6">
                     <div class="tbl-qst-container">
@@ -158,6 +158,7 @@
                 </tr>
             </tfoot>
         </table>
+
 
         <div class="form-group">
             <div class="col-xs-6">

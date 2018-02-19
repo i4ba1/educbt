@@ -2117,7 +2117,7 @@
             $scope.selectedEvent.questions.forEach(function(element) {
                 $scope.eventQuestionWeight.push({ "question": element, "weight": 0 })
             });
-
+            $scope.calculateWeight();
             updateDataTable($scope.eventQuestionWeight);
         }
 
