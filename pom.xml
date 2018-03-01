@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
+	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.3.5.RELEASE</version> </parent> -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>id.co.knt.cbt</groupId>
@@ -13,7 +13,7 @@
 	<properties>
 		<!-- Generic properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 		<spring.version>4.2.9.RELEASE</spring.version>
 		<hibernate.version>5.1.10.Final</hibernate.version>
 		<spring.webflow>2.4.0.RELEASE</spring.webflow>
@@ -108,13 +108,13 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -250,10 +250,10 @@
 		<!-- Gawl -->
 		<dependency>
 			<groupId>id.web.pos.integra</groupId>
-			<artifactId>gawl</artifactId>
-			<version>1.2.1</version>
+			<artifactId>badr-1.3.0-jar-with-dependencies</artifactId>
+			<version>1.3.0</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/gawl-1.2.1.jar</systemPath>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/badr-1.3.0-jar-with-dependencies.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -271,13 +271,13 @@
 		<dependency>
 			<groupId>com.github.oshi</groupId>
 			<artifactId>oshi-core</artifactId>
-			<version>3.4.2</version>
+			<version>3.4.4</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.oshi</groupId>
 			<artifactId>oshi-json</artifactId>
-			<version>3.4.2</version>
+			<version>3.4.4</version>
 		</dependency>
 
 		<dependency>
@@ -291,7 +291,7 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.5.3</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

@@ -232,7 +232,7 @@ public class LicenseServiceImpl implements LicenseService {
 						if (registerResponse <= 0) {
 							response = rest.helpDeskAPI()
 									.postForEntity(baseUrl + Constant.ACTIVATE_BY_INTERNET, objLicense, License.class);
-							
+
 							if (response != null && response.getStatusCode() == HttpStatus.OK) {
 								currentLicense.setRegisterStatus(1);
 							}
@@ -253,7 +253,7 @@ public class LicenseServiceImpl implements LicenseService {
 				}
 
 			}
-			
+
 			if (response != null && response.getStatusCode() == HttpStatus.OK) {
 				currentLicense.setActivationKey(response.getBody().getActivationKey());
 				currentLicense.setLicenseStatus(true);
