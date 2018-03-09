@@ -457,12 +457,14 @@
             var questionsID = [];
             var events = $scope.selectedEvent;
 
-            if ($scope.selectedEvent.classes !== undefined) {
+            if ($scope.selectedEvent.classes && $scope.selectedEvent.classes.length > 0) {
                 var temArr = []
                 $scope.selectedEvent.classes.forEach(function(kelas) {
                     temArr.push(kelas.id);
                 });
                 events.classes = [].concat(temArr);
+            } else {
+                events.classes = [];
             }
             events.empId = $scope.currentTeacher.id;
             angular.forEach($scope.eventQuestionWeight, function(data) {
@@ -484,19 +486,15 @@
             } else {
                 events.endDate = $scope.selectedEvent.endDate;
             }
-            var validData = false;
+            var validData = true;
             var invalidMsg = [];
             // check class data is not empty
-            if (events.classes && events.classes.length > 0) {
-                validData = true;
-            } else {
+            if (!(events.classes && events.classes.length > 0)) {
                 validData = false;
                 invalidMsg.push("kelas belum di pilih");
             }
 
-            if (events.questions && events.questions.length > 0) {
-                validData = true;
-            } else {
+            if (!(events.questions && events.questions.length > 0)) {
                 validData = false;
                 invalidMsg.push("soal-soal belum di tambahkan")
             }
