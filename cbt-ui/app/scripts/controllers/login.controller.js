@@ -3,11 +3,47 @@
     'use strict';
     angular.module('app').controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', '$stateParams', '$state', '$timeout', 'loginService', 'localStorageService', '$rootScope', 'DialogFactory', 'storageService'];
+    LoginController.$inject = ['$scope', '$stateParams', '$state', '$timeout', 'loginService', 'localStorageService', '$rootScope', 'DialogFactory', 'storageService', 'bsLoadingOverlayService'];
 
-    function LoginController($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory, storageService) {
+    function LoginController($scope, $stateParams, $state, $timeout, loginService, localStorageService, $rootScope, DialogFactory, storageService, bsLoadingOverlayService) {
         $scope.showDialog = false;
         $scope.openCredit = DialogFactory.openCredit;
+
+        function checkImport() {
+            var isImported = true;
+            loginService.isImport().then(
+                function(success) {
+                    isImported = success.data;
+                    console.log("SUCCESS" + isImported);
+
+                },
+                function(error) {
+                    console.log("Error : " + error);
+                }
+            ).then(
+                function() {
+                    if (!isImported) {
+                        bsLoadingOverlayService.start({
+                            referenceId: 'loading'
+                        });
+                        loginService.import().then(
+                            function(success) {
+                                bsLoadingOverlayService.stop({
+                                    referenceId: 'loading'
+                                });
+                                console.log(success);
+                            },
+                            function(error) {
+                                bsLoadingOverlayService.stop({
+                                    referenceId: 'loading'
+                                });
+                                console.log(error);
+                            }
+                        );
+                    }
+                }
+            );
+        }
 
         if (localStorageService.isSupported) {
             console.log("Length : " + localStorageService.length());
@@ -84,5 +120,7 @@
                     });
             }
         };
+
+        checkImport();
     }
 })();

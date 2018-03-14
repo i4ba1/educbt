@@ -163,7 +163,7 @@ csvImport.directive('ngCsvImport', function() {
 
     function config(usSpinnerConfigProvider, localStorageServiceProvider) {
         usSpinnerConfigProvider.setTheme('default', {
-            color: 'black',
+            color: 'blue',
             radius: 20,
             width: 10,
             length: 20
