@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import id.co.knt.cbt.repositories.UserRepo;
 
-@Component
+/*@Component*/
 public class ImportCBTData {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ImportCBTData.class);
@@ -23,7 +23,7 @@ public class ImportCBTData {
 	@Autowired
 	private DataSource dataSource;
 	
-	@PostConstruct
+	/*@PostConstruct*/
 	public void init(){
 		
 		/**
