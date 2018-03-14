@@ -636,7 +636,15 @@
             },
             closeHandle: function(params) {
                 return $http.post(url + '/user/closeHandle/forcedLogOut/', params);
+            },
+            isImport: function() {
+                return $http.post(url + "/user/authorization/isImport/");
+            },
+            import: function() {
+                return $http.post(url + "/user/authorization/import/");
             }
+
+
         };
 
     }

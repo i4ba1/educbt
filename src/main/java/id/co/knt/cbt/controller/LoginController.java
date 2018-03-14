@@ -63,7 +63,7 @@ public class LoginController {
 	@Autowired
 	private DataSource dataSource;
 
-	@RequestMapping(value = "/isImport", method = RequestMethod.POST)
+	@RequestMapping(value = "/isImport/", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> isImport() {
 		/**
 		 * If the user data is null then import data
@@ -75,7 +75,7 @@ public class LoginController {
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	@RequestMapping(value = "/import/", method = RequestMethod.POST)
 	public ResponseEntity<Integer> importData() {
 		int status = 0;
 		try {
