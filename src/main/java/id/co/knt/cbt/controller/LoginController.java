@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
@@ -16,9 +18,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,6 +59,35 @@ public class LoginController {
 
 	@Autowired
 	LicenseRepo licenseRepo;
+
+	@Autowired
+	private DataSource dataSource;
+
+	@RequestMapping(value = "/isImport", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> isImport() {
+		/**
+		 * If the user data is null then import data
+		 */
+		if (userRepo.findUserByUserName("teacher_SD") == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	public ResponseEntity<Integer> importData() {
+		int status = 0;
+		try {
+			ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("final_sql_data_only.sql"));
+			status = 1;
+		} catch (Exception e) {
+			status = -1;
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Integer>(status,HttpStatus.OK);
+	}
 
 	/**
 	 * Logging In and create new token for user
