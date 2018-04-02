@@ -21,7 +21,7 @@ import id.co.knt.cbt.service.LoginService;
 public class AdminActiveUserController {
 	
 	@Autowired
-	private LoginService loginRepo;
+	private LoginService loginService;
 	
 	/**
 	 * List on active users based on token
@@ -29,7 +29,7 @@ public class AdminActiveUserController {
 	 */
 	@RequestMapping(value = { "", "/{token}" }, method = RequestMethod.GET)
 	public ResponseEntity<Collection<Login>> listOnlineUser(@PathVariable("token") String token){
-		Collection<Login> onlineUsers = loginRepo.listOnlineUser();
+		Collection<Login> onlineUsers = loginService.listOnlineUser();
 		
 		if(onlineUsers.size() <= 0){
 			return new ResponseEntity<Collection<Login>>(onlineUsers, HttpStatus.NOT_FOUND);
@@ -45,13 +45,13 @@ public class AdminActiveUserController {
 	 */
 	@RequestMapping(value="/delete/{token}/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> forcedDeleteActiveUser(@PathVariable("token") String token, @PathVariable("id") Long id){
-		Login l = loginRepo.findById(id);
+		Login l = loginService.findById(id);
 		HttpHeaders headers = new HttpHeaders();
 		
 		if(l == null){
 			return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
 		}
-		loginRepo.deleteToken(l);
+		loginService.deleteToken(l);
 		
 		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}

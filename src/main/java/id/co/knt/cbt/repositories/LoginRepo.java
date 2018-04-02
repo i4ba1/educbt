@@ -21,6 +21,6 @@ public interface LoginRepo extends JpaRepository<Login, Long> {
 	@Query("select l from Login as l where l.token= :token and l.tokenExpired > :today")
 	Login validateToken(@Param("token") String token, @Param("today") Long today);
 
-	@Query("select l from Login as l where l.token is not null and l.user.userType=1")
+	@Query("select l from Login as l where l.token is not null and l.user.userType=1 and l.user.userType=2")
 	List<Login> findOnlineUsers();
 }
