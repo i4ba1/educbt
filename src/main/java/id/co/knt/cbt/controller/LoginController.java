@@ -52,7 +52,7 @@ public class LoginController {
 	private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
-	LoginService loginRepo;
+	LoginService loginService;
 
 	@Autowired
 	UserRepo userRepo;
@@ -103,7 +103,7 @@ public class LoginController {
 		/**
 		 * Get number of online users
 		 */
-		List<Login> logins = loginRepo.listOnlineUser();
+		List<Login> logins = loginService.listOnlineUser();
 		/**
 		 * First check if the username and password are valid
 		 */
@@ -116,7 +116,7 @@ public class LoginController {
 		}
 
 		//Boolean isValid = user == null ? false : true;
-		Login login = loginRepo.findByUser(user);
+		Login login = loginService.findByUser(user);
 
 		if (isValid) {
 
@@ -188,6 +188,10 @@ public class LoginController {
 				if (login == null) {
 					return firstLogin(dt, rand, dateTime, user);
 				} else {
+					if(login.userType == 0){
+						return firstLogin(dt, rand, dateTime, user);
+					}
+
 					return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
 							HttpStatus.EXPECTATION_FAILED);
 				}
@@ -200,12 +204,25 @@ public class LoginController {
 
 	private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
 			User user) {
-		Login newLogin = new Login();
-		newLogin.setLoginDate(dt);
-		newLogin.setToken(new BigInteger(130, rand).toString(50));
-		newLogin.setTokenExpired(dateTime.getMillis());
-		newLogin.setUser(user);
-
+		Login newLogin = null;
+		/**
+		*Check if admin is login in another computer then just update the row and relogin
+		*/
+		if(user.getUserType == 0){
+			newLogin = loginService.findById(user.getId());
+			newLogin.setLoginDate(dt);
+			newLogin.setToken(new BigInteger(130, rand).toString(50));
+			newLogin.setTokenExpired(dateTime.getMillis());
+			newLogin.setUser(user);
+			loginService.updateToken(newLogin);
+		}else{
+			newLogin = new Login();
+			newLogin.setLoginDate(dt);
+			newLogin.setToken(new BigInteger(130, rand).toString(50));
+			newLogin.setTokenExpired(dateTime.getMillis());
+			newLogin.setUser(user);
+		}		
+		
 		Map<String, Object> mapObj = new HashMap<String, Object>();
 		mapObj.put("token", newLogin.getToken());
 		mapObj.put("user", user);
@@ -223,7 +240,7 @@ public class LoginController {
 			LOG.info("successfully create directory");
 		}
 
-		return loginRepo.saveLogin(newLogin) != null
+		return loginService.saveLogin(newLogin) != null
 				? new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK)
 				: new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NOT_FOUND);
 	}
@@ -240,12 +257,12 @@ public class LoginController {
 		JSONObject obj = array.getJSONObject(0);
 		HttpHeaders headers = new HttpHeaders();
 
-		Login login = loginRepo.findByToken(obj.getString("token"));
+		Login login = loginService.findByToken(obj.getString("token"));
 		if (login == null) {
 			return new ResponseEntity<Void>(headers, HttpStatus.UNAUTHORIZED);
 		}
 
-		loginRepo.deleteToken(login);
+		loginService.deleteToken(login);
 
 		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
