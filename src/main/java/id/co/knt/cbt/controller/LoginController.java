@@ -200,7 +200,7 @@ public class LoginController {
 
 	private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
 			User user) {
-		Login newLogin = null;user.getId()
+		Login newLogin = null;
 		/**
 		*Check if admin is login in another computer then just update the row and relogin
 		*/
