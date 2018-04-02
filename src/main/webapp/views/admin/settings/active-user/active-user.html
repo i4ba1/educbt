@@ -9,11 +9,26 @@
                 <td data-title="'No'" align="center">
                     {{$index+1+(dataTable.count()*(dataTable.page()-1))}}
                 </td>
-                <td data-title="'NIS'" align="center">
-                    {{token.user.nis}}
+                <td data-title="'ID Pengguna'" align="center">
+                    <span ng-show="token.user.nis" ng-hide="!(token.user.nis)">
+                        {{token.user.nis}} 
+                    </span>
+                    <span ng-show="token.user.nip" ng-hide="!(token.user.nip)">
+                            {{token.user.nip}} 
+                    </span>
+
                 </td>
                 <td data-title="'Nama Pengguna'" align="center">
                     {{token.user.firstName +' '+token.user.lastName}}
+                </td>
+                <td data-title="'Status Pengguna'" align="center">
+                    <span ng-show="token.user.nis" ng-hide="!(token.user.nis)">
+                            <b><i>Siswa</i></b>
+                     </span>
+                    <span ng-show="token.user.nip" ng-hide="!(token.user.nip)">
+                            <b><i>Guru</i></b> 
+                    </span>
+
                 </td>
                 <td data-title="' '" align="center">
                     <a class="btn btn-danger" ng-click="toggleModal(token)"> <i class="fa fa-fw fa-power-off fa-lg" title="keluarkan"></i></a>
