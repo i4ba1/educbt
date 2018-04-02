@@ -109,7 +109,13 @@ public class LoginController {
 		 */
 		User user = userRepo.validateUser(obj.getString("un"),
 				Base64Utils.encodeToString(obj.getString("ps").getBytes()));
-		Boolean isValid = user == null ? false : true;
+		Boolean isValid = false;
+		//Only not deleted user can be login
+		if(user != null && !user.getDeleted()){
+			isValid = true;
+		}
+
+		//Boolean isValid = user == null ? false : true;
 		Login login = loginRepo.findByUser(user);
 
 		if (isValid) {
