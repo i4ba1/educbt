@@ -104,6 +104,15 @@ public class LoginController {
 		 * Get number of online users
 		 */
 		List<Login> logins = loginService.listOnlineUser();
+		List<Login> listOfActiveStudent = new ArrayList();
+		/**
+		* exclude Teacher
+		*/
+		for(Login l:logins){
+			if(l.getUser().getUserType() == UserType.STUDENT){
+				listOfActiveStudent.add(l);
+			}
+		}
 		/**
 		 * First check if the username and password are valid
 		 */
@@ -164,7 +173,7 @@ public class LoginController {
 				 * @If Number of user is below equal 1 and the login size is below equal 1 then
 				 *     only one student can login
 				 */
-				if (numberOfUser <= 1 && logins.size() < 1) {
+				if (numberOfUser <= 1 && listOfActiveStudent.size() < 1) {
 					if (login == null) {
 						return firstLogin(dt, rand, dateTime, user);
 					} else {
@@ -172,7 +181,7 @@ public class LoginController {
 								HttpStatus.FORBIDDEN);
 					}
 				} else {
-					if (logins.size() < numberOfUser) {
+					if (listOfActiveStudent.size() < numberOfUser) {
 						if (login == null) {
 							return firstLogin(dt, rand, dateTime, user);
 						} else {
