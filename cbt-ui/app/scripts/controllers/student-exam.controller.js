@@ -299,9 +299,18 @@
         }
 
         $scope.finishExamintion = function() {
-            $timeout.cancel($scope.lastTimeout);
-            $scope.redirect = true;
-            $state.go('student.task.exam.result');
+            var result = DialogFactory.confDialogMsg(
+                "Pemberitahuan",
+                "Apakah anda ingin menyelesaikan ujian ini ?",
+                "md");
+            result.then(
+                function(finishExam) {
+                    $timeout.cancel($scope.lastTimeout);
+                    $scope.redirect = true;
+                    $state.go('student.task.exam.result');
+                },
+                function(notYet) {}
+            );
         }
 
         /*
