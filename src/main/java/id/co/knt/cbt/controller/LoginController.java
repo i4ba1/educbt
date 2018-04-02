@@ -185,13 +185,9 @@ public class LoginController {
 					}
 				}
 			} else {
-				if (login == null) {
+				if (login == null || user.getUserType() == UserType.ADMIN) {
 					return firstLogin(dt, rand, dateTime, user);
 				} else {
-					if(login.userType == 0){
-						return firstLogin(dt, rand, dateTime, user);
-					}
-
 					return new ResponseEntity<List<Map<String, Object>>>(new ArrayList<Map<String, Object>>(),
 							HttpStatus.EXPECTATION_FAILED);
 				}
@@ -208,7 +204,7 @@ public class LoginController {
 		/**
 		*Check if admin is login in another computer then just update the row and relogin
 		*/
-		if(user.getUserType() == 0){
+		if(user.getUserType() == UserType.ADMIN){
 			newLogin = loginService.findById(user.getId());
 			newLogin.setLoginDate(dt);
 			newLogin.setToken(new BigInteger(130, rand).toString(50));
