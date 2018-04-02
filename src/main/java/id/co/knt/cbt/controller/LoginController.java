@@ -204,7 +204,8 @@ public class LoginController {
 		/**
 		*Check if admin is login in another computer then just update the row and relogin
 		*/
-		if(user.getUserType() == UserType.ADMIN){
+		newLogin = loginService.findByUser(user);
+		if(newLogin != null && user.getUserType() == UserType.ADMIN){
 			newLogin = loginService.findByUser(user);
 			newLogin.setLoginDate(dt);
 			newLogin.setToken(new BigInteger(130, rand).toString(50));
