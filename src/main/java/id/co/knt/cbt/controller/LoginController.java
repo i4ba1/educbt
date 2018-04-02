@@ -86,7 +86,7 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<Integer>(status,HttpStatus.OK);beli keyboard genius
+		return new ResponseEntity<Integer>(status,HttpStatus.OK);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class LoginController {
 		 */
 		List<Login> logins = loginService.listOnlineUser();
 		/**
-		 * First check if the username and password are validbeli keyboard genius
+		 * First check if the username and password are valid
 		 */
 		User user = userRepo.validateUser(obj.getString("un"),
 				Base64Utils.encodeToString(obj.getString("ps").getBytes()));
@@ -126,7 +126,7 @@ public class LoginController {
 			List<License> licenses = licenseRepo.findAll();
 
 			Date dt = new Date();
-			DateTime dateTime = new DateTime(dt);beli keyboard genius
+			DateTime dateTime = new DateTime(dt);
 			dateTime = dateTime.plusHours(3);
 			SecureRandom rand = new SecureRandom();
 
@@ -200,7 +200,7 @@ public class LoginController {
 
 	private ResponseEntity<List<Map<String, Object>>> firstLogin(Date dt, SecureRandom rand, DateTime dateTime,
 			User user) {
-		Login newLogin = null;
+		Login newLogin = null;user.getId()
 		/**
 		*Check if admin is login in another computer then just update the row and relogin
 		*/
