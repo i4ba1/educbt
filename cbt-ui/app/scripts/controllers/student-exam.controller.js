@@ -305,9 +305,14 @@
                 "md");
             result.then(
                 function(finishExam) {
-                    $timeout.cancel($scope.lastTimeout);
-                    $scope.redirect = true;
-                    $state.go('student.task.exam.result');
+                    if (finishExam) {
+                        $timeout.cancel($scope.lastTimeout);
+                        $scope.redirect = true;
+                        $state.go('student.task.exam.result');
+                    } else {
+                        event.preventDefault();
+                    }
+
                 },
                 function(notYet) {}
             );
