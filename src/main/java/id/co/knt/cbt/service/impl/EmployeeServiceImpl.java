@@ -227,6 +227,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				if(teacherRepo.findByNip(newEmp.getNip()) != null){
 					//Mean it conflict
 					result++;
+					break;
 				}
 
 				SecureRandom random = new SecureRandom();
