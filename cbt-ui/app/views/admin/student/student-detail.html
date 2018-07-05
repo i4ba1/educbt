@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-3 " for="nis">NIS *</label>
                 <div class="col-xs-6" ng-class="{'has-error': studentForm.nis.$invalid && !studentForm.nis.$pristine}">
-                    <input name="nis" class="form-control" id="nis" ng-model="selectedStudent.nis" placeholder="masukan nis" type="text" ng-required="true" />
+                    <input name="nis" class="form-control" id="nis" ng-model="selectedStudent.nis" placeholder="masukan nis" type="text" ng-required="true" ng-disabled="isUpdate" />
                 </div>
                 <p ng-show="studentForm.nis.$invalid && !studentForm.nis.$pristine" class="help-block">
                     <i class="fa fa-times click-able" style="color:red;" title="nis harus diisi"></i>

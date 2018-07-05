@@ -4503,20 +4503,44 @@
             );
         }
 
+        /**
+         * 
+         * get find last working time if there are any working time, 
+         * timer will set by that if not timer will be set using time param
+         * 
+         * */
         function findLastWorkingTime(timeParam) {
+            var remainingTime = 0;
             var promise = studentExamService.findLastWorkingTime($stateParams.eventId, currentStudent.nis, token);
             promise.then(
                 function(response) {
                     $scope.studentEventTime = response.data;
-                    startTimer($scope.studentEventTime.lastUpdatedTime);
+                    remainingTime = calculateRemainingTime($scope.studentEventTime.lastUpdatedTime);
+                    startTimer(remainingTime);
                 },
                 function(errorResponse) {
                     if (errorResponse.status === 404) {
                         saveLastWorkingTime({ "message": "init student working time", "type": "save", "id": null });
-                        startTimer(timeParam * 60);
+                        remainingTime = remainingTime = calculateRemainingTime(timeParam * 60);
+                        startTimer(remainingTime);
                     }
                 }
             );
+        }
+
+        function calculateRemainingTime(lastTime) {
+            var remainingTime = 0;
+            var currentTimeExam = new Date().getTime();
+            var endTimeExam = $scope.selectedEvent.endDate;
+            var timeDeviation = (endTimeExam - currentTimeExam) / 1000;
+
+            if (timeDeviation >= lastTime) {
+                remainingTime = lastTime;
+            } else {
+                remainingTime = timeDeviation;
+            }
+
+            return remainingTime;
         }
 
     }
