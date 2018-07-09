@@ -79,7 +79,11 @@ public class AdminEmployeeController {
 	@RequestMapping(value = "/create/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createTeacher(@RequestBody List<Object> objects) {
 		HttpHeaders headers = new HttpHeaders();
-		if (employeeService.save(objects) > 0) {
+		int result = employeeService.save(objects);
+		
+		if (result == 1) {
+			return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
+		}else if(result == 2){
 			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
 		}
 
