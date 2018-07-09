@@ -63,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		if(teacherRepo.findByNip(teacher.getNip()) != null){
 			//Teacher already exist
-			result = 1;
+			result = 2;
 		}
 
 		SecureRandom random = new SecureRandom();
@@ -111,7 +111,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		teacher.setAdmin(false);
 		if(teacherRepo.save(teacher) == null){
 			//Mean failed to save
-			return 2;
+			return 1;
 		}
 
 		return result;
