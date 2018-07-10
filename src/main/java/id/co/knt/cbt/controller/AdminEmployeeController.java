@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -79,15 +80,19 @@ public class AdminEmployeeController {
 	@RequestMapping(value = "/create/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createTeacher(@RequestBody List<Object> objects) {
 		HttpHeaders headers = new HttpHeaders();
-		int result = employeeService.save(objects);
-		
-		if (result == 1) {
-			return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
-		}else if(result == 2){
-			return new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
+		ResponseEntity<Void> response;
+		try {
+			int result = employeeService.save(objects);
+			if (result == 1) {
+				response = new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
+			} else {
+				response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+			}
+		} catch (DataIntegrityViolationException e) {
+			response = new ResponseEntity<Void>(headers, HttpStatus.CONFLICT);
 		}
 
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		return response;
 	}
 
 	/**
@@ -119,13 +124,13 @@ public class AdminEmployeeController {
 	public ResponseEntity<Void> updateTeacher(@RequestBody List<Object> objects) {
 		int result = employeeService.updateTeacher(objects);
 		HttpHeaders header = new HttpHeaders();
-		
-		if(result == 1){
+
+		if (result == 1) {
 			return new ResponseEntity<Void>(header, HttpStatus.NOT_FOUND);
-		}else if(result == 2){
+		} else if (result == 2) {
 			return new ResponseEntity<Void>(header, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Void>(header, HttpStatus.OK);
 	}
 
