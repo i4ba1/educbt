@@ -41,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="student in eventStudents track by studentNis">
+            <tr ng-repeat="student in eventStudents track by $index">
                 <td class="text-center">{{$index+1}}</td>
                 <td>{{student.studentName}}</td>
                 <td>{{student.studentNis}}</td>
