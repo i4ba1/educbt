@@ -212,13 +212,14 @@ public class StudentController {
 		 * Set the correct status for teacher can see if the student is correct or not
 		 */
 		for (StudentAnswer sa : list) {
-			if (sa.getAnswered() != null) {
-				if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
-					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
-						sa.setCorrect(true);
-						studentAnswerService.updateSA(sa);
-					}	
-				}
+			LOG.info("Student Answered======> "+sa.getAnswered()+" Student Key=======> "+sa.getQuestion().getKey());
+			if (sa.getAnswered() != null && sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
+				
+				LOG.info("Answered and Key Compare To "+sa.getAnswered().compareTo(sa.getQuestion().getKey()));
+				if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
+					sa.setCorrect(true);
+					studentAnswerService.updateSA(sa);
+				}	
 			}
 		}
 		
