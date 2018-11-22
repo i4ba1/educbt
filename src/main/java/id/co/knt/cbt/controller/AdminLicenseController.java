@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.knt.cbt.model.License;
 import id.co.knt.cbt.service.LicenseService;
 
-@CrossOrigin(origins = "http://localhost:8080")
+//@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping(value = "/admin/license")
 public class AdminLicenseController {

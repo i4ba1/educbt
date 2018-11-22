@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.knt.cbt.model.QuestionGroupImages;
 import id.co.knt.cbt.service.QuestionService;
 
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/upload")
 public class UploadResourcesController {

@@ -24,6 +24,7 @@ public class CORSFilter extends OncePerRequestFilter{
             LOG.trace("Sending Header........");
 
             response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            response.addHeader("Access-Control-Allow-Origin", "*");
             // response.addHeader("Access-Control-Allow-Headers", "Authorization");
             response.addHeader("Access-Control-Allow-Headers", "Content-Type");
             response.addHeader("Access-Control-Max-Age", "1");

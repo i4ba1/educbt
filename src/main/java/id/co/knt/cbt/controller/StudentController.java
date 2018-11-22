@@ -43,7 +43,7 @@ import id.co.knt.cbt.service.StudentAnswerService;
 import id.co.knt.cbt.service.StudentEventTimeService;
 import id.co.knt.cbt.service.StudentService;
 
-@CrossOrigin(origins = "http://localhost:8787")
+//@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/student")
 public class StudentController {
@@ -230,7 +230,7 @@ public class StudentController {
 			er.setCreatedDate(new Date());
 			er.setCorrect(0.0);
 			er.setIncorrect(0.0);
-			er.setTotal(0.0);
+			er.setTotal(null);
 			er = eventResultService.addNew(er);
 		}
 		

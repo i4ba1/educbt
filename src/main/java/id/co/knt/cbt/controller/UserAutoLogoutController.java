@@ -20,7 +20,7 @@ import id.co.knt.cbt.model.Login;
 import id.co.knt.cbt.service.LoginService;
 import id.co.knt.cbt.util.UserLoginQueue;
 
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/closeHandle")
 public class UserAutoLogoutController {

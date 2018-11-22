@@ -24,7 +24,7 @@ import id.co.knt.cbt.service.StudentService;
  * @author MNI
  *
  */
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/student_mgmt")
 public class AdminStudentController {

@@ -26,7 +26,7 @@ import id.co.knt.cbt.repositories.KelasRepo;
  * @author MNI
  *
  */
-@CrossOrigin(origins = "http://localhost:8787")
+//@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/kelas_mgmt")
 public class AdminKelasController {

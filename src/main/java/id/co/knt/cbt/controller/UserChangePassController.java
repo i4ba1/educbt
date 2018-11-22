@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.SecureRandom;
 import java.util.List;
 
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/changePass")
 public class UserChangePassController {

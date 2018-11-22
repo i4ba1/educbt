@@ -20,7 +20,7 @@ import id.co.knt.cbt.service.SchoolService;
 /**
  * @author Muhamad Nizar Iqbal
  */
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/schoolMgmt")
 public class AdminSchoolController {

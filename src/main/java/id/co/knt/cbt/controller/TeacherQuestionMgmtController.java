@@ -46,7 +46,7 @@ import id.co.knt.cbt.service.SubjectService;
  * @author MNI
  *
  */
-@CrossOrigin(origins = "http://localhost:8787")
+//@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/questionMgmt")
 public class TeacherQuestionMgmtController {

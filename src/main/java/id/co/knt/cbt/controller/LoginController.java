@@ -42,7 +42,7 @@ import id.web.pos.integra.gawl.Gawl;
 /**
  * @author Muhamad Nizar Iqbal
  */
-@CrossOrigin(origins = "http://localhost:8787")
+//@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/user/authorization")
 public class LoginController {

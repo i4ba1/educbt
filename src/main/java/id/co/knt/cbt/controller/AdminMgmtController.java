@@ -17,7 +17,7 @@ import id.co.knt.cbt.repositories.UserRepo;
 import id.co.knt.cbt.util.PasswordUtility;
 
 @RestController
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RequestMapping(value="/admin/adminMgmt")
 public class AdminMgmtController {
 

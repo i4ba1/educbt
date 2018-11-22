@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.knt.cbt.model.Login;
 import id.co.knt.cbt.service.LoginService;
 
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value="/admin/activeUser/")
 public class AdminActiveUserController {

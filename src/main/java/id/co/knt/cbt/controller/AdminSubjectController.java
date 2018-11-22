@@ -28,7 +28,7 @@ import id.co.knt.cbt.service.TagService;
  * 
  * @author MNI
  */
-@CrossOrigin(origins="http://localhost:8787")
+//@CrossOrigin(origins="http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/subject_mgmt")
 public class AdminSubjectController {

@@ -25,7 +25,7 @@ import id.co.knt.cbt.service.EmployeeService;
  * @author Muhamad Nizar Iqbal
  *
  */
-@CrossOrigin(origins = "http://localhost:8787")
+//@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/admin/teacher_mgmt")
 public class AdminEmployeeController {

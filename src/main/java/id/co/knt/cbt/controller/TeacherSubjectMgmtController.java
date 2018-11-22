@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.knt.cbt.model.Tag;
 import id.co.knt.cbt.service.TagService;
 
-@CrossOrigin(origins = "http://localhost:8787")
+//@CrossOrigin(origins = "http://localhost:8787")
 @RestController
 @RequestMapping(value = "/teacher/subMateriMgmt")
 public class TeacherSubjectMgmtController {
