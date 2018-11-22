@@ -144,7 +144,7 @@
                     <div ng-bind-html="convertTagNames(questionWeight.question)"></div>
                 </td>
                 <td data-title="'Bobot'" width="100">
-                    <input class="form-control" type="number" required="required" min="0" max="100" ng-model="eventQuestionWeight[$index].weight" ng-change="calculateWeight()" ng-disabled="isUnPublishDisable()">
+                    <input class="form-control" type="number" required="required" min="0" max="100" ng-model="eventQuestionWeight[((eventTable.page()-1) * eventTable.count() + $index)].weight" ng-change="calculateWeight()" ng-disabled="isUnPublishDisable()">
                 </td>
             </tr>
             <tfoot>
