@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -338,13 +337,11 @@ public class TeacherEventManagementController {
 		for (StudentAnswer sa : list) {
 			if (sa.getQuestion() != null) {
 				if (sa.getQuestion().getQuestionGroup().getQgType() != QG_TYPE.ESSAY) {
-					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {
-						//sa.setCorrect(true);
-						//studentAnswerService.updateSA(sa);
-
-						weight = (Double) (eventQuestionService
-								.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId())
-								.getQuestionWeight()).doubleValue();
+					weight = (Double) (eventQuestionService
+							.findByEventIdAndQuestionId(obj.getLong("eventId"), sa.getQuestion().getId())
+							.getQuestionWeight()).doubleValue();
+					
+					if (sa.getAnswered().compareTo(sa.getQuestion().getKey()) == 0) {						
 						correct += weight;
 					} else {
 						incorrect++;
