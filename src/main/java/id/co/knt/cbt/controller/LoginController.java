@@ -233,8 +233,7 @@ public class LoginController {
 		mapObj.put("token", newLogin.getToken());
 		mapObj.put("user", user);
 		mapObj.put("type", "full-version");
-		LocalTime currentTime = LocalTime.now();
-		mapObj.put("serverTime", currentTime.getMillisOfSecond());
+		mapObj.put("serverTime", new DateTime().getMillis());
 		
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		data.add(mapObj);
