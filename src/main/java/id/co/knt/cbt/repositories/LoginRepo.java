@@ -7,13 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import id.co.knt.cbt.model.Login;
-import id.co.knt.cbt.model.User;
-
 
 public interface LoginRepo extends JpaRepository<Login, Long> {
-	
-	@Query("select l from Login as l where l.user= :user")
-	Login findByUser(@Param("user") User user);
+
+	@Query("select l from Login as l where l.user.id = :id")
+	Login findByUser(@Param("id") Long id);
 
 	@Query("select l from Login as l where l.token= :token")
 	Login findByToken(@Param("token") String token);

@@ -18,7 +18,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Login saveLogin(Login login) {
 		Login newLogin = loginRepo.save(login);
-
+		loginRepo.flush();
 		return newLogin;
 	}
 
@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public Login findByUser(User u) {
-		Login l =loginRepo.findByUser(u);
+		Login l =loginRepo.findByUser(u.getId());
 		return l;
 	}
 
@@ -42,6 +42,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public void deleteToken(Login login) {
 		loginRepo.delete(login.getId());
+		loginRepo.flush();
 	}
 
 	@Override
