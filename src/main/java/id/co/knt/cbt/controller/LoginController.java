@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -232,6 +233,9 @@ public class LoginController {
 		mapObj.put("token", newLogin.getToken());
 		mapObj.put("user", user);
 		mapObj.put("type", "full-version");
+		LocalTime currentTime = LocalTime.now();
+		mapObj.put("serverTime", currentTime.getMillisOfSecond());
+		
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		data.add(mapObj);
 
