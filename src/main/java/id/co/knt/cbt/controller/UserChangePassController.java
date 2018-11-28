@@ -1,8 +1,8 @@
 package id.co.knt.cbt.controller;
 
-import id.co.knt.cbt.model.User;
-import id.co.knt.cbt.service.UserService;
-import id.co.knt.cbt.util.PasswordUtility;
+import java.security.SecureRandom;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.SecureRandom;
-import java.util.List;
+import id.co.knt.cbt.model.User;
+import id.co.knt.cbt.service.UserService;
+import id.co.knt.cbt.util.PasswordUtility;
 
 //@CrossOrigin(origins="http://localhost:8787")
 @RestController
