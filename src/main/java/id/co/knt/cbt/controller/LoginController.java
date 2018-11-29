@@ -274,4 +274,12 @@ public class LoginController {
 
 		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getServerTime/", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getServerTime(){		
+		Map<String, Object> mapObj = new HashMap<String, Object>();
+		mapObj.put("serverTime", new DateTime().getMillis());
+		
+		return new ResponseEntity<>(mapObj, HttpStatus.OK);
+	}
 }
