@@ -29,7 +29,7 @@
                 e.on('blur', function() {
                     // Get the raw contents of the currently active editor
                     var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
-                    $scope.updateAnswer(content);
+                    $scope.updateAnswer(tinyMCE.activeEditor.getContent() === "" ? "" : content);
                 });
 
             },
@@ -155,11 +155,12 @@
             if ($state.is('student.task.exam')) {
 
                 if (param) {
-
                     $scope.currentQuestion.answered = param;
-
-                    $scope.examProgress = getProgress();
+                }else{
+                    $scope.currentQuestion.answered = null;
                 }
+
+                $scope.examProgress = getProgress();
                 if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
                     var params = [{
                         'authorization': token,
