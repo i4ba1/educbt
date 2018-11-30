@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('StudentExamController', StudentExamController);
 
-    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window'];
+    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window', '$rootScope'];
 
-    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
+    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window, $rootScope) {
 
         var currentStudent;
         var token = " ";
@@ -434,7 +434,7 @@
 
         function calculateRemainingTime(lastTime) {
             var remainingTime = 0;
-            var currentTimeExam = new Date().getTime();
+            var currentTimeExam = $rootScope.serverTime.getTime();
             var endTimeExam = $scope.selectedEvent.endDate;
             var timeDeviation = (endTimeExam - currentTimeExam) / 1000;
 
