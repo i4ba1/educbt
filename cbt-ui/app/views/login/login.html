@@ -14,11 +14,13 @@
                         <form name="loginForm" role="form" ng-submit="loginSubmit()">
                             <fieldset>
                                 <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
-                                    <input name="username" class="form-control" placeholder="Nama Pengguna" type="text" ng-model="user.un" ng-required="true">
+                                    <input name="username" class="form-control" placeholder="Nama Pengguna" type="text"
+                                        ng-model="user.un" ng-required="true">
                                 </div>
 
                                 <div class="form-group" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
-                                    <input name="password" class="form-control" placeholder="Kata Sandi" type="password" ng-model="user.ps" ng-required="true">
+                                    <input name="password" class="form-control" placeholder="Kata Sandi" type="password"
+                                        ng-model="user.ps" ng-required="true">
                                 </div>
 
                                 <input class="btn btn-lg btn-primary btn-block" type="submit" value="Masuk" ng-disabled="loginForm.$invalid">
@@ -29,9 +31,10 @@
             </div>
             <div class="col-sm-6 col-sm-offset-3 centerText" style="margin-top:20px;color:grey;">
                 <p>Copyright &copy; 2016-2019, <span class="knt-credit" ng-click="openCredit()">PT. Kharisma Nusantara Teknologi</span></p>
-                <span>{{serverTime |date:'dd MMMM yyyy HH : mm : ss'}}</span>
+               
             </div>
         </div>
     </div>
+    <server-time-black/>
 </div>
 <!-- <modal-spinner title="Pengaturan Awal" visible="showDialog"></modal-spinner> -->

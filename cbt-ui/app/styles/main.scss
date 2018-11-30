@@ -287,3 +287,20 @@ tr.rounded {
     border-radius: 7px;
     margin: auto;
 }
+
+
+.server-time{
+    font-family: monospace;
+    font-size: 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    &-black{
+        @extend.server-time;
+        color: black;
+    }
+    &-white{
+        @extend.server-time;
+        color: white;
+    }
+}
