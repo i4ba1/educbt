@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.co.knt.cbt.model.Event;
+import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.dto.CompletedEvent;
+import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.EventResultRepo;
 import id.co.knt.cbt.service.EventResultService;
 
@@ -101,6 +103,29 @@ public class EventResultServiceImpl implements EventResultService {
 		}
 		
 		return listJsonMap;
+	}
+	
+	@Override
+	public List<EventStudent> getListAttendStudent(Long eventId){
+		List<Object[]> objects = eventResultRepo.findStudentAttendToEvent(eventId, EventStatusType.COMPLETED);
+		List<EventStudent> eStudents = new ArrayList<>();
+		EventStudent eventStudent = null;
+		boolean isCorrected = true;
+
+		for (Object[] obj : objects) {
+			String studentName = (String)obj[0]+" "+(String)obj[1];
+			String studentNis = (String)obj[2];
+
+			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentNis);
+			if(eventResult.getTotal() == null){
+				isCorrected = false;
+			}
+
+			eventStudent = new EventStudent(studentName, studentNis, isCorrected);
+			eStudents.add(eventStudent);
+		}
+
+		return eStudents;
 	}
 
 }

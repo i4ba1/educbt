@@ -13,16 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.co.knt.cbt.model.EventQuestion;
-import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.Question;
-import id.co.knt.cbt.model.StudentAnswer;
 import id.co.knt.cbt.model.QuestionGroup.QG_TYPE;
+import id.co.knt.cbt.model.StudentAnswer;
 import id.co.knt.cbt.model.dto.DetailStudentExamine;
 import id.co.knt.cbt.model.dto.Essay;
-import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.model.dto.MultipleChoice;
 import id.co.knt.cbt.repositories.EventQuestionRepo;
-import id.co.knt.cbt.repositories.EventResultRepo;
 import id.co.knt.cbt.repositories.StudentAnswerRepo;
 import id.co.knt.cbt.service.StudentAnswerService;
 
@@ -32,9 +29,6 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 
 	@Autowired
 	private StudentAnswerRepo studentAnswerRepo;
-
-	@Autowired
-	private EventResultRepo eventResultRepo;
 
 	@Autowired
 	private EventQuestionRepo eventQuestionRepo;
@@ -127,29 +121,6 @@ public class StudentAnswerServiceImpl implements StudentAnswerService{
 		}
 		
 		return listData;
-	}
-
-	@Override
-	public List<EventStudent> eventStudents(Long eventId){
-		List<Object[]> objects = studentAnswerRepo.findStudentAttendToEvent(eventId);
-		List<EventStudent> eStudents = new ArrayList<>();
-		EventStudent eventStudent = null;
-		boolean isCorrected = true;
-
-		for (Object[] obj : objects) {
-			String studentName = (String)obj[0]+" "+(String)obj[1];
-			String studentNis = (String)obj[2];
-
-			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentNis);
-			if(eventResult.getTotal() == null){
-				isCorrected = false;
-			}
-
-			eventStudent = new EventStudent(studentName, studentNis, isCorrected);
-			eStudents.add(eventStudent);
-		}
-
-		return eStudents;
 	}
 
 	@Override

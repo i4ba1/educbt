@@ -6,6 +6,7 @@ import java.util.Map;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventResult;
 import id.co.knt.cbt.model.dto.CompletedEvent;
+import id.co.knt.cbt.model.dto.EventStudent;
 
 public interface EventResultService {
 	EventResult addNew(EventResult er);
@@ -21,4 +22,6 @@ public interface EventResultService {
 	List<CompletedEvent> fetchStudentOnCompletedEvent(Long eventId);
 	
 	List<Map<String, Object>> fetchListEvent(List<EventKelas> eventClasses, String nis);
+	
+	List<EventStudent> getListAttendStudent(Long eventId);
 }
