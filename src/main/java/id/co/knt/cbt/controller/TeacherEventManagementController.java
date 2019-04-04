@@ -35,6 +35,7 @@ import id.co.knt.cbt.model.dto.CompletedEvent;
 import id.co.knt.cbt.model.dto.DetailStudentExamine;
 import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.KelasRepo;
+import id.co.knt.cbt.scheduler.EventStatusScheduler;
 import id.co.knt.cbt.service.EmployeeService;
 import id.co.knt.cbt.service.EventKelasService;
 import id.co.knt.cbt.service.EventQuestionService;
