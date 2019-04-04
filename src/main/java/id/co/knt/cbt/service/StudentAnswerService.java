@@ -21,8 +21,6 @@ public interface StudentAnswerService {
 	List<StudentAnswer> findSAByEvent(Long eventId, String nis);
 	
 	List<Map<String, Object>> resultEvent(Long eventId, String nis);
-
-	List<EventStudent> eventStudents(Long eventId);
 	
 	Integer checkStudentIsWorkingOn(Long eventId, String nis);
 
