@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -26,22 +26,44 @@
         .config(config)
         .run(run);
 
-    run.$inject = ['bsLoadingOverlayService', 'DialogFactory', '$rootScope'];
+    run.$inject = ['bsLoadingOverlayService', 'DialogFactory', '$rootScope', '$interval','$http'];
     config.$inject = ['usSpinnerConfigProvider', 'localStorageServiceProvider', '$qProvider'];
 
     // ===========[function]======================================================
 
-    function run(bsLoadingOverlayService, DialogFactory, $rootScope) {
+    function run(bsLoadingOverlayService, DialogFactory, $rootScope, $interval, $http) {
         bsLoadingOverlayService.setGlobalConfig({
             templateUrl: 'views/components/overlay.html'
         });
 
         $rootScope.openHelp = DialogFactory.openHelpMsg;
-        $rootScope.$watch(function() {
+        $rootScope.$watch(function () {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             return true;
         });
+
+        $rootScope.serverTime = new Date();
+        $rootScope.updateServerTime = function () {
+            $http.post("/smartbee-educbt/user/authorization/getServerTime/").then(
+                function (response) {
+                    $rootScope.serverTime = new Date(response.data.serverTime);
+                    var tick = function () {
+                        $rootScope.serverTime.setSeconds($rootScope.serverTime.getSeconds() + 1);
+                    }
+                    tick();
+                    $interval(tick, 1000);
+                },
+                function (err) {
+                    console.log(err);
+                }
+            );
+        }
+
+        $rootScope.updateServerTime();
+
     }
+
+
 
     function config(usSpinnerConfigProvider, localStorageServiceProvider) {
         usSpinnerConfigProvider.setTheme('default', {

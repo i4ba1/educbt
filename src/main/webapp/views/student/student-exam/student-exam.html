@@ -83,7 +83,7 @@
 
                             <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionA)" ng-class="{'row-pointer':isExam}" ng-click="updateAnswer('A')">
                                 <td valign="top" width="15">
-                                    <input name="optionA" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="A" ng-disabled="(!isExam) && (currentQuestion.answered != 'A')" />
+                                    <input name="optionA" type="radio" ng-change="updateAnswer('A')" ng-model="currentQuestion.answered" value="A" ng-disabled="(!isExam) && (currentQuestion.answered != 'A')" />
                                 </td>
                                 <td valign="top" width="15">
                                     a).
@@ -94,7 +94,7 @@
                             </tr>
                             <tr ng-show="(questionType === 'MC' && currentQuestion.question.optionB)" ng-class="{'row-pointer':isExam}" ng-click="updateAnswer('B')">
                                 <td valign="top" width="15">
-                                    <input name="optionB" type="radio" ng-change="updateAnswer()" ng-model="currentQuestion.answered" value="B" ng-disabled="(!isExam) && (currentQuestion.answered != 'B')" />
+                                    <input name="optionB" type="radio" ng-change="updateAnswer('B')" ng-model="currentQuestion.answered" value="B" ng-disabled="(!isExam) && (currentQuestion.answered != 'B')" />
                                 </td>
                                 <td valign="top" width="15">
                                     b).

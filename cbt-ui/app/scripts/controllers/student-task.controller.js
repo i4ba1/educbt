@@ -3,7 +3,7 @@
     'use strict';
     angular.module('app').controller('StudentTaskController', StudentTaskController);
 
-    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory', 'localStorageService'];
+    StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory', 'localStorageService', '$rootScope'];
 
     function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory, localStorageService) {
 
@@ -104,7 +104,8 @@
 
         $scope.disableKerjakan = function(data) {
             var result = false;
-            if (data.finish || data.status != 'RELEASED') {
+            
+            if (data.finish || data.status != 'RELEASED' || isEventExpired(data.endDate) ) {
                 result = true;
             } else if (!data.finish && data.status == 'RELEASED') {
                 result = false;
@@ -121,6 +122,20 @@
             }
             return result;
         }
+
+         // this function used for check is EndDate Event lesser then Server Time
+         function isEventExpired(endDate){
+            var timeMilisOfServerTime = $rootScope.serverTime.getTime();
+            var timeMilisOfEndDateEvent = endDateEvent.getTime();
+
+            if(timeMilisOfServerTime > timeMilisOfEndDateEvent){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        
 
         /*
          * get All Event

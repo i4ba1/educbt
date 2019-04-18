@@ -3,9 +3,9 @@
     'use strict';
     angular.module('app').controller('StudentExamController', StudentExamController);
 
-    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window'];
+    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window', '$rootScope'];
 
-    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window) {
+    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window, $rootScope) {
 
         var currentStudent;
         var token = " ";
@@ -29,7 +29,7 @@
                 e.on('blur', function() {
                     // Get the raw contents of the currently active editor
                     var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
-                    $scope.updateAnswer(content);
+                    $scope.updateAnswer(tinyMCE.activeEditor.getContent() === "" ? "" : content);
                 });
 
             },
@@ -155,11 +155,12 @@
             if ($state.is('student.task.exam')) {
 
                 if (param) {
-
                     $scope.currentQuestion.answered = param;
-
-                    $scope.examProgress = getProgress();
+                }else{
+                    $scope.currentQuestion.answered = null;
                 }
+
+                $scope.examProgress = getProgress();
                 if ($scope.currentQuestion != null && $scope.currentQuestion != undefined) {
                     var params = [{
                         'authorization': token,
@@ -433,7 +434,7 @@
 
         function calculateRemainingTime(lastTime) {
             var remainingTime = 0;
-            var currentTimeExam = new Date().getTime();
+            var currentTimeExam = $rootScope.serverTime.getTime();
             var endTimeExam = $scope.selectedEvent.endDate;
             var timeDeviation = (endTimeExam - currentTimeExam) / 1000;
 
