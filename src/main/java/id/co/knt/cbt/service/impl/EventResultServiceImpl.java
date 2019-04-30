@@ -26,12 +26,12 @@ import id.co.knt.cbt.service.EventResultService;
 @Transactional
 @Service("eventResultService")
 public class EventResultServiceImpl implements EventResultService {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(EventResultServiceImpl.class);
 
 	@Autowired
 	private EventResultRepo eventResultRepo;
-	
+
 	@Autowired
 	private KelasRepo kelasRepo;
 
@@ -77,10 +77,11 @@ public class EventResultServiceImpl implements EventResultService {
 	public List<CompletedEvent> fetchStudentOnCompletedEvent(Long eventId) {
 		List<EventResult> list = eventResultRepo.fetchStudentByEventId(eventId);
 		ArrayList<CompletedEvent> completedEvents = new ArrayList<>();
-		
+
 		for (EventResult er : list) {
 			Student s = er.getStudent();
-			CompletedEvent ce = new CompletedEvent(s.getFirstName()+" "+s.getLastName(), s.getNis(), er.getTotal(), s.getKelas().getClassName());
+			CompletedEvent ce = new CompletedEvent(s.getFirstName() + " " + s.getLastName(), s.getNis(), er.getTotal(),
+					s.getKelas().getClassName());
 			completedEvents.add(ce);
 		}
 
@@ -110,28 +111,28 @@ public class EventResultServiceImpl implements EventResultService {
 			mapJson.put("finish", isFinish);
 			listJsonMap.add(mapJson);
 		}
-		
+
 		return listJsonMap;
 	}
-	
+
 	@Override
-	public List<EventStudent> getListAttendStudent(Long eventId){
+	public List<EventStudent> getListAttendStudent(Long eventId) {
 		LOG.info("getListAttendStudent============> ");
 		List<Student> students = eventResultRepo.findStudentAttendToEvent(eventId, EventStatusType.CORRECTED);
 		List<EventStudent> eStudents = new ArrayList<>();
 		EventStudent eventStudent = null;
 
-		LOG.info("Object Size====> "+students.size());
+		LOG.info("Object Size====> " + students.size());
 		for (Student student : students) {
 			boolean isCorrected = true;
-			//LOG.info(obj[0]+"-"+obj[1]+"-"+obj[2]+"-"+obj[3]+"-"+obj[4]+"-"+obj[5]+"-"+obj[6]+"-"+obj[7]+"-"+obj[8]+"-"+obj[9]);
+			// LOG.info(obj[0]+"-"+obj[1]+"-"+obj[2]+"-"+obj[3]+"-"+obj[4]+"-"+obj[5]+"-"+obj[6]+"-"+obj[7]+"-"+obj[8]+"-"+obj[9]);
 			String studentName = student.getFirstName() + " " + student.getLastName();
 			Long studentId = student.getId();
 			String studentNis = student.getNis();
 			Kelas kelas = kelasRepo.findOne(student.getKelas().getId());
 
 			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentId);
-			if(eventResult.getTotal() == null){
+			if (eventResult.getTotal() == null) {
 				isCorrected = false;
 			}
 
