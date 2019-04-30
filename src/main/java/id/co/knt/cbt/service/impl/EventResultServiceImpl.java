@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,18 +15,25 @@ import id.co.knt.cbt.model.Event;
 import id.co.knt.cbt.model.Event.EventStatusType;
 import id.co.knt.cbt.model.EventKelas;
 import id.co.knt.cbt.model.EventResult;
+import id.co.knt.cbt.model.Kelas;
 import id.co.knt.cbt.model.Student;
 import id.co.knt.cbt.model.dto.CompletedEvent;
 import id.co.knt.cbt.model.dto.EventStudent;
 import id.co.knt.cbt.repositories.EventResultRepo;
+import id.co.knt.cbt.repositories.KelasRepo;
 import id.co.knt.cbt.service.EventResultService;
 
 @Transactional
 @Service("eventResultService")
 public class EventResultServiceImpl implements EventResultService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(EventResultServiceImpl.class);
 
 	@Autowired
 	private EventResultRepo eventResultRepo;
+	
+	@Autowired
+	private KelasRepo kelasRepo;
 
 	public EventResultServiceImpl() {
 
@@ -54,7 +63,7 @@ public class EventResultServiceImpl implements EventResultService {
 
 	@Override
 	public EventResult findERByEventStudent(Long id, String nis) {
-		EventResult er = eventResultRepo.findERByEventStudent(id, nis);
+		EventResult er = eventResultRepo.findERByEventStudentNis(id, nis);
 
 		return er;
 	}
@@ -97,7 +106,7 @@ public class EventResultServiceImpl implements EventResultService {
 			mapJson.put("status", e.getStatus());
 			mapJson.put("questionStructure", e.getQuestionStructure());
 			mapJson.put("eventImgName", e.getEventImgName());
-			boolean isFinish = eventResultRepo.findERByEventStudent(e.getId(), nis) != null ? true : false;
+			boolean isFinish = eventResultRepo.findERByEventStudentNis(e.getId(), nis) != null ? true : false;
 			mapJson.put("finish", isFinish);
 			listJsonMap.add(mapJson);
 		}
@@ -107,21 +116,26 @@ public class EventResultServiceImpl implements EventResultService {
 	
 	@Override
 	public List<EventStudent> getListAttendStudent(Long eventId){
-		List<Object[]> objects = eventResultRepo.findStudentAttendToEvent(eventId, EventStatusType.COMPLETED);
+		LOG.info("getListAttendStudent============> ");
+		List<Student> students = eventResultRepo.findStudentAttendToEvent(eventId, EventStatusType.CORRECTED);
 		List<EventStudent> eStudents = new ArrayList<>();
 		EventStudent eventStudent = null;
-		boolean isCorrected = true;
 
-		for (Object[] obj : objects) {
-			String studentName = (String)obj[0]+" "+(String)obj[1];
-			String studentNis = (String)obj[2];
+		LOG.info("Object Size====> "+students.size());
+		for (Student student : students) {
+			boolean isCorrected = true;
+			//LOG.info(obj[0]+"-"+obj[1]+"-"+obj[2]+"-"+obj[3]+"-"+obj[4]+"-"+obj[5]+"-"+obj[6]+"-"+obj[7]+"-"+obj[8]+"-"+obj[9]);
+			String studentName = student.getFirstName() + " " + student.getLastName();
+			Long studentId = student.getId();
+			String studentNis = student.getNis();
+			Kelas kelas = kelasRepo.findOne(student.getKelas().getId());
 
-			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentNis);
+			EventResult eventResult = eventResultRepo.findERByEventStudent(eventId, studentId);
 			if(eventResult.getTotal() == null){
 				isCorrected = false;
 			}
 
-			eventStudent = new EventStudent(studentName, studentNis, isCorrected);
+			eventStudent = new EventStudent(studentNis, studentName, kelas.getClassName(), isCorrected);
 			eStudents.add(eventStudent);
 		}
 

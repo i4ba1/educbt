@@ -387,7 +387,7 @@ public class TeacherEventManagementController {
 	}
 
 	/**
-	 * 
+	 * If all the student answer was already corrected the the status of event must be finished with COMPLETED
 	 * @param objects
 	 * @return
 	 */

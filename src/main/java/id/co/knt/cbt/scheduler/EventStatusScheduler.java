@@ -25,6 +25,9 @@ public class EventStatusScheduler {
 		if (!publishedEvent.isEmpty() || publishedEvent.size() > 0) {
 			for (Event event : publishedEvent) {
 				if (currentTime >= event.getEndDate()) {
+					/**
+					 * This mean the event still not COMPLETED
+					 */
 					event.setStatus(EventStatusType.CORRECTED);
 				}
 
