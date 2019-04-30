@@ -4115,9 +4115,9 @@
     'use strict';
     angular.module('app').controller('StudentExamController', StudentExamController);
 
-    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window', '$rootScope'];
+    StudentExamController.$inject = ['$scope', '$stateParams', '$timeout', 'queastionBankService', 'studentService', 'eventService', 'studentExamService', '$state', 'storageService', 'errorHandle', 'tinyMce', 'DialogFactory', '$window', '$rootScope','localStorageService'];
 
-    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window, $rootScope) {
+    function StudentExamController($scope, $stateParams, $timeout, queastionBankService, studentService, eventService, studentExamService, $state, storageService, errorHandle, tinyMce, DialogFactory, $window, $rootScope, localStorageService) {
 
         var currentStudent;
         var token = " ";
@@ -4458,7 +4458,7 @@
         }
 
         $scope.$on('$stateChangeStart', function(event, scope, next, current) {
-            // saveLastWorkingTime({ "message": "backButtonEvent", "type": "update", "id": $scope.studentEventTime.id });
+            
             if ($state.is("student.task.exam") && !$scope.redirect) {
                 event.preventDefault();
             }
@@ -4501,7 +4501,7 @@
             } else {
                 params = [{
                     'authorization': token,
-                    'id': param.id,
+                    'id': localStorageService.get("EVENT_TIME_ID"),
                     'lastUpdatedTime': $scope.counter
                 }];
             }
@@ -4532,6 +4532,7 @@
                 function(response) {
                     $scope.studentEventTime = response.data;
                     remainingTime = calculateRemainingTime($scope.studentEventTime.lastUpdatedTime);
+                    localStorageService.set("EVENT_TIME_ID",$scope.studentEventTime.id);
                     startTimer(remainingTime);
                 },
                 function(errorResponse) {
