@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.json.JSONArray;
@@ -130,6 +131,8 @@ public class TeacherQuestionMgmtController {
 		try {
 			// Creates a workbook object from the uploaded questionFile
 			HSSFWorkbook workBook = new HSSFWorkbook(questionFile.getInputStream());
+			DataFormatter formatter = new DataFormatter();
+			String cellAfterFormat = "";
 
 			// Creates a worksheet object representing the first sheet
 			Sheet workSheet = workBook.getSheetAt(0);
@@ -161,43 +164,44 @@ public class TeacherQuestionMgmtController {
 						if (i > 0) {
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
+								cellAfterFormat = formatter.formatCellValue(nextCell);
 								int columnIndex = nextCell.getColumnIndex();
 
 								switch (columnIndex) {
 								case 0:
 									if (!hasQroupName) {
-										group.setQuestionGroupName(getCellValue(nextCell).toString());
+										group.setQuestionGroupName(cellAfterFormat);
 										questionGroupRepo.saveAndFlush(group);
 										hasQroupName = true;
 									}
 									break;
 								case 1:
 									question.setQuestion(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 2:
 									question.setOptionA(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 3:
 									question.setOptionB(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 4:
 									question.setOptionC(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 5:
 									question.setOptionD(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 6:
 									question.setOptionE(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 7:
 									if (getCellValue(nextCell).toString() != null) {
-										String key = getCellValue(nextCell).toString();
+										String key = cellAfterFormat;
 										if(key.equals("1.0") || key.equals("0.0")){
 											if (key.equals("1.0")) {
 												question.setKey("true");
@@ -205,21 +209,21 @@ public class TeacherQuestionMgmtController {
 												question.setKey("false");
 											}	
 										}else{
-											question.setKey(getCellValue(nextCell).toString());
+											question.setKey(cellAfterFormat);
 										}
 									}
 									break;
 								case 8:
 									question.setDifficulty(getDifficultyValue(
-											Math.round(Float.parseFloat(getCellValue(nextCell).toString()))));
+											Math.round(Float.parseFloat(cellAfterFormat))));
 									break;
 								case 9:
 									question.setExplanation(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 10:
 									question.setTypeQuestion(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								default:
 									break;
@@ -249,40 +253,40 @@ public class TeacherQuestionMgmtController {
 							
 							while (cellIterator.hasNext()) {
 								Cell nextCell = cellIterator.next();
+								cellAfterFormat = formatter.formatCellValue(nextCell);
 								int columnIndex = nextCell.getColumnIndex();
-
 
 								switch (columnIndex) {
 								case 0:
-									group.setQuestionGroupName(getCellValue(nextCell).toString());
+									group.setQuestionGroupName(cellAfterFormat);
 									break;
 								case 1:
 									question.setQuestion(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 2:
 									question.setOptionA(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 3:
 									question.setOptionB(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 4:
 									question.setOptionC(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 5:
 									question.setOptionD(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 6:
 									question.setOptionE(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 7:
 									if (getCellValue(nextCell).toString() != null) {
-										String key = getCellValue(nextCell).toString();
+										String key = cellAfterFormat;
 										if(key.equals("1.0") || key.equals("0.0")){
 											if (key.equals("1.0")) {
 												question.setKey("true");
@@ -290,7 +294,7 @@ public class TeacherQuestionMgmtController {
 												question.setKey("false");
 											}	
 										}else{
-											question.setKey(getCellValue(nextCell).toString());
+											question.setKey(cellAfterFormat);
 										}
 									}
 									break;
@@ -300,11 +304,11 @@ public class TeacherQuestionMgmtController {
 									break;
 								case 9:
 									question.setExplanation(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 10:
 									question.setTypeQuestion(
-											getCellValue(nextCell) == null ? null : getCellValue(nextCell).toString());
+											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								default:
 									break;
