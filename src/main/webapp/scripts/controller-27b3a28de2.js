@@ -3894,7 +3894,7 @@
 
     StudentTaskController.$inject = ['$scope', '$state', 'taskService', '$stateParams', 'studentService', 'storageService', 'errorHandle', 'DialogFactory', 'localStorageService', '$rootScope'];
 
-    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory, localStorageService) {
+    function StudentTaskController($scope, $state, taskService, $stateParams, studentService, storageService, errorHandle, DialogFactory, localStorageService,$rootScope) {
 
         var currentStudent;
         var token = "";
