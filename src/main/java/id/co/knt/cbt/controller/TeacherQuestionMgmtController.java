@@ -200,10 +200,10 @@ public class TeacherQuestionMgmtController {
 											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 7:
-									if (getCellValue(nextCell).toString() != null) {
+									if (cellAfterFormat != null) {
 										String key = cellAfterFormat;
-										if(key.equals("1.0") || key.equals("0.0")){
-											if (key.equals("1.0")) {
+										if(key.equals("1") || key.equals("0")){
+											if (key.equals("1")) {
 												question.setKey("true");
 											}else{
 												question.setKey("false");
@@ -285,10 +285,10 @@ public class TeacherQuestionMgmtController {
 											cellAfterFormat == null ? null : cellAfterFormat);
 									break;
 								case 7:
-									if (getCellValue(nextCell).toString() != null) {
+									if (cellAfterFormat != null) {
 										String key = cellAfterFormat;
-										if(key.equals("1.0") || key.equals("0.0")){
-											if (key.equals("1.0")) {
+										if(key.equals("1") || key.equals("0")){
+											if (key.equals("1")) {
 												question.setKey("true");
 											}else{
 												question.setKey("false");

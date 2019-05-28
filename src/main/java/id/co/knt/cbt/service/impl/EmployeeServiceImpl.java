@@ -221,6 +221,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				newEmp.setEmail(obj.getString("email"));
 				newEmp.setFirstName(obj.getString("firstName"));
 				newEmp.setLastName(obj.getString("lastName"));
+				newEmp.setJobTitle(obj.getString("jobTitle"));
 				newEmp.setAddress(obj.getString("address"));
 				newEmp.setBirthPlace(obj.getString("birthPlace"));
 				
